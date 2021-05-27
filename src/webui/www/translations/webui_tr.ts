@@ -23,12 +23,24 @@
         <translation>Adresleme denetimini atla</translation>
     </message>
     <message>
+        <source>Torrent Management Mode:</source>
+        <translation>Torrent Yönetim Kipi:</translation>
+    </message>
+    <message>
+        <source>Content layout:</source>
+        <translation>İçerik düzeni:</translation>
+    </message>
+    <message>
+        <source>Original</source>
+        <translation>Orijinal</translation>
+    </message>
+    <message>
         <source>Create subfolder</source>
         <translation>Alt klasör oluştur</translation>
     </message>
     <message>
-        <source>Torrent Management Mode:</source>
-        <translation>Torrent Yönetim Kipi:</translation>
+        <source>Don't create subfolder</source>
+        <translation>Alt klasör oluşturma</translation>
     </message>
 </context>
 <context>
@@ -202,7 +214,7 @@
     </message>
     <message>
         <source>Type folder here</source>
-        <translation>Klasörü buraya yazın</translation>
+        <translation type="vanished">Klasörü buraya yazın</translation>
     </message>
     <message>
         <source>More information</source>
@@ -231,7 +243,7 @@
     <message>
         <source>Other...</source>
         <comment>Save Files to: Watch Folder / Default Folder / Other...</comment>
-        <translation>Diğer...</translation>
+        <translation type="vanished">Diğer...</translation>
     </message>
     <message>
         <source>Monday</source>
@@ -359,6 +371,10 @@
     <message>
         <source>Failed to update name</source>
         <translation>Adı güncelleme başarısız</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>TAMAM</translation>
     </message>
 </context>
 <context>
@@ -560,6 +576,14 @@
         <source>Connection status: Disconnected</source>
         <translation>Bağlantı durumu: Bağlantı Kesildi</translation>
     </message>
+    <message>
+        <source>RSS Reader</source>
+        <translation>RSS Okuyucu</translation>
+    </message>
+    <message>
+        <source>RSS</source>
+        <translation>RSS</translation>
+    </message>
 </context>
 <context>
     <name>OptionsDialog</name>
@@ -681,7 +705,7 @@
     </message>
     <message>
         <source>Authentication</source>
-        <translation>Kimlik Doğrulaması</translation>
+        <translation>Kimlik doğrulaması</translation>
     </message>
     <message>
         <source>Username:</source>
@@ -690,10 +714,6 @@
     <message>
         <source>Password:</source>
         <translation>Parola:</translation>
-    </message>
-    <message>
-        <source>Enabled protocol:</source>
-        <translation>Etkinleştirilmiş protokol:</translation>
     </message>
     <message>
         <source>TCP and μTP</source>
@@ -995,7 +1015,7 @@
     </message>
     <message>
         <source>Change current password</source>
-        <translation>Şu anki parolayı değiştir</translation>
+        <translation>Şu anki parolayı değiştirin</translation>
     </message>
     <message>
         <source>Automatic</source>
@@ -1056,10 +1076,6 @@
     <message>
         <source>When Category Save Path changed:</source>
         <translation>Kategori Kaydetme Yolu değiştiğinde:</translation>
-    </message>
-    <message>
-        <source>Create subfolder for torrents with multiple files</source>
-        <translation>Çoklu dosyaları olan torrent'ler için alt klasör oluştur</translation>
     </message>
     <message>
         <source>seconds</source>
@@ -1158,10 +1174,6 @@
         <translation>Gömülü izleyici bağlantı noktası:</translation>
     </message>
     <message>
-        <source>Optional IP Address to bind to (requires restart):</source>
-        <translation>Bağlamak için isteğe bağlı IP Adresi (yeniden başlatma gerektirir):</translation>
-    </message>
-    <message>
         <source>Fastest upload</source>
         <translation>En hızlı gönderme</translation>
     </message>
@@ -1186,10 +1198,6 @@
         <translation>libtorrent Bölümü</translation>
     </message>
     <message>
-        <source>Coalesce reads &amp; writes:</source>
-        <translation>Okuma ve yazmaları birleştir:</translation>
-    </message>
-    <message>
         <source>Outgoing ports (Min) [0: Disabled]:</source>
         <translation>Giden bağlantı noktaları (En az) [0: Etkisizleştirildi]</translation>
     </message>
@@ -1208,10 +1216,6 @@
     <message>
         <source>Send upload piece suggestions:</source>
         <translation>Gönderme parçası önerileri gönder:</translation>
-    </message>
-    <message>
-        <source>Disk cache:</source>
-        <translation>Disk önbelleği:</translation>
     </message>
     <message>
         <source>Enable embedded tracker:</source>
@@ -1236,10 +1240,6 @@
     <message>
         <source>Send buffer watermark:</source>
         <translation>Gönderme arabelleği eşiği:</translation>
-    </message>
-    <message>
-        <source>Disk cache expiry interval:</source>
-        <translation>Disk önbelleği bitiş aralığı:</translation>
     </message>
     <message>
         <source>Peer proportional (throttles TCP)</source>
@@ -1276,10 +1276,6 @@
     <message>
         <source>Upload slots behavior:</source>
         <translation>Gönderme yuvaları davranışı:</translation>
-    </message>
-    <message>
-        <source>Network Interface (requires restart):</source>
-        <translation>Ağ Arayüzü (yeniden başlatma gerektirir):</translation>
     </message>
     <message>
         <source>MiB</source>
@@ -1331,11 +1327,135 @@
     </message>
     <message>
         <source>Header: value pairs, one per line</source>
-        <translation type="unfinished" />
+        <translation>Üstbilgi: değer çiftleri, satır başına bir</translation>
     </message>
     <message>
         <source>Add custom HTTP headers</source>
-        <translation type="unfinished" />
+        <translation>Özel HTTP üstbilgilerini ekle</translation>
+    </message>
+    <message>
+        <source>Filters:</source>
+        <translation>Süzgeçler:</translation>
+    </message>
+    <message>
+        <source>Enable fetching RSS feeds</source>
+        <translation>RSS bildirimlerini almayı etkinleştir</translation>
+    </message>
+    <message>
+        <source>Hashing threads (requires libtorrent &gt;= 2.0):</source>
+        <translation>Adreslenen iş parçacığı (libtorrent &gt;= 2.0 gerektirir):</translation>
+    </message>
+    <message>
+        <source>Coalesce reads &amp; writes (requires libtorrent &lt; 2.0):</source>
+        <translation>Okuma ve yazmaları birleştir (libtorrent &lt; 2.0 gerektirir):</translation>
+    </message>
+    <message>
+        <source>Peer turnover threshold percentage:</source>
+        <translation>Kişi devretme eşiği yüzdesi:</translation>
+    </message>
+    <message>
+        <source>RSS Torrent Auto Downloader</source>
+        <translation>RSS Torrent Otomatik İndirici</translation>
+    </message>
+    <message>
+        <source>RSS</source>
+        <translation>RSS</translation>
+    </message>
+    <message>
+        <source>Network interface:</source>
+        <translation>Ağ arayüzü:</translation>
+    </message>
+    <message>
+        <source>RSS Reader</source>
+        <translation>RSS Okuyucu</translation>
+    </message>
+    <message>
+        <source>Edit auto downloading rules...</source>
+        <translation>Otomatik indirme kurallarını düzenle...</translation>
+    </message>
+    <message>
+        <source>Download REPACK/PROPER episodes</source>
+        <translation>REPACK/PROPER bölümlerini indir</translation>
+    </message>
+    <message>
+        <source>Feeds refresh interval:</source>
+        <translation>Bildirimleri yenileme aralığı:</translation>
+    </message>
+    <message>
+        <source>Peer turnover disconnect percentage:</source>
+        <translation>Kişi devretme bağlantısını kesme yüzdesi:</translation>
+    </message>
+    <message>
+        <source>Maximum number of articles per feed:</source>
+        <translation>Bildirim başına en fazla makale sayısı:</translation>
+    </message>
+    <message>
+        <source>Max concurrent HTTP announces (requires libtorrent &gt;= 1.2.7):</source>
+        <translation>En fazla eşzamanlı HTTP duyurusu (libtorrent &gt;= 1.2.7 gerektirir):</translation>
+    </message>
+    <message>
+        <source> min</source>
+        <translation> dak</translation>
+    </message>
+    <message>
+        <source>Peer turnover disconnect interval:</source>
+        <translation>Kişi devretme bağlantısını kesme aralığı:</translation>
+    </message>
+    <message>
+        <source>Optional IP address to bind to:</source>
+        <translation>Bağlamak için isteğe bağlı IP adresi:</translation>
+    </message>
+    <message>
+        <source>Disallow connection to peers on privileged ports:</source>
+        <translation>Yetkili bağlantı noktalarında kişilerle bağlantıya izin verme:</translation>
+    </message>
+    <message>
+        <source>Enable auto downloading of RSS torrents</source>
+        <translation>RSS torrent'lerini otomatik indirmeyi etkinleştir</translation>
+    </message>
+    <message>
+        <source>RSS Smart Episode Filter</source>
+        <translation>RSS Akıllı Bölüm Süzgeci</translation>
+    </message>
+    <message>
+        <source>Disk cache (requires libtorrent &lt; 2.0):</source>
+        <translation>Disk önbelleği (libtorrent &lt; 2.0 gerektirir):</translation>
+    </message>
+    <message>
+        <source>Disk cache expiry interval (requires libtorrent &lt; 2.0):</source>
+        <translation>Disk önbelleği süre sonu aralığı (libtorrent &lt; 2.0 gerektirir):</translation>
+    </message>
+    <message>
+        <source>Validate HTTPS tracker certificate:</source>
+        <translation>HTTPS izleyici sertifikalarını doğrula:</translation>
+    </message>
+    <message>
+        <source>Peer connection protocol:</source>
+        <translation>Kişi bağlantı protokolü:</translation>
+    </message>
+    <message>
+        <source>Support internationalized domain name (IDN) (requires libtorrent &gt;= 1.2.12):</source>
+        <translation>Uluslararasılaştırılmış etki alanı adını (IDN) destekle (libtorrent &gt;= 1.2.12 gerektirir):</translation>
+    </message>
+    <message>
+        <source>Torrent content layout:</source>
+        <translation>Torrent içerik düzeni:</translation>
+    </message>
+    <message>
+        <source>Create subfolder</source>
+        <translation>Alt klasör oluştur</translation>
+    </message>
+    <message>
+        <source>Original</source>
+        <translation>Orijinal</translation>
+    </message>
+    <message>
+        <source>Don't create subfolder</source>
+        <translation>Alt klasör oluşturma</translation>
+    </message>
+    <message>
+        <source>Type of service (ToS) for connections to peers</source>
+        <translation>Kişilere bağlantılar için hizmet türü (ToS)</translation>
     </message>
 </context>
 <context>
@@ -1621,6 +1741,10 @@
         <source>Rename...</source>
         <translation>Yeniden adlandır...</translation>
     </message>
+    <message>
+        <source>%1 (seeded for %2)</source>
+        <translation>%1 (gönderilme %2)</translation>
+    </message>
 </context>
 <context>
     <name>ScanFoldersModel</name>
@@ -1639,6 +1763,14 @@
     <message>
         <source>Default save location</source>
         <translation>Varsayılan kaydetme yeri</translation>
+    </message>
+    <message>
+        <source>Other...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Type folder here</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -2100,10 +2232,6 @@
         <translation>%1 önce</translation>
     </message>
     <message>
-        <source>Allocating</source>
-        <translation>Ayrılıyor</translation>
-    </message>
-    <message>
         <source>Paused</source>
         <translation>Duraklatıldı</translation>
     </message>
@@ -2163,6 +2291,10 @@
         <source>Stalled</source>
         <translation>Durduruldu</translation>
     </message>
+    <message>
+        <source>%1 (seeded for %2)</source>
+        <translation>%1 (gönderilme %2)</translation>
+    </message>
 </context>
 <context>
     <name>TransferListFiltersWidget</name>
@@ -2177,6 +2309,10 @@
     <message>
         <source>Tags</source>
         <translation>Etiketler</translation>
+    </message>
+    <message>
+        <source>Trackers</source>
+        <translation>İzleyiciler</translation>
     </message>
 </context>
 <context>
@@ -2487,6 +2623,10 @@
         <comment>e.g: 10minutes</comment>
         <translation>%1dk</translation>
     </message>
+    <message>
+        <source>%1y %2d</source>
+        <translation>%1y %2gn</translation>
+    </message>
 </context>
 <context>
     <name>TorrentsController</name>
@@ -2575,6 +2715,14 @@
     <message>
         <source>Everywhere</source>
         <translation>Her yeri</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Uyarı</translation>
+    </message>
+    <message>
+        <source>Increase window width to display additional filters</source>
+        <translation>Ek süzgeçleri görüntülemek için pencere genişliğini artır</translation>
     </message>
 </context>
 <context>
@@ -2865,6 +3013,380 @@
     <message>
         <source>New name:</source>
         <translation>Yeni adı:</translation>
+    </message>
+</context>
+<context>
+    <name>RSSWidget</name>
+    <message>
+        <source>Date: </source>
+        <translation>Tarih: </translation>
+    </message>
+    <message>
+        <source>Please choose a new name for this RSS feed</source>
+        <translation>Lütfen bu RSS bildirimi için yeni bir ad seçin</translation>
+    </message>
+    <message>
+        <source>Please choose a folder name</source>
+        <translation>Lütfen bir klasör adı seçin</translation>
+    </message>
+    <message>
+        <source>New feed name:</source>
+        <translation>Yeni bildirim adı:</translation>
+    </message>
+    <message>
+        <source>Update all</source>
+        <translation>Tümünü güncelle</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
+    </message>
+    <message>
+        <source>RSS Downloader...</source>
+        <translation>RSS İndirici...</translation>
+    </message>
+    <message>
+        <source>Mark items read</source>
+        <translation>Öğeleri okundu olarak işaretle</translation>
+    </message>
+    <message>
+        <source>Update all feeds</source>
+        <translation>Tüm bildirimleri güncelle</translation>
+    </message>
+    <message>
+        <source>Copy feed URL</source>
+        <translation>Bildirim URL'sini kopyala</translation>
+    </message>
+    <message>
+        <source>Torrents: (double-click to download)</source>
+        <translation>Torrent'ler: (indirmek için çift tıklayın)</translation>
+    </message>
+    <message>
+        <source>Open news URL</source>
+        <translation>Haber URL'sini aç</translation>
+    </message>
+    <message>
+        <source>Rename...</source>
+        <translation>Yeniden adlandır...</translation>
+    </message>
+    <message>
+        <source>Feed URL:</source>
+        <translation>Bildirim URL'si:</translation>
+    </message>
+    <message>
+        <source>New folder...</source>
+        <translation>Yeni klasör...</translation>
+    </message>
+    <message>
+        <source>New subscription</source>
+        <translation>Yeni abonelik</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Güncelle</translation>
+    </message>
+    <message>
+        <source>Folder name:</source>
+        <translation>Klasör adı:</translation>
+    </message>
+    <message>
+        <source>Please type a RSS feed URL</source>
+        <translation>Lütfen bir RSS bildirim URL'si yazın</translation>
+    </message>
+    <message>
+        <source>Fetching of RSS feeds is disabled now! You can enable it in application settings.</source>
+        <translation>RSS bildirimlerinin alınması şimdi etkisizleştirildi! Uygulama ayarlarından etkinleştirebilirsiniz.</translation>
+    </message>
+    <message>
+        <source>Deletion confirmation</source>
+        <translation>Silme onayı</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the selected RSS feeds?</source>
+        <translation>Seçilen RSS bildirimlerini silmek istediğinize emin misiniz?</translation>
+    </message>
+    <message>
+        <source>New subscription...</source>
+        <translation>Yeni abonelik...</translation>
+    </message>
+    <message>
+        <source>Download torrent</source>
+        <translation>Torrent'i indir</translation>
+    </message>
+</context>
+<context>
+    <name>AutomatedRssDownloader</name>
+    <message>
+        <source>Download Rules</source>
+        <translation>İndirme Kuralları</translation>
+    </message>
+    <message>
+        <source>Matching RSS Articles</source>
+        <translation>Eşleşen RSS Makaleleri</translation>
+    </message>
+    <message>
+        <source>* to match zero or more of any characters</source>
+        <translation>karakterden daha fazlasıyla eşleşmesi ya da hiç eşleşmemesi için * kullanabilirsiniz</translation>
+    </message>
+    <message>
+        <source> will match all articles.</source>
+        <translation> tüm makalelerle eşleşecek.</translation>
+    </message>
+    <message>
+        <source>Episode filter rules: </source>
+        <translation>Bölüm süzgeç kuralları:</translation>
+    </message>
+    <message>
+        <source>Auto downloading of RSS torrents is disabled now! You can enable it in application settings.</source>
+        <translation>RSS torrent'lerini otomatik indirme şimdi etkisizleştirildi! Uygulama ayarlarından etkinleştirebilirsiniz.</translation>
+    </message>
+    <message>
+        <source>Rule Definition</source>
+        <translation>Kural Tanımı</translation>
+    </message>
+    <message>
+        <source>Save to:</source>
+        <translation>Şuraya kaydet:</translation>
+    </message>
+    <message>
+        <source>Use Regular Expressions</source>
+        <translation>Düzenli İfadeler kullan</translation>
+    </message>
+    <message>
+        <source>New rule name</source>
+        <translation>Yeni kural adı</translation>
+    </message>
+    <message>
+        <source>Filter must end with semicolon</source>
+        <translation>Süzgeç noktalı virgül ile bitmek zorundadır</translation>
+    </message>
+    <message>
+        <source>? to match any single character</source>
+        <translation>herhangi bir tek karakterle eşleşmesi için ? kullanabilirsiniz</translation>
+    </message>
+    <message>
+        <source>Matches articles based on episode filter.</source>
+        <translation>Bölüm süzgecine dayalı eşleşen makaleler.</translation>
+    </message>
+    <message>
+        <source>Assign Category:</source>
+        <translation>Kategori Ata:</translation>
+    </message>
+    <message>
+        <source>Regex mode: use Perl-compatible regular expressions</source>
+        <translation>Regex kipi: Perl uyumlu düzenli ifadeleri kullanın</translation>
+    </message>
+    <message>
+        <source>| is used as OR operator</source>
+        <translation>| karakteri VEYA işleticisi olarak kullanılır</translation>
+    </message>
+    <message>
+        <source>Clear downloaded episodes</source>
+        <translation>İndirilmiş bölümleri temizle</translation>
+    </message>
+    <message>
+        <source>Whitespaces count as AND operators (all words, any order)</source>
+        <translation>VE işleticileri olarak boşluk sayısı kullanabilirsiniz (tüm kelimeler, herhangi bir sırada)</translation>
+    </message>
+    <message>
+        <source>An expression with an empty %1 clause (e.g. %2)</source>
+        <translation>Boş bir %1 ibaresi olan ifade (örn. %2)</translation>
+    </message>
+    <message>
+        <source>Example: </source>
+        <translation>Örnek: </translation>
+    </message>
+    <message>
+        <source>Add new rule...</source>
+        <translation>Yeni kural ekle...</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to clear the list of downloaded episodes for the selected rule?</source>
+        <translation>Seçilen kural için indirilmiş bölümlerin listesini temizlemek istediğinize emin misiniz?</translation>
+    </message>
+    <message>
+        <source>Must Contain:</source>
+        <translation>İçermeli:</translation>
+    </message>
+    <message>
+        <source>Infinite range: &lt;b&gt;1x25-;&lt;/b&gt; matches episodes 25 and upward of season one, and all episodes of later seasons</source>
+        <translation>Sonsuz aralık: &lt;b&gt;1x25-;&lt;/b&gt; birinci sezonun 25 ve sonraki bölümleri ve sonraki sezonların tüm bölümleri ile eşleşir</translation>
+    </message>
+    <message>
+        <source>Save to a Different Directory</source>
+        <translation>Farklı bir Dizine kaydet</translation>
+    </message>
+    <message>
+        <source>Must Not Contain:</source>
+        <translation>İçermemeli:</translation>
+    </message>
+    <message>
+        <source>Single number: &lt;b&gt;1x25;&lt;/b&gt; matches episode 25 of season one</source>
+        <translation>Tek numara: &lt;b&gt;1x25;&lt;/b&gt; birinci sezonun 25. bölümüyle eşleşir</translation>
+    </message>
+    <message>
+        <source>Three range types for episodes are supported: </source>
+        <translation>Bölümler için üç aralık türü desteklenir:</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove the selected download rules?</source>
+        <translation>Seçilen indirme kurallarını kaldırmak istediğinize emin misiniz?</translation>
+    </message>
+    <message>
+        <source>Use global settings</source>
+        <translation>Genel ayarları kullan</translation>
+    </message>
+    <message>
+        <source>Normal range: &lt;b&gt;1x25-40;&lt;/b&gt; matches episodes 25 through 40 of season one</source>
+        <translation>Normal aralık: &lt;b&gt;1x25-40;&lt;/b&gt; birinci sezonun 25 ila 40 arası bölümleriyle eşleşir</translation>
+    </message>
+    <message>
+        <source>Please type the new rule name</source>
+        <translation>Lütfen yeni kural adını yazın</translation>
+    </message>
+    <message>
+        <source>Rule renaming</source>
+        <translation>Kural yeniden adlandırma</translation>
+    </message>
+    <message>
+        <source>Always</source>
+        <translation>Her zaman</translation>
+    </message>
+    <message>
+        <source>Episode number is a mandatory positive value</source>
+        <translation>Bölüm numarası mecburen pozitif bir değerdir</translation>
+    </message>
+    <message>
+        <source> will match 2, 5, 8 through 15, 30 and onward episodes of season one</source>
+        <translation> 2, 5, 8 ila 15, 30 arasıyla ve birinci sezonun ileriki bölümleriyle eşleşecek</translation>
+    </message>
+    <message>
+        <source>Rule deletion confirmation</source>
+        <translation>Kural silme onayı</translation>
+    </message>
+    <message>
+        <source>Last Match: %1 days ago</source>
+        <translation>Son Eşleşme: %1 gün önce</translation>
+    </message>
+    <message>
+        <source>Episode Filter:</source>
+        <translation>Bölüm Süzgeci:</translation>
+    </message>
+    <message>
+        <source>Rss Downloader</source>
+        <translation>RSS İndirici</translation>
+    </message>
+    <message>
+        <source>Season number is a mandatory non-zero value</source>
+        <translation>Sezon numarası mecburen sıfırdan farklı bir değerdir</translation>
+    </message>
+    <message>
+        <source>Never</source>
+        <translation>Asla</translation>
+    </message>
+    <message>
+        <source>Apply Rule to Feeds:</source>
+        <translation>Kuralı Bildirimlere Uygula:</translation>
+    </message>
+    <message>
+        <source> days</source>
+        <translation> gün</translation>
+    </message>
+    <message>
+        <source>Use Smart Episode Filter</source>
+        <translation>Akıllı Bölüm Süzgeci kullan</translation>
+    </message>
+    <message>
+        <source>If word order is important use * instead of whitespace.</source>
+        <translation>Eğer kelime sırası önemliyse boşluk yerine * kullanın.</translation>
+    </message>
+    <message>
+        <source>Add Paused:</source>
+        <translation>Duraklatıldı Olarak Ekle:</translation>
+    </message>
+    <message>
+        <source>Please type the name of the new download rule.</source>
+        <translation>Lütfen yeni indirme kuralı adını yazın.</translation>
+    </message>
+    <message>
+        <source>Wildcard mode: you can use</source>
+        <translation>Joker karakter kipi:</translation>
+    </message>
+    <message>
+        <source> will exclude all articles.</source>
+        <translation> tüm makaleleri hariç tutacak.</translation>
+    </message>
+    <message>
+        <source>Delete rule</source>
+        <translation>Kuralı sil</translation>
+    </message>
+    <message>
+        <source>Ignore Subsequent Matches for (0 to Disable)</source>
+        <translation>Sonraki Eşleşmelerin yoksayılması (Etkisizleştirmek için 0)</translation>
+    </message>
+    <message>
+        <source>Rename rule...</source>
+        <translation>Kuralı yeniden adlandır...</translation>
+    </message>
+    <message>
+        <source>Last Match: Unknown</source>
+        <translation>Son Eşleşme: Bilinmiyor</translation>
+    </message>
+    <message>
+        <source>Clear downloaded episodes...</source>
+        <translation>İndirilmiş bölümleri temizle...</translation>
+    </message>
+    <message>
+        <source>Smart Episode Filter will check the episode number to prevent downloading of duplicates.
+Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also support - as a separator)</source>
+        <translation>Akıllı Bölüm Süzgeci, kopyalarının indirilmesi önlemek için bölüm numaralarını denetleyecek.
+Desteklenen biçimler: S01E01, 1x1, 2017.12.31 ve 31.12.2017 (Tarih biçimleri de bir ayıraç olarak - karakterini destekler)</translation>
+    </message>
+    <message>
+        <source>Torrent content layout:</source>
+        <translation>Torrent içerik düzeni:</translation>
+    </message>
+    <message>
+        <source>Create subfolder</source>
+        <translation>Alt klasör oluştur</translation>
+    </message>
+    <message>
+        <source>Original</source>
+        <translation>Orijinal</translation>
+    </message>
+    <message>
+        <source>Don't create subfolder</source>
+        <translation>Alt klasör oluşturma</translation>
+    </message>
+</context>
+<context>
+    <name>TrackerFiltersList</name>
+    <message>
+        <source>Delete torrents</source>
+        <translation>Torrent'leri sil</translation>
+    </message>
+    <message>
+        <source>Resume torrents</source>
+        <translation>Torrent'lere devam et</translation>
+    </message>
+    <message>
+        <source>All (%1)</source>
+        <translation>Tümü (%1)</translation>
+    </message>
+    <message>
+        <source>Trackerless (%1)</source>
+        <translation>İzleyicisiz (%1)</translation>
+    </message>
+    <message>
+        <source>Pause torrents</source>
+        <translation>Torrent'leri duraklat</translation>
+    </message>
+</context>
+<context>
+    <name>FeedListWidget</name>
+    <message>
+        <source>RSS feeds</source>
+        <translation>RSS bildirimleri</translation>
     </message>
 </context>
 </TS>

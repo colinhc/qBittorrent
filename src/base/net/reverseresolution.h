@@ -26,13 +26,12 @@
  * exception statement from your version.
  */
 
-#ifndef NET_REVERSERESOLUTION_H
-#define NET_REVERSERESOLUTION_H
+#pragma once
 
 #include <QCache>
+#include <QHostAddress>
 #include <QObject>
 
-class QHostAddress;
 class QHostInfo;
 class QString;
 
@@ -60,5 +59,3 @@ namespace Net
         QCache<QHostAddress, QString> m_cache;  // <IP, HostName>
     };
 }
-
-#endif // NET_REVERSERESOLUTION_H

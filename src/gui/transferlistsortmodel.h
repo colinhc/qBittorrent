@@ -29,9 +29,15 @@
 #pragma once
 
 #include <QSortFilterProxyModel>
-#include "base/torrentfilter.h"
 
-class QStringList;
+#include "base/settingvalue.h"
+#include "base/torrentfilter.h"
+#include "base/utils/compare.h"
+
+namespace BitTorrent
+{
+    class InfoHash;
+}
 
 class TransferListSortModel final : public QSortFilterProxyModel
 {
@@ -46,14 +52,19 @@ public:
     void disableCategoryFilter();
     void setTagFilter(const QString &tag);
     void disableTagFilter();
-    void setTrackerFilter(const QStringList &hashes);
+    void setTrackerFilter(const QSet<BitTorrent::TorrentID> &torrentIDs);
     void disableTrackerFilter();
 
 private:
+    int compare(const QModelIndex &left, const QModelIndex &right) const;
+
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
     bool matchFilter(int sourceRow, const QModelIndex &sourceParent) const;
-    bool lessThan_impl(const QModelIndex &left, const QModelIndex &right) const;
 
     TorrentFilter m_filter;
+    mutable CachedSettingValue<int> m_subSortColumn;
+    mutable int m_lastSortColumn = -1;
+
+    Utils::Compare::NaturalCompare<Qt::CaseInsensitive> m_naturalCompare;
 };

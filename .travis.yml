@@ -4,7 +4,8 @@ os:
   - linux
   - osx
 
-dist: bionic
+dist: focal
+osx_image: xcode12.2
 
 env:
   matrix:
@@ -16,15 +17,10 @@ env:
     - secure: "OI9CUjj4lTb0HwwIZU5PbECU3hLlAL6KC8KsbwohG8/O3j5fLcnmDsK4Ad9us5cC39sS11Jcd1kDP2qRcCuST/glVNhLkcjKkiQerOfd5nQ/qL4JYfz/1mfP5mdpz9jHKzpLUIG+TXkbSTjP6VVmsb5KPT+3pKEdRFZB+Pu9+J8="
     - coverity_branch: coverity_scan
 
-matrix:
-  allow_failures:
-    - env: libt_branch=RC_1_2 gui=true build_system=cmake
-    - env: libt_branch=RC_1_2 gui=false build_system=cmake
-
-branches:
-  except:
-    - search_encoding_windows
-    - v2_9_x
+jobs:
+  include:
+  - env: libt_branch=RC_2_0 gui=true build_system=qmake
+    os: linux
 
 notifications:
   email:
@@ -49,8 +45,7 @@ addons:
   apt:
     sources:
       # sources list: https://github.com/travis-ci/apt-source-safelist/blob/master/ubuntu.json
-      - sourceline: 'ppa:qbittorrent-team/qbt-libtorrent-travisci'
-      - sourceline: 'deb https://apt.kitware.com/ubuntu/ bionic main'
+      - sourceline: 'deb https://apt.kitware.com/ubuntu/ focal main'
         key_url: 'https://apt.kitware.com/keys/kitware-archive-latest.asc'
     packages:
       # packages list: https://github.com/travis-ci/apt-package-safelist/blob/master/ubuntu-trusty
@@ -79,6 +74,8 @@ before_install:
       # TravisCI installs its own cmake to another location which ovverides other installations
       # if they don't call the new binary directly
       alias cmake="/usr/bin/cmake"
+
+      export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
     fi
   - |
     if [ "$TRAVIS_OS_NAME" = "osx" ]; then
@@ -109,8 +106,8 @@ install:
 
       brew update > /dev/null
       brew upgrade cmake
-      brew install ccache colormake boost openssl qt zlib
-      brew link --force qt zlib
+      brew install ccache colormake boost openssl qt@5 zlib
+      brew link --force qt@5 zlib
 
       if [ "$build_system" = "cmake" ]; then
         sudo ln -s /usr/local/opt/qt/mkspecs /usr/local/mkspecs
@@ -124,35 +121,37 @@ install:
       ccache -V && ccache --show-stats && ccache --zero-stats
     fi
   - |
-    if [ "$libt_branch" = "RC_1_2" ] && [ "$TRAVIS_OS_NAME" = "linux" ]; then
-      # Will install latest 1.2.x daily build from the PPA
-      sudo apt-get -y install libtorrent-rasterbar-dev
-    fi
-  - |
-    if [ "$libt_branch" = "RC_1_2" ] && [ "$TRAVIS_OS_NAME" = "osx" ]; then
-      wget https://builds.shiki.hu/travis/brew/version
-      if ! cmp --quiet "version" "$HOME/travis/brew/version" ; then
-        echo "Cached files are different from server. Downloading new ones."
-        # First delete old files
-        rm -r "$HOME/travis/brew"
-        mkdir "$HOME/travis/brew"
-        cp "version" $HOME/travis/brew
-        cd "$HOME/travis/brew"
-        wget https://builds.shiki.hu/travis/brew/libtorrent-rasterbar.rb
-        wget https://builds.shiki.hu/travis/brew/f01f8d840b6eaf05df8df811815128ae6e7227977b1cba4825f0a1fb73a4d9f0--libtorrent-rasterbar-1.2.6.high_sierra.bottle.tar.gz
-      fi
-      # Copy custom libtorrent bottle to homebrew's download cache so it can find and install it
-      # Also install our custom libtorrent formula by passing the local path to it
-      # These 2 files are restored from Travis' cache.
-      cp "$HOME/travis/brew/f01f8d840b6eaf05df8df811815128ae6e7227977b1cba4825f0a1fb73a4d9f0--libtorrent-rasterbar-1.2.6.high_sierra.bottle.tar.gz" "$(brew --cache)/downloads"
-      brew uninstall libtorrent-rasterbar
-      brew install "$HOME/travis/brew/libtorrent-rasterbar.rb"
+    if [ "$libt_branch" = "RC_1_2" ]; then
+      pushd "$HOME"
+      git clone --single-branch --branch RC_1_2 https://github.com/arvidn/libtorrent.git
+      cd libtorrent
+      git checkout tags/v1.2.13
 
-      # NOTE about the bottle name
-      # The part before the "--" characters is a sha256 hash of the string
-      # of the URL homebrew itself would use to download the bottle.
-      # In this case the URL is the following:
-      # http://127.0.0.1/libtorrent-rasterbar-1.2.6.high_sierra.bottle.tar.gz
+      cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_CXX_STANDARD=17 \
+        -Ddeprecated-functions=OFF \
+        -DOPENSSL_ROOT_DIR="$openssl_root_path" \
+        ./
+      make
+      sudo make install
+      popd
+    elif [ "$libt_branch" = "RC_2_0" ]; then
+      pushd "$HOME"
+      git clone --single-branch --branch RC_2_0 https://github.com/arvidn/libtorrent.git
+      cd libtorrent
+      git checkout tags/v2.0.3
+      git submodule update --init --recursive
+
+      cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_CXX_STANDARD=17 \
+        -Ddeprecated-functions=OFF \
+        -DOPENSSL_ROOT_DIR="$openssl_root_path" \
+        ./
+      make
+      sudo make install
+      popd
     fi
 
 script:
@@ -168,7 +167,8 @@ script:
       mkdir build && cd build
       cmake $cmake_conf ../
     fi
-  - make && make install
+  - make
+  - make install
 
 after_success:
   - if [ "$gui" = "true" ]; then qbt_exe="qbittorrent" ; else qbt_exe="qbittorrent-nox" ; fi

@@ -46,11 +46,7 @@ namespace
 
     int horizontalAdvance(const QFontMetrics &fontMetrics, const QString &text)
     {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
         return fontMetrics.horizontalAdvance(text);
-#else
-        return fontMetrics.width(text);
-#endif
     }
 
     QString logText(const QModelIndex &index)
@@ -71,8 +67,7 @@ namespace
             QStyledItemDelegate::paint(painter, option, index); // paints background, focus rect and selection rect
 
             const QStyle *style = option.widget ? option.widget->style() : QApplication::style();
-            const QRect textRect = style->subElementRect(QStyle::SE_ItemViewItemText, &option, option.widget)
-                                   .adjusted(1, 0, 0, 0); // shift 1 to avoid text being too close to focus rect
+            const QRect textRect = option.rect.adjusted(1, 0, 0, 0); // shift 1 to avoid text being too close to focus rect
 
             // for unknown reasons (fixme) painter won't accept some font properties
             // until they are set explicitly, and we have to manually set some font properties

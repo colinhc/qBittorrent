@@ -7,7 +7,9 @@ win32: include(../winconf.pri)
 macx: include(../macxconf.pri)
 unix:!macx: include(../unixconf.pri)
 
-QT += network xml
+QT += network sql xml
+
+macx|*-clang*: QMAKE_CXXFLAGS_WARN_ON += -Wno-range-loop-analysis
 
 nogui {
     TARGET = qbittorrent-nox
@@ -25,7 +27,6 @@ nogui {
         QT += winextras
     }
     macx {
-        QT += macextras
         LIBS += -lobjc
     }
 }

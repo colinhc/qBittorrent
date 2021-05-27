@@ -39,6 +39,8 @@
 #include "ui_downloadfromurldialog.h"
 #include "utils.h"
 
+#define SETTINGS_KEY(name) "DownloadFromURLDialog/" name
+
 namespace
 {
     bool isDownloadable(const QString &str)
@@ -55,6 +57,7 @@ namespace
 DownloadFromURLDialog::DownloadFromURLDialog(QWidget *parent)
     : QDialog(parent)
     , m_ui(new Ui::DownloadFromURLDialog)
+    , m_storeDialogSize(SETTINGS_KEY("Size"))
 {
     m_ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
@@ -71,7 +74,8 @@ DownloadFromURLDialog::DownloadFromURLDialog(QWidget *parent)
     const QVector<QStringRef> clipboardList = clipboardText.splitRef('\n');
 
     QSet<QString> uniqueURLs;
-    for (QStringRef strRef : clipboardList) {
+    for (QStringRef strRef : clipboardList)
+    {
         strRef = strRef.trimmed();
         if (strRef.isEmpty()) continue;
 
@@ -79,14 +83,20 @@ DownloadFromURLDialog::DownloadFromURLDialog(QWidget *parent)
         if (isDownloadable(str))
             uniqueURLs << str;
     }
-    m_ui->textUrls->setText(uniqueURLs.values().join('\n'));
 
-    Utils::Gui::resize(this);
+    const QString text = uniqueURLs.values().join(QLatin1Char('\n'))
+        + (!uniqueURLs.isEmpty() ? QLatin1String("\n") : QLatin1String(""));
+
+    m_ui->textUrls->setText(text);
+    m_ui->textUrls->moveCursor(QTextCursor::End);
+
+    Utils::Gui::resize(this, m_storeDialogSize);
     show();
 }
 
 DownloadFromURLDialog::~DownloadFromURLDialog()
 {
+    m_storeDialogSize = size();
     delete m_ui;
 }
 
@@ -96,14 +106,16 @@ void DownloadFromURLDialog::downloadButtonClicked()
     const QVector<QStringRef> urls = plainText.splitRef('\n');
 
     QSet<QString> uniqueURLs;
-    for (QStringRef url : urls) {
+    for (QStringRef url : urls)
+    {
         url = url.trimmed();
         if (url.isEmpty()) continue;
 
         uniqueURLs << url.toString();
     }
 
-    if (uniqueURLs.isEmpty()) {
+    if (uniqueURLs.isEmpty())
+    {
         QMessageBox::warning(this, tr("No URL entered"), tr("Please type at least one URL."));
         return;
     }

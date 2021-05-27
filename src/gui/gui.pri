@@ -27,8 +27,8 @@ HEADERS += \
     $$PWD/powermanagement/powermanagement.h \
     $$PWD/previewlistdelegate.h \
     $$PWD/previewselectdialog.h \
+    $$PWD/progressbarpainter.h \
     $$PWD/properties/downloadedpiecesbar.h \
-    $$PWD/properties/peerlistdelegate.h \
     $$PWD/properties/peerlistsortmodel.h \
     $$PWD/properties/peerlistwidget.h \
     $$PWD/properties/peersadditiondialog.h \
@@ -47,11 +47,9 @@ HEADERS += \
     $$PWD/rss/feedlistwidget.h \
     $$PWD/rss/htmlbrowser.h \
     $$PWD/rss/rsswidget.h \
-    $$PWD/scanfoldersdelegate.h \
     $$PWD/search/pluginselectdialog.h \
     $$PWD/search/pluginsourcedialog.h \
     $$PWD/search/searchjobwidget.h \
-    $$PWD/search/searchlistdelegate.h \
     $$PWD/search/searchsortmodel.h \
     $$PWD/search/searchwidget.h \
     $$PWD/shutdownconfirmdialog.h \
@@ -69,6 +67,7 @@ HEADERS += \
     $$PWD/torrentcontentmodelitem.h \
     $$PWD/torrentcontenttreeview.h \
     $$PWD/torrentcreatordialog.h \
+    $$PWD/torrentoptionsdialog.h \
     $$PWD/trackerentriesdialog.h \
     $$PWD/transferlistdelegate.h \
     $$PWD/transferlistfilterswidget.h \
@@ -78,8 +77,9 @@ HEADERS += \
     $$PWD/tristateaction.h \
     $$PWD/tristatewidget.h \
     $$PWD/uithememanager.h \
-    $$PWD/updownratiodialog.h \
-    $$PWD/utils.h
+    $$PWD/utils.h \
+    $$PWD/watchedfolderoptionsdialog.h \
+    $$PWD/watchedfoldersmodel.h
 
 SOURCES += \
     $$PWD/aboutdialog.cpp \
@@ -108,8 +108,8 @@ SOURCES += \
     $$PWD/powermanagement/powermanagement.cpp \
     $$PWD/previewlistdelegate.cpp \
     $$PWD/previewselectdialog.cpp \
+    $$PWD/progressbarpainter.cpp \
     $$PWD/properties/downloadedpiecesbar.cpp \
-    $$PWD/properties/peerlistdelegate.cpp \
     $$PWD/properties/peerlistsortmodel.cpp \
     $$PWD/properties/peerlistwidget.cpp \
     $$PWD/properties/peersadditiondialog.cpp \
@@ -128,11 +128,9 @@ SOURCES += \
     $$PWD/rss/feedlistwidget.cpp \
     $$PWD/rss/htmlbrowser.cpp \
     $$PWD/rss/rsswidget.cpp \
-    $$PWD/scanfoldersdelegate.cpp \
     $$PWD/search/pluginselectdialog.cpp \
     $$PWD/search/pluginsourcedialog.cpp \
     $$PWD/search/searchjobwidget.cpp \
-    $$PWD/search/searchlistdelegate.cpp \
     $$PWD/search/searchsortmodel.cpp \
     $$PWD/search/searchwidget.cpp \
     $$PWD/shutdownconfirmdialog.cpp \
@@ -150,6 +148,7 @@ SOURCES += \
     $$PWD/torrentcontentmodelitem.cpp \
     $$PWD/torrentcontenttreeview.cpp \
     $$PWD/torrentcreatordialog.cpp \
+    $$PWD/torrentoptionsdialog.cpp \
     $$PWD/trackerentriesdialog.cpp \
     $$PWD/transferlistdelegate.cpp \
     $$PWD/transferlistfilterswidget.cpp \
@@ -159,8 +158,9 @@ SOURCES += \
     $$PWD/tristateaction.cpp \
     $$PWD/tristatewidget.cpp \
     $$PWD/uithememanager.cpp \
-    $$PWD/updownratiodialog.cpp \
-    $$PWD/utils.cpp
+    $$PWD/utils.cpp \
+    $$PWD/watchedfolderoptionsdialog.cpp \
+    $$PWD/watchedfoldersmodel.cpp
 
 win32|macx {
     HEADERS += $$PWD/programupdater.h
@@ -171,7 +171,7 @@ unix:!macx:dbus {
     HEADERS += \
         $$PWD/powermanagement/powermanagement_x11.h \
         $$PWD/qtnotify/notifications.h
-        
+
     SOURCES += \
         $$PWD/powermanagement/powermanagement_x11.cpp \
         $$PWD/qtnotify/notifications.cpp
@@ -209,7 +209,8 @@ FORMS += \
     $$PWD/statsdialog.ui \
     $$PWD/torrentcategorydialog.ui \
     $$PWD/torrentcreatordialog.ui \
+    $$PWD/torrentoptionsdialog.ui \
     $$PWD/trackerentriesdialog.ui \
-    $$PWD/updownratiodialog.ui
+    $$PWD/watchedfolderoptionsdialog.ui
 
 RESOURCES += $$PWD/about.qrc

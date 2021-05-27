@@ -12,76 +12,88 @@
     <name>AddNewTorrentDialog</name>
     <message>
         <source>Category:</source>
-        <translation type="unfinished" />
+        <translation>Անվանակարգ՝</translation>
     </message>
     <message>
         <source>Start torrent</source>
-        <translation>Սկսել torrent-ը</translation>
+        <translation>Մեկնարկել torrent-ը</translation>
     </message>
     <message>
         <source>Skip hash check</source>
-        <translation>Բաց թողնել hash ստուգումը</translation>
-    </message>
-    <message>
-        <source>Create subfolder</source>
-        <translation type="unfinished" />
+        <translation>Բաց թողնել հեշի ստուգումը</translation>
     </message>
     <message>
         <source>Torrent Management Mode:</source>
-        <translation type="unfinished" />
+        <translation>Torrent-ի կառավարման գործելաձև՝</translation>
+    </message>
+    <message>
+        <source>Content layout:</source>
+        <translation>Պարունակության դասավորություն՝</translation>
+    </message>
+    <message>
+        <source>Original</source>
+        <translation>Բնօրինակ</translation>
+    </message>
+    <message>
+        <source>Create subfolder</source>
+        <translation>Ստեղծել ենթապանակ</translation>
+    </message>
+    <message>
+        <source>Don't create subfolder</source>
+        <translation>Չստեղծել ենթապանակ</translation>
     </message>
 </context>
 <context>
     <name>CategoryFilterModel</name>
     <message>
         <source>All</source>
-        <translation type="unfinished" />
+        <translation>Բոլորը</translation>
     </message>
     <message>
         <source>Uncategorized</source>
-        <translation type="unfinished" />
+        <translation>Չանվանակարգված</translation>
     </message>
 </context>
 <context>
     <name>CategoryFilterWidget</name>
     <message>
         <source>Add category...</source>
-        <translation type="unfinished" />
+        <translation>Ավելացնել անվանակարգ...</translation>
     </message>
     <message>
         <source>Remove category</source>
-        <translation type="unfinished" />
+        <translation>Հեռացնել անվանակարգը</translation>
     </message>
     <message>
         <source>Remove unused categories</source>
-        <translation type="unfinished" />
+        <translation>Հեռացնել չօգտագործվող անվանակարգերը</translation>
     </message>
     <message>
         <source>Resume torrents</source>
-        <translation type="unfinished" />
+        <translation>Շարունակել torrent-ները</translation>
     </message>
     <message>
         <source>Pause torrents</source>
-        <translation type="unfinished" />
+        <translation>Դադարեցնել torrent-ները</translation>
     </message>
     <message>
         <source>Delete torrents</source>
-        <translation type="unfinished" />
+        <translation>Ջնջել torrent-ները</translation>
     </message>
     <message>
         <source>New Category</source>
-        <translation type="unfinished" />
+        <translation>Նոր անվանակարգ</translation>
     </message>
     <message>
         <source>Edit category...</source>
-        <translation type="unfinished" />
+        <translation>Խմբագրել անվանակարգը...</translation>
     </message>
 </context>
 <context>
     <name>HttpServer</name>
     <message>
         <source>Exit qBittorrent</source>
-        <translation type="unfinished" />
+        <translation>Ելք qBittorrent-ից</translation>
     </message>
     <message>
         <source>Only one link per line</source>
@@ -165,27 +177,27 @@
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished" />
+        <translation>Մուտքանուն</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished" />
+        <translation>Գաղտնաբառ</translation>
     </message>
     <message>
         <source>Login</source>
-        <translation type="unfinished" />
+        <translation>Օգտանուն</translation>
     </message>
     <message>
         <source>Original authors</source>
-        <translation type="unfinished" />
+        <translation>Հիմնադիր հեղինակներ</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation type="unfinished" />
+        <translation>Գործադրել</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished" />
+        <translation>Ավելացնել</translation>
     </message>
     <message>
         <source>Upload Torrents</source>
@@ -198,10 +210,6 @@
     </message>
     <message>
         <source>Cookie:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Type folder here</source>
         <translation type="unfinished" />
     </message>
     <message>
@@ -231,7 +239,7 @@
     <message>
         <source>Other...</source>
         <comment>Save Files to: Watch Folder / Default Folder / Other...</comment>
-        <translation type="unfinished" />
+        <translation type="vanished">Այլ...</translation>
     </message>
     <message>
         <source>Monday</source>
@@ -310,7 +318,7 @@
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished" />
+        <translation>Խմբագրել</translation>
     </message>
     <message>
         <source>Free space: %1</source>
@@ -334,7 +342,7 @@
     </message>
     <message>
         <source>Open documentation</source>
-        <translation type="unfinished" />
+        <translation>Բացել գործառույթների նկարագությունը</translation>
     </message>
     <message>
         <source>Register to handle magnet links...</source>
@@ -360,6 +368,10 @@
         <source>Failed to update name</source>
         <translation type="unfinished" />
     </message>
+    <message>
+        <source>OK</source>
+        <translation>ԼԱՎ</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -373,7 +385,7 @@
     </message>
     <message>
         <source>File</source>
-        <translation>Ֆայլ</translation>
+        <translation>Նիշք</translation>
     </message>
     <message>
         <source>Help</source>
@@ -381,7 +393,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Տեսքը</translation>
+        <translation>Տեսք</translation>
     </message>
     <message>
         <source>Options...</source>
@@ -389,19 +401,19 @@
     </message>
     <message>
         <source>Resume</source>
-        <translation>Վերսկսել</translation>
+        <translation>Շարունակել</translation>
     </message>
     <message>
         <source>Top Toolbar</source>
-        <translation type="unfinished" />
+        <translation>Վերևի գործիքագոտի</translation>
     </message>
     <message>
         <source>Status Bar</source>
-        <translation type="unfinished" />
+        <translation>Վիճակագոտի</translation>
     </message>
     <message>
         <source>Speed in Title Bar</source>
-        <translation type="unfinished" />
+        <translation>Արագությունը անվանագոտում</translation>
     </message>
     <message>
         <source>Donate!</source>
@@ -409,15 +421,15 @@
     </message>
     <message>
         <source>Resume All</source>
-        <translation>Վերսկսել բոլորը</translation>
+        <translation>Շարունակել բոլորը</translation>
     </message>
     <message>
         <source>Statistics</source>
-        <translation type="unfinished" />
+        <translation>Վիճակագրություն</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Մասին</translation>
+        <translation>Ծրագրի մասին</translation>
     </message>
     <message>
         <source>Pause</source>
@@ -433,15 +445,15 @@
     </message>
     <message>
         <source>Add Torrent File...</source>
-        <translation type="unfinished" />
+        <translation>Ավելացնել torrent նիշք...</translation>
     </message>
     <message>
         <source>Documentation</source>
-        <translation>Թղթաբանություն</translation>
+        <translation>Նկարագրություն</translation>
     </message>
     <message>
         <source>Add Torrent Link...</source>
-        <translation type="unfinished" />
+        <translation>Ավելացնել torrent հղում...</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -453,72 +465,72 @@
     </message>
     <message>
         <source>Global Upload Speed Limit</source>
-        <translation>Փոխանցման արագ-ան գլոբալ սահ-փակումներ</translation>
+        <translation>Փոխանցման արագ. ընդհանրական սահմանաչափ</translation>
     </message>
     <message>
         <source>Global Download Speed Limit</source>
-        <translation>Բեռնման արագ-ան գլոբալ սահ-փակումներ</translation>
+        <translation>Ներբեռնման արագ. ընդհանրական սահմանաչափ</translation>
     </message>
     <message>
         <source>Are you sure you want to quit qBittorrent?</source>
-        <translation type="unfinished" />
+        <translation>Վստա՞հ եք, որ ուզում եք փակել qBittorrent-ը:</translation>
     </message>
     <message>
         <source>[D: %1, U: %2] qBittorrent %3</source>
         <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
-        <translation>[Ներ. %1, Վեր. %2] qBittorrent %3</translation>
+        <translation>[Ներբեռ.՝ %1, Վերբեռ.՝ %2] qBittorrent %3</translation>
     </message>
     <message>
         <source>Alternative speed limits</source>
-        <translation type="unfinished" />
+        <translation>Արագության այլընտրանքային սահմանաչափ</translation>
     </message>
     <message>
         <source>Search Engine</source>
-        <translation type="unfinished" />
+        <translation>Որոնիչ</translation>
     </message>
     <message>
         <source>Filter torrent list...</source>
-        <translation type="unfinished" />
+        <translation>Զտել torrent-ների ցանկը....</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished" />
+        <translation>Որոնել</translation>
     </message>
     <message>
         <source>Transfers</source>
-        <translation type="unfinished" />
+        <translation>Փոխանցումներ</translation>
     </message>
     <message>
         <source>Move up in the queue</source>
-        <translation type="unfinished" />
+        <translation>Բարձրացնել հերթի ցանկում</translation>
     </message>
     <message>
         <source>Move Up Queue</source>
-        <translation type="unfinished" />
+        <translation>Բարձրացնել հերթում</translation>
     </message>
     <message>
         <source>Bottom of Queue</source>
-        <translation type="unfinished" />
+        <translation>Հերթի վերջ</translation>
     </message>
     <message>
         <source>Move to the bottom of the queue</source>
-        <translation type="unfinished" />
+        <translation>Ուղարկել հերթի վերջ</translation>
     </message>
     <message>
         <source>Top of Queue</source>
-        <translation type="unfinished" />
+        <translation>Հերթի սկիզբ</translation>
     </message>
     <message>
         <source>Move Down Queue</source>
-        <translation type="unfinished" />
+        <translation>Իջեցնել հերթում</translation>
     </message>
     <message>
         <source>Move down in the queue</source>
-        <translation type="unfinished" />
+        <translation>Իջեցնել հերթի ցանկում</translation>
     </message>
     <message>
         <source>Move to the top of the queue</source>
-        <translation type="unfinished" />
+        <translation>Ուղարկել հերթի սկիզբ</translation>
     </message>
     <message>
         <source>Your browser does not support this feature</source>
@@ -546,7 +558,7 @@
     </message>
     <message>
         <source>Connection status</source>
-        <translation type="unfinished" />
+        <translation>Կապակցման վիճակը</translation>
     </message>
     <message>
         <source>Alternative speed limits: On</source>
@@ -560,40 +572,48 @@
         <source>Connection status: Disconnected</source>
         <translation type="unfinished" />
     </message>
+    <message>
+        <source>RSS Reader</source>
+        <translation>RSS ընթերցիչ</translation>
+    </message>
+    <message>
+        <source>RSS</source>
+        <translation>RSS</translation>
+    </message>
 </context>
 <context>
     <name>OptionsDialog</name>
     <message>
         <source>Options</source>
-        <translation type="unfinished" />
+        <translation>Ընտրանքներ</translation>
     </message>
     <message>
         <source>Downloads</source>
-        <translation type="unfinished" />
+        <translation>Ներբեռնումներ</translation>
     </message>
     <message>
         <source>Connection</source>
-        <translation type="unfinished" />
+        <translation>Կապակցում</translation>
     </message>
     <message>
         <source>Speed</source>
-        <translation type="unfinished" />
+        <translation>Արագություն</translation>
     </message>
     <message>
         <source>BitTorrent</source>
-        <translation type="unfinished" />
+        <translation>BitTorrent</translation>
     </message>
     <message>
         <source>Web UI</source>
-        <translation type="unfinished" />
+        <translation>Վեբ միջերես</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished" />
+        <translation>Լեզու</translation>
     </message>
     <message>
         <source>User Interface Language:</source>
-        <translation type="unfinished" />
+        <translation>Միջերեսի լեզուն՝</translation>
     </message>
     <message>
         <source>Email notification upon download completion</source>
@@ -625,7 +645,7 @@
     </message>
     <message>
         <source>IP address:</source>
-        <translation type="unfinished" />
+        <translation>IP հասցե՝</translation>
     </message>
     <message>
         <source>Server domains:</source>
@@ -692,10 +712,6 @@
         <translation type="unfinished" />
     </message>
     <message>
-        <source>Enabled protocol:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>TCP and μTP</source>
         <translation type="unfinished" />
     </message>
@@ -741,31 +757,31 @@
     </message>
     <message>
         <source>Type:</source>
-        <translation type="unfinished" />
+        <translation>Տեսակ՝</translation>
     </message>
     <message>
         <source>(None)</source>
-        <translation type="unfinished" />
+        <translation>(չկա)</translation>
     </message>
     <message>
         <source>SOCKS4</source>
-        <translation type="unfinished" />
+        <translation>SOCKS4</translation>
     </message>
     <message>
         <source>SOCKS5</source>
-        <translation type="unfinished" />
+        <translation>SOCKS5</translation>
     </message>
     <message>
         <source>HTTP</source>
-        <translation type="unfinished" />
+        <translation>HTTP</translation>
     </message>
     <message>
         <source>Host:</source>
-        <translation type="unfinished" />
+        <translation>Խնամորդ՝</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation type="unfinished" />
+        <translation>Միացք՝</translation>
     </message>
     <message>
         <source>Use proxy for peer connections</source>
@@ -785,7 +801,7 @@
     </message>
     <message>
         <source>Apply to trackers</source>
-        <translation type="unfinished" />
+        <translation>Գործադրել գրանցորդների նկատմամբ</translation>
     </message>
     <message>
         <source>Global Rate Limits</source>
@@ -793,11 +809,11 @@
     </message>
     <message>
         <source>Upload:</source>
-        <translation type="unfinished" />
+        <translation>Վերբեռ.՝</translation>
     </message>
     <message>
         <source>Download:</source>
-        <translation type="unfinished" />
+        <translation>Ներբեռ.՝</translation>
     </message>
     <message>
         <source>Alternative Rate Limits</source>
@@ -806,28 +822,28 @@
     <message>
         <source>From:</source>
         <extracomment>from (time1 to time2)</extracomment>
-        <translation type="unfinished" />
+        <translation>Որտեղից՝</translation>
     </message>
     <message>
         <source>To:</source>
         <extracomment>time1 to time2</extracomment>
-        <translation type="unfinished" />
+        <translation>Որտեղ՝</translation>
     </message>
     <message>
         <source>When:</source>
-        <translation type="unfinished" />
+        <translation>Երբ՝</translation>
     </message>
     <message>
         <source>Every day</source>
-        <translation type="unfinished" />
+        <translation>Ամեն օր</translation>
     </message>
     <message>
         <source>Weekdays</source>
-        <translation type="unfinished" />
+        <translation>Աշխատանքային օրեր</translation>
     </message>
     <message>
         <source>Weekends</source>
-        <translation type="unfinished" />
+        <translation>Հանգստյան օրեր</translation>
     </message>
     <message>
         <source>Rate Limits Settings</source>
@@ -899,19 +915,19 @@
     </message>
     <message>
         <source>Certificate:</source>
-        <translation type="unfinished" />
+        <translation>Վկայագիր՝</translation>
     </message>
     <message>
         <source>Key:</source>
-        <translation type="unfinished" />
+        <translation>Բանալի՝</translation>
     </message>
     <message>
         <source>Register</source>
-        <translation type="unfinished" />
+        <translation>Գրանցել</translation>
     </message>
     <message>
         <source>Domain name:</source>
-        <translation type="unfinished" />
+        <translation>Տիրույթի անվանում՝</translation>
     </message>
     <message>
         <source>Supported parameters (case sensitive):</source>
@@ -1058,10 +1074,6 @@
         <translation type="unfinished" />
     </message>
     <message>
-        <source>Create subfolder for torrents with multiple files</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>seconds</source>
         <translation type="unfinished" />
     </message>
@@ -1158,10 +1170,6 @@
         <translation type="unfinished" />
     </message>
     <message>
-        <source>Optional IP Address to bind to (requires restart):</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Fastest upload</source>
         <translation type="unfinished" />
     </message>
@@ -1186,10 +1194,6 @@
         <translation type="unfinished" />
     </message>
     <message>
-        <source>Coalesce reads &amp; writes:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Outgoing ports (Min) [0: Disabled]:</source>
         <translation type="unfinished" />
     </message>
@@ -1207,10 +1211,6 @@
     </message>
     <message>
         <source>Send upload piece suggestions:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Disk cache:</source>
         <translation type="unfinished" />
     </message>
     <message>
@@ -1235,10 +1235,6 @@
     </message>
     <message>
         <source>Send buffer watermark:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Disk cache expiry interval:</source>
         <translation type="unfinished" />
     </message>
     <message>
@@ -1275,10 +1271,6 @@
     </message>
     <message>
         <source>Upload slots behavior:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Network Interface (requires restart):</source>
         <translation type="unfinished" />
     </message>
     <message>
@@ -1335,6 +1327,130 @@
     </message>
     <message>
         <source>Add custom HTTP headers</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Filters:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Enable fetching RSS feeds</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Hashing threads (requires libtorrent &gt;= 2.0):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Coalesce reads &amp; writes (requires libtorrent &lt; 2.0):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Peer turnover threshold percentage:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>RSS Torrent Auto Downloader</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>RSS</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Network interface:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>RSS Reader</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Edit auto downloading rules...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Download REPACK/PROPER episodes</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Feeds refresh interval:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Peer turnover disconnect percentage:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Maximum number of articles per feed:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Max concurrent HTTP announces (requires libtorrent &gt;= 1.2.7):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source> min</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Peer turnover disconnect interval:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Optional IP address to bind to:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Disallow connection to peers on privileged ports:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Enable auto downloading of RSS torrents</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>RSS Smart Episode Filter</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Disk cache (requires libtorrent &lt; 2.0):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Disk cache expiry interval (requires libtorrent &lt; 2.0):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Validate HTTPS tracker certificate:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Peer connection protocol:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Support internationalized domain name (IDN) (requires libtorrent &gt;= 1.2.12):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Torrent content layout:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Create subfolder</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Original</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Don't create subfolder</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Type of service (ToS) for connections to peers</source>
         <translation type="unfinished" />
     </message>
 </context>
@@ -1621,6 +1737,10 @@
         <source>Rename...</source>
         <translation type="unfinished" />
     </message>
+    <message>
+        <source>%1 (seeded for %2)</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>ScanFoldersModel</name>
@@ -1638,6 +1758,14 @@
     </message>
     <message>
         <source>Default save location</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Other...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Type folder here</source>
         <translation type="unfinished" />
     </message>
 </context>
@@ -1824,19 +1952,7 @@
 </context>
 <context>
     <name>TorrentContentModel</name>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">Անունը</translation>
-    </message>
-    <message>
-        <source>Size</source>
-        <translation type="vanished">Չափը</translation>
-    </message>
-    <message>
-        <source>Progress</source>
-        <translation type="vanished">Ընթացքը</translation>
-    </message>
-</context>
+    </context>
 <context>
     <name>TransferListModel</name>
     <message>
@@ -2112,10 +2228,6 @@
         <translation>%1 առաջ</translation>
     </message>
     <message>
-        <source>Allocating</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Paused</source>
         <translation type="unfinished" />
     </message>
@@ -2175,6 +2287,10 @@
         <source>Stalled</source>
         <translation type="unfinished" />
     </message>
+    <message>
+        <source>%1 (seeded for %2)</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>TransferListFiltersWidget</name>
@@ -2188,6 +2304,10 @@
     </message>
     <message>
         <source>Tags</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Trackers</source>
         <translation type="unfinished" />
     </message>
 </context>
@@ -2262,10 +2382,6 @@
         <translation>Բեռնման տեղը...</translation>
     </message>
     <message>
-        <source>Copy name</source>
-        <translation type="vanished">Պատճենել անունը</translation>
-    </message>
-    <message>
         <source>Download first and last pieces first</source>
         <translation type="unfinished" />
     </message>
@@ -2288,16 +2404,8 @@
         <translation type="unfinished" />
     </message>
     <message>
-        <source>Priority</source>
-        <translation type="vanished">Առաջնայնությունը</translation>
-    </message>
-    <message>
         <source>Force recheck</source>
         <translation>Ստիպ. վերստուգում</translation>
-    </message>
-    <message>
-        <source>Copy magnet link</source>
-        <translation type="vanished">Պատճենել magnet հղումը</translation>
     </message>
     <message>
         <source>Super seeding mode</source>
@@ -2422,7 +2530,7 @@
     </message>
     <message>
         <source>Also delete the files on the hard disk</source>
-        <translation>Նաև ջնջել ֆայլերը պնակից</translation>
+        <translation>Նաև ջնջել նիշքերը կոշտ սկավառակից</translation>
     </message>
     <message>
         <source>Deletion confirmation - qBittorrent</source>
@@ -2511,6 +2619,10 @@
         <comment>e.g: 10minutes</comment>
         <translation>%1րոպե</translation>
     </message>
+    <message>
+        <source>%1y %2d</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>TorrentsController</name>
@@ -2598,6 +2710,14 @@
     </message>
     <message>
         <source>Everywhere</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Increase window width to display additional filters</source>
         <translation type="unfinished" />
     </message>
 </context>
@@ -2888,6 +3008,379 @@
     </message>
     <message>
         <source>New name:</source>
+        <translation type="unfinished" />
+    </message>
+</context>
+<context>
+    <name>RSSWidget</name>
+    <message>
+        <source>Date: </source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Please choose a new name for this RSS feed</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Please choose a folder name</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>New feed name:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Update all</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>RSS Downloader...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Mark items read</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Update all feeds</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Copy feed URL</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Torrents: (double-click to download)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Open news URL</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Rename...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Feed URL:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>New folder...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>New subscription</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Folder name:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Please type a RSS feed URL</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Fetching of RSS feeds is disabled now! You can enable it in application settings.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Deletion confirmation</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Are you sure you want to delete the selected RSS feeds?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>New subscription...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Download torrent</source>
+        <translation type="unfinished" />
+    </message>
+</context>
+<context>
+    <name>AutomatedRssDownloader</name>
+    <message>
+        <source>Download Rules</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Matching RSS Articles</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>* to match zero or more of any characters</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source> will match all articles.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Episode filter rules: </source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Auto downloading of RSS torrents is disabled now! You can enable it in application settings.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Rule Definition</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Save to:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Use Regular Expressions</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>New rule name</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Filter must end with semicolon</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>? to match any single character</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Matches articles based on episode filter.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Assign Category:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Regex mode: use Perl-compatible regular expressions</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>| is used as OR operator</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Clear downloaded episodes</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Whitespaces count as AND operators (all words, any order)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>An expression with an empty %1 clause (e.g. %2)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Example: </source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Add new rule...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Are you sure you want to clear the list of downloaded episodes for the selected rule?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Must Contain:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Infinite range: &lt;b&gt;1x25-;&lt;/b&gt; matches episodes 25 and upward of season one, and all episodes of later seasons</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Save to a Different Directory</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Must Not Contain:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Single number: &lt;b&gt;1x25;&lt;/b&gt; matches episode 25 of season one</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Three range types for episodes are supported: </source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Are you sure you want to remove the selected download rules?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Use global settings</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Normal range: &lt;b&gt;1x25-40;&lt;/b&gt; matches episodes 25 through 40 of season one</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Please type the new rule name</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Rule renaming</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Always</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Episode number is a mandatory positive value</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source> will match 2, 5, 8 through 15, 30 and onward episodes of season one</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Rule deletion confirmation</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Last Match: %1 days ago</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Episode Filter:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Rss Downloader</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Season number is a mandatory non-zero value</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Never</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Apply Rule to Feeds:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source> days</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Use Smart Episode Filter</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>If word order is important use * instead of whitespace.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Add Paused:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Please type the name of the new download rule.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Wildcard mode: you can use</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source> will exclude all articles.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Delete rule</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Ignore Subsequent Matches for (0 to Disable)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Rename rule...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Last Match: Unknown</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Clear downloaded episodes...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Smart Episode Filter will check the episode number to prevent downloading of duplicates.
+Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also support - as a separator)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Torrent content layout:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Create subfolder</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Original</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Don't create subfolder</source>
+        <translation type="unfinished" />
+    </message>
+</context>
+<context>
+    <name>TrackerFiltersList</name>
+    <message>
+        <source>Delete torrents</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Resume torrents</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>All (%1)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Trackerless (%1)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Pause torrents</source>
+        <translation type="unfinished" />
+    </message>
+</context>
+<context>
+    <name>FeedListWidget</name>
+    <message>
+        <source>RSS feeds</source>
         <translation type="unfinished" />
     </message>
 </context>

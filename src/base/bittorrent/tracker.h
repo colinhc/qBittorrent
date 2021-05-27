@@ -28,8 +28,7 @@
  * exception statement from your version.
  */
 
-#ifndef BITTORRENT_TRACKER_H
-#define BITTORRENT_TRACKER_H
+#pragma once
 
 #include <string>
 
@@ -103,8 +102,6 @@ namespace BitTorrent
         Http::Request m_request;
         Http::Environment m_env;
 
-        QHash<InfoHash, TorrentStats> m_torrents;
+        QHash<TorrentID, TorrentStats> m_torrents;
     };
 }
-
-#endif // BITTORRENT_TRACKER_H

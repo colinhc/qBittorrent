@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2015  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2015, 2021  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,42 +26,62 @@
  * exception statement from your version.
  */
 
-#ifndef BITTORRENT_INFOHASH_H
-#define BITTORRENT_INFOHASH_H
+#pragma once
 
-#include <libtorrent/sha1_hash.hpp>
+#include <libtorrent/version.hpp>
+#if (LIBTORRENT_VERSION_NUM >= 20000)
+#include <libtorrent/info_hash.hpp>
+#endif
 
-#include <QString>
+#include <QHash>
+#include <QMetaType>
+
+#include "base/digest32.h"
+
+using SHA1Hash = Digest32<160>;
+using SHA256Hash = Digest32<256>;
 
 namespace BitTorrent
 {
+    class InfoHash;
+
+    class TorrentID : public Digest32<160>
+    {
+    public:
+        using BaseType = Digest32<160>;
+        using BaseType::BaseType;
+
+        static TorrentID fromString(const QString &hashString);
+        static TorrentID fromInfoHash(const InfoHash &infoHash);
+    };
+
     class InfoHash
     {
     public:
-        InfoHash();
-        InfoHash(const lt::sha1_hash &nativeHash);
-        InfoHash(const QString &hashString);
-        InfoHash(const InfoHash &other) = default;
+#if (LIBTORRENT_VERSION_NUM >= 20000)
+        using WrappedType = lt::info_hash_t;
+#else
+        using WrappedType = lt::sha1_hash;
+#endif
 
-        static constexpr int length()
-        {
-            return lt::sha1_hash::size();
-        }
+        InfoHash() = default;
+        InfoHash(const InfoHash &other) = default;
+        InfoHash(const WrappedType &nativeHash);
 
         bool isValid() const;
+        TorrentID toTorrentID() const;
 
-        operator lt::sha1_hash() const;
-        operator QString() const;
+        operator WrappedType() const;
 
     private:
-        bool m_valid;
-        lt::sha1_hash m_nativeHash;
-        QString m_hashString;
+        bool m_valid = false;
+        WrappedType m_nativeHash;
     };
+
+    uint qHash(const TorrentID &key, uint seed);
 
     bool operator==(const InfoHash &left, const InfoHash &right);
     bool operator!=(const InfoHash &left, const InfoHash &right);
-    uint qHash(const InfoHash &key, uint seed);
 }
 
-#endif // BITTORRENT_INFOHASH_H
+Q_DECLARE_METATYPE(BitTorrent::TorrentID)

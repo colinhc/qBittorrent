@@ -1,17 +1,21 @@
-find_package(ZLIB 1.2.5.2 REQUIRED)
-
 add_library(qbt_base STATIC
     # headers
     algorithm.h
     asyncfilestorage.h
+    bittorrent/abstractfilestorage.h
     bittorrent/addtorrentparams.h
     bittorrent/bandwidthscheduler.h
+    bittorrent/bencoderesumedatastorage.h
     bittorrent/cachestatus.h
     bittorrent/common.h
     bittorrent/customstorage.h
+    bittorrent/dbresumedatastorage.h
     bittorrent/downloadpriority.h
+    bittorrent/filesearcher.h
     bittorrent/filterparserthread.h
     bittorrent/infohash.h
+    bittorrent/loadtorrentparams.h
+    bittorrent/ltqhash.h
     bittorrent/ltunderlyingtype.h
     bittorrent/magneturi.h
     bittorrent/nativesessionextension.h
@@ -19,19 +23,20 @@ add_library(qbt_base STATIC
     bittorrent/peeraddress.h
     bittorrent/peerinfo.h
     bittorrent/portforwarderimpl.h
-    bittorrent/resumedatasavingmanager.h
+    bittorrent/resumedatastorage.h
     bittorrent/session.h
     bittorrent/sessionstatus.h
     bittorrent/speedmonitor.h
     bittorrent/statistics.h
+    bittorrent/torrent.h
+    bittorrent/torrentcontentlayout.h
     bittorrent/torrentcreatorthread.h
-    bittorrent/torrenthandle.h
-    bittorrent/torrenthandleimpl.h
+    bittorrent/torrentimpl.h
     bittorrent/torrentinfo.h
     bittorrent/tracker.h
     bittorrent/trackerentry.h
+    digest32.h
     exceptions.h
-    filesystemwatcher.h
     global.h
     http/connection.h
     http/httperror.h
@@ -53,6 +58,7 @@ add_library(qbt_base STATIC
     net/proxyconfigurationmanager.h
     net/reverseresolution.h
     net/smtp.h
+    orderedset.h
     preferences.h
     profile.h
     profile_p.h
@@ -64,17 +70,18 @@ add_library(qbt_base STATIC
     rss/rss_item.h
     rss/rss_parser.h
     rss/rss_session.h
-    scanfoldersmodel.h
     search/searchdownloadhandler.h
     search/searchhandler.h
     search/searchpluginmanager.h
     settingsstorage.h
+    tagset.h
     torrentfileguard.h
+    torrentfileswatcher.h
     torrentfilter.h
-    tristatebool.h
     types.h
     unicodestrings.h
     utils/bytearray.h
+    utils/compare.h
     utils/foreignapps.h
     utils/fs.h
     utils/gzip.h
@@ -85,12 +92,17 @@ add_library(qbt_base STATIC
     utils/random.h
     utils/string.h
     utils/version.h
+    version.h
 
     # sources
     asyncfilestorage.cpp
+    bittorrent/abstractfilestorage.cpp
     bittorrent/bandwidthscheduler.cpp
+    bittorrent/bencoderesumedatastorage.cpp
     bittorrent/customstorage.cpp
+    bittorrent/dbresumedatastorage.cpp
     bittorrent/downloadpriority.cpp
+    bittorrent/filesearcher.cpp
     bittorrent/filterparserthread.cpp
     bittorrent/infohash.cpp
     bittorrent/magneturi.cpp
@@ -99,18 +111,16 @@ add_library(qbt_base STATIC
     bittorrent/peeraddress.cpp
     bittorrent/peerinfo.cpp
     bittorrent/portforwarderimpl.cpp
-    bittorrent/resumedatasavingmanager.cpp
     bittorrent/session.cpp
     bittorrent/speedmonitor.cpp
     bittorrent/statistics.cpp
+    bittorrent/torrent.cpp
     bittorrent/torrentcreatorthread.cpp
-    bittorrent/torrenthandle.cpp
-    bittorrent/torrenthandleimpl.cpp
+    bittorrent/torrentimpl.cpp
     bittorrent/torrentinfo.cpp
     bittorrent/tracker.cpp
     bittorrent/trackerentry.cpp
     exceptions.cpp
-    filesystemwatcher.cpp
     http/connection.cpp
     http/httperror.cpp
     http/requestparser.cpp
@@ -139,15 +149,16 @@ add_library(qbt_base STATIC
     rss/rss_item.cpp
     rss/rss_parser.cpp
     rss/rss_session.cpp
-    scanfoldersmodel.cpp
     search/searchdownloadhandler.cpp
     search/searchhandler.cpp
     search/searchpluginmanager.cpp
     settingsstorage.cpp
+    tagset.cpp
     torrentfileguard.cpp
+    torrentfileswatcher.cpp
     torrentfilter.cpp
-    tristatebool.cpp
     utils/bytearray.cpp
+    utils/compare.cpp
     utils/foreignapps.cpp
     utils/fs.cpp
     utils/gzip.cpp
@@ -161,19 +172,36 @@ add_library(qbt_base STATIC
 
 target_link_libraries(qbt_base
     PRIVATE
+        OpenSSL::Crypto OpenSSL::SSL
         ZLIB::ZLIB
     PUBLIC
         LibtorrentRasterbar::torrent-rasterbar
-        Qt5::Core Qt5::Network Qt5::Xml
+        Qt5::Core Qt5::Network Qt5::Sql Qt5::Xml
+        qbt_common_cfg
 )
 
-if (Qt5DBus_FOUND)
-    target_link_libraries(qbt_base PRIVATE Qt5::DBus)
-endif()
-
-if (APPLE)
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     find_library(IOKit_LIBRARY IOKit)
     find_library(Carbon_LIBRARY Carbon)
     find_library(AppKit_LIBRARY AppKit)
-    target_link_libraries(qbt_base PRIVATE ${Carbon_LIBRARY} ${IOKit_LIBRARY} ${AppKit_LIBRARY})
+
+    target_link_libraries(qbt_base PRIVATE
+        ${AppKit_LIBRARY}
+        ${Carbon_LIBRARY}
+        ${IOKit_LIBRARY}
+    )
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_link_libraries(qbt_base PRIVATE Iphlpapi)
+endif()
+
+if (NOT GUI)
+    target_compile_definitions(qbt_base PUBLIC DISABLE_GUI)
+endif()
+
+if (NOT WEBUI)
+    target_compile_definitions(qbt_base PUBLIC DISABLE_WEBUI)
+endif()
+
+if (DBUS)
+    target_link_libraries(qbt_base PUBLIC Qt5::DBus)
 endif()

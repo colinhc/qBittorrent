@@ -548,7 +548,7 @@ window.qBittorrent.ContextMenu = (function() {
             this.menu.getElement('a[href$=newSubscription]').parentNode.addClass('separator');
             switch (selectedRows.length) {
                 case 0:
-                    // remove seperator on top of newSubscription entry to avoid double line
+                    // remove separator on top of newSubscription entry to avoid double line
                     this.menu.getElement('a[href$=newSubscription]').parentNode.removeClass('separator');
                     // menu when nothing selected
                     this.hideItem('update');
@@ -667,3 +667,5 @@ window.qBittorrent.ContextMenu = (function() {
 
     return exports();
 })();
+
+Object.freeze(window.qBittorrent.ContextMenu);

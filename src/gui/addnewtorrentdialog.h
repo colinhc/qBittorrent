@@ -26,21 +26,20 @@
  * exception statement from your version.
  */
 
-#ifndef ADDNEWTORRENTDIALOG_H
-#define ADDNEWTORRENTDIALOG_H
+#pragma once
 
 #include <memory>
 
 #include <QDialog>
 
 #include "base/bittorrent/addtorrentparams.h"
-#include "base/bittorrent/infohash.h"
+#include "base/bittorrent/magneturi.h"
 #include "base/bittorrent/torrentinfo.h"
 #include "base/settingvalue.h"
 
 namespace BitTorrent
 {
-    class MagnetUri;
+    class InfoHash;
 }
 
 namespace Net
@@ -82,7 +81,7 @@ private slots:
     void displayContentTreeMenu(const QPoint &);
     void updateDiskSpaceLabel();
     void onSavePathChanged(const QString &newPath);
-    void updateMetadata(const BitTorrent::TorrentInfo &info);
+    void updateMetadata(const BitTorrent::TorrentInfo &metadata);
     void handleDownloadFinished(const Net::DownloadResult &result);
     void TMMChanged(int index);
     void categoryChanged(int index);
@@ -112,15 +111,13 @@ private:
     TorrentContentFilterModel *m_contentModel;
     PropListDelegate *m_contentDelegate;
     bool m_hasMetadata;
-    BitTorrent::InfoHash m_hash;
+    BitTorrent::MagnetUri m_magnetURI;
     BitTorrent::TorrentInfo m_torrentInfo;
     QByteArray m_headerState;
     int m_oldIndex;
     std::unique_ptr<TorrentFileGuard> m_torrentGuard;
     BitTorrent::AddTorrentParams m_torrentParams;
 
-    CachedSettingValue<QSize> m_storeDialogSize;
-    CachedSettingValue<QByteArray> m_storeSplitterState;
+    SettingValue<QSize> m_storeDialogSize;
+    SettingValue<QByteArray> m_storeSplitterState;
 };
-
-#endif // ADDNEWTORRENTDIALOG_H

@@ -1,4 +1,4 @@
-﻿;Installer strings
+;Installer strings
 
 ;LangString inst_qbt_req ${LANG_ENGLISH} "qBittorrent (required)"
 LangString inst_qbt_req ${LANG_ARABIC} "qBittorrent (مطلوب)"
@@ -30,7 +30,8 @@ LangString launch_qbt ${LANG_ARABIC} "تشغيل البرنامج"
 LangString inst_requires_64bit ${LANG_ARABIC} "هذا المثبت يعمل فقط في نسخ ويندوز 64 بت"
 ;LangString inst_requires_win7 ${LANG_ENGLISH} "This qBittorrent version requires at least Windows 7."
 LangString inst_requires_win7 ${LANG_ARABIC} "This qBittorrent version requires at least Windows 7."
-
+;LangString inst_uninstall_link_description ${LANG_ENGLISH} "Uninstall qBittorrent"
+LangString inst_uninstall_link_description ${LANG_ARABIC} "Uninstall qBittorrent"
 
 ;------------------------------------
 ;Uninstaller strings

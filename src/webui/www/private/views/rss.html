@@ -11,7 +11,8 @@
         vertical-align: top;
     }
 
-    #rssFeedFixedHeaderDiv .dynamicTableHeader, #rssArticleFixedHeaderDiv .dynamicTableHeader {
+    #rssFeedFixedHeaderDiv .dynamicTableHeader,
+    #rssArticleFixedHeaderDiv .dynamicTableHeader {
         cursor: default;
     }
 
@@ -33,7 +34,9 @@
         margin: 0 10px 0 10px;
     }
 
-    #leftRssColumn, #centerRssColumn, #rightRssColumn {
+    #leftRssColumn,
+    #centerRssColumn,
+    #rightRssColumn {
         float: left;
         /* should be 20 px but due to rounding differences some browsers don't render that properly */
         width: calc(calc(100% - 21px) / 3);
@@ -44,7 +47,8 @@
         overflow: auto;
     }
 
-    #rssFeedTableDiv, #rssArticleTableDiv {
+    #rssFeedTableDiv,
+    #rssArticleTableDiv {
         height: calc(100vh - 180px);
     }
 
@@ -67,11 +71,16 @@
         overflow: hidden;
         height: 30px;
     }
-    
+
     #rssContentView table {
         width: 100%;
     }
-    
+
+    #rssDescription {
+        width: 100%;
+        border: none;
+    }
+
 </style>
 
 <div id="rssView">
@@ -167,14 +176,14 @@
                 refreshAllFeeds: refreshAllFeeds,
                 moveItem: moveItem,
                 addRSSFeed: addRSSFeed,
-                markSelectedAsRead : markSelectedAsRead,
+                markSelectedAsRead: markSelectedAsRead,
                 openRssDownloader: openRssDownloader,
                 rssFeedTable: rssFeedTable
             };
         };
 
         let feedData = {};
-        let pathByFeedId = new Map();;
+        let pathByFeedId = new Map();
         let feedRefreshTimer;
         let rssFeedTable = new window.qBittorrent.DynamicTable.RssFeedTable();
         let rssArticleTable = new window.qBittorrent.DynamicTable.RssArticleTable();
@@ -192,13 +201,13 @@
                         $('rssFetchingDisabled').removeClass('invisible');
 
                     // recalculate heights
-                    let nonPageHeight = $('rssTopBar').getBoundingClientRect().height +
-                                        $('desktopHeader').getBoundingClientRect().height +
-                                        $('desktopFooterWrapper').getBoundingClientRect().height + 20;
+                    let nonPageHeight = $('rssTopBar').getBoundingClientRect().height
+                        + $('desktopHeader').getBoundingClientRect().height
+                        + $('desktopFooterWrapper').getBoundingClientRect().height + 20;
                     $('rssDetailsView').style.height = 'calc(100vh - ' + nonPageHeight + 'px)';
 
                     let nonTableHeight = nonPageHeight + $('rssFeedFixedHeaderDiv').getBoundingClientRect().height;
-                    
+
                     $('rssFeedTableDiv').style.height = 'calc(100vh - ' + nonTableHeight + 'px)';
                     $('rssArticleTableDiv').style.height = 'calc(100vh - ' + nonTableHeight + 'px)';
 
@@ -229,7 +238,7 @@
                             .filter((e) => e !== 0)
                             .map((sRow) => rssFeedTable.rows[sRow].full_data.dataPath);
                         // filter children
-                        let reducedDatapaths = selectedDatapaths.filter((path) => 
+                        let reducedDatapaths = selectedDatapaths.filter((path) =>
                             selectedDatapaths.filter((innerPath) => path.slice(0, innerPath.length) === innerPath).length === 1
                         );
                         removeItem(reducedDatapaths);
@@ -268,7 +277,6 @@
                 }
             });
             rssFeedTable.setup('rssFeedTableDiv', 'rssFeedFixedHeaderDiv', rssFeedContextMenu);
-
 
             const rssArticleContextMenu = new window.qBittorrent.ContextMenu.RssArticleContextMenu({
                 targets: '.rssArticleElement',
@@ -423,11 +431,15 @@
 
                     return torrentDate;
                 })());
-                // Strip script before interpreting html
-                let torrentDescription = document.createRange().createContextualFragment(
-                    '<div id="rssTorrentDetailsDescription">' + article.description.stripScripts() + '</div>');
-
+                // Place in iframe with sandbox attribute to prevent js execution
+                let torrentDescription = document.createRange().createContextualFragment('<iframe sandbox id="rssDescription"></iframe>');
                 $('rssDetailsView').append(torrentDescription);
+                document.getElementById('rssDescription').srcdoc = '<html><head><link rel="stylesheet" type="text/css" href="css/style.css" /></head><body>' + article.description + "</body></html>";
+
+                //calculate height to fill screen
+                document.getElementById('rssDescription').style.height =
+                    "calc(100% - " + document.getElementById('rssTorrentDetailsName').offsetHeight + "px - "
+                    + document.getElementById('rssTorrentDetailsDate').offsetHeight + "px - 5px)";
             }
         };
 
@@ -462,16 +474,16 @@
                                 recFlatten(current[child], child, depth + 1, currentFullName);
                             }
                         }
-                    }
+                    };
                     recFlatten(response);
 
-                    // check if rows matche flattend response
+                    // check if rows matches flattened response
                     let match = false;
                     if (rssFeedTable.rows.getLength() - 1 === flattenedResp.length) {
                         match = true;
                         for (let i = 0; i < flattenedResp.length; ++i) {
-                            if ((flattenedResp[i].uid ? flattenedResp[i].uid : '') !== rssFeedTable.rows[i + 1].full_data.dataUid ||
-                                flattenedResp[i].fullName !== rssFeedTable.rows[i + 1].full_data.dataPath) {
+                            if ((flattenedResp[i].uid ? flattenedResp[i].uid : '') !== rssFeedTable.rows[i + 1].full_data.dataUid
+                                || flattenedResp[i].fullName !== rssFeedTable.rows[i + 1].full_data.dataPath) {
                                 match = false;
                                 break;
                             }
@@ -542,7 +554,7 @@
                                         showRssFeed(r.fullName);
                                 }
                                 else {
-                                    // calculate read differnce and update feed data
+                                    // calculate read difference and update feed data
                                     let readDifference = 0;
                                     let readChanged = false;
                                     for (let i = 0; i < r.articles.length; ++i) {
@@ -561,7 +573,7 @@
                                         rssFeedTable.rows.filter((row) => r.fullName.slice(0, row.full_data.dataPath.length) === row.full_data.dataPath)
                                             .each((row) => row.full_data.unread += readDifference);
 
-                                        // if feed that is opened changed update dynamicly
+                                        // if feed that is opened changed update dynamically
                                         if (openedFeedPath !== undefined && r.fullName.slice(0, openedFeedPath.length) === openedFeedPath) {
                                             for (let i = 0; i < r.articles.length; ++i) {
                                                 let matchingRow = rssArticleTable.rows.filter((row) => row.full_data.feedUid === r.uid)
@@ -587,10 +599,10 @@
                         // Unread entry at top
                         rssFeedTable.updateRowData({
                             rowId: 0,
-                            name: 'Unread',
+                            name: 'QBT_TR(Unread)QBT_TR[CONTEXT=FeedListWidget]',
                             unread: 0,
                             status: 'unread',
-                            indentaion: 0,
+                            indentation: 0,
                             dataUid: '',
                             dataUrl: '',
                             dataPath: ''
@@ -604,7 +616,7 @@
                                     name: dataEntry.name,
                                     unread: 0,
                                     status: 'isFolder',
-                                    indentaion: dataEntry.depth,
+                                    indentation: dataEntry.depth,
                                     dataUid: '',
                                     dataUrl: '',
                                     dataPath: dataEntry.fullName
@@ -622,7 +634,7 @@
                                     name: dataEntry.name,
                                     unread: 0,
                                     status: status,
-                                    indentaion: dataEntry.depth,
+                                    indentation: dataEntry.depth,
                                     dataUid: dataEntry.uid,
                                     dataUrl: dataEntry.url,
                                     dataPath: dataEntry.fullName
@@ -688,11 +700,12 @@
         };
 
         const removeItem = (paths) => {
+            const encodedPaths = paths.map((path) => encodeURIComponent(path));
             new MochaUI.Window({
                 id: 'confirmFeedDeletionPage',
                 title: 'QBT_TR(Deletion confirmation)QBT_TR[CONTEXT=RSSWidget]',
                 loadMethod: 'iframe',
-                contentURL: 'confirmfeeddeletion.html?paths=' + encodeURIComponent(paths.join('|')),
+                contentURL: 'confirmfeeddeletion.html?paths=' + encodeURIComponent(encodedPaths.join('|')),
                 scrollbars: false,
                 resizable: false,
                 maximizable: false,
@@ -790,9 +803,9 @@
 
         const markSelectedAsRead = () => {
             let selectedDatapaths = rssFeedTable.selectedRows
-                            .map((sRow) => rssFeedTable.rows[sRow].full_data.dataPath);
+                .map((sRow) => rssFeedTable.rows[sRow].full_data.dataPath);
             // filter children
-            let reducedDatapaths = selectedDatapaths.filter((path) => 
+            let reducedDatapaths = selectedDatapaths.filter((path) =>
                 selectedDatapaths.filter((innerPath) => path.slice(0, innerPath.length) === innerPath).length === 1
             );
             reducedDatapaths.each((path) => markItemAsRead(path));
@@ -812,12 +825,14 @@
                     saveWindowSize(id);
                 },
                 resizeLimit: {
-                    'x' :[800,2500],
-                    'y' :[500,2000]
+                    'x': [800, 2500],
+                    'y': [500, 2000]
                 }
             });
         };
 
         return exports();
     })();
+
+    Object.freeze(window.qBittorrent.Rss);
 </script>

@@ -27,19 +27,17 @@
  * exception statement from your version.
  */
 
-#ifndef PREFERENCES_H
-#define PREFERENCES_H
+#pragma once
 
-#include <QList>
+#include <QtContainerFwd>
+#include <QVariant>
 
 #include "base/utils/net.h"
 
 class QDateTime;
 class QNetworkCookie;
 class QSize;
-class QStringList;
 class QTime;
-class QVariant;
 
 enum SchedulerDays
 {
@@ -134,8 +132,6 @@ public:
     // Downloads
     QString lastLocationPath() const;
     void setLastLocationPath(const QString &path);
-    QVariantHash getScanDirs() const;
-    void setScanDirs(const QVariantHash &dirs);
     QString getScanDirsLastPath() const;
     void setScanDirsLastPath(const QString &path);
     bool isMailNotificationEnabled() const;
@@ -250,7 +246,7 @@ public:
     void setAutoRunEnabled(bool enabled);
     QString getAutoRunProgram() const;
     void setAutoRunProgram(const QString &program);
-#if defined(Q_OS_WIN) && (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+#if defined(Q_OS_WIN)
     bool isAutoRunConsoleEnabled() const;
     void setAutoRunConsoleEnabled(bool enabled);
 #endif
@@ -315,6 +311,8 @@ public:
     void setCloseToTrayNotified(bool b);
     TrayIcon::Style trayIconStyle() const;
     void setTrayIconStyle(TrayIcon::Style style);
+    bool iconsInMenusEnabled() const;
+    void setIconsInMenusEnabled(bool enable);
 #endif // Q_OS_MACOS
 
     // Stuff that don't appear in the Options GUI but are saved
@@ -331,10 +329,6 @@ public:
     void setMainVSplitterState(const QByteArray &state);
     QString getMainLastDir() const;
     void setMainLastDir(const QString &path);
-    QSize getPrefSize() const;
-    void setPrefSize(const QSize &size);
-    QStringList getPrefHSplitterSizes() const;
-    void setPrefHSplitterSizes(const QStringList &sizes);
     QByteArray getPeerListState() const;
     void setPeerListState(const QByteArray &state);
     QString getPropSplitterSizes() const;
@@ -404,5 +398,3 @@ public slots:
 
     void apply();
 };
-
-#endif // PREFERENCES_H

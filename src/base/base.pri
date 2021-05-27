@@ -1,14 +1,20 @@
 HEADERS += \
     $$PWD/algorithm.h \
     $$PWD/asyncfilestorage.h \
+    $$PWD/bittorrent/abstractfilestorage.h \
     $$PWD/bittorrent/addtorrentparams.h \
     $$PWD/bittorrent/bandwidthscheduler.h \
+    $$PWD/bittorrent/bencoderesumedatastorage.h \
     $$PWD/bittorrent/cachestatus.h \
     $$PWD/bittorrent/common.h \
     $$PWD/bittorrent/customstorage.h \
     $$PWD/bittorrent/downloadpriority.h \
+    $$PWD/bittorrent/dbresumedatastorage.h \
+    $$PWD/bittorrent/filesearcher.h \
     $$PWD/bittorrent/filterparserthread.h \
     $$PWD/bittorrent/infohash.h \
+    $$PWD/bittorrent/loadtorrentparams.h \
+    $$PWD/bittorrent/ltqhash.h \
     $$PWD/bittorrent/ltunderlyingtype.h \
     $$PWD/bittorrent/magneturi.h \
     $$PWD/bittorrent/nativesessionextension.h \
@@ -16,19 +22,20 @@ HEADERS += \
     $$PWD/bittorrent/peeraddress.h \
     $$PWD/bittorrent/peerinfo.h \
     $$PWD/bittorrent/portforwarderimpl.h \
-    $$PWD/bittorrent/resumedatasavingmanager.h \
+    $$PWD/bittorrent/resumedatastorage.h \
     $$PWD/bittorrent/session.h \
     $$PWD/bittorrent/sessionstatus.h \
     $$PWD/bittorrent/speedmonitor.h \
     $$PWD/bittorrent/statistics.h \
+    $$PWD/bittorrent/torrent.h \
+    $$PWD/bittorrent/torrentcontentlayout.h \
     $$PWD/bittorrent/torrentcreatorthread.h \
-    $$PWD/bittorrent/torrenthandle.h \
-    $$PWD/bittorrent/torrenthandleimpl.h \
+    $$PWD/bittorrent/torrentimpl.h \
     $$PWD/bittorrent/torrentinfo.h \
     $$PWD/bittorrent/tracker.h \
     $$PWD/bittorrent/trackerentry.h \
+    $$PWD/digest32.h \
     $$PWD/exceptions.h \
-    $$PWD/filesystemwatcher.h \
     $$PWD/global.h \
     $$PWD/http/connection.h \
     $$PWD/http/httperror.h \
@@ -50,6 +57,7 @@ HEADERS += \
     $$PWD/net/proxyconfigurationmanager.h \
     $$PWD/net/reverseresolution.h \
     $$PWD/net/smtp.h \
+    $$PWD/orderedset.h \
     $$PWD/preferences.h \
     $$PWD/profile.h \
     $$PWD/profile_p.h \
@@ -61,18 +69,19 @@ HEADERS += \
     $$PWD/rss/rss_item.h \
     $$PWD/rss/rss_parser.h \
     $$PWD/rss/rss_session.h \
-    $$PWD/scanfoldersmodel.h \
     $$PWD/search/searchdownloadhandler.h \
     $$PWD/search/searchhandler.h \
     $$PWD/search/searchpluginmanager.h \
     $$PWD/settingsstorage.h \
     $$PWD/settingvalue.h \
+    $$PWD/tagset.h \
     $$PWD/torrentfileguard.h \
+    $$PWD/torrentfileswatcher.h \
     $$PWD/torrentfilter.h \
-    $$PWD/tristatebool.h \
     $$PWD/types.h \
     $$PWD/unicodestrings.h \
     $$PWD/utils/bytearray.h \
+    $$PWD/utils/compare.h \
     $$PWD/utils/foreignapps.h \
     $$PWD/utils/fs.h \
     $$PWD/utils/gzip.h \
@@ -82,13 +91,18 @@ HEADERS += \
     $$PWD/utils/password.h \
     $$PWD/utils/random.h \
     $$PWD/utils/string.h \
-    $$PWD/utils/version.h
+    $$PWD/utils/version.h \
+    $$PWD/version.h
 
 SOURCES += \
     $$PWD/asyncfilestorage.cpp \
+    $$PWD/bittorrent/abstractfilestorage.cpp \
     $$PWD/bittorrent/bandwidthscheduler.cpp \
+    $$PWD/bittorrent/bencoderesumedatastorage.cpp \
     $$PWD/bittorrent/customstorage.cpp \
+    $$PWD/bittorrent/dbresumedatastorage.cpp \
     $$PWD/bittorrent/downloadpriority.cpp \
+    $$PWD/bittorrent/filesearcher.cpp \
     $$PWD/bittorrent/filterparserthread.cpp \
     $$PWD/bittorrent/infohash.cpp \
     $$PWD/bittorrent/magneturi.cpp \
@@ -97,18 +111,16 @@ SOURCES += \
     $$PWD/bittorrent/peeraddress.cpp \
     $$PWD/bittorrent/peerinfo.cpp \
     $$PWD/bittorrent/portforwarderimpl.cpp \
-    $$PWD/bittorrent/resumedatasavingmanager.cpp \
     $$PWD/bittorrent/session.cpp \
     $$PWD/bittorrent/speedmonitor.cpp \
     $$PWD/bittorrent/statistics.cpp \
+    $$PWD/bittorrent/torrent.cpp \
     $$PWD/bittorrent/torrentcreatorthread.cpp \
-    $$PWD/bittorrent/torrenthandle.cpp \
-    $$PWD/bittorrent/torrenthandleimpl.cpp \
+    $$PWD/bittorrent/torrentimpl.cpp \
     $$PWD/bittorrent/torrentinfo.cpp \
     $$PWD/bittorrent/tracker.cpp \
     $$PWD/bittorrent/trackerentry.cpp \
     $$PWD/exceptions.cpp \
-    $$PWD/filesystemwatcher.cpp \
     $$PWD/http/connection.cpp \
     $$PWD/http/httperror.cpp \
     $$PWD/http/requestparser.cpp \
@@ -137,15 +149,16 @@ SOURCES += \
     $$PWD/rss/rss_item.cpp \
     $$PWD/rss/rss_parser.cpp \
     $$PWD/rss/rss_session.cpp \
-    $$PWD/scanfoldersmodel.cpp \
     $$PWD/search/searchdownloadhandler.cpp \
     $$PWD/search/searchhandler.cpp \
     $$PWD/search/searchpluginmanager.cpp \
     $$PWD/settingsstorage.cpp \
+    $$PWD/tagset.cpp \
     $$PWD/torrentfileguard.cpp \
+    $$PWD/torrentfileswatcher.cpp \
     $$PWD/torrentfilter.cpp \
-    $$PWD/tristatebool.cpp \
     $$PWD/utils/bytearray.cpp \
+    $$PWD/utils/compare.cpp \
     $$PWD/utils/foreignapps.cpp \
     $$PWD/utils/fs.cpp \
     $$PWD/utils/gzip.cpp \

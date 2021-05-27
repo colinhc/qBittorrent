@@ -1,4 +1,4 @@
-﻿;Installer strings
+;Installer strings
 
 ;LangString inst_qbt_req ${LANG_ENGLISH} "qBittorrent (required)"
 LangString inst_qbt_req ${LANG_SLOVAK} "qBittorrent (required)"
@@ -30,7 +30,8 @@ LangString launch_qbt ${LANG_SLOVAK} "Launch qBittorrent."
 LangString inst_requires_64bit ${LANG_SLOVAK} "This installer works only in 64-bit Windows versions."
 ;LangString inst_requires_win7 ${LANG_ENGLISH} "This qBittorrent version requires at least Windows 7."
 LangString inst_requires_win7 ${LANG_SLOVAK} "This qBittorrent version requires at least Windows 7."
-
+;LangString inst_uninstall_link_description ${LANG_ENGLISH} "Uninstall qBittorrent"
+LangString inst_uninstall_link_description ${LANG_SLOVAK} "Uninstall qBittorrent"
 
 ;------------------------------------
 ;Uninstaller strings

@@ -1,4 +1,4 @@
-﻿;Installer strings
+;Installer strings
 
 ;LangString inst_qbt_req ${LANG_ENGLISH} "qBittorrent (required)"
 LangString inst_qbt_req ${LANG_GREEK} "qBittorrent (απαιτείται)"
@@ -30,7 +30,8 @@ LangString launch_qbt ${LANG_GREEK} "Εκκίνηση του qBittorrent."
 LangString inst_requires_64bit ${LANG_GREEK} "Αυτό το αρχείο εγκατάστασης λειτουργεί μόνο σε 64-bit εκδόσεις των Windows."
 ;LangString inst_requires_win7 ${LANG_ENGLISH} "This qBittorrent version requires at least Windows 7."
 LangString inst_requires_win7 ${LANG_GREEK} "This qBittorrent version requires at least Windows 7."
-
+;LangString inst_uninstall_link_description ${LANG_ENGLISH} "Uninstall qBittorrent"
+LangString inst_uninstall_link_description ${LANG_GREEK} "Uninstall qBittorrent"
 
 ;------------------------------------
 ;Uninstaller strings

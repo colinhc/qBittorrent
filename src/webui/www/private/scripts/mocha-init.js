@@ -120,9 +120,9 @@ const initializeWindows = function() {
         const id = 'downloadPage';
         let contentUrl = 'download.html';
         if (urls && (urls.length > 0)) {
-            contentUrl += ('?urls=' + urls.map(function(url) {
+            contentUrl += ('?urls=' + encodeURIComponent(urls.map(function(url) {
                 return encodeURIComponent(url);
-            }).join("|"));
+            }).join("|")));
         }
 
         new MochaUI.Window({
@@ -376,14 +376,14 @@ const initializeWindows = function() {
         }
     };
 
-    deleteFN = function() {
+    deleteFN = function(deleteFiles = false) {
         const hashes = torrentsTable.selectedRowsIds();
         if (hashes.length) {
             new MochaUI.Window({
                 id: 'confirmDeletionPage',
                 title: "QBT_TR(Deletion confirmation)QBT_TR[CONTEXT=confirmDeletionDlg]",
                 loadMethod: 'iframe',
-                contentURL: 'confirmdeletion.html?hashes=' + hashes.join("|"),
+                contentURL: ('confirmdeletion.html?hashes=' + hashes.join("|") + '&deleteFiles=' + deleteFiles),
                 scrollbars: false,
                 resizable: false,
                 maximizable: false,
@@ -824,7 +824,7 @@ const initializeWindows = function() {
                 hashes = torrentsTable.getFilteredTorrentsHashes('all', CATEGORIES_ALL, TAGS_ALL, TRACKERS_TRACKERLESS);
                 break;
             default:
-                hashes = trackerList.get(trackerHashInt).torrents
+                hashes = trackerList.get(trackerHashInt).torrents;
                 break;
         }
 
@@ -851,7 +851,7 @@ const initializeWindows = function() {
                 hashes = torrentsTable.getFilteredTorrentsHashes('all', CATEGORIES_ALL, TAGS_ALL, TRACKERS_TRACKERLESS);
                 break;
             default:
-                hashes = trackerList.get(trackerHashInt).torrents
+                hashes = trackerList.get(trackerHashInt).torrents;
                 break;
         }
 
@@ -1025,7 +1025,7 @@ const initializeWindows = function() {
             new Request({
                 url: 'api/v2/app/shutdown',
                 onSuccess: function() {
-                    document.write('<!doctype html><html lang="${LANG}"><head> <meta charset="utf-8"> <title>QBT_TR(qBittorrent has been shutdown)QBT_TR[CONTEXT=HttpServer]</title></head><body> <h1 style="text-align: center;">QBT_TR(qBittorrent has been shutdown)QBT_TR[CONTEXT=HttpServer]</h1></body></html>');
+                    document.write('<!doctype html><html lang="${LANG}"><head> <meta charset="UTF-8"> <title>QBT_TR(qBittorrent has been shutdown)QBT_TR[CONTEXT=HttpServer]</title></head><body> <h1 style="text-align: center;">QBT_TR(qBittorrent has been shutdown)QBT_TR[CONTEXT=HttpServer]</h1></body></html>');
                     document.close();
                     stop();
                 }

@@ -23,19 +23,31 @@
         <translation>Omet la comprovació del resum</translation>
     </message>
     <message>
+        <source>Torrent Management Mode:</source>
+        <translation>Mode de gestió de torrents:</translation>
+    </message>
+    <message>
+        <source>Content layout:</source>
+        <translation>Disposició del contingut:</translation>
+    </message>
+    <message>
+        <source>Original</source>
+        <translation>Original</translation>
+    </message>
+    <message>
         <source>Create subfolder</source>
         <translation>Crea una subcarpeta</translation>
     </message>
     <message>
-        <source>Torrent Management Mode:</source>
-        <translation>Mode de gestió de torrents:</translation>
+        <source>Don't create subfolder</source>
+        <translation>No creïs una subcarpeta</translation>
     </message>
 </context>
 <context>
     <name>CategoryFilterModel</name>
     <message>
         <source>All</source>
-        <translation>Totes</translation>
+        <translation>Tots</translation>
     </message>
     <message>
         <source>Uncategorized</source>
@@ -202,7 +214,7 @@
     </message>
     <message>
         <source>Type folder here</source>
-        <translation>Escriviu la carpeta aquí</translation>
+        <translation type="vanished">Escriviu la carpeta aquí</translation>
     </message>
     <message>
         <source>More information</source>
@@ -231,7 +243,7 @@
     <message>
         <source>Other...</source>
         <comment>Save Files to: Watch Folder / Default Folder / Other...</comment>
-        <translation>Altres ...</translation>
+        <translation type="vanished">Altres ...</translation>
     </message>
     <message>
         <source>Monday</source>
@@ -361,6 +373,10 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
         <source>Failed to update name</source>
         <translation>Ha fallat actualitzar el nom.</translation>
     </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -402,7 +418,7 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
     </message>
     <message>
         <source>Speed in Title Bar</source>
-        <translation>Mostra velocitat a la barra de títol</translation>
+        <translation>Mostra la velocitat a la barra de títol</translation>
     </message>
     <message>
         <source>Donate!</source>
@@ -561,6 +577,14 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
         <source>Connection status: Disconnected</source>
         <translation>Estat de la connexió: desconnectat</translation>
     </message>
+    <message>
+        <source>RSS Reader</source>
+        <translation>Lector d'RSS</translation>
+    </message>
+    <message>
+        <source>RSS</source>
+        <translation>RSS</translation>
+    </message>
 </context>
 <context>
     <name>OptionsDialog</name>
@@ -691,10 +715,6 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
     <message>
         <source>Password:</source>
         <translation>Contrasenya:</translation>
-    </message>
-    <message>
-        <source>Enabled protocol:</source>
-        <translation>Protocol habilitat:</translation>
     </message>
     <message>
         <source>TCP and μTP</source>
@@ -1059,10 +1079,6 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
         <translation>En canviar la categoria del camí per desar:</translation>
     </message>
     <message>
-        <source>Create subfolder for torrents with multiple files</source>
-        <translation>Crea una subcarpeta per als torrents amb fitxers múltiples.</translation>
-    </message>
-    <message>
         <source>seconds</source>
         <translation>segons</translation>
     </message>
@@ -1159,10 +1175,6 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
         <translation>Port encastat del rastrejador:</translation>
     </message>
     <message>
-        <source>Optional IP Address to bind to (requires restart):</source>
-        <translation>Adreça IP opcional per vincular (requereix un reinici):</translation>
-    </message>
-    <message>
         <source>Fastest upload</source>
         <translation>La pujada més ràpida</translation>
     </message>
@@ -1187,10 +1199,6 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
         <translation>Secció de libtorrent</translation>
     </message>
     <message>
-        <source>Coalesce reads &amp; writes:</source>
-        <translation>Fusiona les lectures i escriptures:</translation>
-    </message>
-    <message>
         <source>Outgoing ports (Min) [0: Disabled]:</source>
         <translation>Ports de sortida (Min.) [0: desactivat]</translation>
     </message>
@@ -1209,10 +1217,6 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
     <message>
         <source>Send upload piece suggestions:</source>
         <translation>Envia suggeriments de càrrega de trossos:</translation>
-    </message>
-    <message>
-        <source>Disk cache:</source>
-        <translation>Cau del disc:</translation>
     </message>
     <message>
         <source>Enable embedded tracker:</source>
@@ -1237,10 +1241,6 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
     <message>
         <source>Send buffer watermark:</source>
         <translation>Envia la marca d'aigua de la memòria intermèdia:</translation>
-    </message>
-    <message>
-        <source>Disk cache expiry interval:</source>
-        <translation>Interval de caducitat de la memòria cau del disc:</translation>
     </message>
     <message>
         <source>Peer proportional (throttles TCP)</source>
@@ -1277,10 +1277,6 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
     <message>
         <source>Upload slots behavior:</source>
         <translation>Comportament de les ranures de pujada:</translation>
-    </message>
-    <message>
-        <source>Network Interface (requires restart):</source>
-        <translation>Interfície de xarxa (requereix reiniciar):</translation>
     </message>
     <message>
         <source>MiB</source>
@@ -1332,11 +1328,135 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
     </message>
     <message>
         <source>Header: value pairs, one per line</source>
-        <translation type="unfinished" />
+        <translation>Capçalera: clients de valor, un per línia</translation>
     </message>
     <message>
         <source>Add custom HTTP headers</source>
-        <translation type="unfinished" />
+        <translation>Afegeix capçaleres d'HTTP personalitzades</translation>
+    </message>
+    <message>
+        <source>Filters:</source>
+        <translation>Filtres:</translation>
+    </message>
+    <message>
+        <source>Enable fetching RSS feeds</source>
+        <translation>Habilita l'obtenció de canals d'RSS</translation>
+    </message>
+    <message>
+        <source>Hashing threads (requires libtorrent &gt;= 2.0):</source>
+        <translation>Resum de fils (cal libtorrent &gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>Coalesce reads &amp; writes (requires libtorrent &lt; 2.0):</source>
+        <translation>Fusiona lectures i escriptures (cal libtorrent &lt; 2.0):</translation>
+    </message>
+    <message>
+        <source>Peer turnover threshold percentage:</source>
+        <translation>Percentatge del llindar de la rotació de clients:</translation>
+    </message>
+    <message>
+        <source>RSS Torrent Auto Downloader</source>
+        <translation>Descarregador automàtic de torrents d'RSS</translation>
+    </message>
+    <message>
+        <source>RSS</source>
+        <translation>RSS</translation>
+    </message>
+    <message>
+        <source>Network interface:</source>
+        <translation>Interfície de xarxa:</translation>
+    </message>
+    <message>
+        <source>RSS Reader</source>
+        <translation>Lector d'RSS</translation>
+    </message>
+    <message>
+        <source>Edit auto downloading rules...</source>
+        <translation>Edita les regles de baixada automàtica...</translation>
+    </message>
+    <message>
+        <source>Download REPACK/PROPER episodes</source>
+        <translation>Baixa els episodis REPACK / PROPER</translation>
+    </message>
+    <message>
+        <source>Feeds refresh interval:</source>
+        <translation>Interval d'actualització dels canals:</translation>
+    </message>
+    <message>
+        <source>Peer turnover disconnect percentage:</source>
+        <translation>Percentatge de desconnexió de la rotació de clients:</translation>
+    </message>
+    <message>
+        <source>Maximum number of articles per feed:</source>
+        <translation>Nombre màxim d'articles per canal:</translation>
+    </message>
+    <message>
+        <source>Max concurrent HTTP announces (requires libtorrent &gt;= 1.2.7):</source>
+        <translation>Màxim d'anuncis concurrents d'HTTP (cal libtorrent &gt;= 1.2.7):</translation>
+    </message>
+    <message>
+        <source> min</source>
+        <translation> min.</translation>
+    </message>
+    <message>
+        <source>Peer turnover disconnect interval:</source>
+        <translation>Interval de desconnexió de la rotació de clients:</translation>
+    </message>
+    <message>
+        <source>Optional IP address to bind to:</source>
+        <translation>Adreça IP opcional per vincular-s'hi:</translation>
+    </message>
+    <message>
+        <source>Disallow connection to peers on privileged ports:</source>
+        <translation>No permetis la connexió a clients en ports privilegiats:</translation>
+    </message>
+    <message>
+        <source>Enable auto downloading of RSS torrents</source>
+        <translation>Habilita la baixada automàtica de torrents d'RSS</translation>
+    </message>
+    <message>
+        <source>RSS Smart Episode Filter</source>
+        <translation>Filtre d'episodis intel·ligents d'RSS</translation>
+    </message>
+    <message>
+        <source>Disk cache (requires libtorrent &lt; 2.0):</source>
+        <translation>Cau del disc (cal libtorrent &lt; 2.0):</translation>
+    </message>
+    <message>
+        <source>Disk cache expiry interval (requires libtorrent &lt; 2.0):</source>
+        <translation>Interval de venciment de la cau del disc (cal libtorrent &lt; 2.0):</translation>
+    </message>
+    <message>
+        <source>Validate HTTPS tracker certificate:</source>
+        <translation>Valida els certificats del rastrejador d'HTTPS:</translation>
+    </message>
+    <message>
+        <source>Peer connection protocol:</source>
+        <translation>Protocol de connexió de clients:</translation>
+    </message>
+    <message>
+        <source>Support internationalized domain name (IDN) (requires libtorrent &gt;= 1.2.12):</source>
+        <translation>Admet el nom de domini internacionalitzat (IDN) (requereix libtorrent &gt;= 1.2.12):</translation>
+    </message>
+    <message>
+        <source>Torrent content layout:</source>
+        <translation>Disposició del contingut Torrent:</translation>
+    </message>
+    <message>
+        <source>Create subfolder</source>
+        <translation>Crea una subcarpeta</translation>
+    </message>
+    <message>
+        <source>Original</source>
+        <translation>Original</translation>
+    </message>
+    <message>
+        <source>Don't create subfolder</source>
+        <translation>No creïs una subcarpeta</translation>
+    </message>
+    <message>
+        <source>Type of service (ToS) for connections to peers</source>
+        <translation>Tipus de servei (ToS) per a connexions amb clients</translation>
     </message>
 </context>
 <context>
@@ -1622,6 +1742,10 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
         <source>Rename...</source>
         <translation>Canvia'n el nom...</translation>
     </message>
+    <message>
+        <source>%1 (seeded for %2)</source>
+        <translation>%1 (sembrat durant %2)</translation>
+    </message>
 </context>
 <context>
     <name>ScanFoldersModel</name>
@@ -1640,6 +1764,14 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
     <message>
         <source>Default save location</source>
         <translation>Ubicació per desar per defecte</translation>
+    </message>
+    <message>
+        <source>Other...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Type folder here</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -2101,10 +2233,6 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
         <translation>fa %1</translation>
     </message>
     <message>
-        <source>Allocating</source>
-        <translation>Assignació</translation>
-    </message>
-    <message>
         <source>Paused</source>
         <translation>En pausa</translation>
     </message>
@@ -2164,6 +2292,10 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
         <source>Stalled</source>
         <translation>Interromput</translation>
     </message>
+    <message>
+        <source>%1 (seeded for %2)</source>
+        <translation>%1 (sembrat durant %2)</translation>
+    </message>
 </context>
 <context>
     <name>TransferListFiltersWidget</name>
@@ -2178,6 +2310,10 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
     <message>
         <source>Tags</source>
         <translation>Etiquetes</translation>
+    </message>
+    <message>
+        <source>Trackers</source>
+        <translation>Rastrejadors</translation>
     </message>
 </context>
 <context>
@@ -2216,7 +2352,7 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
     </message>
     <message>
         <source>Limit share ratio...</source>
-        <translation>Límit de ràtio de compartició...</translation>
+        <translation>Limita la ràtio de compartició...</translation>
     </message>
     <message>
         <source>Limit upload rate...</source>
@@ -2252,11 +2388,11 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
     </message>
     <message>
         <source>Download first and last pieces first</source>
-        <translation>Baixa primer el primer i l'últim tros.</translation>
+        <translation>Baixa primer els trossos del principi i del final</translation>
     </message>
     <message>
         <source>Automatic Torrent Management</source>
-        <translation>Gestió automàtica dels torrents</translation>
+        <translation>Gestió automàtica del torrents</translation>
     </message>
     <message>
         <source>Category</source>
@@ -2488,6 +2624,10 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
         <comment>e.g: 10minutes</comment>
         <translation>%1m</translation>
     </message>
+    <message>
+        <source>%1y %2d</source>
+        <translation>%1y %2d</translation>
+    </message>
 </context>
 <context>
     <name>TorrentsController</name>
@@ -2576,6 +2716,14 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
     <message>
         <source>Everywhere</source>
         <translation>Arreu</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Avís</translation>
+    </message>
+    <message>
+        <source>Increase window width to display additional filters</source>
+        <translation>Augmenta l'amplada de la finestra per mostrar els filtres addicionals</translation>
     </message>
 </context>
 <context>
@@ -2866,6 +3014,380 @@ Si us plau, no useu cap caràcter especial al nom de la categoria.</translation>
     <message>
         <source>New name:</source>
         <translation>Nom nou:</translation>
+    </message>
+</context>
+<context>
+    <name>RSSWidget</name>
+    <message>
+        <source>Date: </source>
+        <translation>Data:</translation>
+    </message>
+    <message>
+        <source>Please choose a new name for this RSS feed</source>
+        <translation>Si us plau, trieu un nom nou per a aquest canal d'RSS.</translation>
+    </message>
+    <message>
+        <source>Please choose a folder name</source>
+        <translation>Si us plau, trieu un nom de carpeta.</translation>
+    </message>
+    <message>
+        <source>New feed name:</source>
+        <translation>Nom del canal nou:</translation>
+    </message>
+    <message>
+        <source>Update all</source>
+        <translation>Actualitza-ho tot</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Suprimeix</translation>
+    </message>
+    <message>
+        <source>RSS Downloader...</source>
+        <translation>Descarregador d'RSS...</translation>
+    </message>
+    <message>
+        <source>Mark items read</source>
+        <translation>Marca els elements llegits</translation>
+    </message>
+    <message>
+        <source>Update all feeds</source>
+        <translation>Actualitza tots els canals</translation>
+    </message>
+    <message>
+        <source>Copy feed URL</source>
+        <translation>Copia l'URL del canal</translation>
+    </message>
+    <message>
+        <source>Torrents: (double-click to download)</source>
+        <translation>Torrents: (clic doble per baixar-los)</translation>
+    </message>
+    <message>
+        <source>Open news URL</source>
+        <translation>Obre l'URL de notícies</translation>
+    </message>
+    <message>
+        <source>Rename...</source>
+        <translation>Canvia'n el nom...</translation>
+    </message>
+    <message>
+        <source>Feed URL:</source>
+        <translation>URL del canal:</translation>
+    </message>
+    <message>
+        <source>New folder...</source>
+        <translation>Carpeta nova...</translation>
+    </message>
+    <message>
+        <source>New subscription</source>
+        <translation>Subscripció nova</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>Actualitza</translation>
+    </message>
+    <message>
+        <source>Folder name:</source>
+        <translation>Nom de la carpeta:</translation>
+    </message>
+    <message>
+        <source>Please type a RSS feed URL</source>
+        <translation>Si us plau, escriviu l'URL d'un canal d'RSS.</translation>
+    </message>
+    <message>
+        <source>Fetching of RSS feeds is disabled now! You can enable it in application settings.</source>
+        <translation>Ara l'obtenció de canals d'RSS està inhabilitada! Podeu habilitar-la als paràmetres de l'aplicació.</translation>
+    </message>
+    <message>
+        <source>Deletion confirmation</source>
+        <translation>Confirmació de supressió</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete the selected RSS feeds?</source>
+        <translation>Segur que voleu suprimir els canals d'RSS seleccionats?</translation>
+    </message>
+    <message>
+        <source>New subscription...</source>
+        <translation>Subscripció nova...</translation>
+    </message>
+    <message>
+        <source>Download torrent</source>
+        <translation>Baixa el torrent</translation>
+    </message>
+</context>
+<context>
+    <name>AutomatedRssDownloader</name>
+    <message>
+        <source>Download Rules</source>
+        <translation>Regles de baixada</translation>
+    </message>
+    <message>
+        <source>Matching RSS Articles</source>
+        <translation>Coincidència d'articles d'RSS</translation>
+    </message>
+    <message>
+        <source>* to match zero or more of any characters</source>
+        <translation>* per substituir o bé res o bé qualsevol altre nombre de caràcters.</translation>
+    </message>
+    <message>
+        <source> will match all articles.</source>
+        <translation>coincidirà amb tots els articles.</translation>
+    </message>
+    <message>
+        <source>Episode filter rules: </source>
+        <translation>Regles del filtre d'episodis:</translation>
+    </message>
+    <message>
+        <source>Auto downloading of RSS torrents is disabled now! You can enable it in application settings.</source>
+        <translation>Ara la baixada automàtica de torrents d'RSS està inhabilitada! Podeu habilitar-la als paràmetres de l'aplicació.</translation>
+    </message>
+    <message>
+        <source>Rule Definition</source>
+        <translation>Definició de regles</translation>
+    </message>
+    <message>
+        <source>Save to:</source>
+        <translation>Desa a:</translation>
+    </message>
+    <message>
+        <source>Use Regular Expressions</source>
+        <translation>Usa expressions regulars</translation>
+    </message>
+    <message>
+        <source>New rule name</source>
+        <translation>Nom de la regla nova</translation>
+    </message>
+    <message>
+        <source>Filter must end with semicolon</source>
+        <translation>El filtre ha d'acabar en punt i coma.</translation>
+    </message>
+    <message>
+        <source>? to match any single character</source>
+        <translation>? per substituir qualsevol caràcter simple</translation>
+    </message>
+    <message>
+        <source>Matches articles based on episode filter.</source>
+        <translation>Articles coincidents amb el filtre d'episodis.</translation>
+    </message>
+    <message>
+        <source>Assign Category:</source>
+        <translation>Assigna la categoria:</translation>
+    </message>
+    <message>
+        <source>Regex mode: use Perl-compatible regular expressions</source>
+        <translation>Mode d'expressió regular: usa expressions regulars compatibles amb Perl.</translation>
+    </message>
+    <message>
+        <source>| is used as OR operator</source>
+        <translation>| s'usa com a operador d'OR</translation>
+    </message>
+    <message>
+        <source>Clear downloaded episodes</source>
+        <translation>Neteja els episodis baixats</translation>
+    </message>
+    <message>
+        <source>Whitespaces count as AND operators (all words, any order)</source>
+        <translation>Els espais en blanc compten com a operadors I (totes les paraules, en qualsevol ordre)</translation>
+    </message>
+    <message>
+        <source>An expression with an empty %1 clause (e.g. %2)</source>
+        <translation>Una expressió amb una subordinada %1 buida (p. e. %2)</translation>
+    </message>
+    <message>
+        <source>Example: </source>
+        <translation>Exemple:</translation>
+    </message>
+    <message>
+        <source>Add new rule...</source>
+        <translation>Afegeix una regla nova...</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to clear the list of downloaded episodes for the selected rule?</source>
+        <translation>Segur que voleu netejar la llista d'episodis baixats per a la regla seleccionada?</translation>
+    </message>
+    <message>
+        <source>Must Contain:</source>
+        <translation>Ha de contenir:</translation>
+    </message>
+    <message>
+        <source>Infinite range: &lt;b&gt;1x25-;&lt;/b&gt; matches episodes 25 and upward of season one, and all episodes of later seasons</source>
+        <translation>Interval infinit: &lt;b&gt;1x25-;&lt;/b&gt; coincideix amb 25 episodis i més enllà de la primera temporada, i tots els episodis de les darreres temporades.</translation>
+    </message>
+    <message>
+        <source>Save to a Different Directory</source>
+        <translation>Desa en un directori diferent</translation>
+    </message>
+    <message>
+        <source>Must Not Contain:</source>
+        <translation>No ha de contenir:</translation>
+    </message>
+    <message>
+        <source>Single number: &lt;b&gt;1x25;&lt;/b&gt; matches episode 25 of season one</source>
+        <translation>Un únic número: &lt;b&gt;1x25;&lt;b&gt; coincideix amb l'episodi 25 de la temporada u.</translation>
+    </message>
+    <message>
+        <source>Three range types for episodes are supported: </source>
+        <translation>S'admeten tres tipus d'intervals per als episodis:</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove the selected download rules?</source>
+        <translation>Segur que voleu suprimir les regles de baixada seleccionades?</translation>
+    </message>
+    <message>
+        <source>Use global settings</source>
+        <translation>Usa la configuració global</translation>
+    </message>
+    <message>
+        <source>Normal range: &lt;b&gt;1x25-40;&lt;/b&gt; matches episodes 25 through 40 of season one</source>
+        <translation>Interval normal: &lt;b&gt;1x25-40;&lt;b&gt; coincideix de l'episodi 25 al 40 de la primera temporada.</translation>
+    </message>
+    <message>
+        <source>Please type the new rule name</source>
+        <translation>Si us plau, escriviu el nom de la regla nova.</translation>
+    </message>
+    <message>
+        <source>Rule renaming</source>
+        <translation>Canvi de nom de la regla</translation>
+    </message>
+    <message>
+        <source>Always</source>
+        <translation>Sempre</translation>
+    </message>
+    <message>
+        <source>Episode number is a mandatory positive value</source>
+        <translation>El número d'episodi ha de ser un valor positiu.</translation>
+    </message>
+    <message>
+        <source> will match 2, 5, 8 through 15, 30 and onward episodes of season one</source>
+        <translation>emparellarà 2, 5 i 8 a través del 15 i 30 i els episodis següents de la primera temporada</translation>
+    </message>
+    <message>
+        <source>Rule deletion confirmation</source>
+        <translation>Confirmació de supressió de la regla</translation>
+    </message>
+    <message>
+        <source>Last Match: %1 days ago</source>
+        <translation>Darrera coincidència: fa %1 dies</translation>
+    </message>
+    <message>
+        <source>Episode Filter:</source>
+        <translation>Filtre d'episodis:</translation>
+    </message>
+    <message>
+        <source>Rss Downloader</source>
+        <translation>Descarregador d'RSS</translation>
+    </message>
+    <message>
+        <source>Season number is a mandatory non-zero value</source>
+        <translation>El número de temporada ha de ser un valor diferent de zero.</translation>
+    </message>
+    <message>
+        <source>Never</source>
+        <translation>Mai</translation>
+    </message>
+    <message>
+        <source>Apply Rule to Feeds:</source>
+        <translation>Aplica la regla als canals:</translation>
+    </message>
+    <message>
+        <source> days</source>
+        <translation>dies</translation>
+    </message>
+    <message>
+        <source>Use Smart Episode Filter</source>
+        <translation>Usa el filtre d'episodis intel·ligent</translation>
+    </message>
+    <message>
+        <source>If word order is important use * instead of whitespace.</source>
+        <translation>Si l'ordre de paraules és important, useu * en comptes de l'espai en blanc.</translation>
+    </message>
+    <message>
+        <source>Add Paused:</source>
+        <translation>Afegeix en pausa:</translation>
+    </message>
+    <message>
+        <source>Please type the name of the new download rule.</source>
+        <translation>Si us plau, escriviu el nom de la regla de baixada nova.</translation>
+    </message>
+    <message>
+        <source>Wildcard mode: you can use</source>
+        <translation>Mode de comodí: podeu usar</translation>
+    </message>
+    <message>
+        <source> will exclude all articles.</source>
+        <translation>exclourà tots els articles.</translation>
+    </message>
+    <message>
+        <source>Delete rule</source>
+        <translation>Suprimeix la regla</translation>
+    </message>
+    <message>
+        <source>Ignore Subsequent Matches for (0 to Disable)</source>
+        <translation>Ignora les coincidències subsegüents per a (0 per inhabilitar-ho)</translation>
+    </message>
+    <message>
+        <source>Rename rule...</source>
+        <translation>Canvia el nom de la regla...</translation>
+    </message>
+    <message>
+        <source>Last Match: Unknown</source>
+        <translation>Darrera coincidència: desconeguda</translation>
+    </message>
+    <message>
+        <source>Clear downloaded episodes...</source>
+        <translation>Neteja els episodis baixats...</translation>
+    </message>
+    <message>
+        <source>Smart Episode Filter will check the episode number to prevent downloading of duplicates.
+Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also support - as a separator)</source>
+        <translation>El filtre d'episodis intel·ligent comprovarà el número d'episodi per evitar de baixar-ne de duplicats.
+Admet els formats S01E01, 1x1, 2017.12.31 i 31.12.2017 (Els formats de data també admeten - com a separador.)</translation>
+    </message>
+    <message>
+        <source>Torrent content layout:</source>
+        <translation>Disposició del contingut del torrent:</translation>
+    </message>
+    <message>
+        <source>Create subfolder</source>
+        <translation>Crea una subcarpeta</translation>
+    </message>
+    <message>
+        <source>Original</source>
+        <translation>Original</translation>
+    </message>
+    <message>
+        <source>Don't create subfolder</source>
+        <translation>No creïs una subcarpeta</translation>
+    </message>
+</context>
+<context>
+    <name>TrackerFiltersList</name>
+    <message>
+        <source>Delete torrents</source>
+        <translation>Suprimeix els torrents</translation>
+    </message>
+    <message>
+        <source>Resume torrents</source>
+        <translation>Reprèn els torrents</translation>
+    </message>
+    <message>
+        <source>All (%1)</source>
+        <translation>Tots (%1)</translation>
+    </message>
+    <message>
+        <source>Trackerless (%1)</source>
+        <translation>Sense rastrejadors (%1)</translation>
+    </message>
+    <message>
+        <source>Pause torrents</source>
+        <translation>Interromp els torrents</translation>
+    </message>
+</context>
+<context>
+    <name>FeedListWidget</name>
+    <message>
+        <source>RSS feeds</source>
+        <translation>Canals d'RSS</translation>
     </message>
 </context>
 </TS>

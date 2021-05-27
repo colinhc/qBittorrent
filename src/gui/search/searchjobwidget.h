@@ -40,11 +40,10 @@ class QStandardItemModel;
 
 class LineEdit;
 class SearchHandler;
-class SearchListDelegate;
 class SearchSortModel;
 struct SearchResult;
 
-template <typename T> class CachedSettingValue;
+template <typename T> class SettingValue;
 
 namespace Ui
 {
@@ -118,13 +117,12 @@ private:
     void copyField(int column) const;
 
     static QString statusText(Status st);
-    static CachedSettingValue<NameFilteringMode> &nameFilteringModeSetting();
+    static SettingValue<NameFilteringMode> &nameFilteringModeSetting();
 
     Ui::SearchJobWidget *m_ui;
     SearchHandler *m_searchHandler;
     QStandardItemModel *m_searchListModel;
     SearchSortModel *m_proxyModel;
-    SearchListDelegate *m_searchDelegate;
     LineEdit *m_lineEditSearchResultsFilter;
     Status m_status = Status::Ongoing;
     bool m_noSearchResults = true;

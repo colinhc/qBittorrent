@@ -11,7 +11,7 @@
         'use strict';
 
         window.addEvent('domready', () => {
-            const rules = decodeURIComponent(new URI().getData('rules')).split('|');
+            const rules = new URI().getData('rules').split('|');
 
             $('cancelBtn').focus();
             $('cancelBtn').addEvent('click', (e) => {
@@ -23,11 +23,11 @@
                 let completionCount = 0;
                 rules.forEach((rule) => {
                     new Request({
-                        url: '/api/v2/rss/removeRule',
+                        url: 'api/v2/rss/removeRule',
                         noCache: true,
                         method: 'post',
                         data: {
-                            ruleName: rule
+                            ruleName: decodeURIComponent(rule)
                         },
                         onComplete: (response) => {
                             ++completionCount;

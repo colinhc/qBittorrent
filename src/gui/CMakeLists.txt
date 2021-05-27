@@ -1,6 +1,3 @@
-set(CMAKE_AUTORCC True)
-set(CMAKE_AUTOUIC True)
-
 add_library(qbt_gui STATIC
     # headers
     aboutdialog.h
@@ -29,8 +26,8 @@ add_library(qbt_gui STATIC
     powermanagement/powermanagement.h
     previewlistdelegate.h
     previewselectdialog.h
+    progressbarpainter.h
     properties/downloadedpiecesbar.h
-    properties/peerlistdelegate.h
     properties/peerlistsortmodel.h
     properties/peerlistwidget.h
     properties/peersadditiondialog.h
@@ -49,11 +46,9 @@ add_library(qbt_gui STATIC
     rss/feedlistwidget.h
     rss/htmlbrowser.h
     rss/rsswidget.h
-    scanfoldersdelegate.h
     search/pluginselectdialog.h
     search/pluginsourcedialog.h
     search/searchjobwidget.h
-    search/searchlistdelegate.h
     search/searchsortmodel.h
     search/searchwidget.h
     shutdownconfirmdialog.h
@@ -71,6 +66,7 @@ add_library(qbt_gui STATIC
     torrentcontentmodelitem.h
     torrentcontenttreeview.h
     torrentcreatordialog.h
+    torrentoptionsdialog.h
     trackerentriesdialog.h
     transferlistdelegate.h
     transferlistfilterswidget.h
@@ -80,9 +76,10 @@ add_library(qbt_gui STATIC
     tristateaction.h
     tristatewidget.h
     uithememanager.h
-    updownratiodialog.h
     utils.h
-    
+    watchedfolderoptionsdialog.h
+    watchedfoldersmodel.h
+
     # sources
     aboutdialog.cpp
     addnewtorrentdialog.cpp
@@ -110,8 +107,8 @@ add_library(qbt_gui STATIC
     powermanagement/powermanagement.cpp
     previewlistdelegate.cpp
     previewselectdialog.cpp
+    progressbarpainter.cpp
     properties/downloadedpiecesbar.cpp
-    properties/peerlistdelegate.cpp
     properties/peerlistsortmodel.cpp
     properties/peerlistwidget.cpp
     properties/peersadditiondialog.cpp
@@ -130,11 +127,9 @@ add_library(qbt_gui STATIC
     rss/feedlistwidget.cpp
     rss/htmlbrowser.cpp
     rss/rsswidget.cpp
-    scanfoldersdelegate.cpp
     search/pluginselectdialog.cpp
     search/pluginsourcedialog.cpp
     search/searchjobwidget.cpp
-    search/searchlistdelegate.cpp
     search/searchsortmodel.cpp
     search/searchwidget.cpp
     shutdownconfirmdialog.cpp
@@ -152,6 +147,7 @@ add_library(qbt_gui STATIC
     torrentcontentmodelitem.cpp
     torrentcontenttreeview.cpp
     torrentcreatordialog.cpp
+    torrentoptionsdialog.cpp
     trackerentriesdialog.cpp
     transferlistdelegate.cpp
     transferlistfilterswidget.cpp
@@ -161,8 +157,9 @@ add_library(qbt_gui STATIC
     tristateaction.cpp
     tristatewidget.cpp
     uithememanager.cpp
-    updownratiodialog.cpp
     utils.cpp
+    watchedfolderoptionsdialog.cpp
+    watchedfoldersmodel.cpp
 
     # forms
     aboutdialog.ui
@@ -184,41 +181,19 @@ add_library(qbt_gui STATIC
     rss/rsswidget.ui
     search/pluginselectdialog.ui
     search/pluginsourcedialog.ui
+    search/searchjobwidget.ui
     search/searchwidget.ui
     shutdownconfirmdialog.ui
     speedlimitdialog.ui
     statsdialog.ui
     torrentcategorydialog.ui
     torrentcreatordialog.ui
+    torrentoptionsdialog.ui
     trackerentriesdialog.ui
-    updownratiodialog.ui
-
-    # resources
-    about.qrc
+    watchedfolderoptionsdialog.ui
 )
 
-if (WIN32 OR APPLE)
-    target_sources(qbt_gui PRIVATE programupdater.h programupdater.cpp)
-endif()
-
-if (UNIX AND Qt5DBus_FOUND)
-    target_link_libraries(qbt_gui PRIVATE Qt5::DBus)
-
-    target_sources(qbt_gui PRIVATE
-        qtnotify/notifications.h
-        qtnotify/notifications.cpp
-    )
-
-    find_package(X11)
-    if (X11_FOUND)
-        target_sources(qbt_gui PRIVATE
-            powermanagement/powermanagement_x11.h
-            powermanagement/powermanagement_x11.cpp
-        )
-    endif()
-endif()
-
-target_include_directories(qbt_gui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_sources(qbt_gui INTERFACE about.qrc)
 
 target_link_libraries(qbt_gui
     PRIVATE
@@ -227,13 +202,35 @@ target_link_libraries(qbt_gui
         Qt5::Gui Qt5::Widgets
 )
 
-if (APPLE)
-    target_sources(qbt_gui PRIVATE macutilities.h macutilities.mm)
-    find_package(Qt5 ${requiredQtVersion} REQUIRED COMPONENTS MacExtras)
-    target_link_libraries(qbt_gui PRIVATE Qt5::MacExtras objc)
+if (DBUS)
+    target_sources(qbt_gui PRIVATE
+        qtnotify/notifications.h
+        qtnotify/notifications.cpp
+        powermanagement/powermanagement_x11.h
+        powermanagement/powermanagement_x11.cpp
+    )
 endif()
 
-if (WIN32)
-    find_package(Qt5 ${requiredQtVersion} REQUIRED COMPONENTS WinExtras)
-    target_link_libraries(qbt_gui PRIVATE Qt5::WinExtras PowrProf)
+if ((CMAKE_SYSTEM_NAME STREQUAL "Windows") OR (CMAKE_SYSTEM_NAME STREQUAL "Darwin"))
+    target_sources(qbt_gui PRIVATE
+        programupdater.h
+        programupdater.cpp
+    )
+endif()
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_link_libraries(qbt_gui PRIVATE
+        Qt5::WinExtras
+        PowrProf
+    )
+endif()
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    target_sources(qbt_gui PRIVATE
+        macutilities.h
+        macutilities.mm
+    )
+    target_link_libraries(qbt_gui PRIVATE
+        objc
+    )
 endif()

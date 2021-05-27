@@ -50,12 +50,14 @@
 #include "base/preferences.h"
 #include "base/rss/rss_autodownloader.h"
 #include "base/rss/rss_session.h"
-#include "base/scanfoldersmodel.h"
 #include "base/torrentfileguard.h"
+#include "base/torrentfileswatcher.h"
 #include "base/utils/fs.h"
 #include "base/utils/misc.h"
 #include "base/utils/net.h"
 #include "base/utils/password.h"
+#include "base/utils/string.h"
+#include "base/version.h"
 #include "../webapplication.h"
 
 void AppController::webapiVersionAction()
@@ -70,7 +72,8 @@ void AppController::versionAction()
 
 void AppController::buildInfoAction()
 {
-    const QJsonObject versions = {
+    const QJsonObject versions =
+    {
         {"qt", QT_VERSION_STR},
         {"libtorrent", Utils::Misc::libtorrentVersionString()},
         {"boost", Utils::Misc::boostVersionString()},
@@ -99,7 +102,7 @@ void AppController::preferencesAction()
 
     // Downloads
     // When adding a torrent
-    data["create_subfolder_enabled"] = session->isKeepTorrentTopLevelFolder();
+    data["torrent_content_layout"] = Utils::String::fromEnum(session->torrentContentLayout());
     data["start_paused_enabled"] = session->isAddTorrentPaused();
     data["auto_delete_mode"] = static_cast<int>(TorrentFileGuard::autoDeleteMode());
     data["preallocate_all"] = session->isPreallocationEnabled();
@@ -114,16 +117,26 @@ void AppController::preferencesAction()
     data["temp_path"] = Utils::Fs::toNativePath(session->tempPath());
     data["export_dir"] = Utils::Fs::toNativePath(session->torrentExportDirectory());
     data["export_dir_fin"] = Utils::Fs::toNativePath(session->finishedTorrentExportDirectory());
-    // Automatically add torrents from
-    const QVariantHash dirs = pref->getScanDirs();
+
+    // TODO: The following code is deprecated. Delete it once replaced by updated API method.
+    // === BEGIN DEPRECATED CODE === //
+    TorrentFilesWatcher *fsWatcher = TorrentFilesWatcher::instance();
+    const QHash<QString, TorrentFilesWatcher::WatchedFolderOptions> watchedFolders = fsWatcher->folders();
     QJsonObject nativeDirs;
-    for (auto i = dirs.cbegin(); i != dirs.cend(); ++i) {
-        if (i.value().type() == QVariant::Int)
-            nativeDirs.insert(Utils::Fs::toNativePath(i.key()), i.value().toInt());
+    for (auto i = watchedFolders.cbegin(); i != watchedFolders.cend(); ++i)
+    {
+        const QString watchedFolder = i.key();
+        const BitTorrent::AddTorrentParams params = i.value().addTorrentParams;
+        if (params.savePath.isEmpty())
+            nativeDirs.insert(Utils::Fs::toNativePath(watchedFolder), 1);
+        else if (params.savePath == watchedFolder)
+            nativeDirs.insert(Utils::Fs::toNativePath(watchedFolder), 0);
         else
-            nativeDirs.insert(Utils::Fs::toNativePath(i.key()), Utils::Fs::toNativePath(i.value().toString()));
+            nativeDirs.insert(Utils::Fs::toNativePath(watchedFolder), Utils::Fs::toNativePath(params.savePath));
     }
     data["scan_dirs"] = nativeDirs;
+    // === END DEPRECATED CODE === //
+
     // Email notification upon download completion
     data["mail_notification_enabled"] = pref->isMailNotificationEnabled();
     data["mail_notification_sender"] = pref->getMailNotificationSender();
@@ -254,7 +267,7 @@ void AppController::preferencesAction()
     data["dyndns_domain"] = pref->getDynDomainName();
 
     // RSS settings
-    data["rss_refresh_interval"] = static_cast<double>(RSS::Session::instance()->refreshInterval());
+    data["rss_refresh_interval"] = RSS::Session::instance()->refreshInterval();
     data["rss_max_articles_per_feed"] = RSS::Session::instance()->maxArticlesPerFeed();
     data["rss_processing_enabled"] = RSS::Session::instance()->isProcessingEnabled();
     data["rss_auto_downloading_enabled"] = RSS::AutoDownloader::instance()->isProcessingEnabled();
@@ -268,15 +281,19 @@ void AppController::preferencesAction()
     // Current network interface address
     data["current_interface_address"] = BitTorrent::Session::instance()->networkInterfaceAddress();
     // Save resume data interval
-    data["save_resume_data_interval"] = static_cast<double>(session->saveResumeDataInterval());
+    data["save_resume_data_interval"] = session->saveResumeDataInterval();
     // Recheck completed torrents
     data["recheck_completed_torrents"] = pref->recheckTorrentsOnCompletion();
     // Resolve peer countries
     data["resolve_peer_countries"] = pref->resolvePeerCountries();
+    // Reannounce to all trackers when ip/port changed
+    data["reannounce_when_address_changed"] = session->isReannounceWhenAddressChangedEnabled();
 
     // libtorrent preferences
     // Async IO threads
     data["async_io_threads"] = session->asyncIOThreads();
+    // Hashing threads
+    data["hashing_threads"] = session->hashingThreads();
     // File pool size
     data["file_pool_size"] = session->filePoolSize();
     // Checking memory usage
@@ -296,6 +313,8 @@ void AppController::preferencesAction()
     data["send_buffer_watermark"] = session->sendBufferWatermark();
     data["send_buffer_low_watermark"] = session->sendBufferLowWatermark();
     data["send_buffer_watermark_factor"] = session->sendBufferWatermarkFactor();
+    // Outgoing connections per second
+    data["connection_speed"] = session->connectionSpeed();
     // Socket listen backlog size
     data["socket_backlog_size"] = session->socketBacklogSize();
     // Outgoing ports
@@ -303,12 +322,18 @@ void AppController::preferencesAction()
     data["outgoing_ports_max"] = session->outgoingPortsMax();
     // UPnP lease duration
     data["upnp_lease_duration"] = session->UPnPLeaseDuration();
+    // Type of service
+    data["peer_tos"] = session->peerToS();
     // uTP-TCP mixed mode
     data["utp_tcp_mixed_mode"] = static_cast<int>(session->utpMixedMode());
+    // Support internationalized domain name (IDN)
+    data["idn_support_enabled"] = session->isIDNSupportEnabled();
     // Multiple connections per IP
     data["enable_multi_connections_from_same_ip"] = session->multiConnectionsPerIpEnabled();
     // Validate HTTPS tracker certificate
     data["validate_https_tracker_certificate"] = session->validateHTTPSTrackerCertificate();
+    // Disallow connection to peers on privileged ports
+    data["block_peers_on_privileged_ports"] = session->blockPeersOnPrivilegedPorts();
     // Embedded tracker
     data["enable_embedded_tracker"] = session->isTrackerEnabled();
     data["embedded_tracker_port"] = pref->getTrackerPort();
@@ -320,8 +345,12 @@ void AppController::preferencesAction()
     data["announce_to_all_trackers"] = session->announceToAllTrackers();
     data["announce_to_all_tiers"] = session->announceToAllTiers();
     data["announce_ip"] = session->announceIP();
-    // Stop tracker timeout
+    data["max_concurrent_http_announces"] = session->maxConcurrentHTTPAnnounces();
     data["stop_tracker_timeout"] = session->stopTrackerTimeout();
+    // Peer Turnover
+    data["peer_turnover"] = session->peerTurnover();
+    data["peer_turnover_cutoff"] = session->peerTurnoverCutoff();
+    data["peer_turnover_interval"] = session->peerTurnoverInterval();
 
     setResult(data);
 }
@@ -343,8 +372,8 @@ void AppController::setPreferencesAction()
 
     // Downloads
     // When adding a torrent
-    if (hasKey("create_subfolder_enabled"))
-        session->setKeepTorrentTopLevelFolder(it.value().toBool());
+    if (hasKey("torrent_content_layout"))
+        session->setTorrentContentLayout(Utils::String::toEnum(it.value().toString(), BitTorrent::TorrentContentLayout::Original));
     if (hasKey("start_paused_enabled"))
         session->setAddTorrentPaused(it.value().toBool());
     if (hasKey("auto_delete_mode"))
@@ -374,50 +403,57 @@ void AppController::setPreferencesAction()
         session->setTorrentExportDirectory(it.value().toString());
     if (hasKey("export_dir_fin"))
         session->setFinishedTorrentExportDirectory(it.value().toString());
-    // Automatically add torrents from
-    if (hasKey("scan_dirs")) {
+
+    // TODO: The following code is deprecated. Delete it once replaced by updated API method.
+    // === BEGIN DEPRECATED CODE === //
+    if (hasKey("scan_dirs"))
+    {
+        QStringList scanDirs;
+        TorrentFilesWatcher *fsWatcher = TorrentFilesWatcher::instance();
+        const QStringList oldScanDirs = fsWatcher->folders().keys();
         const QVariantHash nativeDirs = it.value().toHash();
-        QVariantHash oldScanDirs = pref->getScanDirs();
-        QVariantHash scanDirs;
-        ScanFoldersModel *model = ScanFoldersModel::instance();
-        for (auto i = nativeDirs.cbegin(); i != nativeDirs.cend(); ++i) {
-            QString folder = Utils::Fs::toUniformPath(i.key());
-            int downloadType;
-            QString downloadPath;
-            ScanFoldersModel::PathStatus ec;
-            if (i.value().type() == QVariant::String) {
-                downloadType = ScanFoldersModel::CUSTOM_LOCATION;
-                downloadPath = Utils::Fs::toUniformPath(i.value().toString());
-            }
-            else {
-                downloadType = i.value().toInt();
-                downloadPath = (downloadType == ScanFoldersModel::DEFAULT_LOCATION) ? "Default folder" : "Watch folder";
-            }
+        for (auto i = nativeDirs.cbegin(); i != nativeDirs.cend(); ++i)
+        {
+            try
+            {
+                const QString watchedFolder = TorrentFilesWatcher::makeCleanPath(i.key());
+                TorrentFilesWatcher::WatchedFolderOptions options = fsWatcher->folders().value(watchedFolder);
+                BitTorrent::AddTorrentParams &params = options.addTorrentParams;
 
-            if (!oldScanDirs.contains(folder))
-                ec = model->addPath(folder, static_cast<ScanFoldersModel::PathType>(downloadType), downloadPath);
-            else
-                ec = model->updatePath(folder, static_cast<ScanFoldersModel::PathType>(downloadType), downloadPath);
+                bool isInt = false;
+                const int intVal = i.value().toInt(&isInt);
+                if (isInt)
+                {
+                    if (intVal == 0)
+                    {
+                        params.savePath = watchedFolder;
+                        params.useAutoTMM = false;
+                    }
+                }
+                else
+                {
+                    const QString customSavePath = i.value().toString();
+                    params.savePath = customSavePath;
+                    params.useAutoTMM = false;
+                }
 
-            if (ec == ScanFoldersModel::Ok) {
-                scanDirs.insert(folder, (downloadType == ScanFoldersModel::CUSTOM_LOCATION) ? QVariant(downloadPath) : QVariant(downloadType));
-                qDebug("New watched folder: %s to %s", qUtf8Printable(folder), qUtf8Printable(downloadPath));
+                fsWatcher->setWatchedFolder(watchedFolder, options);
+                scanDirs.append(watchedFolder);
             }
-            else {
-                qDebug("Watched folder %s failed with error %d", qUtf8Printable(folder), ec);
+            catch (...)
+            {
             }
         }
 
         // Update deleted folders
-        for (auto i = oldScanDirs.cbegin(); i != oldScanDirs.cend(); ++i) {
-            const QString &folder = i.key();
-            if (!scanDirs.contains(folder)) {
-                model->removePath(folder);
-                qDebug("Removed watched folder %s", qUtf8Printable(folder));
-            }
+        for (const QString &path : oldScanDirs)
+        {
+            if (!scanDirs.contains(path))
+                fsWatcher->removeWatchedFolder(path);
         }
-        pref->setScanDirs(scanDirs);
     }
+    // === END DEPRECATED CODE === //
+
     // Email notification upon download completion
     if (hasKey("mail_notification_enabled"))
         pref->setMailNotificationEnabled(it.value().toBool());
@@ -547,13 +583,15 @@ void AppController::setPreferencesAction()
     if (hasKey("slow_torrent_inactive_timer"))
         session->setSlowTorrentsInactivityTimer(it.value().toInt());
     // Share Ratio Limiting
-    if (hasKey("max_ratio_enabled")) {
+    if (hasKey("max_ratio_enabled"))
+    {
         if (it.value().toBool())
             session->setGlobalMaxRatio(m["max_ratio"].toReal());
         else
             session->setGlobalMaxRatio(-1);
     }
-    if (hasKey("max_seeding_time_enabled")) {
+    if (hasKey("max_seeding_time_enabled"))
+    {
         if (it.value().toBool())
             session->setGlobalMaxSeedingMinutes(m["max_seeding_time"].toInt());
         else
@@ -562,19 +600,25 @@ void AppController::setPreferencesAction()
     if (hasKey("max_ratio_act"))
         session->setMaxRatioAction(static_cast<MaxRatioAction>(it.value().toInt()));
     // Add trackers
-    session->setAddTrackersEnabled(m["add_trackers_enabled"].toBool());
-    session->setAdditionalTrackers(m["add_trackers"].toString());
+    if (hasKey("add_trackers_enabled"))
+        session->setAddTrackersEnabled(it.value().toBool());
+    if (hasKey("add_trackers"))
+        session->setAdditionalTrackers(it.value().toString());
 
     // Web UI
     // Language
-    if (hasKey("locale")) {
+    if (hasKey("locale"))
+    {
         QString locale = it.value().toString();
-        if (pref->getLocale() != locale) {
+        if (pref->getLocale() != locale)
+        {
             auto *translator = new QTranslator;
-            if (translator->load(QLatin1String(":/lang/qbittorrent_") + locale)) {
+            if (translator->load(QLatin1String(":/lang/qbittorrent_") + locale))
+            {
                 qDebug("%s locale recognized, using translation.", qUtf8Printable(locale));
             }
-            else {
+            else
+            {
                 qDebug("%s locale unrecognized, using default (en).", qUtf8Printable(locale));
             }
             qApp->installTranslator(translator);
@@ -606,7 +650,8 @@ void AppController::setPreferencesAction()
         pref->setWebUiLocalAuthEnabled(!it.value().toBool());
     if (hasKey("bypass_auth_subnet_whitelist_enabled"))
         pref->setWebUiAuthSubnetWhitelistEnabled(it.value().toBool());
-    if (hasKey("bypass_auth_subnet_whitelist")) {
+    if (hasKey("bypass_auth_subnet_whitelist"))
+    {
         // recognize new lines and commas as delimiters
         pref->setWebUiAuthSubnetWhitelist(it.value().toString().split(QRegularExpression("\n|,"), QString::SkipEmptyParts));
     }
@@ -648,7 +693,7 @@ void AppController::setPreferencesAction()
         pref->setDynDomainName(it.value().toString());
 
     if (hasKey("rss_refresh_interval"))
-        RSS::Session::instance()->setRefreshInterval(it.value().toUInt());
+        RSS::Session::instance()->setRefreshInterval(it.value().toInt());
     if (hasKey("rss_max_articles_per_feed"))
         RSS::Session::instance()->setMaxArticlesPerFeed(it.value().toInt());
     if (hasKey("rss_processing_enabled"))
@@ -663,7 +708,8 @@ void AppController::setPreferencesAction()
     // Advanced settings
     // qBittorrent preferences
     // Current network interface
-    if (hasKey("current_network_interface")) {
+    if (hasKey("current_network_interface"))
+    {
         const QString ifaceValue {it.value().toString()};
 
         const QList<QNetworkInterface> ifaces = QNetworkInterface::allInterfaces();
@@ -677,7 +723,8 @@ void AppController::setPreferencesAction()
         session->setNetworkInterfaceName(ifaceName);
     }
     // Current network interface address
-    if (hasKey("current_interface_address")) {
+    if (hasKey("current_interface_address"))
+    {
         const QHostAddress ifaceAddress {it.value().toString().trimmed()};
         session->setNetworkInterfaceAddress(ifaceAddress.isNull() ? QString {} : ifaceAddress.toString());
     }
@@ -690,11 +737,17 @@ void AppController::setPreferencesAction()
     // Resolve peer countries
     if (hasKey("resolve_peer_countries"))
         pref->resolvePeerCountries(it.value().toBool());
+    // Reannounce to all trackers when ip/port changed
+    if (hasKey("reannounce_when_address_changed"))
+        session->setReannounceWhenAddressChangedEnabled(it.value().toBool());
 
     // libtorrent preferences
     // Async IO threads
     if (hasKey("async_io_threads"))
         session->setAsyncIOThreads(it.value().toInt());
+    // Hashing threads
+    if (hasKey("hashing_threads"))
+        session->setHashingThreads(it.value().toInt());
     // File pool size
     if (hasKey("file_pool_size"))
         session->setFilePoolSize(it.value().toInt());
@@ -725,6 +778,9 @@ void AppController::setPreferencesAction()
         session->setSendBufferLowWatermark(it.value().toInt());
     if (hasKey("send_buffer_watermark_factor"))
         session->setSendBufferWatermarkFactor(it.value().toInt());
+    // Outgoing connections per second
+    if (hasKey("connection_speed"))
+        session->setConnectionSpeed(it.value().toInt());
     // Socket listen backlog size
     if (hasKey("socket_backlog_size"))
         session->setSocketBacklogSize(it.value().toInt());
@@ -736,15 +792,24 @@ void AppController::setPreferencesAction()
     // UPnP lease duration
     if (hasKey("upnp_lease_duration"))
         session->setUPnPLeaseDuration(it.value().toInt());
+    // Type of service
+    if (hasKey("peer_tos"))
+        session->setPeerToS(it.value().toInt());
     // uTP-TCP mixed mode
     if (hasKey("utp_tcp_mixed_mode"))
         session->setUtpMixedMode(static_cast<BitTorrent::MixedModeAlgorithm>(it.value().toInt()));
+    // Support internationalized domain name (IDN)
+    if (hasKey("idn_support_enabled"))
+        session->setIDNSupportEnabled(it.value().toBool());
     // Multiple connections per IP
     if (hasKey("enable_multi_connections_from_same_ip"))
         session->setMultiConnectionsPerIpEnabled(it.value().toBool());
     // Validate HTTPS tracker certificate
     if (hasKey("validate_https_tracker_certificate"))
         session->setValidateHTTPSTrackerCertificate(it.value().toBool());
+    // Disallow connection to peers on privileged ports
+    if (hasKey("block_peers_on_privileged_ports"))
+        session->setBlockPeersOnPrivilegedPorts(it.value().toBool());
     // Embedded tracker
     if (hasKey("embedded_tracker_port"))
         pref->setTrackerPort(it.value().toInt());
@@ -761,13 +826,22 @@ void AppController::setPreferencesAction()
         session->setAnnounceToAllTrackers(it.value().toBool());
     if (hasKey("announce_to_all_tiers"))
         session->setAnnounceToAllTiers(it.value().toBool());
-    if (hasKey("announce_ip")) {
+    if (hasKey("announce_ip"))
+    {
         const QHostAddress announceAddr {it.value().toString().trimmed()};
         session->setAnnounceIP(announceAddr.isNull() ? QString {} : announceAddr.toString());
     }
-    // Stop tracker timeout
+    if (hasKey("max_concurrent_http_announces"))
+        session->setMaxConcurrentHTTPAnnounces(it.value().toInt());
     if (hasKey("stop_tracker_timeout"))
         session->setStopTrackerTimeout(it.value().toInt());
+    // Peer Turnover
+    if (hasKey("peer_turnover"))
+        session->setPeerTurnover(it.value().toInt());
+    if (hasKey("peer_turnover_cutoff"))
+        session->setPeerTurnoverCutoff(it.value().toInt());
+    if (hasKey("peer_turnover_interval"))
+        session->setPeerTurnoverInterval(it.value().toInt());
 
     // Save preferences
     pref->apply();
@@ -781,9 +855,12 @@ void AppController::defaultSavePathAction()
 void AppController::networkInterfaceListAction()
 {
     QJsonArray ifaceList;
-    for (const QNetworkInterface &iface : asConst(QNetworkInterface::allInterfaces())) {
-        if (!iface.addressEntries().isEmpty()) {
-            ifaceList.append(QJsonObject {
+    for (const QNetworkInterface &iface : asConst(QNetworkInterface::allInterfaces()))
+    {
+        if (!iface.addressEntries().isEmpty())
+        {
+            ifaceList.append(QJsonObject
+            {
                 {"name", iface.humanReadableName()},
                 {"value", iface.name()}
             });
@@ -808,11 +885,13 @@ void AppController::networkInterfaceAddressListAction()
             addressList.append(addr.toString());
     };
 
-    if (ifaceName.isEmpty()) {
+    if (ifaceName.isEmpty())
+    {
         for (const QHostAddress &addr : asConst(QNetworkInterface::allAddresses()))
             appendAddress(addr);
     }
-    else {
+    else
+    {
         const QNetworkInterface iface = QNetworkInterface::interfaceFromName(ifaceName);
         for (const QNetworkAddressEntry &entry : asConst(iface.addressEntries()))
             appendAddress(entry.ip());

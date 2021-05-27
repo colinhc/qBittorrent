@@ -26,28 +26,28 @@
  * exception statement from your version.
  */
 
-#ifndef BITTORRENT_TORRENTINFO_H
-#define BITTORRENT_TORRENTINFO_H
+#pragma once
 
 #include <libtorrent/torrent_info.hpp>
 
 #include <QCoreApplication>
-#include <QVector>
+#include <QtContainerFwd>
 
 #include "base/indexrange.h"
+#include "abstractfilestorage.h"
+#include "torrentcontentlayout.h"
 
 class QByteArray;
 class QDateTime;
 class QString;
-class QStringList;
 class QUrl;
 
 namespace BitTorrent
 {
     class InfoHash;
-    class TrackerEntry;
+    struct TrackerEntry;
 
-    class TorrentInfo
+    class TorrentInfo final : public AbstractFileStorage
     {
         Q_DECLARE_TR_FUNCTIONS(TorrentInfo)
 
@@ -62,22 +62,22 @@ namespace BitTorrent
         TorrentInfo &operator=(const TorrentInfo &other);
 
         bool isValid() const;
-        InfoHash hash() const;
+        InfoHash infoHash() const;
         QString name() const;
         QDateTime creationDate() const;
         QString creator() const;
         QString comment() const;
         bool isPrivate() const;
         qlonglong totalSize() const;
-        int filesCount() const;
+        int filesCount() const override;
         int pieceLength() const;
         int pieceLength(int index) const;
         int piecesCount() const;
-        QString filePath(int index) const;
+        QString filePath(int index) const override;
         QStringList filePaths() const;
-        QString fileName(int index) const;
+        QString fileName(int index) const override;
         QString origFilePath(int index) const;
-        qlonglong fileSize(int index) const;
+        qlonglong fileSize(int index) const override;
         qlonglong fileOffset(int index) const;
         QVector<TrackerEntry> trackers() const;
         QVector<QUrl> urlSeeds() const;
@@ -92,19 +92,23 @@ namespace BitTorrent
         PieceRange filePieces(const QString &file) const;
         PieceRange filePieces(int fileIndex) const;
 
-        void renameFile(int index, const QString &newPath);
+        void renameFile(int index, const QString &newPath) override;
 
         QString rootFolder() const;
         bool hasRootFolder() const;
-        void stripRootFolder();
+        void setContentLayout(TorrentContentLayout layout);
 
         std::shared_ptr<lt::torrent_info> nativeInfo() const;
 
     private:
         // returns file index or -1 if fileName is not found
         int fileIndex(const QString &fileName) const;
+        void stripRootFolder();
+        void addRootFolder();
+        TorrentContentLayout defaultContentLayout() const;
+
         std::shared_ptr<lt::torrent_info> m_nativeInfo;
     };
 }
 
-#endif // BITTORRENT_TORRENTINFO_H
+Q_DECLARE_METATYPE(BitTorrent::TorrentInfo)

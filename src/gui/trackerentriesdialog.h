@@ -29,13 +29,13 @@
 #pragma once
 
 #include <QDialog>
-#include <QVector>
+#include <QtContainerFwd>
 
 #include "base/settingvalue.h"
 
 namespace BitTorrent
 {
-    class TrackerEntry;
+    struct TrackerEntry;
 }
 
 namespace Ui
@@ -60,5 +60,5 @@ private:
     void loadSettings();
 
     Ui::TrackerEntriesDialog *m_ui;
-    CachedSettingValue<QSize> m_storeDialogSize;
+    SettingValue<QSize> m_storeDialogSize;
 };
