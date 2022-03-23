@@ -28,14 +28,12 @@
 
 #pragma once
 
-#include <libtorrent/version.hpp>
-
 #include <QStringList>
 #include <QThread>
 
 namespace BitTorrent
 {
-#if (LIBTORRENT_VERSION_NUM >= 20000)
+#ifdef QBT_USES_LIBTORRENT2
     enum class TorrentFormat
     {
         V1,
@@ -47,7 +45,7 @@ namespace BitTorrent
     struct TorrentCreatorParams
     {
         bool isPrivate;
-#if (LIBTORRENT_VERSION_NUM >= 20000)
+#ifdef QBT_USES_LIBTORRENT2
         TorrentFormat torrentFormat;
 #else
         bool isAlignmentOptimized;
@@ -65,22 +63,20 @@ namespace BitTorrent
     class TorrentCreatorThread final : public QThread
     {
         Q_OBJECT
+        Q_DISABLE_COPY_MOVE(TorrentCreatorThread)
 
     public:
-        TorrentCreatorThread(QObject *parent = nullptr);
-        ~TorrentCreatorThread();
+        explicit TorrentCreatorThread(QObject *parent = nullptr);
+        ~TorrentCreatorThread() override;
 
         void create(const TorrentCreatorParams &params);
 
-#if (LIBTORRENT_VERSION_NUM >= 20000)
+#ifdef QBT_USES_LIBTORRENT2
         static int calculateTotalPieces(const QString &inputPath, const int pieceSize, const TorrentFormat torrentFormat);
 #else
         static int calculateTotalPieces(const QString &inputPath
             , const int pieceSize, const bool isAlignmentOptimized, int paddedFileSizeLimit);
 #endif
-
-    protected:
-        void run() override;
 
     signals:
         void creationFailure(const QString &msg);
@@ -88,7 +84,9 @@ namespace BitTorrent
         void updateProgress(int progress);
 
     private:
+        void run() override;
         void sendProgressSignal(int currentPieceIdx, int totalPieces);
+        void checkInterruptionRequested() const;
 
         TorrentCreatorParams m_params;
     };

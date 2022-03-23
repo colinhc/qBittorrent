@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2019  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2019, 2021  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,31 +28,25 @@
 
 #pragma once
 
-#include <type_traits>
+#include <libtorrent/download_priority.hpp>
 
-template <typename T, typename = void>
-struct HasUnderlyingType
-    : std::false_type
+#include "downloadpriority.h"
+
+namespace BitTorrent::LT
 {
-};
+    template <typename T>
+    constexpr typename T::underlying_type toUnderlyingType(const T &t) noexcept
+    {
+        return static_cast<typename T::underlying_type>(t);
+    }
 
-template <typename T>
-struct HasUnderlyingType<T, std::void_t<typename T::underlying_type>>
-    : std::true_type
-{
-};
+    constexpr lt::download_priority_t toNative(const DownloadPriority priority) noexcept
+    {
+        return static_cast<lt::download_priority_t>(static_cast<lt::download_priority_t::underlying_type>(priority));
+    }
 
-template <typename T, typename = void>
-struct LTUnderlying
-{
-    using type = T;
-};
-
-template <typename T>
-struct LTUnderlying<T, typename std::enable_if_t<HasUnderlyingType<T>::value>>
-{
-    using type = typename T::underlying_type;
-};
-
-template <typename T>
-using LTUnderlyingType = typename LTUnderlying<T>::type;
+    constexpr DownloadPriority fromNative(const lt::download_priority_t priority) noexcept
+    {
+        return static_cast<DownloadPriority>(toUnderlyingType(priority));
+    }
+}

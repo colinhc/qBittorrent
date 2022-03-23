@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS language="pt" version="2.1">
+<TS version="2.1" language="pt">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -144,10 +144,6 @@
         <translation>Não foi possível guardar as preferências, o qBittorrent está provavelmente inacessível.</translation>
     </message>
     <message>
-        <source>IRC: #qbittorrent on Freenode</source>
-        <translation>IRC: #qbittorrent no Freenode</translation>
-    </message>
-    <message>
         <source>Unknown</source>
         <translation>Desconhecido(a)</translation>
     </message>
@@ -158,10 +154,6 @@
     <message>
         <source>Seeding time limit must be between 0 and 525600 minutes.</source>
         <translation>O limite do tempo a semear deverá estar localizado entre os 0 e os 525600 minutos.</translation>
-    </message>
-    <message>
-        <source>The port used for incoming connections must be between 1 and 65535.</source>
-        <translation>A porta utilizada para as receções tem que estar compreendida entre 1 e 65535.</translation>
     </message>
     <message>
         <source>The port used for the Web UI must be between 1 and 65535.</source>
@@ -188,10 +180,6 @@
         <translation>Iniciar sessão</translation>
     </message>
     <message>
-        <source>Original authors</source>
-        <translation>Autores originais</translation>
-    </message>
-    <message>
         <source>Apply</source>
         <translation>Aplicar</translation>
     </message>
@@ -211,10 +199,6 @@
     <message>
         <source>Cookie:</source>
         <translation>Cookie:</translation>
-    </message>
-    <message>
-        <source>Type folder here</source>
-        <translation type="vanished">Escreva aqui a pasta</translation>
     </message>
     <message>
         <source>More information</source>
@@ -239,11 +223,6 @@
     <message>
         <source>Rename torrent</source>
         <translation>Renomear torrent</translation>
-    </message>
-    <message>
-        <source>Other...</source>
-        <comment>Save Files to: Watch Folder / Default Folder / Other...</comment>
-        <translation type="vanished">Outro...</translation>
     </message>
     <message>
         <source>Monday</source>
@@ -354,7 +333,7 @@
     </message>
     <message>
         <source>Unable to add peers. Please ensure you are adhering to the IP:port format.</source>
-        <translation>impossível adicionar sementes. Por favor, asseegure-se que aderiu ao IP:formato de porta.</translation>
+        <translation>impossível adicionar fontes. Asseegure-se que aderiu ao IP:formato de porta.</translation>
     </message>
     <message>
         <source>JavaScript Required! You must enable JavaScript for the Web UI to work properly</source>
@@ -375,6 +354,14 @@
     <message>
         <source>OK</source>
         <translation>Aceitar</translation>
+    </message>
+    <message>
+        <source>The port used for incoming connections must be between 0 and 65535.</source>
+        <translation>A porta utilizada para as ligações de receção tem que estar entre 0 e 65535.</translation>
+    </message>
+    <message>
+        <source>Original author</source>
+        <translation>Autor original</translation>
     </message>
 </context>
 <context>
@@ -732,10 +719,6 @@
         <translation>Utilizar o reencaminhamento de portas UPnP/NAT-PMP do meu router</translation>
     </message>
     <message>
-        <source>Use different port on each startup</source>
-        <translation>Utilizar uma porta diferente a cada arranque</translation>
-    </message>
-    <message>
         <source>Connections Limits</source>
         <translation>Limites das ligações</translation>
     </message>
@@ -970,10 +953,6 @@
         <translation>%T: Tracker atual</translation>
     </message>
     <message>
-        <source>%I: Info hash</source>
-        <translation>%I: Info hash</translation>
-    </message>
-    <message>
         <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., "%N")</source>
         <translation>Dica: Encapsule o parâmetro entre aspas para evitar que sejam cortados os espaços em branco do texto (ex: "%N")</translation>
     </message>
@@ -1202,10 +1181,6 @@
         <translation>Portas de envio (Mín.) [0: Inativa]:</translation>
     </message>
     <message>
-        <source>IP Address to report to trackers (requires restart):</source>
-        <translation>Endereço IP para reportar aos trackers (necessita de reiniciar):</translation>
-    </message>
-    <message>
         <source>Recheck torrents on completion:</source>
         <translation>Verificar torrents ao terminar:</translation>
     </message>
@@ -1407,7 +1382,7 @@
     </message>
     <message>
         <source>Disallow connection to peers on privileged ports:</source>
-        <translation>Não permitir ligação com pares em portas privilegiadas:</translation>
+        <translation>Não permitir ligação com fontes em portas privilegiadas:</translation>
     </message>
     <message>
         <source>Enable auto downloading of RSS torrents</source>
@@ -1455,7 +1430,51 @@
     </message>
     <message>
         <source>Type of service (ToS) for connections to peers</source>
-        <translation>Tipo de serviço (TdS) para ligações com pares</translation>
+        <translation>Tipo de serviço (TdS) para ligações com fontes</translation>
+    </message>
+    <message>
+        <source>Outgoing connections per second:</source>
+        <translation>Ligações de saída por segundo:</translation>
+    </message>
+    <message>
+        <source>Random</source>
+        <translation>Aleatório(a)</translation>
+    </message>
+    <message>
+        <source>%K: Torrent ID</source>
+        <translation>%K: ID do torrent</translation>
+    </message>
+    <message>
+        <source>Reannounce to all trackers when IP or port changed:</source>
+        <translation>Reanunciar para todos os trackers quando o IP ou porta forem alterados:</translation>
+    </message>
+    <message>
+        <source>Trusted proxies list:</source>
+        <translation>Lista de proxies confiáveis:</translation>
+    </message>
+    <message>
+        <source>Enable reverse proxy support</source>
+        <translation>Ativar o suporte para proxy reverso</translation>
+    </message>
+    <message>
+        <source>%J: Info hash v2</source>
+        <translation>%J: Informações de hash v2</translation>
+    </message>
+    <message>
+        <source>%I: Info hash v1</source>
+        <translation>%I: Informações de hash v1</translation>
+    </message>
+    <message>
+        <source>IP address reported to trackers (requires restart):</source>
+        <translation>Endereço de IP reportado aos trackers (necessita de reinicio):</translation>
+    </message>
+    <message>
+        <source>Set to 0 to let your system pick an unused port</source>
+        <translation>Ao definir como 0 permite que o seu sistema utilize uma porta não utlizada</translation>
+    </message>
+    <message>
+        <source>Server-side request forgery (SSRF) mitigation:</source>
+        <translation>Redução do pedido de falsificação do lado do servidor (SSRF):</translation>
     </message>
 </context>
 <context>
@@ -1529,12 +1548,12 @@
         <translation>Copiar IP: porta</translation>
     </message>
     <message>
-        <source>Add a new peer...</source>
-        <translation>Adicionar uma nova fonte...</translation>
-    </message>
-    <message>
         <source>Country/Region</source>
         <translation>País/Região</translation>
+    </message>
+    <message>
+        <source>Add peers...</source>
+        <translation>Adicionar fontes...</translation>
     </message>
 </context>
 <context>
@@ -1686,10 +1705,6 @@
         <translation>Criado em:</translation>
     </message>
     <message>
-        <source>Torrent Hash:</source>
-        <translation>Hash do torrent:</translation>
-    </message>
-    <message>
         <source>Save Path:</source>
         <translation>Guardado em:</translation>
     </message>
@@ -1745,6 +1760,22 @@
         <source>%1 (seeded for %2)</source>
         <translation>%1 (semeado durante %2)</translation>
     </message>
+    <message>
+        <source>Info Hash v2:</source>
+        <translation>Informações de Hash v2:</translation>
+    </message>
+    <message>
+        <source>Info Hash v1:</source>
+        <translation>Informações de Hash v1:</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>N/D</translation>
+    </message>
+    <message>
+        <source>Progress:</source>
+        <translation>Progresso:</translation>
+    </message>
 </context>
 <context>
     <name>ScanFoldersModel</name>
@@ -1766,11 +1797,11 @@
     </message>
     <message>
         <source>Other...</source>
-        <translation type="unfinished" />
+        <translation>Outros...</translation>
     </message>
     <message>
         <source>Type folder here</source>
-        <translation type="unfinished" />
+        <translation>Escreva aqui a pasta</translation>
     </message>
 </context>
 <context>
@@ -1952,6 +1983,14 @@
     <message>
         <source>Stalled (%1)</source>
         <translation>Parado (%1)</translation>
+    </message>
+    <message>
+        <source>Checking (%1)</source>
+        <translation>A verificar (%1)</translation>
+    </message>
+    <message>
+        <source>Checking (0)</source>
+        <translation>A verificar (0)</translation>
     </message>
 </context>
 <context>
@@ -2295,6 +2334,10 @@
         <source>%1 (seeded for %2)</source>
         <translation>%1 (semeado durante %2)</translation>
     </message>
+    <message>
+        <source>[F] Downloading metadata</source>
+        <translation>[F] A transferir os metadados</translation>
+    </message>
 </context>
 <context>
     <name>TransferListFiltersWidget</name>
@@ -2472,10 +2515,6 @@
         <translation>Ligação magnet</translation>
     </message>
     <message>
-        <source>Hash</source>
-        <translation>Hash</translation>
-    </message>
-    <message>
         <source>Remove All</source>
         <translation>Remover tudo</translation>
     </message>
@@ -2494,6 +2533,18 @@
     <message>
         <source>Add...</source>
         <translation>Adicionar...</translation>
+    </message>
+    <message>
+        <source>Info hash v1</source>
+        <translation>Informações de hash v1</translation>
+    </message>
+    <message>
+        <source>Info hash v2</source>
+        <translation>Informações do hash v2</translation>
+    </message>
+    <message>
+        <source>Torrent ID</source>
+        <translation>ID do torrent</translation>
     </message>
 </context>
 <context>
@@ -2693,10 +2744,6 @@
         <translation>Pesquisar em:</translation>
     </message>
     <message>
-        <source>Results (showing</source>
-        <translation>Resultados (a mostrar</translation>
-    </message>
-    <message>
         <source>Filter</source>
         <translation>Filtro</translation>
     </message>
@@ -2723,6 +2770,18 @@
     <message>
         <source>Increase window width to display additional filters</source>
         <translation>Aumentar largura da janela para mostrar filtros adicionais</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>até</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>Resultados</translation>
+    </message>
+    <message>
+        <source>showing</source>
+        <translation>a exibir</translation>
     </message>
 </context>
 <context>
@@ -2950,16 +3009,28 @@
         <translation>Nacionalidade:</translation>
     </message>
     <message>
-        <source>Author</source>
-        <translation>Autor</translation>
-    </message>
-    <message>
         <source>Software Used</source>
         <translation>Software utilizado</translation>
     </message>
     <message>
         <source>The free IP to Country Lite database by DB-IP is used for resolving the countries of peers. The database is licensed under the Creative Commons Attribution 4.0 International License</source>
         <translation>A base de dados gratuita de IPs para Country Lite da DB-IP é utilizada para resolver os países das fontes. A base de dados está licenciada sob a licença internacional Creative Commons Attribution 4.0</translation>
+    </message>
+    <message>
+        <source>Authors</source>
+        <translation>Autores</translation>
+    </message>
+    <message>
+        <source>France</source>
+        <translation>França</translation>
+    </message>
+    <message>
+        <source>qBittorrent Mascot</source>
+        <translation>Mascote do qBittorrent</translation>
+    </message>
+    <message>
+        <source>qBittorrent icon</source>
+        <translation>Ícone do qBittorrent</translation>
     </message>
 </context>
 <context>
@@ -3387,6 +3458,10 @@ Suporta os formatos: S01E01, 1x1, 2017.12.31 e 31.12.2017 (Suporte também para 
     <message>
         <source>RSS feeds</source>
         <translation>RSS feeds</translation>
+    </message>
+    <message>
+        <source>Unread</source>
+        <translation>Por ler</translation>
     </message>
 </context>
 </TS>

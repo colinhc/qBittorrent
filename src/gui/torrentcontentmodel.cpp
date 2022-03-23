@@ -50,8 +50,8 @@
 #include <QPixmapCache>
 #endif
 
+#include "base/bittorrent/abstractfilestorage.h"
 #include "base/bittorrent/downloadpriority.h"
-#include "base/bittorrent/torrentinfo.h"
 #include "base/global.h"
 #include "base/utils/fs.h"
 #include "torrentcontentmodelfile.h"
@@ -283,15 +283,16 @@ bool TorrentContentModel::setData(const QModelIndex &index, const QVariant &valu
     if ((index.column() == TorrentContentModelItem::COL_NAME) && (role == Qt::CheckStateRole))
     {
         auto *item = static_cast<TorrentContentModelItem*>(index.internalPointer());
-        qDebug("setData(%s, %d", qUtf8Printable(item->name()), value.toInt());
-        if (static_cast<int>(item->priority()) != value.toInt())
-        {
-            BitTorrent::DownloadPriority prio = BitTorrent::DownloadPriority::Normal;
-            if (value.toInt() == Qt::PartiallyChecked)
-                prio = BitTorrent::DownloadPriority::Mixed;
-            else if (value.toInt() == Qt::Unchecked)
-                prio = BitTorrent::DownloadPriority::Ignored;
+        qDebug("setData(%s, %d)", qUtf8Printable(item->name()), value.toInt());
 
+        BitTorrent::DownloadPriority prio = BitTorrent::DownloadPriority::Normal;
+        if (value.toInt() == Qt::PartiallyChecked)
+            prio = BitTorrent::DownloadPriority::Mixed;
+        else if (value.toInt() == Qt::Unchecked)
+            prio = BitTorrent::DownloadPriority::Ignored;
+
+        if (item->priority() != prio)
+        {
             item->setPriority(prio);
             // Update folders progress in the tree
             m_rootItem->recalculateProgress();
@@ -339,7 +340,7 @@ int TorrentContentModel::getFileIndex(const QModelIndex &index)
     return -1;
 }
 
-QVariant TorrentContentModel::data(const QModelIndex &index, int role) const
+QVariant TorrentContentModel::data(const QModelIndex &index, const int role) const
 {
     if (!index.isValid())
         return {};
@@ -349,7 +350,7 @@ QVariant TorrentContentModel::data(const QModelIndex &index, int role) const
     switch (role)
     {
     case Qt::DecorationRole:
-    {
+        {
             if (index.column() != TorrentContentModelItem::COL_NAME)
                 return {};
 
@@ -358,7 +359,7 @@ QVariant TorrentContentModel::data(const QModelIndex &index, int role) const
             return m_fileIconProvider->icon(QFileInfo(item->name()));
         }
     case Qt::CheckStateRole:
-    {
+        {
             if (index.column() != TorrentContentModelItem::COL_NAME)
                 return {};
 
@@ -375,6 +376,7 @@ QVariant TorrentContentModel::data(const QModelIndex &index, int role) const
         return {};
 
     case Qt::DisplayRole:
+    case Qt::ToolTipRole:
         return item->displayData(index.column());
 
     case Roles::UnderlyingDataRole:
@@ -483,7 +485,7 @@ void TorrentContentModel::clear()
     endResetModel();
 }
 
-void TorrentContentModel::setupModelData(const BitTorrent::TorrentInfo &info)
+void TorrentContentModel::setupModelData(const BitTorrent::AbstractFileStorage &info)
 {
     qDebug("setup model data called");
     const int filesCount = info.filesCount();
@@ -503,22 +505,23 @@ void TorrentContentModel::setupModelData(const BitTorrent::TorrentInfo &info)
         const QString path = Utils::Fs::toUniformPath(info.filePath(i));
 
         // Iterate of parts of the path to create necessary folders
-        QVector<QStringRef> pathFolders = path.splitRef('/', QString::SkipEmptyParts);
+        QList<QStringView> pathFolders = QStringView(path).split(u'/', Qt::SkipEmptyParts);
         pathFolders.removeLast();
 
-        for (const QStringRef &pathPartRef : asConst(pathFolders))
+        for (const QStringView pathPart : asConst(pathFolders))
         {
-            const QString pathPart = pathPartRef.toString();
-            TorrentContentModelFolder *newParent = currentParent->childFolderWithName(pathPart);
+            const QString folderPath = pathPart.toString();
+            TorrentContentModelFolder *newParent = currentParent->childFolderWithName(folderPath);
             if (!newParent)
             {
-                newParent = new TorrentContentModelFolder(pathPart, currentParent);
+                newParent = new TorrentContentModelFolder(folderPath, currentParent);
                 currentParent->appendChild(newParent);
             }
             currentParent = newParent;
         }
         // Actually create the file
-        TorrentContentModelFile *fileItem = new TorrentContentModelFile(info.fileName(i), info.fileSize(i), currentParent, i);
+        TorrentContentModelFile *fileItem = new TorrentContentModelFile(
+                    Utils::Fs::fileName(info.filePath(i)), info.fileSize(i), currentParent, i);
         currentParent->appendChild(fileItem);
         m_filesIndex.push_back(fileItem);
     }

@@ -41,13 +41,13 @@ class TorrentContentModelFile;
 
 namespace BitTorrent
 {
-    class TorrentInfo;
+    class AbstractFileStorage;
 }
 
 class TorrentContentModel final : public QAbstractItemModel
 {
     Q_OBJECT
-    Q_DISABLE_COPY(TorrentContentModel)
+    Q_DISABLE_COPY_MOVE(TorrentContentModel)
 
 public:
     enum Roles
@@ -74,7 +74,7 @@ public:
     QModelIndex parent(const QModelIndex &index) const override;
     int rowCount(const QModelIndex &parent = {}) const override;
     void clear();
-    void setupModelData(const BitTorrent::TorrentInfo &info);
+    void setupModelData(const BitTorrent::AbstractFileStorage &info);
 
 signals:
     void filteredFilesChanged();

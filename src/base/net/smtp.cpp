@@ -122,12 +122,7 @@ Smtp::Smtp(QObject *parent)
 
     connect(m_socket, &QIODevice::readyRead, this, &Smtp::readyRead);
     connect(m_socket, &QAbstractSocket::disconnected, this, &QObject::deleteLater);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
     connect(m_socket, &QAbstractSocket::errorOccurred, this, &Smtp::error);
-#else
-    connect(m_socket, qOverload<QAbstractSocket::SocketError>(&QAbstractSocket::error)
-            , this, &Smtp::error);
-#endif
 
     // Test hmacMD5 function (http://www.faqs.org/rfcs/rfc2202.html)
     Q_ASSERT(hmacMD5("Jefe", "what do ya want for nothing?").toHex()
@@ -456,7 +451,7 @@ void Smtp::authenticate()
     // AUTH extension is supported, check which
     // authentication modes are supported by
     // the server
-    const QStringList auth = m_extensions["AUTH"].toUpper().split(' ', QString::SkipEmptyParts);
+    const QStringList auth = m_extensions["AUTH"].toUpper().split(' ', Qt::SkipEmptyParts);
     if (auth.contains("CRAM-MD5"))
     {
         qDebug() << "Using CRAM-MD5 authentication...";

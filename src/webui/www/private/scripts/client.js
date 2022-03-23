@@ -88,11 +88,12 @@ const loadSelectedTracker = function() {
 loadSelectedTracker();
 
 function genHash(string) {
+    // origins:
+    // https://stackoverflow.com/a/8831937
+    // https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
     let hash = 0;
-    for (let i = 0; i < string.length; ++i) {
-        const c = string.charCodeAt(i);
-        hash = (c + hash * 31) | 0;
-    }
+    for (let i = 0; i < string.length; ++i)
+        hash = ((Math.imul(hash, 31) + string.charCodeAt(i)) | 0);
     return hash;
 }
 
@@ -225,6 +226,7 @@ window.addEvent('load', function() {
         $("stalled_filter").removeClass("selectedFilter");
         $("stalled_uploading_filter").removeClass("selectedFilter");
         $("stalled_downloading_filter").removeClass("selectedFilter");
+        $("checking_filter").removeClass("selectedFilter");
         $("errored_filter").removeClass("selectedFilter");
         $(f + "_filter").addClass("selectedFilter");
         selected_filter = f;
@@ -383,6 +385,7 @@ window.addEvent('load', function() {
         updateFilter('stalled', 'QBT_TR(Stalled (%1))QBT_TR[CONTEXT=StatusFilterWidget]');
         updateFilter('stalled_uploading', 'QBT_TR(Stalled Uploading (%1))QBT_TR[CONTEXT=StatusFilterWidget]');
         updateFilter('stalled_downloading', 'QBT_TR(Stalled Downloading (%1))QBT_TR[CONTEXT=StatusFilterWidget]');
+        updateFilter('checking', 'QBT_TR(Checking (%1))QBT_TR[CONTEXT=StatusFilterWidget]');
         updateFilter('errored', 'QBT_TR(Errored (%1))QBT_TR[CONTEXT=StatusFilterWidget]');
     };
 
@@ -1203,10 +1206,14 @@ function setupCopyEventHandler() {
             switch (trigger.id) {
                 case "copyName":
                     return copyNameFN();
+                case "copyInfohash1":
+                    return copyInfohashFN(1);
+                case "copyInfohash2":
+                    return copyInfohashFN(2);
                 case "copyMagnetLink":
                     return copyMagnetLinkFN();
-                case "copyHash":
-                    return copyHashFN();
+                case "copyID":
+                    return copyIdFN();
                 default:
                     return "";
             }

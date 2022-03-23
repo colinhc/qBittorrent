@@ -63,6 +63,8 @@ namespace
             return QLatin1String("downloading");
         case BitTorrent::TorrentState::DownloadingMetadata:
             return QLatin1String("metaDL");
+        case BitTorrent::TorrentState::ForcedDownloadingMetadata:
+            return QLatin1String("forcedMetaDL");
         case BitTorrent::TorrentState::PausedDownloading:
             return QLatin1String("pausedDL");
         case BitTorrent::TorrentState::QueuedDownloading:
@@ -95,9 +97,18 @@ QVariantMap serialize(const BitTorrent::Torrent &torrent)
         return (ratio > BitTorrent::Torrent::MAX_RATIO) ? -1 : ratio;
     };
 
+    const auto getLastActivityTime = [&torrent]() -> qlonglong
+    {
+        const qlonglong timeSinceActivity = torrent.timeSinceActivity();
+        return (timeSinceActivity < 0)
+            ? torrent.addedTime().toSecsSinceEpoch()
+            : (QDateTime::currentDateTime().toSecsSinceEpoch() - timeSinceActivity);
+    };
+
     return {
-        // TODO: Add fields for real SHA1 and SHA256 hashes
-        {KEY_TORRENT_ID, QString(torrent.id().toString())},
+        {KEY_TORRENT_ID, torrent.id().toString()},
+        {KEY_TORRENT_INFOHASHV1, torrent.infoHash().v1().toString()},
+        {KEY_TORRENT_INFOHASHV2, torrent.infoHash().v2().toString()},
         {KEY_TORRENT_NAME, torrent.name()},
         {KEY_TORRENT_MAGNET_URI, torrent.createMagnetURI()},
         {KEY_TORRENT_SIZE, torrent.wantedSize()},
@@ -120,6 +131,7 @@ QVariantMap serialize(const BitTorrent::Torrent &torrent)
         {KEY_TORRENT_SUPER_SEEDING, torrent.superSeeding()},
         {KEY_TORRENT_FORCE_START, torrent.isForced()},
         {KEY_TORRENT_SAVE_PATH, Utils::Fs::toNativePath(torrent.savePath())},
+        {KEY_TORRENT_DOWNLOAD_PATH, Utils::Fs::toNativePath(torrent.downloadPath())},
         {KEY_TORRENT_CONTENT_PATH, Utils::Fs::toNativePath(torrent.contentPath())},
         {KEY_TORRENT_ADDED_ON, torrent.addedTime().toSecsSinceEpoch()},
         {KEY_TORRENT_COMPLETION_ON, torrent.completedTime().toSecsSinceEpoch()},
@@ -142,7 +154,7 @@ QVariantMap serialize(const BitTorrent::Torrent &torrent)
         {KEY_TORRENT_AUTO_TORRENT_MANAGEMENT, torrent.isAutoTMMEnabled()},
         {KEY_TORRENT_TIME_ACTIVE, torrent.activeTime()},
         {KEY_TORRENT_SEEDING_TIME, torrent.seedingTime()},
-        {KEY_TORRENT_LAST_ACTIVITY_TIME, (QDateTime::currentDateTime().toSecsSinceEpoch() - torrent.timeSinceActivity())},
+        {KEY_TORRENT_LAST_ACTIVITY_TIME, getLastActivityTime()},
         {KEY_TORRENT_AVAILABILITY, torrent.distributedCopies()},
 
         {KEY_TORRENT_TOTAL_SIZE, torrent.totalSize()}

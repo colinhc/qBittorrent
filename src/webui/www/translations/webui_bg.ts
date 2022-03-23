@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS language="bg" version="2.1">
+<TS version="2.1" language="bg">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -144,10 +144,6 @@
         <translation>Не мога да съхраня предпочитанията за програмата, qBittorrent е вероятно недостъпен.</translation>
     </message>
     <message>
-        <source>IRC: #qbittorrent on Freenode</source>
-        <translation>IRC: #qbittorrent на Freenode</translation>
-    </message>
-    <message>
         <source>Unknown</source>
         <translation>Неизвестен</translation>
     </message>
@@ -158,10 +154,6 @@
     <message>
         <source>Seeding time limit must be between 0 and 525600 minutes.</source>
         <translation>Ограничението за време на споделяне трябва да бъде между 0 и 525600 минути.</translation>
-    </message>
-    <message>
-        <source>The port used for incoming connections must be between 1 and 65535.</source>
-        <translation>Портът, който се използва за входящи връзки трябва да бъде между 1 и 65535.</translation>
     </message>
     <message>
         <source>The port used for the Web UI must be between 1 and 65535.</source>
@@ -188,10 +180,6 @@
         <translation>Вход</translation>
     </message>
     <message>
-        <source>Original authors</source>
-        <translation>Оригинален автори</translation>
-    </message>
-    <message>
         <source>Apply</source>
         <translation>Прилагане</translation>
     </message>
@@ -211,10 +199,6 @@
     <message>
         <source>Cookie:</source>
         <translation>Бисквитка:</translation>
-    </message>
-    <message>
-        <source>Type folder here</source>
-        <translation type="vanished">Напишете директория тук</translation>
     </message>
     <message>
         <source>More information</source>
@@ -239,11 +223,6 @@
     <message>
         <source>Rename torrent</source>
         <translation>Преименуване на торент</translation>
-    </message>
-    <message>
-        <source>Other...</source>
-        <comment>Save Files to: Watch Folder / Default Folder / Other...</comment>
-        <translation type="vanished">Други...</translation>
     </message>
     <message>
         <source>Monday</source>
@@ -376,6 +355,14 @@
     <message>
         <source>OK</source>
         <translation>ОК</translation>
+    </message>
+    <message>
+        <source>The port used for incoming connections must be between 0 and 65535.</source>
+        <translation>Портът използван за входящи връзки трябва да бъде между 0 и 65535.</translation>
+    </message>
+    <message>
+        <source>Original author</source>
+        <translation>Оригинален автор</translation>
     </message>
 </context>
 <context>
@@ -733,10 +720,6 @@
         <translation>Използване на UPnP / NAT-PMP порт за препращане от моя рутер</translation>
     </message>
     <message>
-        <source>Use different port on each startup</source>
-        <translation>Използване на различен порт при всяко стартиране</translation>
-    </message>
-    <message>
         <source>Connections Limits</source>
         <translation>Ограничения на Връзките</translation>
     </message>
@@ -971,10 +954,6 @@
         <translation>%T: Сегашен тракер</translation>
     </message>
     <message>
-        <source>%I: Info hash</source>
-        <translation>%I: Информационен отпечатък</translation>
-    </message>
-    <message>
         <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., "%N")</source>
         <translation>Подсказка: Обградете параметър с кавички за предотвратяваме орязването на текста при пауза (пр., "%N")</translation>
     </message>
@@ -1203,10 +1182,6 @@
         <translation>Изходен порт (Мин) [0: Изключен]:</translation>
     </message>
     <message>
-        <source>IP Address to report to trackers (requires restart):</source>
-        <translation>IP адрес за информиране на тракери (изисква рестарт):</translation>
-    </message>
-    <message>
         <source>Recheck torrents on completion:</source>
         <translation>Провери торентите при завършване:</translation>
     </message>
@@ -1376,7 +1351,7 @@
     </message>
     <message>
         <source>Download REPACK/PROPER episodes</source>
-        <translation>Изтегли REPACK/PROPER епизоди</translation>
+        <translation>Свали REPACK/PROPER епизоди</translation>
     </message>
     <message>
         <source>Feeds refresh interval:</source>
@@ -1458,6 +1433,50 @@
         <source>Type of service (ToS) for connections to peers</source>
         <translation>Тип на услуга (ТнУ) за връзки към участници</translation>
     </message>
+    <message>
+        <source>Outgoing connections per second:</source>
+        <translation>Изходящи връзки в секунда:</translation>
+    </message>
+    <message>
+        <source>Random</source>
+        <translation>Произволно</translation>
+    </message>
+    <message>
+        <source>%K: Torrent ID</source>
+        <translation>%K: Торент ИД</translation>
+    </message>
+    <message>
+        <source>Reannounce to all trackers when IP or port changed:</source>
+        <translation>Реанонсиране към всички тракери, когато ИП или порт променен:</translation>
+    </message>
+    <message>
+        <source>Trusted proxies list:</source>
+        <translation>Списък на доверени прокси:</translation>
+    </message>
+    <message>
+        <source>Enable reverse proxy support</source>
+        <translation>Разреши поддръжка на обратно прокси</translation>
+    </message>
+    <message>
+        <source>%J: Info hash v2</source>
+        <translation>%J: Инфо хеш в2</translation>
+    </message>
+    <message>
+        <source>%I: Info hash v1</source>
+        <translation>%I: Инфо хеш в1</translation>
+    </message>
+    <message>
+        <source>IP address reported to trackers (requires restart):</source>
+        <translation>ИП адрес докладван до тракери (изисква рестарт):</translation>
+    </message>
+    <message>
+        <source>Set to 0 to let your system pick an unused port</source>
+        <translation>Задайте на 0, за да позволите на вашата система да избере неизползван порт</translation>
+    </message>
+    <message>
+        <source>Server-side request forgery (SSRF) mitigation:</source>
+        <translation>Подправяне на заявка от страна на сървъра (SSRF) смекчаване</translation>
+    </message>
 </context>
 <context>
     <name>PeerListWidget</name>
@@ -1530,12 +1549,12 @@
         <translation>Копирай IP:порт</translation>
     </message>
     <message>
-        <source>Add a new peer...</source>
-        <translation>Добави нов участник...</translation>
-    </message>
-    <message>
         <source>Country/Region</source>
         <translation>Държава/Област</translation>
+    </message>
+    <message>
+        <source>Add peers...</source>
+        <translation>Добави участници...</translation>
     </message>
 </context>
 <context>
@@ -1687,10 +1706,6 @@
         <translation>Създаден На:</translation>
     </message>
     <message>
-        <source>Torrent Hash:</source>
-        <translation>Сигнатура на Торента:</translation>
-    </message>
-    <message>
         <source>Save Path:</source>
         <translation>Местоположение за Запис:</translation>
     </message>
@@ -1746,6 +1761,22 @@
         <source>%1 (seeded for %2)</source>
         <translation>%1 (споделян за %2)</translation>
     </message>
+    <message>
+        <source>Info Hash v2:</source>
+        <translation>Инфо Хеш в2:</translation>
+    </message>
+    <message>
+        <source>Info Hash v1:</source>
+        <translation>Инфо Хеш в1:</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>Няма</translation>
+    </message>
+    <message>
+        <source>Progress:</source>
+        <translation>Напредък:</translation>
+    </message>
 </context>
 <context>
     <name>ScanFoldersModel</name>
@@ -1767,11 +1798,11 @@
     </message>
     <message>
         <source>Other...</source>
-        <translation type="unfinished" />
+        <translation>Други...</translation>
     </message>
     <message>
         <source>Type folder here</source>
-        <translation type="unfinished" />
+        <translation>Въведете папка тук</translation>
     </message>
 </context>
 <context>
@@ -1932,27 +1963,35 @@
     </message>
     <message>
         <source>Stalled Uploading (%1)</source>
-        <translation>Застояли качващи се (%1)</translation>
+        <translation>Застоели качващи се (%1)</translation>
     </message>
     <message>
         <source>Stalled Downloading (%1)</source>
-        <translation>Застояли свалящи се (%1)</translation>
+        <translation>Застоели свалящи се (%1)</translation>
     </message>
     <message>
         <source>Stalled Downloading (0)</source>
-        <translation>Застояли свалящи се (0)</translation>
+        <translation>Застоели свалящи се (0)</translation>
     </message>
     <message>
         <source>Stalled (0)</source>
-        <translation>Застояли (0)</translation>
+        <translation>Застоели (0)</translation>
     </message>
     <message>
         <source>Stalled Uploading (0)</source>
-        <translation>Застояли качващи се (0)</translation>
+        <translation>Застоели качващи се (0)</translation>
     </message>
     <message>
         <source>Stalled (%1)</source>
-        <translation>Застояли (%1)</translation>
+        <translation>Застоели (%1)</translation>
+    </message>
+    <message>
+        <source>Checking (%1)</source>
+        <translation>Проверяване (%1)</translation>
+    </message>
+    <message>
+        <source>Checking (0)</source>
+        <translation>Проверяване (0)</translation>
     </message>
 </context>
 <context>
@@ -2296,6 +2335,10 @@
         <source>%1 (seeded for %2)</source>
         <translation>%1 (споделян за %2)</translation>
     </message>
+    <message>
+        <source>[F] Downloading metadata</source>
+        <translation>[П] Сваляне на метаданните</translation>
+    </message>
 </context>
 <context>
     <name>TransferListFiltersWidget</name>
@@ -2473,10 +2516,6 @@
         <translation>Магнитна връзка</translation>
     </message>
     <message>
-        <source>Hash</source>
-        <translation>Отпечатък</translation>
-    </message>
-    <message>
         <source>Remove All</source>
         <translation>Изтриване Всички</translation>
     </message>
@@ -2495,6 +2534,18 @@
     <message>
         <source>Add...</source>
         <translation>Добавяне...</translation>
+    </message>
+    <message>
+        <source>Info hash v1</source>
+        <translation>Инфо хеш в1</translation>
+    </message>
+    <message>
+        <source>Info hash v2</source>
+        <translation>Инфо хеш в2</translation>
+    </message>
+    <message>
+        <source>Torrent ID</source>
+        <translation>Торент ИД</translation>
     </message>
 </context>
 <context>
@@ -2694,10 +2745,6 @@
         <translation>Търсене в:</translation>
     </message>
     <message>
-        <source>Results (showing</source>
-        <translation>Резултати (показва</translation>
-    </message>
-    <message>
         <source>Filter</source>
         <translation>Филтри</translation>
     </message>
@@ -2724,6 +2771,18 @@
     <message>
         <source>Increase window width to display additional filters</source>
         <translation>Увеличаване широчина на прозореца за показване на допълнителни филтри</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>към</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>Резултати</translation>
+    </message>
+    <message>
+        <source>showing</source>
+        <translation>показване</translation>
     </message>
 </context>
 <context>
@@ -2951,16 +3010,28 @@
         <translation>Държава:</translation>
     </message>
     <message>
-        <source>Author</source>
-        <translation>Автор</translation>
-    </message>
-    <message>
         <source>Software Used</source>
         <translation>Използван софтуер</translation>
     </message>
     <message>
         <source>The free IP to Country Lite database by DB-IP is used for resolving the countries of peers. The database is licensed under the Creative Commons Attribution 4.0 International License</source>
         <translation>Свободната IP to Country Lite база данни от DB-IP се използва за намиране на държавите на участници. Базата данни е лицензирана под Creative Commons Attribution 4.0 International License</translation>
+    </message>
+    <message>
+        <source>Authors</source>
+        <translation>Автори</translation>
+    </message>
+    <message>
+        <source>France</source>
+        <translation>Франция</translation>
+    </message>
+    <message>
+        <source>qBittorrent Mascot</source>
+        <translation>qBittorrent Талисман</translation>
+    </message>
+    <message>
+        <source>qBittorrent icon</source>
+        <translation>qBittorrent икона</translation>
     </message>
 </context>
 <context>
@@ -3388,6 +3459,10 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     <message>
         <source>RSS feeds</source>
         <translation>RSS канали</translation>
+    </message>
+    <message>
+        <source>Unread</source>
+        <translation>Непрочетен</translation>
     </message>
 </context>
 </TS>
