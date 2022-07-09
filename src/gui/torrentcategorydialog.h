@@ -30,6 +30,8 @@
 
 #include <QDialog>
 
+#include "base/path.h"
+
 namespace BitTorrent
 {
     struct CategoryOptions;
@@ -63,6 +65,6 @@ private slots:
     void useDownloadPathChanged(int index);
 
 private:
-    Ui::TorrentCategoryDialog *m_ui;
-    QString m_lastEnteredDownloadPath;
+    Ui::TorrentCategoryDialog *m_ui = nullptr;
+    Path m_lastEnteredDownloadPath;
 };

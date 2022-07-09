@@ -34,22 +34,25 @@
 
 #include "base/3rdparty/expected.hpp"
 #include "base/utils/fs.h"
-#include "base/utils/gzip.h"
 #include "base/utils/io.h"
 #include "base/utils/misc.h"
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 3, 0))
+#include "base/utils/gzip.h"
+#endif
 
 const int MAX_REDIRECTIONS = 20;  // the common value for web browsers
 
 namespace
 {
-    nonstd::expected<QString, QString> saveToTempFile(const QByteArray &data)
+    nonstd::expected<Path, QString> saveToTempFile(const QByteArray &data)
     {
-        QTemporaryFile file {Utils::Fs::tempPath()};
+        QTemporaryFile file {Utils::Fs::tempPath().data()};
         if (!file.open() || (file.write(data) != data.length()) || !file.flush())
             return nonstd::make_unexpected(file.errorString());
 
         file.setAutoRemove(false);
-        return file.fileName();
+        return Path(file.fileName());
     }
 }
 
@@ -121,16 +124,20 @@ void DownloadHandlerImpl::processFinishedDownload()
     }
 
     // Success
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 3, 0))
+    m_result.data = m_reply->readAll();
+#else
     m_result.data = (m_reply->rawHeader("Content-Encoding") == "gzip")
                     ? Utils::Gzip::decompress(m_reply->readAll())
                     : m_reply->readAll();
+#endif
 
     if (m_downloadRequest.saveToFile())
     {
-        const QString destinationPath = m_downloadRequest.destFileName();
+        const Path destinationPath = m_downloadRequest.destFileName();
         if (destinationPath.isEmpty())
         {
-            const nonstd::expected<QString, QString> result = saveToTempFile(m_result.data);
+            const nonstd::expected<Path, QString> result = saveToTempFile(m_result.data);
             if (result)
                 m_result.filePath = result.value();
             else
@@ -183,7 +190,7 @@ void DownloadHandlerImpl::handleRedirection(const QUrl &newUrl)
     qDebug("Redirecting from %s to %s...", qUtf8Printable(m_reply->url().toString()), qUtf8Printable(newUrlString));
 
     // Redirect to magnet workaround
-    if (newUrlString.startsWith("magnet:", Qt::CaseInsensitive))
+    if (newUrlString.startsWith(u"magnet:", Qt::CaseInsensitive))
     {
         qDebug("Magnet redirect detected.");
         m_result.status = Net::DownloadStatus::RedirectedToMagnet;

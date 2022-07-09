@@ -16,6 +16,7 @@ class QToolButton;
 class LineEdit final : public QLineEdit
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(LineEdit)
 
 public:
     LineEdit(QWidget *parent);
@@ -25,5 +26,5 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private:
-    QToolButton *m_searchButton;
+    QToolButton *m_searchButton = nullptr;
 };

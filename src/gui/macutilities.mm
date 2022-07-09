@@ -32,9 +32,11 @@
 #include <objc/message.h>
 
 #include <QPixmap>
-#include <QSet>
 #include <QSize>
 #include <QString>
+#include <QVector>
+
+#include "base/path.h"
 
 QImage qt_mac_toQImage(CGImageRef image);
 
@@ -95,16 +97,24 @@ namespace MacUtils
         }
     }
 
-    void openFiles(const QSet<QString> &pathsList)
+    void openFiles(const PathList &pathList)
     {
         @autoreleasepool
         {
-            NSMutableArray *pathURLs = [NSMutableArray arrayWithCapacity:pathsList.size()];
+            NSMutableArray *pathURLs = [NSMutableArray arrayWithCapacity:pathList.size()];
 
-            for (const auto &path : pathsList)
-                [pathURLs addObject:[NSURL fileURLWithPath:path.toNSString()]];
+            for (const auto &path : pathList)
+                [pathURLs addObject:[NSURL fileURLWithPath:path.toString().toNSString()]];
 
-            [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:pathURLs];
+            // In some unknown way, the next line affects Qt's main loop causing the crash
+            // in QApplication::exec() on processing next event after this call.
+            // Even crash doesn't happen exactly after this call, it will happen on
+            // application exit. Call stack and disassembly are the same in all cases.
+            // But running it in another thread (aka in background) solves the issue.
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+            {
+                [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:pathURLs];
+            });
         }
     }
 

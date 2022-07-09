@@ -34,13 +34,13 @@
 #include "base/logger.h"
 #include "base/net/dnsupdater.h"
 #include "base/net/portforwarder.h"
+#include "base/path.h"
 #include "base/preferences.h"
 #include "base/utils/net.h"
 #include "webapplication.h"
 
-WebUI::WebUI()
-    : m_isErrored(false)
-    , m_port(0)
+WebUI::WebUI(IApplication *app)
+    : ApplicationComponent(app)
 {
     configure();
     connect(Preferences::instance(), &Preferences::changed, this, &WebUI::configure);
@@ -50,7 +50,6 @@ void WebUI::configure()
 {
     m_isErrored = false; // clear previous error state
 
-    Logger *const logger = Logger::instance();
     Preferences *const pref = Preferences::instance();
 
     const quint16 oldPort = m_port;
@@ -76,7 +75,7 @@ void WebUI::configure()
         const QString serverAddressString = pref->getWebUiAddress();
         if (!m_httpServer)
         {
-            m_webapp = new WebApplication(this);
+            m_webapp = new WebApplication(app(), this);
             m_httpServer = new Http::Server(m_webapp, this);
         }
         else
@@ -88,9 +87,9 @@ void WebUI::configure()
 
         if (pref->isWebUiHttpsEnabled())
         {
-            const auto readData = [](const QString &path) -> QByteArray
+            const auto readData = [](const Path &path) -> QByteArray
             {
-                QFile file(path);
+                QFile file {path.data()};
                 if (!file.open(QIODevice::ReadOnly))
                     return {};
                 return file.read(Utils::Net::MAX_SSL_FILE_SIZE);
@@ -100,9 +99,9 @@ void WebUI::configure()
 
             const bool success = m_httpServer->setupHttps(cert, key);
             if (success)
-                logger->addMessage(tr("Web UI: HTTPS setup successful"));
+                LogMsg(tr("Web UI: HTTPS setup successful"));
             else
-                logger->addMessage(tr("Web UI: HTTPS setup failed, fallback to HTTP"), Log::CRITICAL);
+                LogMsg(tr("Web UI: HTTPS setup failed, fallback to HTTP"), Log::CRITICAL);
         }
         else
         {
@@ -111,18 +110,18 @@ void WebUI::configure()
 
         if (!m_httpServer->isListening())
         {
-            const auto address = (serverAddressString == "*" || serverAddressString.isEmpty())
+            const auto address = ((serverAddressString == u"*") || serverAddressString.isEmpty())
                 ? QHostAddress::Any : QHostAddress(serverAddressString);
             bool success = m_httpServer->listen(address, m_port);
             if (success)
             {
-                logger->addMessage(tr("Web UI: Now listening on IP: %1, port: %2").arg(serverAddressString).arg(m_port));
+                LogMsg(tr("Web UI: Now listening on IP: %1, port: %2").arg(serverAddressString).arg(m_port));
             }
             else
             {
                 const QString errorMsg = tr("Web UI: Unable to bind to IP: %1, port: %2. Reason: %3")
                     .arg(serverAddressString).arg(m_port).arg(m_httpServer->errorString());
-                logger->addMessage(errorMsg, Log::CRITICAL);
+                LogMsg(errorMsg, Log::CRITICAL);
                 qCritical() << errorMsg;
 
                 m_isErrored = true;

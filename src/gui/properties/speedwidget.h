@@ -42,19 +42,21 @@ class SpeedPlotView;
 class ComboBoxMenuButton final : public QComboBox
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(ComboBoxMenuButton)
 
 public:
     ComboBoxMenuButton(QWidget *parent, QMenu *menu);
     void showPopup() override;
 
 private:
-    QMenu *m_menu;
+    QMenu *m_menu = nullptr;
 };
 
 
 class SpeedWidget : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(SpeedWidget)
 
 public:
     explicit SpeedWidget(PropertiesWidget *parent);
@@ -69,13 +71,13 @@ private:
     void loadSettings();
     void saveSettings() const;
 
-    QVBoxLayout *m_layout;
-    QHBoxLayout *m_hlayout;
-    QLabel *m_periodLabel;
-    QComboBox *m_periodCombobox;
-    SpeedPlotView *m_plot;
+    QVBoxLayout *m_layout = nullptr;
+    QHBoxLayout *m_hlayout = nullptr;
+    QLabel *m_periodLabel = nullptr;
+    QComboBox *m_periodCombobox = nullptr;
+    SpeedPlotView *m_plot = nullptr;
 
-    ComboBoxMenuButton *m_graphsButton;
-    QMenu *m_graphsMenu;
+    ComboBoxMenuButton *m_graphsButton = nullptr;
+    QMenu *m_graphsMenu = nullptr;
     QList<QAction *> m_graphsMenuActions;
 };

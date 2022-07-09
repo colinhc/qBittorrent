@@ -32,6 +32,7 @@
 
 #include <QDialog>
 
+#include "base/path.h"
 #include "base/settingvalue.h"
 
 class QAbstractButton;
@@ -74,7 +75,7 @@ private:
     int getSeedingTime() const;
 
     QVector<BitTorrent::TorrentID> m_torrentIDs;
-    Ui::TorrentOptionsDialog *m_ui;
+    Ui::TorrentOptionsDialog *m_ui = nullptr;
     SettingValue<QSize> m_storeDialogSize;
     QStringList m_categories;
     QString m_currentCategoriesString;
@@ -82,8 +83,8 @@ private:
     QAbstractButton *m_previousRadio = nullptr;
     struct
     {
-        QString savePath;
-        QString downloadPath;
+        Path savePath;
+        Path downloadPath;
         QString category;
         qreal ratio;
         int seedingTime;

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="pl">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -39,7 +37,7 @@
         <translation>Utwórz podfolder</translation>
     </message>
     <message>
-        <source>Don't create subfolder</source>
+        <source>Don&apos;t create subfolder</source>
         <translation>Nie twórz podfolderu</translation>
     </message>
 </context>
@@ -571,6 +569,10 @@
         <source>RSS</source>
         <translation>RSS</translation>
     </message>
+    <message>
+        <source>Filters Sidebar</source>
+        <translation>Pasek boczny filtrów</translation>
+    </message>
 </context>
 <context>
     <name>OptionsDialog</name>
@@ -953,8 +955,8 @@
         <translation>%T: Bieżący tracker</translation>
     </message>
     <message>
-        <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., "%N")</source>
-        <translation>Wskazówka: otocz parametr cudzysłowem, aby uniknąć odcięcia tekstu (np. "%N")</translation>
+        <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., &quot;%N&quot;)</source>
+        <translation>Wskazówka: otocz parametr cudzysłowem, aby uniknąć odcięcia tekstu (np. &quot;%N&quot;)</translation>
     </message>
     <message>
         <source>The Web UI username must be at least 3 characters long.</source>
@@ -1425,7 +1427,7 @@
         <translation>Pierwotny</translation>
     </message>
     <message>
-        <source>Don't create subfolder</source>
+        <source>Don&apos;t create subfolder</source>
         <translation>Nie twórz podfolderu</translation>
     </message>
     <message>
@@ -1475,6 +1477,46 @@
     <message>
         <source>Server-side request forgery (SSRF) mitigation:</source>
         <translation>Zapobieganie fałszowaniu żądań po stronie serwera (SSRF):</translation>
+    </message>
+    <message>
+        <source>Disk queue size:</source>
+        <translation>Rozmiar kolejki dysku:</translation>
+    </message>
+    <message>
+        <source>Log performance warnings</source>
+        <translation>Rejestruj ostrzeżenia dotyczące wydajności</translation>
+    </message>
+    <message>
+        <source>Maximum outstanding requests to a single peer:</source>
+        <translation>Maksymalne zaległe żądania do pojedynczego partnera:</translation>
+    </message>
+    <message>
+        <source>Max active checking torrents:</source>
+        <translation>Maksimum aktywnego sprawdzania torrentów:</translation>
+    </message>
+    <message>
+        <source>Memory mapped files</source>
+        <translation>Pliki mapowane w pamięci</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Domyślny</translation>
+    </message>
+    <message>
+        <source>POSIX-compliant</source>
+        <translation>Zgodny z POSIX</translation>
+    </message>
+    <message>
+        <source>This option is less effective on Linux</source>
+        <translation>Ta opcja jest mniej efektywna w systemie Linux</translation>
+    </message>
+    <message>
+        <source>Disk IO type (libtorrent &gt;= 2.0; requires restart):</source>
+        <translation>Typ we/wy dysku (libtorrent &gt;= 2.0; wymaga ponownego uruchomienia):</translation>
+    </message>
+    <message>
+        <source>Physical memory (RAM) usage limit:</source>
+        <translation>Limit wykorzystania pamięci fizycznej (RAM):</translation>
     </message>
 </context>
 <context>
@@ -2164,10 +2206,6 @@
         <translation>Komunikat</translation>
     </message>
     <message>
-        <source>Downloaded</source>
-        <translation>Pobrany</translation>
-    </message>
-    <message>
         <source>Tracker URL:</source>
         <translation>Adres URL trackera:</translation>
     </message>
@@ -2248,8 +2286,12 @@
         <translation>Postęp</translation>
     </message>
     <message>
-        <source>Size</source>
-        <translation>Rozmiar</translation>
+        <source>Total Size</source>
+        <translation>Całkowity rozmiar</translation>
+    </message>
+    <message>
+        <source>Times Downloaded</source>
+        <translation>Liczba pobrań</translation>
     </message>
 </context>
 <context>
@@ -2546,6 +2588,10 @@
         <source>Torrent ID</source>
         <translation>Identyfikator torrenta</translation>
     </message>
+    <message>
+        <source>Export .torrent</source>
+        <translation>Eksportuj .torrent</translation>
+    </message>
 </context>
 <context>
     <name>UpDownRatioDialog</name>
@@ -2811,7 +2857,7 @@
         <translation>Włączone</translation>
     </message>
     <message>
-        <source>Warning: Be sure to comply with your country's copyright laws when downloading torrents from any of these search engines.</source>
+        <source>Warning: Be sure to comply with your country&apos;s copyright laws when downloading torrents from any of these search engines.</source>
         <translation>Ostrzeżenie: upewnij się, że przestrzegasz praw autorskich swojego kraju podczas pobierania torrentów z każdej z tych wyszukiwarek.</translation>
     </message>
     <message>
@@ -3426,7 +3472,7 @@ Obsługuje formaty: S01E01, 1x1, 2017.12.31 oraz 31.12.2017 (Formaty daty równi
         <translation>Pierwotny</translation>
     </message>
     <message>
-        <source>Don't create subfolder</source>
+        <source>Don&apos;t create subfolder</source>
         <translation>Nie twórz podfolderu</translation>
     </message>
 </context>

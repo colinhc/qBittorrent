@@ -12,11 +12,14 @@ HEADERS += \
     $$PWD/cookiesdialog.h \
     $$PWD/cookiesmodel.h \
     $$PWD/deletionconfirmationdialog.h \
+    $$PWD/desktopintegration.h \
     $$PWD/downloadfromurldialog.h \
     $$PWD/executionlogwidget.h \
     $$PWD/fspathedit.h \
     $$PWD/fspathedit_p.h \
+    $$PWD/guiapplicationcomponent.h \
     $$PWD/hidabletabwidget.h \
+    $$PWD/interfaces/iguiapplication.h \
     $$PWD/ipsubnetwhitelistoptionsdialog.h \
     $$PWD/lineedit.h \
     $$PWD/log/logfiltermodel.h \
@@ -93,10 +96,12 @@ SOURCES += \
     $$PWD/cookiesdialog.cpp \
     $$PWD/cookiesmodel.cpp \
     $$PWD/deletionconfirmationdialog.cpp \
+    $$PWD/desktopintegration.cpp \
     $$PWD/downloadfromurldialog.cpp \
     $$PWD/executionlogwidget.cpp \
     $$PWD/fspathedit.cpp \
     $$PWD/fspathedit_p.cpp \
+    $$PWD/guiapplicationcomponent.cpp \
     $$PWD/hidabletabwidget.cpp \
     $$PWD/ipsubnetwhitelistoptionsdialog.cpp \
     $$PWD/lineedit.cpp \
@@ -162,26 +167,6 @@ SOURCES += \
     $$PWD/watchedfolderoptionsdialog.cpp \
     $$PWD/watchedfoldersmodel.cpp
 
-win32|macx {
-    HEADERS += $$PWD/programupdater.h
-    SOURCES += $$PWD/programupdater.cpp
-}
-
-unix:!macx:dbus {
-    HEADERS += \
-        $$PWD/powermanagement/powermanagement_x11.h \
-        $$PWD/qtnotify/notifications.h
-
-    SOURCES += \
-        $$PWD/powermanagement/powermanagement_x11.cpp \
-        $$PWD/qtnotify/notifications.cpp
-}
-
-macx {
-    HEADERS += $$PWD/macutilities.h
-    OBJECTIVE_SOURCES += $$PWD/macutilities.mm
-}
-
 FORMS += \
     $$PWD/aboutdialog.ui \
     $$PWD/addnewtorrentdialog.ui \
@@ -214,3 +199,31 @@ FORMS += \
     $$PWD/watchedfolderoptionsdialog.ui
 
 RESOURCES += $$PWD/about.qrc
+
+stacktrace {
+    HEADERS += $$PWD/stacktracedialog.h
+    SOURCES += $$PWD/stacktracedialog.cpp
+    FORMS += $$PWD/stacktracedialog.ui
+}
+
+win32|macx {
+    HEADERS += $$PWD/programupdater.h
+    SOURCES += $$PWD/programupdater.cpp
+}
+
+unix:!macx:dbus {
+    HEADERS += \
+        $$PWD/notifications/dbusnotifier.h \
+        $$PWD/notifications/dbusnotificationsinterface.h \
+        $$PWD/powermanagement/powermanagement_x11.h
+
+    SOURCES += \
+        $$PWD/notifications/dbusnotifier.cpp \
+        $$PWD/notifications/dbusnotificationsinterface.cpp \
+        $$PWD/powermanagement/powermanagement_x11.cpp
+}
+
+macx {
+    HEADERS += $$PWD/macutilities.h
+    OBJECTIVE_SOURCES += $$PWD/macutilities.mm
+}

@@ -34,15 +34,18 @@
 #include <QSpinBox>
 #include <QTableWidget>
 
-class AdvancedSettings : public QTableWidget
+#include "guiapplicationcomponent.h"
+
+class AdvancedSettings final : public QTableWidget, public GUIApplicationComponent
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(AdvancedSettings)
 
 public:
-    AdvancedSettings(QWidget *parent);
+    explicit AdvancedSettings(IGUIApplication *app, QWidget *parent = nullptr);
 
 public slots:
-    void saveAdvancedSettings();
+    void saveAdvancedSettings() const;
 
 signals:
     void settingsChanged();
@@ -58,11 +61,11 @@ private:
     void loadAdvancedSettings();
     template <typename T> void addRow(int row, const QString &text, T *widget);
 
-    QSpinBox m_spinBoxAsyncIOThreads, m_spinBoxFilePoolSize, m_spinBoxCheckingMemUsage,
+    QSpinBox m_spinBoxAsyncIOThreads, m_spinBoxFilePoolSize, m_spinBoxCheckingMemUsage, m_spinBoxDiskQueueSize,
              m_spinBoxSaveResumeDataInterval, m_spinBoxOutgoingPortsMin, m_spinBoxOutgoingPortsMax, m_spinBoxUPnPLeaseDuration, m_spinBoxPeerToS,
              m_spinBoxListRefresh, m_spinBoxTrackerPort, m_spinBoxSendBufferWatermark, m_spinBoxSendBufferLowWatermark,
              m_spinBoxSendBufferWatermarkFactor, m_spinBoxConnectionSpeed, m_spinBoxSocketBacklogSize, m_spinBoxMaxConcurrentHTTPAnnounces, m_spinBoxStopTrackerTimeout,
-             m_spinBoxSavePathHistoryLength, m_spinBoxPeerTurnover, m_spinBoxPeerTurnoverCutoff, m_spinBoxPeerTurnoverInterval;
+             m_spinBoxSavePathHistoryLength, m_spinBoxPeerTurnover, m_spinBoxPeerTurnoverCutoff, m_spinBoxPeerTurnoverInterval, m_spinBoxRequestQueueSize;
     QCheckBox m_checkBoxOsCache, m_checkBoxRecheckCompleted, m_checkBoxResolveCountries, m_checkBoxResolveHosts,
               m_checkBoxProgramNotifications, m_checkBoxTorrentAddedNotifications, m_checkBoxReannounceWhenAddressChanged, m_checkBoxTrackerFavicon, m_checkBoxTrackerStatus,
               m_checkBoxConfirmTorrentRecheck, m_checkBoxConfirmRemoveAllTags, m_checkBoxAnnounceAllTrackers, m_checkBoxAnnounceAllTiers,
@@ -76,7 +79,8 @@ private:
     QSpinBox m_spinBoxCache, m_spinBoxCacheTTL;
     QCheckBox m_checkBoxCoalesceRW;
 #else
-    QSpinBox m_spinBoxHashingThreads;
+    QComboBox m_comboBoxDiskIOType;
+    QSpinBox m_spinBoxMemoryWorkingSetLimit, m_spinBoxHashingThreads;
 #endif
 
     // OS dependent settings

@@ -449,7 +449,7 @@ window.qBittorrent.ContextMenu = (function() {
             Object.each(sortedCategories, function(categoryName) {
                 const categoryHash = genHash(categoryName);
                 const el = new Element('li', {
-                    html: '<a href="javascript:torrentSetCategoryFN(\'' + categoryHash + '\');"><img src="icons/inode-directory.svg"/> ' + window.qBittorrent.Misc.escapeHtml(categoryName) + '</a>'
+                    html: '<a href="javascript:torrentSetCategoryFN(\'' + categoryHash + '\');"><img src="icons/view-categories.svg"/> ' + window.qBittorrent.Misc.escapeHtml(categoryName) + '</a>'
                 });
                 if (first) {
                     el.addClass('separator');
@@ -605,6 +605,7 @@ window.qBittorrent.ContextMenu = (function() {
                     this.hideItem('newFolder');
                     this.hideItem('updateAll');
                     this.showItem('copyFeedURL');
+                    break;
             }
         }
     });
@@ -661,6 +662,7 @@ window.qBittorrent.ContextMenu = (function() {
                     this.showItem('deleteRule');
                     this.hideItem('renameRule');
                     this.showItem('clearDownloadedEpisodes');
+                    break;
             }
         }
     });

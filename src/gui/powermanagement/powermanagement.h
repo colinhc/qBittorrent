@@ -43,6 +43,7 @@ class PowerManagementInhibitor;
 class PowerManagement : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(PowerManagement)
 
 public:
   PowerManagement(QObject *parent = nullptr);
@@ -57,7 +58,7 @@ private:
   bool m_busy = false;
 
 #if (defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)) && defined(QT_DBUS_LIB)
-  PowerManagementInhibitor *m_inhibitor;
+  PowerManagementInhibitor *m_inhibitor = nullptr;
 #endif
 #ifdef Q_OS_MACOS
   IOPMAssertionID m_assertionID;

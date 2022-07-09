@@ -30,9 +30,10 @@
 
 #include <QDialog>
 
+#include "base/pathfwd.h"
 #include "base/settingvalue.h"
+#include "guiapplicationcomponent.h"
 
-class QCloseEvent;
 class QListWidgetItem;
 
 class AdvancedSettings;
@@ -57,7 +58,7 @@ namespace Ui
     class OptionsDialog;
 }
 
-class OptionsDialog final : public QDialog
+class OptionsDialog final : public QDialog, public GUIApplicationComponent
 {
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(OptionsDialog)
@@ -83,8 +84,7 @@ class OptionsDialog final : public QDialog
     };
 
 public:
-    // Constructor / Destructor
-    OptionsDialog(QWidget *parent = nullptr);
+    explicit OptionsDialog(IGUIApplication *app, QWidget *parent = nullptr);
     ~OptionsDialog() override;
 
 public slots:
@@ -93,7 +93,6 @@ public slots:
 private slots:
     void enableProxy(int index);
     void on_buttonBox_accepted();
-    void closeEvent(QCloseEvent *e) override;
     void on_buttonBox_rejected();
     void applySettings();
     void enableApplyButton();
@@ -112,10 +111,12 @@ private slots:
     void on_removeWatchedFolderButton_clicked();
     void on_registerDNSBtn_clicked();
     void setLocale(const QString &localeStr);
-    void webUIHttpsCertChanged(const QString &path, ShowError showError);
-    void webUIHttpsKeyChanged(const QString &path, ShowError showError);
+    void webUIHttpsCertChanged(const Path &path, ShowError showError);
+    void webUIHttpsKeyChanged(const Path &path, ShowError showError);
 
 private:
+    void showEvent(QShowEvent *e) override;
+
     // Methods
     void saveOptions();
     void loadOptions();
@@ -136,9 +137,8 @@ private:
     bool preAllocateAllFiles() const;
     bool useAdditionDialog() const;
     bool addTorrentsInPause() const;
-    QString getTorrentExportDir() const;
-    QString getFinishedTorrentExportDir() const;
-    QString askForExportDir(const QString &currentExportPath);
+    Path getTorrentExportDir() const;
+    Path getFinishedTorrentExportDir() const;
     // Connection options
     int getPort() const;
     bool isUPnPEnabled() const;
@@ -162,7 +162,7 @@ private:
     Net::ProxyType getProxyType() const;
     // IP Filter
     bool isIPFilteringEnabled() const;
-    QString getFilter() const;
+    Path getFilter() const;
     // Queueing system
     bool isQueueingSystemEnabled() const;
     int getMaxActiveDownloads() const;
@@ -177,14 +177,14 @@ private:
 
     bool schedTimesOk();
 
-    Ui::OptionsDialog *m_ui;
+    Ui::OptionsDialog *m_ui = nullptr;
     SettingValue<QSize> m_storeDialogSize;
     SettingValue<QStringList> m_storeHSplitterSize;
     SettingValue<int> m_storeLastViewedPage;
 
-    QPushButton *m_applyButton;
+    QPushButton *m_applyButton = nullptr;
 
-    AdvancedSettings *m_advancedSettings;
+    AdvancedSettings *m_advancedSettings = nullptr;
 
     bool m_refreshingIpFilter = false;
 };

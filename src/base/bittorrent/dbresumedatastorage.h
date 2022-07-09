@@ -28,6 +28,9 @@
 
 #pragma once
 
+#include <QReadWriteLock>
+
+#include "base/pathfwd.h"
 #include "resumedatastorage.h"
 
 class QThread;
@@ -40,16 +43,18 @@ namespace BitTorrent
         Q_DISABLE_COPY_MOVE(DBResumeDataStorage)
 
     public:
-        explicit DBResumeDataStorage(const QString &dbPath, QObject *parent = nullptr);
+        explicit DBResumeDataStorage(const Path &dbPath, QObject *parent = nullptr);
         ~DBResumeDataStorage() override;
 
         QVector<TorrentID> registeredTorrents() const override;
-        std::optional<LoadTorrentParams> load(const TorrentID &id) const override;
+        LoadResumeDataResult load(const TorrentID &id) const override;
+
         void store(const TorrentID &id, const LoadTorrentParams &resumeData) const override;
         void remove(const TorrentID &id) const override;
         void storeQueue(const QVector<TorrentID> &queue) const override;
 
     private:
+        void doLoadAll() const override;
         int currentDBVersion() const;
         void createDB() const;
         void updateDBFromVersion1() const;
@@ -58,5 +63,7 @@ namespace BitTorrent
 
         class Worker;
         Worker *m_asyncWorker = nullptr;
+
+        mutable QReadWriteLock m_dbLock;
     };
 }

@@ -41,6 +41,7 @@ namespace Ui
 class ShutdownConfirmDialog final : public QDialog
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(ShutdownConfirmDialog)
 
 public:
     ShutdownConfirmDialog(QWidget *parent, const ShutdownDialogAction &action);
@@ -61,9 +62,9 @@ private:
     void updateText();
 
     // Vars
-    Ui::ShutdownConfirmDialog *m_ui;
+    Ui::ShutdownConfirmDialog *m_ui = nullptr;
     QTimer m_timer;
-    int m_timeout;
+    int m_timeout = 15;
     ShutdownDialogAction m_action;
     QString m_msg;
 };

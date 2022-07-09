@@ -1,3 +1,37 @@
+
+# CMAKE_AUTO_UI causes unnecessary rebuilds
+qt_wrap_ui(UI_HEADERS
+    aboutdialog.ui
+    addnewtorrentdialog.ui
+    autoexpandabledialog.ui
+    banlistoptionsdialog.ui
+    cookiesdialog.ui
+    deletionconfirmationdialog.ui
+    downloadfromurldialog.ui
+    executionlogwidget.ui
+    ipsubnetwhitelistoptionsdialog.ui
+    mainwindow.ui
+    optionsdialog.ui
+    previewselectdialog.ui
+    properties/peersadditiondialog.ui
+    properties/propertieswidget.ui
+    properties/trackersadditiondialog.ui
+    rss/automatedrssdownloader.ui
+    rss/rsswidget.ui
+    search/pluginselectdialog.ui
+    search/pluginsourcedialog.ui
+    search/searchjobwidget.ui
+    search/searchwidget.ui
+    shutdownconfirmdialog.ui
+    speedlimitdialog.ui
+    statsdialog.ui
+    torrentcategorydialog.ui
+    torrentcreatordialog.ui
+    torrentoptionsdialog.ui
+    trackerentriesdialog.ui
+    watchedfolderoptionsdialog.ui
+)
+
 add_library(qbt_gui STATIC
     # headers
     aboutdialog.h
@@ -11,11 +45,14 @@ add_library(qbt_gui STATIC
     cookiesdialog.h
     cookiesmodel.h
     deletionconfirmationdialog.h
+    desktopintegration.h
     downloadfromurldialog.h
     executionlogwidget.h
     fspathedit.h
     fspathedit_p.h
+    guiapplicationcomponent.h
     hidabletabwidget.h
+    interfaces/iguiapplication.h
     ipsubnetwhitelistoptionsdialog.h
     lineedit.h
     log/logfiltermodel.h
@@ -92,10 +129,12 @@ add_library(qbt_gui STATIC
     cookiesdialog.cpp
     cookiesmodel.cpp
     deletionconfirmationdialog.cpp
+    desktopintegration.cpp
     downloadfromurldialog.cpp
     executionlogwidget.cpp
     fspathedit.cpp
     fspathedit_p.cpp
+    guiapplicationcomponent.cpp
     hidabletabwidget.cpp
     ipsubnetwhitelistoptionsdialog.cpp
     lineedit.cpp
@@ -161,39 +200,14 @@ add_library(qbt_gui STATIC
     watchedfolderoptionsdialog.cpp
     watchedfoldersmodel.cpp
 
-    # forms
-    aboutdialog.ui
-    addnewtorrentdialog.ui
-    autoexpandabledialog.ui
-    banlistoptionsdialog.ui
-    cookiesdialog.ui
-    deletionconfirmationdialog.ui
-    downloadfromurldialog.ui
-    executionlogwidget.ui
-    ipsubnetwhitelistoptionsdialog.ui
-    mainwindow.ui
-    optionsdialog.ui
-    previewselectdialog.ui
-    properties/peersadditiondialog.ui
-    properties/propertieswidget.ui
-    properties/trackersadditiondialog.ui
-    rss/automatedrssdownloader.ui
-    rss/rsswidget.ui
-    search/pluginselectdialog.ui
-    search/pluginsourcedialog.ui
-    search/searchjobwidget.ui
-    search/searchwidget.ui
-    shutdownconfirmdialog.ui
-    speedlimitdialog.ui
-    statsdialog.ui
-    torrentcategorydialog.ui
-    torrentcreatordialog.ui
-    torrentoptionsdialog.ui
-    trackerentriesdialog.ui
-    watchedfolderoptionsdialog.ui
+    # generated .ui headers
+    ${UI_HEADERS}
 )
 
 target_sources(qbt_gui INTERFACE about.qrc)
+
+# UI headers will be generated in ${CMAKE_CURRENT_BINARY_DIR}
+target_include_directories(qbt_gui PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_link_libraries(qbt_gui
     PRIVATE
@@ -204,10 +218,22 @@ target_link_libraries(qbt_gui
 
 if (DBUS)
     target_sources(qbt_gui PRIVATE
-        qtnotify/notifications.h
-        qtnotify/notifications.cpp
+        notifications/dbusnotifier.h
+        notifications/dbusnotifier.cpp
+        notifications/dbusnotificationsinterface.h
+        notifications/dbusnotificationsinterface.cpp
         powermanagement/powermanagement_x11.h
         powermanagement/powermanagement_x11.cpp
+    )
+endif()
+
+if (STACKTRACE)
+    qt_wrap_ui(STACKTRACE_UI_HEADERS stacktracedialog.ui)
+
+    target_sources(qbt_gui PRIVATE
+        stacktracedialog.h
+        stacktracedialog.cpp
+        ${STACKTRACE_UI_HEADERS}
     )
 endif()
 

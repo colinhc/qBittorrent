@@ -55,6 +55,7 @@ namespace Net
 class PeerListWidget final : public QTreeView
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(PeerListWidget)
 
 public:
     enum PeerListColumns
@@ -88,8 +89,8 @@ public:
 private slots:
     void loadSettings();
     void saveSettings() const;
-    void displayToggleColumnsMenu(const QPoint &);
-    void showPeerListMenu(const QPoint &);
+    void displayColumnHeaderMenu();
+    void showPeerListMenu();
     void banSelectedPeers();
     void copySelectedPeers();
     void handleSortColumnChanged(int col);
@@ -97,6 +98,7 @@ private slots:
 
 private:
     void updatePeer(const BitTorrent::Torrent *torrent, const BitTorrent::PeerInfo &peer, bool &isNewPeer);
+    int visibleColumnsCount() const;
 
     void wheelEvent(QWheelEvent *event) override;
 

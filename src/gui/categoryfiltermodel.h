@@ -28,20 +28,19 @@
 
 #pragma once
 
+#include <QtContainerFwd>
 #include <QAbstractItemModel>
+
+#include "base/bittorrent/torrent.h"
 
 class QModelIndex;
 
 class CategoryModelItem;
 
-namespace BitTorrent
-{
-    class Torrent;
-}
-
 class CategoryFilterModel final : public QAbstractItemModel
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(CategoryFilterModel)
 
 public:
     explicit CategoryFilterModel(QObject *parent = nullptr);
@@ -63,7 +62,7 @@ public:
 private slots:
     void categoryAdded(const QString &categoryName);
     void categoryRemoved(const QString &categoryName);
-    void torrentAdded(BitTorrent::Torrent *const torrent);
+    void torrentsLoaded(const QVector<BitTorrent::Torrent *> &torrents);
     void torrentAboutToBeRemoved(BitTorrent::Torrent *const torrent);
     void torrentCategoryChanged(BitTorrent::Torrent *const torrent, const QString &oldCategory);
     void subcategoriesSupportChanged();
@@ -74,5 +73,5 @@ private:
     CategoryModelItem *findItem(const QString &fullName) const;
 
     bool m_isSubcategoriesEnabled;
-    CategoryModelItem *m_rootItem;
+    CategoryModelItem *m_rootItem = nullptr;
 };

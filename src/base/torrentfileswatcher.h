@@ -32,6 +32,7 @@
 #include <QHash>
 
 #include "base/bittorrent/addtorrentparams.h"
+#include "base/path.h"
 
 class QThread;
 
@@ -61,15 +62,13 @@ public:
     static void freeInstance();
     static TorrentFilesWatcher *instance();
 
-    static QString makeCleanPath(const QString &path);
-
-    QHash<QString, WatchedFolderOptions> folders() const;
-    void setWatchedFolder(const QString &path, const WatchedFolderOptions &options);
-    void removeWatchedFolder(const QString &path);
+    QHash<Path, WatchedFolderOptions> folders() const;
+    void setWatchedFolder(const Path &path, const WatchedFolderOptions &options);
+    void removeWatchedFolder(const Path &path);
 
 signals:
-    void watchedFolderSet(const QString &path, const WatchedFolderOptions &options);
-    void watchedFolderRemoved(const QString &path);
+    void watchedFolderSet(const Path &path, const WatchedFolderOptions &options);
+    void watchedFolderRemoved(const Path &path);
 
 private slots:
     void onMagnetFound(const BitTorrent::MagnetUri &magnetURI, const BitTorrent::AddTorrentParams &addTorrentParams);
@@ -79,15 +78,16 @@ private:
     explicit TorrentFilesWatcher(QObject *parent = nullptr);
     ~TorrentFilesWatcher() override;
 
+    void initWorker();
     void load();
     void loadLegacy();
     void store() const;
 
-    void doSetWatchedFolder(const QString &path, const WatchedFolderOptions &options);
+    void doSetWatchedFolder(const Path &path, const WatchedFolderOptions &options);
 
     static TorrentFilesWatcher *m_instance;
 
-    QHash<QString, WatchedFolderOptions> m_watchedFolders;
+    QHash<Path, WatchedFolderOptions> m_watchedFolders;
 
     QThread *m_ioThread = nullptr;
 

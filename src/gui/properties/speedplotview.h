@@ -48,6 +48,7 @@ using namespace std::chrono_literals;
 class SpeedPlotView final : public QGraphicsView
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(SpeedPlotView)
 
 public:
     enum GraphID
@@ -110,7 +111,7 @@ private:
     private:
         const milliseconds m_resolution;
         const milliseconds m_maxDuration;
-        milliseconds m_currentDuration {0ms};
+        milliseconds m_currentDuration {0};
         int m_counter = 0;
         SampleData m_accumulator {};
         DataCircularBuffer m_sink {};

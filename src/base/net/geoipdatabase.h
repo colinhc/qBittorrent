@@ -28,11 +28,15 @@
 
 #pragma once
 
-#include <QCoreApplication>
 #include <QtGlobal>
+#include <QCoreApplication>
+#include <QDateTime>
+#include <QHash>
+#include <QVariant>
+
+#include "base/pathfwd.h"
 
 class QByteArray;
-class QDateTime;
 class QHostAddress;
 class QString;
 
@@ -43,7 +47,7 @@ class GeoIPDatabase
     Q_DECLARE_TR_FUNCTIONS(GeoIPDatabase)
 
 public:
-    static GeoIPDatabase *load(const QString &filename, QString &error);
+    static GeoIPDatabase *load(const Path &filename, QString &error);
     static GeoIPDatabase *load(const QByteArray &data, QString &error);
 
     ~GeoIPDatabase();
@@ -66,36 +70,19 @@ private:
     QVariant readMapValue(quint32 &offset, quint32 count) const;
     QVariant readArrayValue(quint32 &offset, quint32 count) const;
 
-    template<typename T>
-    QVariant readPlainValue(quint32 &offset, quint8 len) const
-    {
-        T value = 0;
-        const uchar *const data = m_data + offset;
-        const quint32 availSize = m_size - offset;
-
-        if ((len > 0) && (len <= sizeof(T) && (availSize >= len)))
-        {
-            // copy input data to last 'len' bytes of 'value'
-            uchar *dst = reinterpret_cast<uchar *>(&value) + (sizeof(T) - len);
-            memcpy(dst, data, len);
-            fromBigEndian(reinterpret_cast<uchar *>(&value), sizeof(T));
-            offset += len;
-        }
-
-        return QVariant::fromValue(value);
-    }
+    template <typename T> QVariant readPlainValue(quint32 &offset, quint8 len) const;
 
     // Metadata
-    quint16 m_ipVersion;
-    quint16 m_recordSize;
-    quint32 m_nodeCount;
-    int m_nodeSize;
-    int m_indexSize;
-    int m_recordBytes;
+    quint16 m_ipVersion = 0;
+    quint16 m_recordSize = 0;
+    quint32 m_nodeCount = 0;
+    int m_nodeSize = 0;
+    int m_indexSize = 0;
+    int m_recordBytes = 0;
     QDateTime m_buildEpoch;
     QString m_dbType;
     // Search data
     mutable QHash<quint32, QString> m_countries;
-    quint32 m_size;
-    uchar *m_data;
+    quint32 m_size = 0;
+    uchar *m_data = nullptr;
 };

@@ -94,7 +94,7 @@ namespace
         // check is there need for digits after decimal separator
         const int precision = (argValue < 10) ? friendlyUnitPrecision(unit) : 0;
         return QLocale::system().toString(argValue, 'f', precision)
-               + QString::fromUtf8(C_NON_BREAKING_SPACE)
+               + C_NON_BREAKING_SPACE
                + unitString(unit, true);
     }
 }
@@ -267,7 +267,7 @@ quint64 SpeedPlotView::maxYValue() const
         if (!m_properties[static_cast<GraphID>(id)].enable)
             continue;
 
-        milliseconds duration {0ms};
+        milliseconds duration {0};
         for (int i = static_cast<int>(queue.size()) - 1; i >= 0; --i)
         {
             maxYValue = std::max(maxYValue, queue[i].data[id]);
@@ -360,7 +360,7 @@ void SpeedPlotView::paintEvent(QPaintEvent *)
             continue;
 
         QVector<QPoint> points;
-        milliseconds duration {0ms};
+        milliseconds duration {0};
 
         for (int i = static_cast<int>(queue.size()) - 1; i >= 0; --i)
         {

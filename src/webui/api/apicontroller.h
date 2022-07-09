@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2018  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2018, 2022  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,33 +28,26 @@
 
 #pragma once
 
+#include <QtContainerFwd>
 #include <QObject>
 #include <QVariant>
-#include <QtContainerFwd>
+
+#include "base/applicationcomponent.h"
 
 class QString;
-
-struct ISessionManager;
 
 using DataMap = QHash<QString, QByteArray>;
 using StringMap = QHash<QString, QString>;
 
-class APIController : public QObject
+class APIController : public QObject, public ApplicationComponent
 {
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(APIController)
 
-#ifndef Q_MOC_RUN
-#define WEBAPI_PUBLIC
-#define WEBAPI_PRIVATE
-#endif
-
 public:
-    explicit APIController(ISessionManager *sessionManager, QObject *parent = nullptr);
+    explicit APIController(IApplication *app, QObject *parent = nullptr);
 
     QVariant run(const QString &action, const StringMap &params, const DataMap &data = {});
-
-    ISessionManager *sessionManager() const;
 
 protected:
     const StringMap &params() const;
@@ -64,9 +57,9 @@ protected:
     void setResult(const QString &result);
     void setResult(const QJsonArray &result);
     void setResult(const QJsonObject &result);
+    void setResult(const QByteArray &result);
 
 private:
-    ISessionManager *m_sessionManager;
     StringMap m_params;
     DataMap m_data;
     QVariant m_result;

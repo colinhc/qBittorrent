@@ -31,6 +31,8 @@
 #include <QList>
 #include <QWidget>
 
+#include "base/pathfwd.h"
+
 class QPushButton;
 class QTreeView;
 
@@ -81,7 +83,6 @@ public slots:
     void readSettings();
     void saveSettings();
     void reloadPreferences();
-    void displayFileListHeaderMenu();
     void openItem(const QModelIndex &index) const;
     void loadTrackers(BitTorrent::Torrent *const torrent);
 
@@ -92,8 +93,8 @@ protected slots:
     void deleteSelectedUrlSeeds();
     void copySelectedWebSeedsToClipboard() const;
     void editWebSeed();
-    void displayFilesListMenu(const QPoint &);
-    void displayWebSeedListMenu(const QPoint &);
+    void displayFilesListMenu();
+    void displayWebSeedListMenu();
     void filteredFilesChanged();
     void showPiecesDownloaded(bool show);
     void showPiecesAvailability(bool show);
@@ -101,6 +102,7 @@ protected slots:
 
 private slots:
     void configure();
+    void displayColumnHeaderMenu();
     void filterText(const QString &filter);
     void updateSavePath(BitTorrent::Torrent *const torrent);
 
@@ -108,20 +110,20 @@ private:
     QPushButton *getButtonFromIndex(int index);
     void applyPriorities();
     void openParentFolder(const QModelIndex &index) const;
-    QString getFullPath(const QModelIndex &index) const;
+    Path getFullPath(const QModelIndex &index) const;
 
-    Ui::PropertiesWidget *m_ui;
-    BitTorrent::Torrent *m_torrent;
+    Ui::PropertiesWidget *m_ui = nullptr;
+    BitTorrent::Torrent *m_torrent = nullptr;
     SlideState m_state;
-    TorrentContentFilterModel *m_propListModel;
-    PropListDelegate *m_propListDelegate;
-    PeerListWidget *m_peerList;
-    TrackerListWidget *m_trackerList;
+    TorrentContentFilterModel *m_propListModel = nullptr;
+    PropListDelegate *m_propListDelegate = nullptr;
+    PeerListWidget *m_peerList = nullptr;
+    TrackerListWidget *m_trackerList = nullptr;
     QWidget *m_speedWidget = nullptr;
     QList<int> m_slideSizes;
-    DownloadedPiecesBar *m_downloadedPieces;
-    PieceAvailabilityBar *m_piecesAvailability;
-    PropTabBar *m_tabBar;
-    LineEdit *m_contentFilterLine;
-    int m_handleWidth;
+    DownloadedPiecesBar *m_downloadedPieces = nullptr;
+    PieceAvailabilityBar *m_piecesAvailability = nullptr;
+    PropTabBar *m_tabBar = nullptr;
+    LineEdit *m_contentFilterLine = nullptr;
+    int m_handleWidth = -1;
 };
