@@ -85,6 +85,7 @@ namespace
     const QString KEY_TRANSFER_DLRATELIMIT = u"dl_rate_limit"_qs;
     const QString KEY_TRANSFER_DLSPEED = u"dl_info_speed"_qs;
     const QString KEY_TRANSFER_FREESPACEONDISK = u"free_space_on_disk"_qs;
+    const QString KEY_TRANSFER_MYPUBLICIP = u"my_public_ip";
     const QString KEY_TRANSFER_UPDATA = u"up_info_data"_qs;
     const QString KEY_TRANSFER_UPRATELIMIT = u"up_rate_limit"_qs;
     const QString KEY_TRANSFER_UPSPEED = u"up_info_speed"_qs;
