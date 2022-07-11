@@ -1,6 +1,6 @@
 FROM ubuntu:21.10
 
-ENV DEBIAN_FRONTEND=noninteractive 
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update \
     && apt install -y build-essential pkg-config automake libtool zlib1g-dev libssl-dev libgeoip-dev \
@@ -26,4 +26,3 @@ EXPOSE 8089
 
 ONBUILD WORKDIR /qbt
 ONBUILD RUN rm -rf github
-
