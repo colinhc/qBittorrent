@@ -2333,7 +2333,7 @@ bool SessionImpl::deleteTorrent(const TorrentID &id, const DeleteOption deleteOp
     }
 
     // Remove it from torrent resume directory
-    m_resumeDataStorage->remove(resumeDataID(torrent));
+    m_resumeDataStorage->remove(torrent->id());
 
     delete torrent;
     return true;
