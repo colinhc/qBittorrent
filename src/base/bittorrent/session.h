@@ -429,7 +429,7 @@ namespace BitTorrent
         virtual void topTorrentsQueuePos(const QVector<TorrentID> &ids) = 0;
         virtual void bottomTorrentsQueuePos(const QVector<TorrentID> &ids) = 0;
 
-        virtual QString externalIp() const;
+        virtual QString externalIp() const = 0;
 
     signals:
         void startupProgressUpdated(int progress);
