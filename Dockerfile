@@ -1,4 +1,5 @@
-FROM ubuntu:21.10
+# docker build ./ -t :nox
+FROM ubuntu:23.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -6,11 +7,7 @@ RUN apt update \
     && apt install -y build-essential pkg-config automake libtool zlib1g-dev libssl-dev libgeoip-dev \
         libboost-dev libboost-system-dev libboost-random-dev \
     && apt install -y python3 \
-    && apt install -y qtbase5-dev qttools5-dev libqt5svg5-dev
-
-RUN apt install -y software-properties-common \
-    && add-apt-repository -y ppa:libtorrent.org/1.2-daily \
-    && apt update \
+    && apt install -y qtbase5-dev qttools5-dev libqt5svg5-dev \
     && apt install -y libtorrent-rasterbar-dev
 
 RUN apt install -y curl tree vim \
