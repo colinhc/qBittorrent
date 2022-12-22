@@ -58,11 +58,12 @@
 
 namespace BitTorrent
 {
-    class Session;
+    class SessionImpl;
     struct LoadTorrentParams;
 
     enum class MoveStorageMode
     {
+        FailIfExist,
         KeepExistingFiles,
         Overwrite
     };
@@ -79,13 +80,13 @@ namespace BitTorrent
         lt::operation_t operation;
     };
 
-    class TorrentImpl final : public QObject, public Torrent
+    class TorrentImpl final : public Torrent
     {
+        Q_OBJECT
         Q_DISABLE_COPY_MOVE(TorrentImpl)
-        Q_DECLARE_TR_FUNCTIONS(BitTorrent::TorrentImpl)
 
     public:
-        TorrentImpl(Session *session, lt::session *nativeSession
+        TorrentImpl(SessionImpl *session, lt::session *nativeSession
                           , const lt::torrent_handle &nativeHandle, const LoadTorrentParams &params);
         ~TorrentImpl() override;
 
@@ -144,6 +145,7 @@ namespace BitTorrent
         bool isForced() const override;
         bool isChecking() const override;
         bool isDownloading() const override;
+        bool isMoving() const override;
         bool isUploading() const override;
         bool isCompleted() const override;
         bool isActive() const override;
@@ -171,8 +173,6 @@ namespace BitTorrent
         int totalSeedsCount() const override;
         int totalPeersCount() const override;
         int totalLeechersCount() const override;
-        int completeCount() const override;
-        int incompleteCount() const override;
         QDateTime lastSeenComplete() const override;
         QDateTime completedTime() const override;
         qlonglong timeSinceUpload() const override;
@@ -227,10 +227,21 @@ namespace BitTorrent
         void removeUrlSeeds(const QVector<QUrl> &urlSeeds) override;
         bool connectPeer(const PeerAddress &peerAddress) override;
         void clearPeers() override;
+        void setMetadata(const TorrentInfo &torrentInfo) override;
+
+        StopCondition stopCondition() const override;
+        void setStopCondition(StopCondition stopCondition) override;
 
         QString createMagnetURI() const override;
         nonstd::expected<QByteArray, QString> exportToBuffer() const override;
         nonstd::expected<void, QString> exportToFile(const Path &path) const override;
+
+        void fetchPeerInfo(std::function<void (QVector<PeerInfo>)> resultHandler) const override;
+        void fetchURLSeeds(std::function<void (QVector<QUrl>)> resultHandler) const override;
+        void fetchFilesProgress(std::function<void (QVector<qreal>)> resultHandler) const override;
+        void fetchPieceAvailability(std::function<void (QVector<int>)> resultHandler) const override;
+        void fetchDownloadingPieces(std::function<void (QBitArray)> resultHandler) const override;
+        void fetchAvailableFileFractions(std::function<void (QVector<qreal>)> resultHandler) const override;
 
         bool needSaveResumeData() const;
 
@@ -241,18 +252,16 @@ namespace BitTorrent
         void handleStateUpdate(const lt::torrent_status &nativeStatus);
         void handleCategoryOptionsChanged();
         void handleAppendExtensionToggled();
-        void saveResumeData();
+        void saveResumeData(lt::resume_data_flags_t flags = {});
         void handleMoveStorageJobFinished(const Path &path, bool hasOutstandingJob);
         void fileSearchFinished(const Path &savePath, const PathList &fileNames);
-        void updatePeerCount(const QString &trackerURL, const TrackerEntry::Endpoint &endpoint, int count);
-        void invalidateTrackerEntry(const QString &trackerURL);
+        TrackerEntry updateTrackerEntry(const lt::announce_entry &announceEntry, const QMap<TrackerEntry::Endpoint, int> &updateInfo);
 
     private:
         using EventTrigger = std::function<void ()>;
 
         std::shared_ptr<const lt::torrent_info> nativeTorrentInfo() const;
 
-        void refreshTrackerEntries() const;
         void updateStatus(const lt::torrent_status &nativeStatus);
         void updateState();
 
@@ -277,7 +286,9 @@ namespace BitTorrent
 
         void setAutoManaged(bool enable);
 
+        Path wantedActualPath(int index, const Path &path) const;
         void adjustStorageLocation();
+        void doRenameFile(int index, const Path &path);
         void moveStorage(const Path &newPath, MoveStorageMode mode);
         void manageIncompleteFiles();
         void applyFirstLastPiecePriority(bool enabled);
@@ -288,7 +299,10 @@ namespace BitTorrent
 
         nonstd::expected<lt::entry, QString> exportTorrent() const;
 
-        Session *const m_session = nullptr;
+        template <typename Func, typename Callback>
+        void invokeAsync(Func func, Callback resultHandler) const;
+
+        SessionImpl *const m_session = nullptr;
         lt::session *m_nativeSession = nullptr;
         lt::torrent_handle m_nativeHandle;
         mutable lt::torrent_status m_nativeStatus;
@@ -298,7 +312,7 @@ namespace BitTorrent
         QHash<lt::file_index_t, int> m_indexMap;
         QVector<DownloadPriority> m_filePriorities;
         QBitArray m_completedFiles;
-        SpeedMonitor m_speedMonitor;
+        SpeedMonitor m_payloadRateMonitor;
 
         InfoHash m_infoHash;
 
@@ -312,10 +326,7 @@ namespace BitTorrent
 
         MaintenanceJob m_maintenanceJob = MaintenanceJob::None;
 
-        // TODO: Use QHash<TrackerEntry::Endpoint, int> once Qt5 is dropped.
-        using TrackerEntryUpdateInfo = QMap<TrackerEntry::Endpoint, int>;
-        mutable QHash<QString, TrackerEntryUpdateInfo> m_updatedTrackerEntries;
-        mutable QVector<TrackerEntry> m_trackerEntries;
+        QVector<TrackerEntry> m_trackerEntries;
         FileErrorInfo m_lastFileError;
 
         // Persistent data
@@ -333,10 +344,14 @@ namespace BitTorrent
         bool m_hasFirstLastPiecePriority = false;
         bool m_useAutoTMM;
         bool m_isStopped;
+        StopCondition m_stopCondition = StopCondition::None;
 
         bool m_unchecked = false;
 
         lt::add_torrent_params m_ltAddTorrentParams;
+
+        int m_downloadLimit = 0;
+        int m_uploadLimit = 0;
 
         mutable QBitArray m_pieces;
     };

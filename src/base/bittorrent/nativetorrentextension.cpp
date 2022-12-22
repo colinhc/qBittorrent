@@ -30,26 +30,26 @@
 
 #include <libtorrent/torrent_status.hpp>
 
-namespace
-{
-    bool isAutoManaged(const lt::torrent_status &torrentStatus)
-    {
-        return static_cast<bool>(torrentStatus.flags & lt::torrent_flags::auto_managed);
-    }
-}
-
 NativeTorrentExtension::NativeTorrentExtension(const lt::torrent_handle &torrentHandle, ExtensionData *data)
     : m_torrentHandle {torrentHandle}
     , m_data {data}
 {
-    lt::torrent_status torrentStatus = m_torrentHandle.status({});
-    on_state(torrentStatus.state);
+    // NOTE: `data` may not exist if a torrent is added behind the scenes to download metadata
+
+#ifdef QBT_USES_LIBTORRENT2
+    // libtorrent < 2.0.7 has a bug that add_torrent_alert is posted too early
+    // (before torrent is fully initialized and torrent extensions are created)
+    // so we have to fill "extension data" in add_torrent_alert handler and
+    // we have it already filled at this point
 
     if (m_data)
     {
-        m_data->status = std::move(torrentStatus);
+        m_data->status = m_torrentHandle.status({});
         m_data->trackers = m_torrentHandle.trackers();
     }
+#endif
+
+    on_state(m_data ? m_data->status.state : m_torrentHandle.status({}).state);
 }
 
 NativeTorrentExtension::~NativeTorrentExtension()
@@ -57,19 +57,10 @@ NativeTorrentExtension::~NativeTorrentExtension()
     delete m_data;
 }
 
-bool NativeTorrentExtension::on_pause()
-{
-    if (!isAutoManaged(m_torrentHandle.status({})))
-        m_torrentHandle.unset_flags(lt::torrent_flags::stop_when_ready);
-
-    // return `false` to allow standard handler
-    // and other extensions to be also invoked.
-    return false;
-}
-
 void NativeTorrentExtension::on_state(const lt::torrent_status::state_t state)
 {
-    if (m_state == lt::torrent_status::downloading_metadata)
+    if ((m_state == lt::torrent_status::downloading_metadata)
+            || (m_state == lt::torrent_status::checking_files))
     {
         m_torrentHandle.unset_flags(lt::torrent_flags::auto_managed);
         m_torrentHandle.pause();

@@ -50,8 +50,10 @@
 #include <QProcess>
 
 #ifndef DISABLE_GUI
+#include <QMenu>
 #include <QMessageBox>
 #include <QPixmapCache>
+#include <QProgressDialog>
 #ifdef Q_OS_WIN
 #include <QSessionManager>
 #include <QSharedMemory>
@@ -82,6 +84,7 @@
 #include "base/utils/compare.h"
 #include "base/utils/fs.h"
 #include "base/utils/misc.h"
+#include "base/utils/string.h"
 #include "base/version.h"
 #include "applicationinstancemanager.h"
 #include "filelogger.h"
@@ -193,6 +196,12 @@ Application::Application(int &argc, char **argv)
 
     if (m_commandLineArgs.webUiPort > 0) // it will be -1 when user did not set any value
         Preferences::instance()->setWebUiPort(m_commandLineArgs.webUiPort);
+
+    if (m_commandLineArgs.torrentingPort > 0) // it will be -1 when user did not set any value
+    {
+        SettingValue<int> port {u"BitTorrent/Session/Port"_qs};
+        port = m_commandLineArgs.torrentingPort;
+    }
 }
 
 Application::~Application()
@@ -336,7 +345,22 @@ void Application::processMessage(const QString &message)
 #ifndef DISABLE_GUI
     if (message.isEmpty())
     {
-        m_window->activate(); // show UI
+        // TODO: use [[likely]] in C++20
+        if (Q_LIKELY(BitTorrent::Session::instance()->isRestored()))
+        {
+            m_window->activate(); // show UI
+        }
+        else if (m_startupProgressDialog)
+        {
+            m_startupProgressDialog->show();
+            m_startupProgressDialog->activateWindow();
+            m_startupProgressDialog->raise();
+        }
+        else
+        {
+            createStartupProgressDialog();
+        }
+
         return;
     }
 #endif
@@ -350,66 +374,76 @@ void Application::processMessage(const QString &message)
         m_paramsQueue.append(params);
 }
 
-void Application::runExternalProgram(const BitTorrent::Torrent *torrent) const
+void Application::runExternalProgram(const QString &programTemplate, const BitTorrent::Torrent *torrent) const
 {
-    QString program = Preferences::instance()->getAutoRunProgram().trimmed();
+    // Cannot give users shell environment by default, as doing so could
+    // enable command injection via torrent name and other arguments
+    // (especially when some automated download mechanism has been setup).
+    // See: https://github.com/qbittorrent/qBittorrent/issues/10925
 
-    for (int i = (program.length() - 2); i >= 0; --i)
+    const auto replaceVariables = [torrent](QString str) -> QString
     {
-        if (program[i] != u'%')
-            continue;
-
-        const ushort specifier = program[i + 1].unicode();
-        switch (specifier)
+        for (int i = (str.length() - 2); i >= 0; --i)
         {
-        case u'C':
-            program.replace(i, 2, QString::number(torrent->filesCount()));
-            break;
-        case u'D':
-            program.replace(i, 2, torrent->savePath().toString());
-            break;
-        case u'F':
-            program.replace(i, 2, torrent->contentPath().toString());
-            break;
-        case u'G':
-            program.replace(i, 2, torrent->tags().join(u","_qs));
-            break;
-        case u'I':
-            program.replace(i, 2, (torrent->infoHash().v1().isValid() ? torrent->infoHash().v1().toString() : u"-"_qs));
-            break;
-        case u'J':
-            program.replace(i, 2, (torrent->infoHash().v2().isValid() ? torrent->infoHash().v2().toString() : u"-"_qs));
-            break;
-        case u'K':
-            program.replace(i, 2, torrent->id().toString());
-            break;
-        case u'L':
-            program.replace(i, 2, torrent->category());
-            break;
-        case u'N':
-            program.replace(i, 2, torrent->name());
-            break;
-        case u'R':
-            program.replace(i, 2, torrent->rootPath().toString());
-            break;
-        case u'T':
-            program.replace(i, 2, torrent->currentTracker());
-            break;
-        case u'Z':
-            program.replace(i, 2, QString::number(torrent->totalSize()));
-            break;
-        default:
-            // do nothing
-            break;
+            if (str[i] != u'%')
+                continue;
+
+            const ushort specifier = str[i + 1].unicode();
+            switch (specifier)
+            {
+            case u'C':
+                str.replace(i, 2, QString::number(torrent->filesCount()));
+                break;
+            case u'D':
+                str.replace(i, 2, torrent->savePath().toString());
+                break;
+            case u'F':
+                str.replace(i, 2, torrent->contentPath().toString());
+                break;
+            case u'G':
+                str.replace(i, 2, torrent->tags().join(u","_qs));
+                break;
+            case u'I':
+                str.replace(i, 2, (torrent->infoHash().v1().isValid() ? torrent->infoHash().v1().toString() : u"-"_qs));
+                break;
+            case u'J':
+                str.replace(i, 2, (torrent->infoHash().v2().isValid() ? torrent->infoHash().v2().toString() : u"-"_qs));
+                break;
+            case u'K':
+                str.replace(i, 2, torrent->id().toString());
+                break;
+            case u'L':
+                str.replace(i, 2, torrent->category());
+                break;
+            case u'N':
+                str.replace(i, 2, torrent->name());
+                break;
+            case u'R':
+                str.replace(i, 2, torrent->rootPath().toString());
+                break;
+            case u'T':
+                str.replace(i, 2, torrent->currentTracker());
+                break;
+            case u'Z':
+                str.replace(i, 2, QString::number(torrent->totalSize()));
+                break;
+            default:
+                // do nothing
+                break;
+            }
+
+            // decrement `i` to avoid unwanted replacement, example pattern: "%%N"
+            --i;
         }
 
-        // decrement `i` to avoid unwanted replacement, example pattern: "%%N"
-        --i;
-    }
+        return str;
+    };
 
-    LogMsg(tr("Torrent: %1, running external program, command: %2").arg(torrent->name(), program));
+    const QString logMsg = tr("Running external program. Torrent: \"%1\". Command: `%2`");
 
+    // The processing sequenece is different for Windows and other OS, this is intentional
 #if defined(Q_OS_WIN)
+    const QString program = replaceVariables(programTemplate);
     const std::wstring programWStr = program.toStdWString();
 
     // Need to split arguments manually because QProcess::startDetached(QString)
@@ -418,9 +452,14 @@ void Application::runExternalProgram(const BitTorrent::Torrent *torrent) const
     int argCount = 0;
     std::unique_ptr<LPWSTR[], decltype(&::LocalFree)> args {::CommandLineToArgvW(programWStr.c_str(), &argCount), ::LocalFree};
 
+    if (argCount <= 0)
+        return;
+
     QStringList argList;
     for (int i = 1; i < argCount; ++i)
         argList += QString::fromWCharArray(args[i]);
+
+    LogMsg(logMsg.arg(torrent->name(), program));
 
     QProcess proc;
     proc.setProgram(QString::fromWCharArray(args[0]));
@@ -448,13 +487,22 @@ void Application::runExternalProgram(const BitTorrent::Torrent *torrent) const
     });
     proc.startDetached();
 #else // Q_OS_WIN
-    // Cannot give users shell environment by default, as doing so could
-    // enable command injection via torrent name and other arguments
-    // (especially when some automated download mechanism has been setup).
-    // See: https://github.com/qbittorrent/qBittorrent/issues/10925
-    QStringList args = QProcess::splitCommand(program);
+    QStringList args = Utils::String::splitCommand(programTemplate);
+
     if (args.isEmpty())
         return;
+
+    for (QString &arg : args)
+    {
+        // strip redundant quotes
+        if (arg.startsWith(u'"') && arg.endsWith(u'"'))
+            arg = arg.mid(1, (arg.size() - 2));
+
+        arg = replaceVariables(arg);
+    }
+
+    // show intended command in log
+    LogMsg(logMsg.arg(torrent->name(), replaceVariables(programTemplate)));
 
     const QString command = args.takeFirst();
     QProcess::startDetached(command, args);
@@ -476,17 +524,26 @@ void Application::sendNotificationEmail(const BitTorrent::Torrent *torrent)
     auto *smtp = new Net::Smtp(this);
     smtp->sendMail(pref->getMailNotificationSender(),
                      pref->getMailNotificationEmail(),
-                     tr("[qBittorrent] '%1' has finished downloading").arg(torrent->name()),
+                     tr("Torrent \"%1\" has finished downloading").arg(torrent->name()),
                      content);
 }
 
-void Application::torrentFinished(BitTorrent::Torrent *const torrent)
+void Application::torrentAdded(const BitTorrent::Torrent *torrent) const
 {
-    Preferences *const pref = Preferences::instance();
+    const Preferences *pref = Preferences::instance();
 
     // AutoRun program
-    if (pref->isAutoRunEnabled())
-        runExternalProgram(torrent);
+    if (pref->isAutoRunOnTorrentAddedEnabled())
+        runExternalProgram(pref->getAutoRunOnTorrentAddedProgram().trimmed(), torrent);
+}
+
+void Application::torrentFinished(const BitTorrent::Torrent *torrent)
+{
+    const Preferences *pref = Preferences::instance();
+
+    // AutoRun program
+    if (pref->isAutoRunOnTorrentFinishedEnabled())
+        runExternalProgram(pref->getAutoRunOnTorrentFinishedProgram().trimmed(), torrent);
 
     // Mail notification
     if (pref->isMailNotificationEnabled())
@@ -625,7 +682,13 @@ void Application::processParams(const AddTorrentParams &params)
 }
 
 int Application::exec(const QStringList &params)
+try
 {
+#if !defined(DISABLE_WEBUI) && defined(DISABLE_GUI)
+    const QString loadingStr = tr("WebUI will be started shortly after internal preparations. Please wait...");
+    printf("%s\n", qUtf8Printable(loadingStr));
+#endif
+
 #ifdef QBT_USES_LIBTORRENT2
     applyMemoryWorkingSetLimit();
 #endif
@@ -639,25 +702,50 @@ int Application::exec(const QStringList &params)
     Net::DownloadManager::initInstance();
     IconProvider::initInstance();
 
-    try
-    {
-        BitTorrent::Session::initInstance();
-        connect(BitTorrent::Session::instance(), &BitTorrent::Session::restored, this, [this]()
-        {
-#ifndef DISABLE_WEBUI
-            m_webui = new WebUI(this);
-#ifdef DISABLE_GUI
-            if (m_webui->isErrored())
-                QCoreApplication::exit(1);
-            connect(m_webui, &WebUI::fatalError, this, []() { QCoreApplication::exit(1); });
-#endif // DISABLE_GUI
-#endif // DISABLE_WEBUI
+    BitTorrent::Session::initInstance();
+#ifndef DISABLE_GUI
+    UIThemeManager::initInstance();
 
-            m_isProcessingParamsAllowed = true;
-            for (const AddTorrentParams &params : m_paramsQueue)
-                processParams(params);
-            m_paramsQueue.clear();
-        });
+    m_desktopIntegration = new DesktopIntegration;
+    m_desktopIntegration->setToolTip(tr("Loading torrents..."));
+#ifndef Q_OS_MACOS
+    auto *desktopIntegrationMenu = new QMenu;
+    auto *actionExit = new QAction(tr("E&xit"), desktopIntegrationMenu);
+    actionExit->setIcon(UIThemeManager::instance()->getIcon(u"application-exit"_qs));
+    actionExit->setMenuRole(QAction::QuitRole);
+    actionExit->setShortcut(Qt::CTRL | Qt::Key_Q);
+    connect(actionExit, &QAction::triggered, this, [this]()
+    {
+        QApplication::exit();
+    });
+    desktopIntegrationMenu->addAction(actionExit);
+
+    m_desktopIntegration->setMenu(desktopIntegrationMenu);
+#endif
+
+    const auto *pref = Preferences::instance();
+#ifndef Q_OS_MACOS
+    const bool isHidden = m_desktopIntegration->isActive() && pref->startMinimized() && pref->minimizeToTray();
+#else
+    const bool isHidden = false;
+#endif
+
+    if (!isHidden)
+    {
+        createStartupProgressDialog();
+        // Add a small delay to avoid "flashing" the progress dialog in case there are not many torrents to restore.
+        m_startupProgressDialog->setMinimumDuration(1000);
+        if (pref->startMinimized())
+            m_startupProgressDialog->setWindowState(Qt::WindowMinimized);
+    }
+    else
+    {
+        connect(m_desktopIntegration, &DesktopIntegration::activationRequested, this, &Application::createStartupProgressDialog);
+    }
+#endif
+    connect(BitTorrent::Session::instance(), &BitTorrent::Session::restored, this, [this]()
+    {
+        connect(BitTorrent::Session::instance(), &BitTorrent::Session::torrentAdded, this, &Application::torrentAdded);
         connect(BitTorrent::Session::instance(), &BitTorrent::Session::torrentFinished, this, &Application::torrentFinished);
         connect(BitTorrent::Session::instance(), &BitTorrent::Session::allTorrentsFinished, this, &Application::allTorrentsFinished, Qt::QueuedConnection);
 
@@ -666,84 +754,116 @@ int Application::exec(const QStringList &params)
 
         new RSS::Session; // create RSS::Session singleton
         new RSS::AutoDownloader; // create RSS::AutoDownloader singleton
-    }
-    catch (const RuntimeError &err)
-    {
-#ifdef DISABLE_GUI
-        fprintf(stderr, "%s", qPrintable(err.message()));
-#else
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setText(tr("Application failed to start."));
-        msgBox.setInformativeText(err.message());
-        msgBox.show(); // Need to be shown or to moveToCenter does not work
-        msgBox.move(Utils::Gui::screenCenter(&msgBox));
-        msgBox.exec();
-#endif
-        return 1;
-    }
 
-#ifdef DISABLE_GUI
-#ifndef DISABLE_WEBUI
-    const Preferences *pref = Preferences::instance();
+#ifndef DISABLE_GUI
+        const auto *btSession = BitTorrent::Session::instance();
+        connect(btSession, &BitTorrent::Session::fullDiskError, this
+                , [this](const BitTorrent::Torrent *torrent, const QString &msg)
+        {
+            m_desktopIntegration->showNotification(tr("I/O Error", "i.e: Input/Output Error")
+                                                   , tr("An I/O error occurred for torrent '%1'.\n Reason: %2"
+                                                        , "e.g: An error occurred for torrent 'xxx.avi'.\n Reason: disk is full.").arg(torrent->name(), msg));
+        });
+        connect(btSession, &BitTorrent::Session::loadTorrentFailed, this
+                , [this](const QString &error)
+        {
+            m_desktopIntegration->showNotification(tr("Error"), tr("Failed to add torrent: %1").arg(error));
+        });
+        connect(btSession, &BitTorrent::Session::torrentAdded, this
+                , [this](const BitTorrent::Torrent *torrent)
+        {
+            if (isTorrentAddedNotificationsEnabled())
+                m_desktopIntegration->showNotification(tr("Torrent added"), tr("'%1' was added.", "e.g: xxx.avi was added.").arg(torrent->name()));
+        });
+        connect(btSession, &BitTorrent::Session::torrentFinished, this
+                , [this](const BitTorrent::Torrent *torrent)
+        {
+            m_desktopIntegration->showNotification(tr("Download completed"), tr("'%1' has finished downloading.", "e.g: xxx.avi has finished downloading.").arg(torrent->name()));
+        });
+        connect(btSession, &BitTorrent::Session::downloadFromUrlFailed, this
+                , [this](const QString &url, const QString &reason)
+        {
+            m_desktopIntegration->showNotification(tr("URL download error")
+                                                   , tr("Couldn't download file at URL '%1', reason: %2.").arg(url, reason));
+        });
 
-    const auto scheme = pref->isWebUiHttpsEnabled() ? u"https"_qs : u"http"_qs;
-    const auto url = u"%1://localhost:%2\n"_qs.arg(scheme, QString::number(pref->getWebUiPort()));
-    const QString mesg = u"\n******** %1 ********\n"_qs.arg(tr("Information"))
-        + tr("To control qBittorrent, access the WebUI at: %1").arg(url);
-    printf("%s\n", qUtf8Printable(mesg));
-
-    if (pref->getWebUIPassword() == QByteArrayLiteral("ARQ77eY1NUZaQsuDHbIMCA==:0WMRkYTUWVT9wVvdDtHAjU9b3b7uB8NR1Gur2hmQCvCDpm39Q+PsJRJPaCU51dEiz+dTzh8qbPsL8WkFljQYFQ=="))
-    {
-        const QString warning = tr("The Web UI administrator username is: %1").arg(pref->getWebUiUsername()) + u'\n'
-            + tr("The Web UI administrator password has not been changed from the default: %1").arg(u"adminadmin"_qs) + u'\n'
-            + tr("This is a security risk, please change your password in program preferences.") + u'\n';
-        printf("%s", qUtf8Printable(warning));
-    }
-#endif // DISABLE_WEBUI
-#else
-    UIThemeManager::initInstance();
-
-    const auto *btSession = BitTorrent::Session::instance();
-
-    m_desktopIntegration = new DesktopIntegration(this);
-    connect(btSession, &BitTorrent::Session::fullDiskError, this
-            , [this](const BitTorrent::Torrent *torrent, const QString &msg)
-    {
-        m_desktopIntegration->showNotification(tr("I/O Error", "i.e: Input/Output Error")
-            , tr("An I/O error occurred for torrent '%1'.\n Reason: %2"
-                , "e.g: An error occurred for torrent 'xxx.avi'.\n Reason: disk is full.").arg(torrent->name(), msg));
-    });
-    connect(btSession, &BitTorrent::Session::loadTorrentFailed, this
-            , [this](const QString &error)
-    {
-        m_desktopIntegration->showNotification(tr("Error"), tr("Failed to add torrent: %1").arg(error));
-    });
-    connect(btSession, &BitTorrent::Session::torrentAdded, this
-            , [this](const BitTorrent::Torrent *torrent)
-    {
-        if (isTorrentAddedNotificationsEnabled())
-            m_desktopIntegration->showNotification(tr("Torrent added"), tr("'%1' was added.", "e.g: xxx.avi was added.").arg(torrent->name()));
-    });
-    connect(btSession, &BitTorrent::Session::torrentFinished, this
-            , [this](const BitTorrent::Torrent *torrent)
-    {
-        m_desktopIntegration->showNotification(tr("Download completed"), tr("'%1' has finished downloading.", "e.g: xxx.avi has finished downloading.").arg(torrent->name()));
-    });
-    connect(btSession, &BitTorrent::Session::downloadFromUrlFailed, this
-            , [this](const QString &url, const QString &reason)
-    {
-        m_desktopIntegration->showNotification(tr("URL download error")
-            , tr("Couldn't download file at URL '%1', reason: %2.").arg(url, reason));
-    });
-
-    m_window = new MainWindow(this);
+        disconnect(m_desktopIntegration, &DesktopIntegration::activationRequested, this, &Application::createStartupProgressDialog);
+        // we must not delete menu while it is used by DesktopIntegration
+        auto *oldMenu = m_desktopIntegration->menu();
+        const MainWindow::State windowState = (!m_startupProgressDialog || (m_startupProgressDialog->windowState() & Qt::WindowMinimized))
+                ? MainWindow::Minimized : MainWindow::Normal;
+        m_window = new MainWindow(this, windowState);
+        delete oldMenu;
+        delete m_startupProgressDialog;
+#ifdef Q_OS_WIN
+        auto *pref = Preferences::instance();
+        if (!pref->neverCheckFileAssoc() && (!Preferences::isTorrentFileAssocSet() || !Preferences::isMagnetLinkAssocSet()))
+        {
+            if (QMessageBox::question(m_window, tr("Torrent file association")
+                                      , tr("qBittorrent is not the default application for opening torrent files or Magnet links.\nDo you want to make qBittorrent the default application for these?")
+                                      , QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes)
+            {
+                pref->setTorrentFileAssoc(true);
+                pref->setMagnetLinkAssoc(true);
+            }
+            else
+            {
+                pref->setNeverCheckFileAssoc();
+            }
+        }
+#endif // Q_OS_WIN
 #endif // DISABLE_GUI
+
+#ifndef DISABLE_WEBUI
+        m_webui = new WebUI(this);
+#ifdef DISABLE_GUI
+        if (m_webui->isErrored())
+            QCoreApplication::exit(EXIT_FAILURE);
+        connect(m_webui, &WebUI::fatalError, this, []() { QCoreApplication::exit(EXIT_FAILURE); });
+
+        const Preferences *pref = Preferences::instance();
+
+        const auto scheme = pref->isWebUiHttpsEnabled() ? u"https"_qs : u"http"_qs;
+        const auto url = u"%1://localhost:%2\n"_qs.arg(scheme, QString::number(pref->getWebUiPort()));
+        const QString mesg = u"\n******** %1 ********\n"_qs.arg(tr("Information"))
+                + tr("To control qBittorrent, access the WebUI at: %1").arg(url);
+        printf("%s\n", qUtf8Printable(mesg));
+
+        if (pref->getWebUIPassword() == QByteArrayLiteral("ARQ77eY1NUZaQsuDHbIMCA==:0WMRkYTUWVT9wVvdDtHAjU9b3b7uB8NR1Gur2hmQCvCDpm39Q+PsJRJPaCU51dEiz+dTzh8qbPsL8WkFljQYFQ=="))
+        {
+            const QString warning = tr("The Web UI administrator username is: %1").arg(pref->getWebUiUsername()) + u'\n'
+                    + tr("The Web UI administrator password has not been changed from the default: %1").arg(u"adminadmin"_qs) + u'\n'
+                    + tr("This is a security risk, please change your password in program preferences.") + u'\n';
+            printf("%s", qUtf8Printable(warning));
+        }
+#endif // DISABLE_GUI
+#endif // DISABLE_WEBUI
+
+        m_isProcessingParamsAllowed = true;
+        for (const AddTorrentParams &params : m_paramsQueue)
+            processParams(params);
+        m_paramsQueue.clear();
+    });
 
     if (!params.isEmpty())
         m_paramsQueue.append(parseParams(params));
 
     return BaseApplication::exec();
+}
+catch (const RuntimeError &err)
+{
+#ifdef DISABLE_GUI
+    fprintf(stderr, "%s", qPrintable(err.message()));
+#else
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.setText(QCoreApplication::translate("Application", "Application failed to start."));
+    msgBox.setInformativeText(err.message());
+    msgBox.show(); // Need to be shown or to moveToCenter does not work
+    msgBox.move(Utils::Gui::screenCenter(&msgBox));
+    msgBox.exec();
+#endif
+    return EXIT_FAILURE;
 }
 
 bool Application::isRunning()
@@ -752,6 +872,55 @@ bool Application::isRunning()
 }
 
 #ifndef DISABLE_GUI
+void Application::createStartupProgressDialog()
+{
+    Q_ASSERT(!m_startupProgressDialog);
+    Q_ASSERT(m_desktopIntegration);
+
+    disconnect(m_desktopIntegration, &DesktopIntegration::activationRequested, this, &Application::createStartupProgressDialog);
+
+    m_startupProgressDialog = new QProgressDialog(tr("Loading torrents..."), tr("Exit"), 0, 100);
+    m_startupProgressDialog->setAttribute(Qt::WA_DeleteOnClose);
+    m_startupProgressDialog->setWindowFlag(Qt::WindowMinimizeButtonHint);
+    m_startupProgressDialog->setMinimumDuration(0); // Show dialog immediately by default
+    m_startupProgressDialog->setAutoReset(false);
+    m_startupProgressDialog->setAutoClose(false);
+
+    connect(m_startupProgressDialog, &QProgressDialog::canceled, this, []()
+    {
+        QApplication::exit();
+    });
+
+    connect(BitTorrent::Session::instance(), &BitTorrent::Session::startupProgressUpdated, m_startupProgressDialog, &QProgressDialog::setValue);
+
+    connect(m_desktopIntegration, &DesktopIntegration::activationRequested, m_startupProgressDialog, [this]()
+    {
+#ifdef Q_OS_MACOS
+        if (!m_startupProgressDialog->isVisible())
+        {
+            m_startupProgressDialog->show();
+            m_startupProgressDialog->activateWindow();
+            m_startupProgressDialog->raise();
+        }
+#else
+        if (m_startupProgressDialog->isHidden())
+        {
+            // Make sure the window is not minimized
+            m_startupProgressDialog->setWindowState((m_startupProgressDialog->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+
+            // Then show it
+            m_startupProgressDialog->show();
+            m_startupProgressDialog->raise();
+            m_startupProgressDialog->activateWindow();
+        }
+        else
+        {
+            m_startupProgressDialog->hide();
+        }
+#endif
+    });
+}
+
 #ifdef Q_OS_MACOS
 bool Application::event(QEvent *ev)
 {
@@ -970,6 +1139,14 @@ void Application::cleanup()
     LogMsg(tr("qBittorrent termination initiated"));
 
 #ifndef DISABLE_GUI
+    if (m_desktopIntegration)
+    {
+        m_desktopIntegration->disconnect();
+        m_desktopIntegration->setToolTip(tr("qBittorrent is shutting down..."));
+        if (m_desktopIntegration->menu())
+            m_desktopIntegration->menu()->setEnabled(false);
+    }
+
     if (m_window)
     {
         // Hide the window and don't leave it on screen as
@@ -1024,6 +1201,7 @@ void Application::cleanup()
         ::ShutdownBlockReasonDestroy(reinterpret_cast<HWND>(m_window->effectiveWinId()));
 #endif // Q_OS_WIN
         delete m_window;
+        delete m_desktopIntegration;
         UIThemeManager::freeInstance();
     }
 #endif // DISABLE_GUI

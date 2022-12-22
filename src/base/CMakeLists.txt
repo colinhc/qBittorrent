@@ -30,9 +30,9 @@ add_library(qbt_base STATIC
     bittorrent/portforwarderimpl.h
     bittorrent/resumedatastorage.h
     bittorrent/session.h
+    bittorrent/sessionimpl.h
     bittorrent/sessionstatus.h
     bittorrent/speedmonitor.h
-    bittorrent/statistics.h
     bittorrent/torrent.h
     bittorrent/torrentcontentlayout.h
     bittorrent/torrentcreatorthread.h
@@ -101,6 +101,7 @@ add_library(qbt_base STATIC
     utils/password.h
     utils/random.h
     utils/string.h
+    utils/thread.h
     utils/version.h
     version.h
 
@@ -125,9 +126,8 @@ add_library(qbt_base STATIC
     bittorrent/peerinfo.cpp
     bittorrent/portforwarderimpl.cpp
     bittorrent/resumedatastorage.cpp
-    bittorrent/session.cpp
+    bittorrent/sessionimpl.cpp
     bittorrent/speedmonitor.cpp
-    bittorrent/statistics.cpp
     bittorrent/torrent.cpp
     bittorrent/torrentcreatorthread.cpp
     bittorrent/torrentimpl.cpp
@@ -184,6 +184,7 @@ add_library(qbt_base STATIC
     utils/password.cpp
     utils/random.cpp
     utils/string.cpp
+    utils/thread.cpp
 )
 
 target_link_libraries(qbt_base

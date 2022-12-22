@@ -182,7 +182,6 @@ window.qBittorrent.PropFiles = (function() {
         select.set('id', 'comboPrio' + id);
         select.set('data-id', id);
         select.set('data-file-id', fileId);
-        select.set('disabled', is_seed);
         select.addClass('combo_priority');
         select.addEvent('change', fileComboboxChanged);
 
@@ -204,9 +203,6 @@ window.qBittorrent.PropFiles = (function() {
 
         if (parseInt(combobox.value) !== selectedPriority)
             selectComboboxPriority(combobox, selectedPriority);
-
-        if (combobox.disabled !== is_seed)
-            combobox.disabled = is_seed;
     };
 
     const selectComboboxPriority = function(combobox, priority) {
@@ -565,11 +561,11 @@ window.qBittorrent.PropFiles = (function() {
                     contentURL: 'rename_file.html?hash=' + hash + '&isFolder=' + node.isFolder
                         + '&path=' + encodeURIComponent(path),
                     scrollbars: false,
-                    resizable: false,
+                    resizable: true,
                     maximizable: false,
                     paddingVertical: 0,
                     paddingHorizontal: 0,
-                    width: 250,
+                    width: 400,
                     height: 100
                 });
             },

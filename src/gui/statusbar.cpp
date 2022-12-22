@@ -48,7 +48,7 @@ StatusBar::StatusBar(QWidget *parent)
 {
 #ifndef Q_OS_MACOS
     // Redefining global stylesheet breaks certain elements on mac like tabs.
-    // Qt checks whether the stylesheet class inherts("QMacStyle") and this becomes false.
+    // Qt checks whether the stylesheet class inherits("QMacStyle") and this becomes false.
     setStyleSheet(u"QStatusBar::item { border-width: 0; }"_qs);
 #endif
 
@@ -78,7 +78,7 @@ StatusBar::StatusBar(QWidget *parent)
     m_dlSpeedLbl->setMinimumWidth(200);
 
     m_upSpeedLbl = new QPushButton(this);
-    m_upSpeedLbl->setIcon(UIThemeManager::instance()->getIcon(u"kt-set-max-upload-speed"_qs));
+    m_upSpeedLbl->setIcon(UIThemeManager::instance()->getIcon(u"upload"_qs));
     connect(m_upSpeedLbl, &QAbstractButton::clicked, this, &StatusBar::capSpeed);
     m_upSpeedLbl->setFlat(true);
     m_upSpeedLbl->setFocusPolicy(Qt::NoFocus);

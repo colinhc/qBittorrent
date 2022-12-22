@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="nl">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="nl">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -37,8 +39,32 @@
         <translation>Submap aanmaken</translation>
     </message>
     <message>
-        <source>Don&apos;t create subfolder</source>
+        <source>Don't create subfolder</source>
         <translation>Geen submap aanmaken</translation>
+    </message>
+    <message>
+        <source>Manual</source>
+        <translation>Handmatig</translation>
+    </message>
+    <message>
+        <source>Automatic</source>
+        <translation>Automatisch</translation>
+    </message>
+    <message>
+        <source>Metadata received</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Files checked</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Stop condition:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -75,16 +101,16 @@
         <translation>Torrents pauzeren</translation>
     </message>
     <message>
-        <source>Delete torrents</source>
-        <translation>Torrents verwijderen</translation>
-    </message>
-    <message>
         <source>New Category</source>
         <translation>Nieuwe categorie</translation>
     </message>
     <message>
         <source>Edit category...</source>
         <translation>Categorie bewerken...</translation>
+    </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>Torrents verwijderen</translation>
     </message>
 </context>
 <context>
@@ -263,15 +289,11 @@
     </message>
     <message>
         <source>Download Torrents from their URLs or Magnet links</source>
-        <translation>Torrents downloaden via hun URL&apos;s of magneetkoppelingen</translation>
+        <translation>Torrents downloaden via hun URL's of magneetkoppelingen</translation>
     </message>
     <message>
         <source>Upload local torrent</source>
         <translation>Lokale torrent uploaden</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete the selected torrents from the transfer list?</source>
-        <translation>Weet u zeker dat u de geselecteerde torrents wilt verwijderen uit de overdrachtlijst?</translation>
     </message>
     <message>
         <source>Save</source>
@@ -361,6 +383,10 @@
         <source>Original author</source>
         <translation>Oorspronkelijke auteur</translation>
     </message>
+    <message>
+        <source>Are you sure you want to remove the selected torrents from the transfer list?</source>
+        <translation>Weet u zeker dat u de geselecteerde torrents wilt verwijderen uit de overdrachtlijst?</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -423,10 +449,6 @@
     <message>
         <source>Pause</source>
         <translation>Pauzeren</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Pause All</source>
@@ -573,6 +595,22 @@
         <source>Filters Sidebar</source>
         <translation>Filter-zijbalk</translation>
     </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuleren</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Verwijderen</translation>
+    </message>
+    <message>
+        <source>Would you like to resume all torrents?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Would you like to pause all torrents?</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>OptionsDialog</name>
@@ -611,10 +649,6 @@
     <message>
         <source>Email notification upon download completion</source>
         <translation>Melding via e-mail wanneer download voltooid is</translation>
-    </message>
-    <message>
-        <source>Run external program on torrent completion</source>
-        <translation>Extern programma uitvoeren bij voltooien van de torrent</translation>
     </message>
     <message>
         <source>IP Filtering</source>
@@ -955,8 +989,8 @@
         <translation>%T: huidige tracker</translation>
     </message>
     <message>
-        <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., &quot;%N&quot;)</source>
-        <translation>Tip: omring de parameter met aanhalingstekens om te vermijden dat tekst afgekapt wordt bij witruimte (bijvoorbeeld: &quot;%N&quot;)</translation>
+        <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., "%N")</source>
+        <translation>Tip: omring de parameter met aanhalingstekens om te vermijden dat tekst afgekapt wordt bij witruimte (bijvoorbeeld: "%N")</translation>
     </message>
     <message>
         <source>The Web UI username must be at least 3 characters long.</source>
@@ -1123,10 +1157,6 @@
         <translation>Anti-leech</translation>
     </message>
     <message>
-        <source>Enable OS cache:</source>
-        <translation>Systeembuffer inschakelen:</translation>
-    </message>
-    <message>
         <source>When ratio reaches</source>
         <translation>Wanneer verhouding bereikt wordt van</translation>
     </message>
@@ -1283,10 +1313,6 @@
         <translation>verbannen voor:</translation>
     </message>
     <message>
-        <source>Use piece extent affinity (requires libtorrent &gt;= 1.2.2):</source>
-        <translation>Affiniteit voor deeltjes in de buurt gebruiken (vereist libtorrent &gt;= 1.2.2):</translation>
-    </message>
-    <message>
         <source>Stop tracker timeout:</source>
         <translation>Timeout voor stoppen van tracker:</translation>
     </message>
@@ -1367,10 +1393,6 @@
         <translation>Maximaal aantal artikels per feed:</translation>
     </message>
     <message>
-        <source>Max concurrent HTTP announces (requires libtorrent &gt;= 1.2.7):</source>
-        <translation>Maximaal aantal gelijktijdige HTTP-aankondigingen (vereist libtorrent &gt;= 1.2.7):</translation>
-    </message>
-    <message>
         <source> min</source>
         <translation> min</translation>
     </message>
@@ -1411,10 +1433,6 @@
         <translation>Peer-verbindingsprotocol:</translation>
     </message>
     <message>
-        <source>Support internationalized domain name (IDN) (requires libtorrent &gt;= 1.2.12):</source>
-        <translation>Ondersteuning voor geïnternationaliseerde domeinnamen (IDN) (vereist libtorrent &gt;= 1.2.12):</translation>
-    </message>
-    <message>
         <source>Torrent content layout:</source>
         <translation>Indeling van torrent-inhoud:</translation>
     </message>
@@ -1427,7 +1445,7 @@
         <translation>Oorspronkelijk</translation>
     </message>
     <message>
-        <source>Don&apos;t create subfolder</source>
+        <source>Don't create subfolder</source>
         <translation>Geen submap aanmaken</translation>
     </message>
     <message>
@@ -1452,7 +1470,7 @@
     </message>
     <message>
         <source>Trusted proxies list:</source>
-        <translation>Lijst van vertrouwde proxy&apos;s:</translation>
+        <translation>Lijst van vertrouwde proxy's:</translation>
     </message>
     <message>
         <source>Enable reverse proxy support</source>
@@ -1515,8 +1533,124 @@
         <translation>Type schijf-IO (libtorrent &gt;= 2.0; opnieuw starten vereist)</translation>
     </message>
     <message>
-        <source>Physical memory (RAM) usage limit:</source>
-        <translation>Gebruikslimiet fysiek geheugen (RAM):</translation>
+        <source>Write-through (requires libtorrent &gt;= 2.0.6)</source>
+        <translation>Write-through (vereist libtorrent &gt;= 2.0.6)</translation>
+    </message>
+    <message>
+        <source>It controls the internal state update interval which in turn will affect UI updates</source>
+        <translation>Het regelt het update-interval van de interne status, dat op zijn beurt UI-updates zal beïnvloeden</translation>
+    </message>
+    <message>
+        <source>Disk IO read mode:</source>
+        <translation>Schijf-IO leesmodus:</translation>
+    </message>
+    <message>
+        <source>Disable OS cache</source>
+        <translation>Systeembuffer uitschakelen</translation>
+    </message>
+    <message>
+        <source>Disk IO write mode:</source>
+        <translation>Schijf-IO schrijfmodus:</translation>
+    </message>
+    <message>
+        <source>Use piece extent affinity:</source>
+        <translation>Affiniteit voor deeltjes in de buurt gebruiken:</translation>
+    </message>
+    <message>
+        <source>Max concurrent HTTP announces:</source>
+        <translation>Maximaal aantal gelijktijdige HTTP-aankondigingen:</translation>
+    </message>
+    <message>
+        <source>Enable OS cache</source>
+        <translation>Systeembuffer inschakelen</translation>
+    </message>
+    <message>
+        <source>Refresh interval:</source>
+        <translation>Vernieuwinterval:</translation>
+    </message>
+    <message>
+        <source>Physical memory (RAM) usage limit (applied if libtorrent &gt;= 2.0):</source>
+        <translation>Beperking op het gebruik van fysiek geheugen (RAM) (toegepast als libtorrent &gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>ms</source>
+        <translation>ms</translation>
+    </message>
+    <message>
+        <source>Excluded file names</source>
+        <translation>Uitgesloten bestandsnamen</translation>
+    </message>
+    <message>
+        <source>Support internationalized domain name (IDN):</source>
+        <translation>Ondersteuning voor geïnternationaliseerde domeinnamen (IDN):</translation>
+    </message>
+    <message>
+        <source>Run external program on torrent finished</source>
+        <translation>Extern programma uitvoeren wanneer torrent klaar is</translation>
+    </message>
+    <message>
+        <source>Whitelist for filtering HTTP Host header values.
+In order to defend against DNS rebinding attack,
+you should put in domain names used by WebUI server.
+
+Use ';' to split multiple entries. Can use wildcard '*'.</source>
+        <translation>Whitelist voor filteren van HTTP-host header-waarden.
+Om te verdedigen tegen een DNS-rebinding-aanval
+zet u er domeinnamen in die gebruikt worden door de WebUI-server.
+
+Gebruik ';' om meerdere items te splitsen. Jokerteken '*' kan gebruikt worden.</translation>
+    </message>
+    <message>
+        <source>Run external program on torrent added</source>
+        <translation>Extern programma uitvoeren wanneer torrent toegevoegd wordt</translation>
+    </message>
+    <message>
+        <source>HTTPS certificate should not be empty</source>
+        <translation>HTTPS-certificaat mag niet leeg zijn</translation>
+    </message>
+    <message>
+        <source>Specify reverse proxy IPs (or subnets, e.g. 0.0.0.0/24) in order to use forwarded client address (X-Forwarded-For header). Use ';' to split multiple entries.</source>
+        <translation>Geef reverse proxy IP's (of subnets, bijvoorbeeld 0.0.0.0/24) op om forwarded client adres te gebruiken (X-Forwarded-For header). Gebruik ';' om meerdere items te splitsen.</translation>
+    </message>
+    <message>
+        <source>HTTPS key should not be empty</source>
+        <translation>HTTPS-sleutel mag niet leeg zijn</translation>
+    </message>
+    <message>
+        <source>Run external program</source>
+        <translation>Extern programma uitvoeren</translation>
+    </message>
+    <message>
+        <source>Files checked</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Enable port forwarding for embedded tracker:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>If checked, hostname lookups are done via the proxy.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Use proxy for hostname lookup</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Metadata received</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Torrent stop condition:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Example: 172.17.32.0/24, fdff:ffff:c8::/40</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -1596,6 +1730,10 @@
     <message>
         <source>Add peers...</source>
         <translation>Peers toevoegen...</translation>
+    </message>
+    <message>
+        <source>Peer ID Client</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -2242,10 +2380,6 @@
         <translation>Tracker-URL kopiëren</translation>
     </message>
     <message>
-        <source>Add a new tracker...</source>
-        <translation>Nieuwe tracker toevoegen...</translation>
-    </message>
-    <message>
         <source>Edit tracker URL...</source>
         <translation>Tracker-URL bewerken...</translation>
     </message>
@@ -2293,16 +2427,20 @@
         <source>Times Downloaded</source>
         <translation>Aantal keer gedownload</translation>
     </message>
+    <message>
+        <source>Add trackers...</source>
+        <translation>Trackers toevoegen...</translation>
+    </message>
 </context>
 <context>
     <name>TrackersAdditionDialog</name>
     <message>
-        <source>Trackers addition dialog</source>
-        <translation>Trackers toevoegen-venster</translation>
-    </message>
-    <message>
         <source>List of trackers to add (one per line):</source>
         <translation>Lijst van toe te voegen trackers (een per regel):</translation>
+    </message>
+    <message>
+        <source>Add trackers</source>
+        <translation>Trackers toevoegen</translation>
     </message>
 </context>
 <context>
@@ -2430,11 +2568,6 @@
         <translation>Pauzeren</translation>
     </message>
     <message>
-        <source>Delete</source>
-        <comment>Delete the torrent</comment>
-        <translation>Verwijderen</translation>
-    </message>
-    <message>
         <source>Limit share ratio...</source>
         <translation>Deelverhouding begrenzen...</translation>
     </message>
@@ -2507,10 +2640,6 @@
     <message>
         <source>Download in sequential order</source>
         <translation>In sequentiële volgorde downloaden</translation>
-    </message>
-    <message>
-        <source>Force Recheck</source>
-        <translation>Opnieuw controleren forceren</translation>
     </message>
     <message>
         <source>New Category</source>
@@ -2592,6 +2721,10 @@
         <source>Export .torrent</source>
         <translation>.torrent exporteren</translation>
     </message>
+    <message>
+        <source>Remove</source>
+        <translation>Verwijderen</translation>
+    </message>
 </context>
 <context>
     <name>UpDownRatioDialog</name>
@@ -2626,23 +2759,19 @@
 <context>
     <name>confirmDeletionDlg</name>
     <message>
-        <source>Deletion confirmation</source>
-        <translation>Bevestiging verwijdering</translation>
+        <source>Also permanently delete the files</source>
+        <translation>Bestanden ook permanent verwijderen</translation>
     </message>
     <message>
-        <source>Also delete the files on the hard disk</source>
-        <translation>Ook bestanden op de harde schijf verwijderen</translation>
-    </message>
-    <message>
-        <source>Deletion confirmation - qBittorrent</source>
-        <translation>Bevestiging verwijdering - qBittorrent</translation>
+        <source>Remove torrent(s)</source>
+        <translation>Torrent(s) verwijderen</translation>
     </message>
 </context>
 <context>
     <name>downloadFromURL</name>
     <message>
         <source>Download from URLs</source>
-        <translation>Downloaden uit URL&apos;s</translation>
+        <translation>Downloaden uit URL's</translation>
     </message>
     <message>
         <source>Download</source>
@@ -2829,6 +2958,14 @@
         <source>showing</source>
         <translation>weergeven van</translation>
     </message>
+    <message>
+        <source>Click the "Search plugins..." button at the bottom right of the window to install some.</source>
+        <translation>Klik op de knop "zoekplugins..." rechtsonder in het venster om er enkele te installeren.</translation>
+    </message>
+    <message>
+        <source>There aren't any search plugins installed.</source>
+        <translation>Er zijn geen zoekplugins geïnstalleerd.</translation>
+    </message>
 </context>
 <context>
     <name>PluginSelectDlg</name>
@@ -2857,7 +2994,7 @@
         <translation>Ingeschakeld</translation>
     </message>
     <message>
-        <source>Warning: Be sure to comply with your country&apos;s copyright laws when downloading torrents from any of these search engines.</source>
+        <source>Warning: Be sure to comply with your country's copyright laws when downloading torrents from any of these search engines.</source>
         <translation>Waarschuwing: verzeker u ervan dat u voldoet aan de wetten op auteursrecht in uw land wanneer u torrents downloadt via een van deze zoekmachines.</translation>
     </message>
     <message>
@@ -2953,10 +3090,6 @@
         <translation>Label toevoegen...</translation>
     </message>
     <message>
-        <source>Delete torrents</source>
-        <translation>Torrents verwijderen</translation>
-    </message>
-    <message>
         <source>Tag:</source>
         <translation>Label:</translation>
     </message>
@@ -2979,6 +3112,10 @@
     <message>
         <source>Remove tag</source>
         <translation>Label verwijderen</translation>
+    </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>Torrents verwijderen</translation>
     </message>
 </context>
 <context>
@@ -3395,7 +3532,7 @@
     </message>
     <message>
         <source>Season number is a mandatory non-zero value</source>
-        <translation>Seizoensnummer is een verplichte &quot;geen nul&quot;-waarde</translation>
+        <translation>Seizoensnummer is een verplichte "geen nul"-waarde</translation>
     </message>
     <message>
         <source>Never</source>
@@ -3472,16 +3609,12 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
         <translation>Oorspronkelijk</translation>
     </message>
     <message>
-        <source>Don&apos;t create subfolder</source>
+        <source>Don't create subfolder</source>
         <translation>Geen submap aanmaken</translation>
     </message>
 </context>
 <context>
     <name>TrackerFiltersList</name>
-    <message>
-        <source>Delete torrents</source>
-        <translation>Torrents verwijderen</translation>
-    </message>
     <message>
         <source>Resume torrents</source>
         <translation>Torrents hervatten</translation>
@@ -3497,6 +3630,10 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
     <message>
         <source>Pause torrents</source>
         <translation>Torrents pauzeren</translation>
+    </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>Torrents verwijderen</translation>
     </message>
 </context>
 <context>

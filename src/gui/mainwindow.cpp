@@ -50,10 +50,6 @@
 #include <QtGlobal>
 #include <QTimer>
 
-#ifdef QBT_USES_CUSTOMDBUSNOTIFICATIONS
-#include "notifications/dbusnotifier.h"
-#endif
-
 #include "base/bittorrent/session.h"
 #include "base/bittorrent/sessionstatus.h"
 #include "base/global.h"
@@ -119,9 +115,8 @@ namespace
     }
 }
 
-MainWindow::MainWindow(IGUIApplication *app, QWidget *parent)
-    : QMainWindow(parent)
-    , GUIApplicationComponent(app)
+MainWindow::MainWindow(IGUIApplication *app, const State initialState)
+    : GUIApplicationComponent(app)
     , m_ui(new Ui::MainWindow)
     , m_storeExecutionLogEnabled(EXECUTIONLOG_SETTINGS_KEY(u"Enabled"_qs))
     , m_storeDownloadTrackerFavicon(SETTINGS_KEY(u"DownloadTrackerFavicon"_qs))
@@ -161,12 +156,12 @@ MainWindow::MainWindow(IGUIApplication *app, QWidget *parent)
     m_ui->actionExit->setIcon(UIThemeManager::instance()->getIcon(u"application-exit"_qs));
     m_ui->actionLock->setIcon(UIThemeManager::instance()->getIcon(u"object-locked"_qs));
     m_ui->actionOptions->setIcon(UIThemeManager::instance()->getIcon(u"configure"_qs));
-    m_ui->actionPause->setIcon(UIThemeManager::instance()->getIcon(u"media-playback-pause"_qs));
-    m_ui->actionPauseAll->setIcon(UIThemeManager::instance()->getIcon(u"media-playback-pause"_qs));
-    m_ui->actionStart->setIcon(UIThemeManager::instance()->getIcon(u"media-playback-start"_qs));
-    m_ui->actionStartAll->setIcon(UIThemeManager::instance()->getIcon(u"media-playback-start"_qs));
+    m_ui->actionPause->setIcon(UIThemeManager::instance()->getIcon(u"torrent-stop"_qs));
+    m_ui->actionPauseAll->setIcon(UIThemeManager::instance()->getIcon(u"torrent-stop"_qs));
+    m_ui->actionStart->setIcon(UIThemeManager::instance()->getIcon(u"torrent-start"_qs));
+    m_ui->actionStartAll->setIcon(UIThemeManager::instance()->getIcon(u"torrent-start"_qs));
     m_ui->menuAutoShutdownOnDownloadsCompletion->setIcon(UIThemeManager::instance()->getIcon(u"task-complete"_qs));
-    m_ui->actionManageCookies->setIcon(UIThemeManager::instance()->getIcon(u"preferences-web-browser-cookies"_qs));
+    m_ui->actionManageCookies->setIcon(UIThemeManager::instance()->getIcon(u"browser-cookies"_qs));
     m_ui->menuLog->setIcon(UIThemeManager::instance()->getIcon(u"help-contents"_qs));
     m_ui->actionCheckForUpdates->setIcon(UIThemeManager::instance()->getIcon(u"view-refresh"_qs));
 
@@ -220,8 +215,8 @@ MainWindow::MainWindow(IGUIApplication *app, QWidget *parent)
         tr("Transfers"));
 
     connect(m_searchFilter, &LineEdit::textChanged, m_transferListWidget, &TransferListWidget::applyNameFilter);
-    connect(hSplitter, &QSplitter::splitterMoved, this, &MainWindow::writeSettings);
-    connect(m_splitter, &QSplitter::splitterMoved, this, &MainWindow::writeSplitterSettings);
+    connect(hSplitter, &QSplitter::splitterMoved, this, &MainWindow::saveSettings);
+    connect(m_splitter, &QSplitter::splitterMoved, this, &MainWindow::saveSplitterSettings);
     connect(BitTorrent::Session::instance(), &BitTorrent::Session::trackersChanged, m_propertiesWidget, &PropertiesWidget::loadTrackers);
 
 #ifdef Q_OS_MACOS
@@ -358,7 +353,7 @@ MainWindow::MainWindow(IGUIApplication *app, QWidget *parent)
         m_ui->actionAutoShutdownDisabled->setChecked(true);
 
     // Load Window state and sizes
-    readSettings();
+    loadSettings();
 
     app->desktopIntegration()->setMenu(createDesktopIntegrationMenu());
 #ifndef Q_OS_MACOS
@@ -381,7 +376,7 @@ MainWindow::MainWindow(IGUIApplication *app, QWidget *parent)
 
 #ifdef Q_OS_MACOS
     // Make sure the Window is visible if we don't have a tray icon
-    if (pref->startMinimized())
+    if (initialState == Minimized)
     {
         showMinimized();
     }
@@ -394,13 +389,13 @@ MainWindow::MainWindow(IGUIApplication *app, QWidget *parent)
 #else
     if (app->desktopIntegration()->isActive())
     {
-        if (!(pref->startMinimized() || m_uiLocked))
+        if ((initialState != Minimized) && !m_uiLocked)
         {
             show();
             activateWindow();
             raise();
         }
-        else if (pref->startMinimized())
+        else if (initialState == Minimized)
         {
             showMinimized();
             if (pref->minimizeToTray())
@@ -417,7 +412,7 @@ MainWindow::MainWindow(IGUIApplication *app, QWidget *parent)
     else
     {
         // Make sure the Window is visible if we don't have a tray icon
-        if (pref->startMinimized())
+        if (initialState == Minimized)
         {
             showMinimized();
         }
@@ -461,26 +456,11 @@ MainWindow::MainWindow(IGUIApplication *app, QWidget *parent)
     connect(pref, &Preferences::changed, this, &MainWindow::optionsSaved);
 
     qDebug("GUI Built");
-#ifdef Q_OS_WIN
-    if (!pref->neverCheckFileAssoc() && (!Preferences::isTorrentFileAssocSet() || !Preferences::isMagnetLinkAssocSet()))
-    {
-        if (QMessageBox::question(this, tr("Torrent file association"),
-                                  tr("qBittorrent is not the default application for opening torrent files or Magnet links.\nDo you want to make qBittorrent the default application for these?"),
-                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes)
-                                  {
-            Preferences::setTorrentFileAssoc(true);
-            Preferences::setMagnetLinkAssoc(true);
-        }
-        else
-        {
-            pref->setNeverCheckFileAssoc();
-        }
-    }
-#endif
 }
 
 MainWindow::~MainWindow()
 {
+    app()->desktopIntegration()->setMenu(nullptr);
     delete m_ui;
 }
 
@@ -669,7 +649,7 @@ void MainWindow::displayRSSTab(bool enable)
             m_tabs->addTab(m_rssWidget, tr("RSS (%1)").arg(RSS::Session::instance()->rootFolder()->unreadCount()));
 #else
             const int indexTab = m_tabs->addTab(m_rssWidget, tr("RSS (%1)").arg(RSS::Session::instance()->rootFolder()->unreadCount()));
-            m_tabs->setTabIcon(indexTab, UIThemeManager::instance()->getIcon(u"application-rss+xml"_qs));
+            m_tabs->setTabIcon(indexTab, UIThemeManager::instance()->getIcon(u"application-rss"_qs));
 #endif
         }
     }
@@ -755,23 +735,26 @@ void MainWindow::tabChanged(int newTab)
     }
 }
 
-void MainWindow::writeSettings()
+void MainWindow::saveSettings() const
 {
-    Preferences *const pref = Preferences::instance();
+    auto *pref = Preferences::instance();
     pref->setMainGeometry(saveGeometry());
     m_propertiesWidget->saveSettings();
 }
 
-void MainWindow::writeSplitterSettings()
+void MainWindow::saveSplitterSettings() const
 {
-    Q_ASSERT(m_splitter->widget(0) == m_transferListFiltersWidget);
-    Preferences *const pref = Preferences::instance();
+    if (!m_transferListFiltersWidget)
+        return;
+
+    auto *pref = Preferences::instance();
     pref->setFiltersSidebarWidth(m_splitter->sizes()[0]);
 }
 
 void MainWindow::cleanup()
 {
-    writeSettings();
+    saveSettings();
+    saveSplitterSettings();
 
     // delete RSSWidget explicitly to avoid crash in
     // handleRSSUnreadCountUpdated() at application shutdown
@@ -791,12 +774,15 @@ void MainWindow::cleanup()
         delete w;
 }
 
-void MainWindow::readSettings()
+void MainWindow::loadSettings()
 {
-    const Preferences *const pref = Preferences::instance();
-    const QByteArray mainGeo = pref->getMainGeometry();
-    if (!mainGeo.isEmpty() && restoreGeometry(mainGeo))
+    const auto *pref = Preferences::instance();
+
+    if (const QByteArray mainGeo = pref->getMainGeometry();
+        !mainGeo.isEmpty() && restoreGeometry(mainGeo))
+    {
         m_posInitialized = true;
+    }
 }
 
 void MainWindow::desktopNotificationClicked()
@@ -901,27 +887,33 @@ void MainWindow::displayExecutionLogTab()
 
 // End of keyboard shortcuts slots
 
-void MainWindow::askRecursiveTorrentDownloadConfirmation(BitTorrent::Torrent *const torrent)
+void MainWindow::askRecursiveTorrentDownloadConfirmation(const BitTorrent::Torrent *torrent)
 {
-    Preferences *const pref = Preferences::instance();
-    if (pref->recursiveDownloadDisabled()) return;
+    if (!Preferences::instance()->isRecursiveDownloadEnabled())
+        return;
 
     const auto torrentID = torrent->id();
 
     QMessageBox *confirmBox = new QMessageBox(QMessageBox::Question, tr("Recursive download confirmation")
-        , tr("The torrent '%1' contains torrent files, do you want to proceed with their download?").arg(torrent->name())
-        , QMessageBox::NoButton, this);
+        , tr("The torrent '%1' contains .torrent files, do you want to proceed with their downloads?").arg(torrent->name())
+        , (QMessageBox::Yes | QMessageBox::No | QMessageBox::NoToAll), this);
     confirmBox->setAttribute(Qt::WA_DeleteOnClose);
 
-    const QPushButton *yes = confirmBox->addButton(tr("Yes"), QMessageBox::YesRole);
-    /*QPushButton *no = */ confirmBox->addButton(tr("No"), QMessageBox::NoRole);
-    const QPushButton *never = confirmBox->addButton(tr("Never"), QMessageBox::NoRole);
-    connect(confirmBox, &QMessageBox::buttonClicked, this, [torrentID, yes, never](const QAbstractButton *button)
+    const QAbstractButton *yesButton = confirmBox->button(QMessageBox::Yes);
+    QAbstractButton *neverButton = confirmBox->button(QMessageBox::NoToAll);
+    neverButton->setText(tr("Never"));
+
+    connect(confirmBox, &QMessageBox::buttonClicked, this
+        , [torrentID, yesButton, neverButton](const QAbstractButton *button)
     {
-        if (button == yes)
+        if (button == yesButton)
+        {
             BitTorrent::Session::instance()->recursiveTorrentDownload(torrentID);
-        if (button == never)
-            Preferences::instance()->disableRecursiveDownload();
+        }
+        else if (button == neverButton)
+        {
+            Preferences::instance()->setRecursiveDownloadEnabled(false);
+        }
     });
     confirmBox->open();
 }
@@ -1171,11 +1163,6 @@ void MainWindow::closeEvent(QCloseEvent *e)
         }
     }
 
-    // Disable some UI to prevent user interactions
-    app()->desktopIntegration()->disconnect();
-    app()->desktopIntegration()->setToolTip(tr("qBittorrent is shutting down..."));
-    app()->desktopIntegration()->menu()->setEnabled(false);
-
     // Accept exit
     e->accept();
     qApp->exit();
@@ -1392,27 +1379,27 @@ void MainWindow::showStatusBar(bool show)
 
 void MainWindow::showFiltersSidebar(const bool show)
 {
-    Preferences *const pref = Preferences::instance();
-
     if (show && !m_transferListFiltersWidget)
     {
-        const int width = pref->getFiltersSidebarWidth();
         m_transferListFiltersWidget = new TransferListFiltersWidget(m_splitter, m_transferListWidget, isDownloadTrackerFavicon());
-        m_splitter->insertWidget(0, m_transferListFiltersWidget);
-        m_splitter->setCollapsible(0, true);
-        m_splitter->setSizes({width, (m_splitter->width() - width)});
-
         connect(BitTorrent::Session::instance(), &BitTorrent::Session::trackersAdded, m_transferListFiltersWidget, &TransferListFiltersWidget::addTrackers);
         connect(BitTorrent::Session::instance(), &BitTorrent::Session::trackersRemoved, m_transferListFiltersWidget, &TransferListFiltersWidget::removeTrackers);
         connect(BitTorrent::Session::instance(), &BitTorrent::Session::trackersChanged, m_transferListFiltersWidget, &TransferListFiltersWidget::refreshTrackers);
         connect(BitTorrent::Session::instance(), &BitTorrent::Session::trackerlessStateChanged, m_transferListFiltersWidget, &TransferListFiltersWidget::changeTrackerless);
         connect(BitTorrent::Session::instance(), &BitTorrent::Session::trackerEntriesUpdated, m_transferListFiltersWidget, &TransferListFiltersWidget::trackerEntriesUpdated);
+
+        m_splitter->insertWidget(0, m_transferListFiltersWidget);
+        m_splitter->setCollapsible(0, true);
+        // From https://doc.qt.io/qt-5/qsplitter.html#setSizes:
+        // Instead, any additional/missing space is distributed amongst the widgets
+        // according to the relative weight of the sizes.
+        m_splitter->setStretchFactor(0, 0);
+        m_splitter->setStretchFactor(1, 1);
+        m_splitter->setSizes({Preferences::instance()->getFiltersSidebarWidth()});
     }
     else if (!show && m_transferListFiltersWidget)
     {
-        Q_ASSERT(m_splitter->widget(0) == m_transferListFiltersWidget);
-
-        pref->setFiltersSidebarWidth(m_splitter->sizes()[0]);
+        saveSplitterSettings();
         delete m_transferListFiltersWidget;
         m_transferListFiltersWidget = nullptr;
     }
@@ -1528,13 +1515,10 @@ void MainWindow::reloadSessionStats()
         MacUtils::setBadgeLabelText({});
     }
 #else
-    if (app()->desktopIntegration()->isActive())
-    {
-        const auto toolTip = u"%1\n%2"_qs.arg(
-            tr("DL speed: %1", "e.g: Download speed: 10 KiB/s").arg(Utils::Misc::friendlyUnit(status.payloadDownloadRate, true))
-            , tr("UP speed: %1", "e.g: Upload speed: 10 KiB/s").arg(Utils::Misc::friendlyUnit(status.payloadUploadRate, true)));
-        app()->desktopIntegration()->setToolTip(toolTip); // tray icon
-    }
+    const auto toolTip = u"%1\n%2"_qs.arg(
+        tr("DL speed: %1", "e.g: Download speed: 10 KiB/s").arg(Utils::Misc::friendlyUnit(status.payloadDownloadRate, true))
+        , tr("UP speed: %1", "e.g: Upload speed: 10 KiB/s").arg(Utils::Misc::friendlyUnit(status.payloadUploadRate, true)));
+    app()->desktopIntegration()->setToolTip(toolTip); // tray icon
 #endif  // Q_OS_MACOS
 
     if (m_displaySpeedInTitle)

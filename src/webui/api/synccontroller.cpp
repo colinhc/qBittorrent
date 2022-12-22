@@ -34,11 +34,14 @@
 #include <QMetaObject>
 #include <QThread>
 
+#include "base/bittorrent/cachestatus.h"
 #include "base/bittorrent/infohash.h"
 #include "base/bittorrent/peeraddress.h"
 #include "base/bittorrent/peerinfo.h"
 #include "base/bittorrent/session.h"
+#include "base/bittorrent/sessionstatus.h"
 #include "base/bittorrent/torrent.h"
+#include "base/bittorrent/torrentinfo.h"
 #include "base/bittorrent/trackerentry.h"
 #include "base/global.h"
 #include "base/net/geoipmanager.h"
@@ -63,6 +66,7 @@ namespace
 
     // Peer keys
     const QString KEY_PEER_CLIENT = u"client"_qs;
+    const QString KEY_PEER_ID_CLIENT = u"peer_id_client"_qs;
     const QString KEY_PEER_CONNECTION_TYPE = u"connection"_qs;
     const QString KEY_PEER_COUNTRY = u"country"_qs;
     const QString KEY_PEER_COUNTRY_CODE = u"country_code"_qs;
@@ -127,8 +131,8 @@ namespace
         map[KEY_TRANSFER_DLRATELIMIT] = session->downloadSpeedLimit();
         map[KEY_TRANSFER_UPRATELIMIT] = session->uploadSpeedLimit();
 
-        const qint64 atd = session->getAlltimeDL();
-        const qint64 atu = session->getAlltimeUL();
+        const qint64 atd = sessionStatus.allTimeDownload;
+        const qint64 atu = sessionStatus.allTimeUpload;
         map[KEY_TRANSFER_ALLTIME_DL] = atd;
         map[KEY_TRANSFER_ALLTIME_UL] = atu;
         map[KEY_TRANSFER_TOTAL_WASTE_SESSION] = sessionStatus.totalWasted;
@@ -370,23 +374,17 @@ namespace
 
 SyncController::SyncController(IApplication *app, QObject *parent)
     : APIController(app, parent)
+    , m_freeDiskSpaceChecker {new FreeDiskSpaceChecker}
+    , m_freeDiskSpaceThread {new QThread}
 {
-    m_freeDiskSpaceThread = new QThread(this);
-    m_freeDiskSpaceChecker = new FreeDiskSpaceChecker();
-    m_freeDiskSpaceChecker->moveToThread(m_freeDiskSpaceThread);
+    m_freeDiskSpaceChecker->moveToThread(m_freeDiskSpaceThread.get());
 
-    connect(m_freeDiskSpaceThread, &QThread::finished, m_freeDiskSpaceChecker, &QObject::deleteLater);
+    connect(m_freeDiskSpaceThread.get(), &QThread::finished, m_freeDiskSpaceChecker, &QObject::deleteLater);
     connect(m_freeDiskSpaceChecker, &FreeDiskSpaceChecker::checked, this, &SyncController::freeDiskSpaceSizeUpdated);
 
     m_freeDiskSpaceThread->start();
     invokeChecker();
     m_freeDiskSpaceElapsedTimer.start();
-}
-
-SyncController::~SyncController()
-{
-    m_freeDiskSpaceThread->quit();
-    m_freeDiskSpaceThread->wait();
 }
 
 // The function returns the changed data from the server to synchronize with the web client.
@@ -538,7 +536,7 @@ void SyncController::maindataAction()
 void SyncController::torrentPeersAction()
 {
     const auto id = BitTorrent::TorrentID::fromString(params()[u"hash"_qs]);
-    const BitTorrent::Torrent *torrent = BitTorrent::Session::instance()->findTorrent(id);
+    const BitTorrent::Torrent *torrent = BitTorrent::Session::instance()->getTorrent(id);
     if (!torrent)
         throw APIError(APIErrorType::NotFound);
 
@@ -560,6 +558,7 @@ void SyncController::torrentPeersAction()
             {KEY_PEER_IP, pi.address().ip.toString()},
             {KEY_PEER_PORT, pi.address().port},
             {KEY_PEER_CLIENT, pi.client()},
+            {KEY_PEER_ID_CLIENT, pi.peerIdClient()},
             {KEY_PEER_PROGRESS, pi.progress()},
             {KEY_PEER_DOWN_SPEED, pi.payloadDownSpeed()},
             {KEY_PEER_UP_SPEED, pi.payloadUpSpeed()},

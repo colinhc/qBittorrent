@@ -382,7 +382,7 @@ const initializeWindows = function() {
         if (hashes.length) {
             new MochaUI.Window({
                 id: 'confirmDeletionPage',
-                title: "QBT_TR(Deletion confirmation)QBT_TR[CONTEXT=confirmDeletionDlg]",
+                title: "QBT_TR(Remove torrent(s))QBT_TR[CONTEXT=confirmDeletionDlg]",
                 loadMethod: 'iframe',
                 contentURL: new URI("confirmdeletion.html").setData("hashes", hashes.join("|")).setData("deleteFiles", deleteFiles).toString(),
                 scrollbars: false,
@@ -659,7 +659,7 @@ const initializeWindows = function() {
         if (hashes.length) {
             new MochaUI.Window({
                 id: 'confirmDeletionPage',
-                title: "QBT_TR(Deletion confirmation)QBT_TR[CONTEXT=confirmDeletionDlg]",
+                title: "QBT_TR(Remove torrent(s))QBT_TR[CONTEXT=confirmDeletionDlg]",
                 loadMethod: 'iframe',
                 contentURL: new URI("confirmdeletion.html").setData("hashes", hashes.join("|")).toString(),
                 scrollbars: false,
@@ -800,7 +800,7 @@ const initializeWindows = function() {
         if (hashes.length) {
             new MochaUI.Window({
                 id: 'confirmDeletionPage',
-                title: "QBT_TR(Deletion confirmation)QBT_TR[CONTEXT=confirmDeletionDlg]",
+                title: "QBT_TR(Remove torrent(s))QBT_TR[CONTEXT=confirmDeletionDlg]",
                 loadMethod: 'iframe',
                 contentURL: new URI("confirmdeletion.html").setData("hashes", hashes.join("|")).toString(),
                 scrollbars: false,
@@ -886,7 +886,7 @@ const initializeWindows = function() {
         if (hashes.length) {
             new MochaUI.Window({
                 id: 'confirmDeletionPage',
-                title: "QBT_TR(Deletion confirmation)QBT_TR[CONTEXT=confirmDeletionDlg]",
+                title: "QBT_TR(Remove torrent(s))QBT_TR[CONTEXT=confirmDeletionDlg]",
                 loadMethod: 'iframe',
                 contentURL: new URI("confirmdeletion.html").setData("hashes", hashes.join("|")).toString(),
                 scrollbars: false,
@@ -979,18 +979,34 @@ const initializeWindows = function() {
         }
     };
 
-    ['pause', 'resume'].each(function(item) {
-        addClickEvent(item + 'All', function(e) {
-            new Event(e).stop();
+    addClickEvent('pauseAll', (e) => {
+        new Event(e).stop();
+
+        if (confirm('QBT_TR(Would you like to pause all torrents?)QBT_TR[CONTEXT=MainWindow]')) {
             new Request({
-                url: 'api/v2/torrents/' + item,
+                url: 'api/v2/torrents/pause',
                 method: 'post',
                 data: {
                     hashes: "all"
                 }
             }).send();
             updateMainData();
-        });
+        }
+    });
+
+    addClickEvent('resumeAll', (e) => {
+        new Event(e).stop();
+
+        if (confirm('QBT_TR(Would you like to resume all torrents?)QBT_TR[CONTEXT=MainWindow]')) {
+            new Request({
+                url: 'api/v2/torrents/resume',
+                method: 'post',
+                data: {
+                    hashes: "all"
+                }
+            }).send();
+            updateMainData();
+        }
     });
 
     ['pause', 'resume', 'recheck'].each(function(item) {
@@ -1071,6 +1087,7 @@ const initializeWindows = function() {
         if (confirm('QBT_TR(Are you sure you want to quit qBittorrent?)QBT_TR[CONTEXT=MainWindow]')) {
             new Request({
                 url: 'api/v2/app/shutdown',
+                method: 'post',
                 onSuccess: function() {
                     document.write('<!doctype html><html lang="${LANG}"><head> <meta charset="UTF-8"> <title>QBT_TR(qBittorrent has been shutdown)QBT_TR[CONTEXT=HttpServer]</title></head><body> <h1 style="text-align: center;">QBT_TR(qBittorrent has been shutdown)QBT_TR[CONTEXT=HttpServer]</h1></body></html>');
                     document.close();

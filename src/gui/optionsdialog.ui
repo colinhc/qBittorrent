@@ -840,6 +840,52 @@
                 </widget>
                </item>
                <item>
+                <layout class="QHBoxLayout" name="stopConditionLayout">
+                 <item>
+                  <widget class="QLabel" name="stopConditionLabel">
+                   <property name="text">
+                    <string>Torrent stop condition:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="stopConditionComboBox">
+                   <property name="currentIndex">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>None</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Metadata received</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Files checked</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="stopConditionSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+               <item>
                 <widget class="QGroupBox" name="deleteTorrentBox">
                  <property name="toolTip">
                   <string>Whether the .torrent file should be deleted after adding it</string>
@@ -1395,17 +1441,44 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
             <item>
              <widget class="QGroupBox" name="autoRunBox">
               <property name="title">
-               <string>Run e&amp;xternal program on torrent completion</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
+               <string>Run external program</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_19">
                <item>
-                <widget class="QLineEdit" name="lineEditAutoRun"/>
+                <widget class="QGroupBox" name="groupBoxRunOnAdded">
+                 <property name="title">
+                  <string>Run on torrent added</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_39">
+                  <item>
+                   <widget class="QLineEdit" name="lineEditRunOnAdded"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBoxRunOnFinished">
+                 <property name="title">
+                  <string>Run on torrent finished</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_36">
+                  <item>
+                   <widget class="QLineEdit" name="lineEditRunOnFinished"/>
+                  </item>
+                 </layout>
+                </widget>
                </item>
                <item>
                 <widget class="QCheckBox" name="autoRunConsole">
@@ -1780,6 +1853,19 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
                  </property>
                  <property name="checked">
                   <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkProxyHostnameLookup">
+                 <property name="enabled">
+                  <bool>true</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>If checked, hostname lookups are done via the proxy.</string>
+                 </property>
+                 <property name="text">
+                  <string>Use proxy for hostname lookups</string>
                  </property>
                 </widget>
                </item>
@@ -3370,7 +3456,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
                     <item>
                      <widget class="QLineEdit" name="textTrustedReverseProxiesList">
                       <property name="toolTip">
-                       <string>Specify reverse proxy IPs in order to use forwarded client address (X-Forwarded-For attribute), use ';' to split multiple entries.</string>
+                       <string>Specify reverse proxy IPs (or subnets, e.g. 0.0.0.0/24) in order to use forwarded client address (X-Forwarded-For header). Use ';' to split multiple entries.</string>
                       </property>
                      </widget>
                     </item>
@@ -3528,6 +3614,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
   <tabstop>checkUseCustomTheme</tabstop>
   <tabstop>customThemeFilePath</tabstop>
   <tabstop>checkStartPaused</tabstop>
+  <tabstop>stopConditionComboBox</tabstop>
   <tabstop>spinPort</tabstop>
   <tabstop>checkUPnP</tabstop>
   <tabstop>textWebUiUsername</tabstop>
@@ -3576,8 +3663,8 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
   <tabstop>mailNotifUsername</tabstop>
   <tabstop>mailNotifPassword</tabstop>
   <tabstop>checkSmtpSSL</tabstop>
-  <tabstop>autoRunBox</tabstop>
-  <tabstop>lineEditAutoRun</tabstop>
+  <tabstop>lineEditRunOnAdded</tabstop>
+  <tabstop>lineEditRunOnFinished</tabstop>
   <tabstop>scrollArea_3</tabstop>
   <tabstop>randomButton</tabstop>
   <tabstop>checkMaxConnections</tabstop>
@@ -3593,6 +3680,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
   <tabstop>spinProxyPort</tabstop>
   <tabstop>checkProxyPeerConnections</tabstop>
   <tabstop>isProxyOnlyForTorrents</tabstop>
+  <tabstop>checkProxyHostnameLookup</tabstop>
   <tabstop>checkProxyAuth</tabstop>
   <tabstop>textProxyUsername</tabstop>
   <tabstop>textProxyPassword</tabstop>

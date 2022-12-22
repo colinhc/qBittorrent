@@ -97,6 +97,7 @@ namespace
         // embedded tracker
         TRACKER_STATUS,
         TRACKER_PORT,
+        TRACKER_PORT_FORWARDING,
         // libtorrent section
         LIBTORRENT_HEADER,
         ASYNC_IO_THREADS,
@@ -114,7 +115,8 @@ namespace
 #ifdef QBT_USES_LIBTORRENT2
         DISK_IO_TYPE,
 #endif
-        OS_CACHE,
+        DISK_IO_READ_MODE,
+        DISK_IO_WRITE_MODE,
 #ifndef QBT_USES_LIBTORRENT2
         COALESCE_RW,
 #endif
@@ -208,8 +210,10 @@ void AdvancedSettings::saveAdvancedSettings() const
 #ifdef QBT_USES_LIBTORRENT2
     session->setDiskIOType(m_comboBoxDiskIOType.currentData().value<BitTorrent::DiskIOType>());
 #endif
-    // Enable OS cache
-    session->setUseOSCache(m_checkBoxOsCache.isChecked());
+    // Disk IO read mode
+    session->setDiskIOReadMode(m_comboBoxDiskIOReadMode.currentData().value<BitTorrent::DiskIOReadMode>());
+    // Disk IO write mode
+    session->setDiskIOWriteMode(m_comboBoxDiskIOWriteMode.currentData().value<BitTorrent::DiskIOWriteMode>());
 #ifndef QBT_USES_LIBTORRENT2
     // Coalesce reads & writes
     session->setCoalesceReadWriteEnabled(m_checkBoxCoalesceRW.isChecked());
@@ -289,7 +293,9 @@ void AdvancedSettings::saveAdvancedSettings() const
 
     // Tracker
     pref->setTrackerPort(m_spinBoxTrackerPort.value());
+    pref->setTrackerPortForwardingEnabled(m_checkBoxTrackerPortForwarding.isChecked());
     session->setTrackerEnabled(m_checkBoxTrackerStatus.isChecked());
+
     // Choking algorithm
     session->setChokingAlgorithm(m_comboBoxChokingAlgorithm.currentData().value<BitTorrent::ChokingAlgorithm>());
     // Seed choking algorithm
@@ -508,10 +514,21 @@ void AdvancedSettings::loadAdvancedSettings()
     addRow(DISK_IO_TYPE, tr("Disk IO type (requires restart)") + u' ' + makeLink(u"https://www.libtorrent.org/single-page-ref.html#default-disk-io-constructor", u"(?)")
            , &m_comboBoxDiskIOType);
 #endif
-    // Enable OS cache
-    m_checkBoxOsCache.setChecked(session->useOSCache());
-    addRow(OS_CACHE, (tr("Enable OS cache") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#disk_io_write_mode", u"(?)"))
-            , &m_checkBoxOsCache);
+    // Disk IO read mode
+    m_comboBoxDiskIOReadMode.addItem(tr("Disable OS cache"), QVariant::fromValue(BitTorrent::DiskIOReadMode::DisableOSCache));
+    m_comboBoxDiskIOReadMode.addItem(tr("Enable OS cache"), QVariant::fromValue(BitTorrent::DiskIOReadMode::EnableOSCache));
+    m_comboBoxDiskIOReadMode.setCurrentIndex(m_comboBoxDiskIOReadMode.findData(QVariant::fromValue(session->diskIOReadMode())));
+    addRow(DISK_IO_READ_MODE, (tr("Disk IO read mode") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#disk_io_read_mode", u"(?)"))
+            , &m_comboBoxDiskIOReadMode);
+    // Disk IO write mode
+    m_comboBoxDiskIOWriteMode.addItem(tr("Disable OS cache"), QVariant::fromValue(BitTorrent::DiskIOWriteMode::DisableOSCache));
+    m_comboBoxDiskIOWriteMode.addItem(tr("Enable OS cache"), QVariant::fromValue(BitTorrent::DiskIOWriteMode::EnableOSCache));
+#ifdef QBT_USES_LIBTORRENT2
+    m_comboBoxDiskIOWriteMode.addItem(tr("Write-through"), QVariant::fromValue(BitTorrent::DiskIOWriteMode::WriteThrough));
+#endif
+    m_comboBoxDiskIOWriteMode.setCurrentIndex(m_comboBoxDiskIOWriteMode.findData(QVariant::fromValue(session->diskIOWriteMode())));
+    addRow(DISK_IO_WRITE_MODE, (tr("Disk IO write mode") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#disk_io_write_mode", u"(?)"))
+            , &m_comboBoxDiskIOWriteMode);
 #ifndef QBT_USES_LIBTORRENT2
     // Coalesce reads & writes
     m_checkBoxCoalesceRW.setChecked(session->isCoalesceReadWriteEnabled());
@@ -624,12 +641,13 @@ void AdvancedSettings::loadAdvancedSettings()
     // Recheck completed torrents
     m_checkBoxRecheckCompleted.setChecked(pref->recheckTorrentsOnCompletion());
     addRow(RECHECK_COMPLETED, tr("Recheck torrents on completion"), &m_checkBoxRecheckCompleted);
-    // Transfer list refresh interval
+    // Refresh interval
     m_spinBoxListRefresh.setMinimum(30);
     m_spinBoxListRefresh.setMaximum(99999);
     m_spinBoxListRefresh.setValue(session->refreshInterval());
     m_spinBoxListRefresh.setSuffix(tr(" ms", " milliseconds"));
-    addRow(LIST_REFRESH, tr("Transfer list refresh interval"), &m_spinBoxListRefresh);
+    m_spinBoxListRefresh.setToolTip(tr("It controls the internal state update interval which in turn will affect UI updates"));
+    addRow(LIST_REFRESH, tr("Refresh interval"), &m_spinBoxListRefresh);
     // Resolve Peer countries
     m_checkBoxResolveCountries.setChecked(pref->resolvePeerCountries());
     addRow(RESOLVE_COUNTRIES, tr("Resolve peer countries"), &m_checkBoxResolveCountries);
@@ -717,6 +735,9 @@ void AdvancedSettings::loadAdvancedSettings()
     m_spinBoxTrackerPort.setMaximum(65535);
     m_spinBoxTrackerPort.setValue(pref->getTrackerPort());
     addRow(TRACKER_PORT, tr("Embedded tracker port"), &m_spinBoxTrackerPort);
+    // Tracker port forwarding
+    m_checkBoxTrackerPortForwarding.setChecked(pref->isTrackerPortForwardingEnabled());
+    addRow(TRACKER_PORT_FORWARDING, tr("Enable port forwarding for embedded tracker"), &m_checkBoxTrackerPortForwarding);
     // Choking algorithm
     m_comboBoxChokingAlgorithm.addItem(tr("Fixed slots"), QVariant::fromValue(BitTorrent::ChokingAlgorithm::FixedSlots));
     m_comboBoxChokingAlgorithm.addItem(tr("Upload rate based"), QVariant::fromValue(BitTorrent::ChokingAlgorithm::RateBased));

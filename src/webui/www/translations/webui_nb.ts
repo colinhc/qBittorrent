@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="nb">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="nb">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -37,8 +39,32 @@
         <translation>Lag undermappe</translation>
     </message>
     <message>
-        <source>Don&apos;t create subfolder</source>
+        <source>Don't create subfolder</source>
         <translation>Ikke lag undermappe</translation>
+    </message>
+    <message>
+        <source>Manual</source>
+        <translation>Manuell</translation>
+    </message>
+    <message>
+        <source>Automatic</source>
+        <translation>Automatisk</translation>
+    </message>
+    <message>
+        <source>Metadata received</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Files checked</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Stop condition:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -75,16 +101,16 @@
         <translation>Sett torrenter på pause</translation>
     </message>
     <message>
-        <source>Delete torrents</source>
-        <translation>Slett torrenter</translation>
-    </message>
-    <message>
         <source>New Category</source>
         <translation>Ny kategori</translation>
     </message>
     <message>
         <source>Edit category...</source>
         <translation>Rediger kategori …</translation>
+    </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>Fjern torrenter</translation>
     </message>
 </context>
 <context>
@@ -270,10 +296,6 @@
         <translation>Last opp lokal torrent</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the selected torrents from the transfer list?</source>
-        <translation>Er du sikker på at du vil slette valgte torrenter fra overføringslisten?</translation>
-    </message>
-    <message>
         <source>Save</source>
         <translation>Lagre</translation>
     </message>
@@ -361,6 +383,10 @@
         <source>Original author</source>
         <translation>Opprinnelig opphavsperson</translation>
     </message>
+    <message>
+        <source>Are you sure you want to remove the selected torrents from the transfer list?</source>
+        <translation>Er du sikker på at du vil slette valgte torrenter fra overføringslisten?</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -423,10 +449,6 @@
     <message>
         <source>Pause</source>
         <translation>Sett på pause</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Slett</translation>
     </message>
     <message>
         <source>Pause All</source>
@@ -573,6 +595,22 @@
         <source>Filters Sidebar</source>
         <translation>Sidestolpe med filter</translation>
     </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Avbryt</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Fjern</translation>
+    </message>
+    <message>
+        <source>Would you like to resume all torrents?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Would you like to pause all torrents?</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>OptionsDialog</name>
@@ -611,10 +649,6 @@
     <message>
         <source>Email notification upon download completion</source>
         <translation>Epost-varsling ved nedlastingsfullførelse</translation>
-    </message>
-    <message>
-        <source>Run external program on torrent completion</source>
-        <translation>Kjør eksternt program ved ferdigstillelse av torrenter</translation>
     </message>
     <message>
         <source>IP Filtering</source>
@@ -955,8 +989,8 @@
         <translation>%T: Nåværende sporer</translation>
     </message>
     <message>
-        <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., &quot;%N&quot;)</source>
-        <translation>Tips: Innkapsle parameter med anførselstegn for å unngå at teksten blir avskåret ved mellomrom (f.eks., &quot;%N&quot;)</translation>
+        <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., "%N")</source>
+        <translation>Tips: Innkapsle parameter med anførselstegn for å unngå at teksten blir avskåret ved mellomrom (f.eks., "%N")</translation>
     </message>
     <message>
         <source>The Web UI username must be at least 3 characters long.</source>
@@ -1123,10 +1157,6 @@
         <translation>Anti-snylting</translation>
     </message>
     <message>
-        <source>Enable OS cache:</source>
-        <translation>Aktiver OS-hurtiglager:</translation>
-    </message>
-    <message>
         <source>When ratio reaches</source>
         <translation>Når forholdet når</translation>
     </message>
@@ -1283,10 +1313,6 @@
         <translation>bannlys i:</translation>
     </message>
     <message>
-        <source>Use piece extent affinity (requires libtorrent &gt;= 1.2.2):</source>
-        <translation>La likemenn foretrekke nærliggende deler (krever libtorrent &gt;= 1.2.2):</translation>
-    </message>
-    <message>
         <source>Stop tracker timeout:</source>
         <translation>Tidsavbrudd for sporers stopp-hendelse:</translation>
     </message>
@@ -1367,10 +1393,6 @@
         <translation>Maksimalt antall artikler per mating:</translation>
     </message>
     <message>
-        <source>Max concurrent HTTP announces (requires libtorrent &gt;= 1.2.7):</source>
-        <translation>Største antall samtidige HTTP-annonseringer (krever libtorrent &gt;= 1.2.7):</translation>
-    </message>
-    <message>
         <source> min</source>
         <translation>min</translation>
     </message>
@@ -1411,10 +1433,6 @@
         <translation>Protokoll for tilkoblinger fra likemenn:</translation>
     </message>
     <message>
-        <source>Support internationalized domain name (IDN) (requires libtorrent &gt;= 1.2.12):</source>
-        <translation>Støtte for internasjonale domenenavn (IDN) (krever libtorrent &gt;= 1.2.12):</translation>
-    </message>
-    <message>
         <source>Torrent content layout:</source>
         <translation>Oppsett av innhold i torrent:</translation>
     </message>
@@ -1427,7 +1445,7 @@
         <translation>Opprinnelig</translation>
     </message>
     <message>
-        <source>Don&apos;t create subfolder</source>
+        <source>Don't create subfolder</source>
         <translation>Ikke lag undermappe</translation>
     </message>
     <message>
@@ -1515,8 +1533,124 @@
         <translation>Type disk-IU (libtorrent &gt;= 2.0; krever omstart):</translation>
     </message>
     <message>
-        <source>Physical memory (RAM) usage limit:</source>
-        <translation>Grense for bruk av fysisk minne (RAM):</translation>
+        <source>Write-through (requires libtorrent &gt;= 2.0.6)</source>
+        <translation>Skriv-gjennom (krever libtorrent &gt;= 2.0.6)</translation>
+    </message>
+    <message>
+        <source>It controls the internal state update interval which in turn will affect UI updates</source>
+        <translation>Styrer internt oppdateringsintervall for status, som igjen påvirker oppdatering av brukergrensesnitt</translation>
+    </message>
+    <message>
+        <source>Disk IO read mode:</source>
+        <translation>Lesemodus for disk-I/U:</translation>
+    </message>
+    <message>
+        <source>Disable OS cache</source>
+        <translation>Slå av OS-hurtiglager</translation>
+    </message>
+    <message>
+        <source>Disk IO write mode:</source>
+        <translation>Lesemodus for disk-I/U:</translation>
+    </message>
+    <message>
+        <source>Use piece extent affinity:</source>
+        <translation>La likemenn foretrekke nærliggende deler</translation>
+    </message>
+    <message>
+        <source>Max concurrent HTTP announces:</source>
+        <translation>Største antall samtidige HTTP-annonseringer:</translation>
+    </message>
+    <message>
+        <source>Enable OS cache</source>
+        <translation>Aktiver OS-hurtiglager</translation>
+    </message>
+    <message>
+        <source>Refresh interval:</source>
+        <translation>Oppdateringsintervall:</translation>
+    </message>
+    <message>
+        <source>Physical memory (RAM) usage limit (applied if libtorrent &gt;= 2.0):</source>
+        <translation>Begrens bruk av fysisk minne (RAM) (kun hvis libtorrent &gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>ms</source>
+        <translation>ms</translation>
+    </message>
+    <message>
+        <source>Excluded file names</source>
+        <translation>Utelatte filnavn</translation>
+    </message>
+    <message>
+        <source>Support internationalized domain name (IDN):</source>
+        <translation>Støtte for internasjonale domenenavn (IDN):</translation>
+    </message>
+    <message>
+        <source>Run external program on torrent finished</source>
+        <translation>Kjør eksternt program når torrent er fullført</translation>
+    </message>
+    <message>
+        <source>Whitelist for filtering HTTP Host header values.
+In order to defend against DNS rebinding attack,
+you should put in domain names used by WebUI server.
+
+Use ';' to split multiple entries. Can use wildcard '*'.</source>
+        <translation>Hviteliste for filtrering av HTTP-vertshodeverdier.
+For å kunne beskytte mot DNS-ombindingsangrep,
+burde du skrive inn domenenavn brukt av vevgrensesnittjeneren.
+
+Bruk ";" for å splitte flerfoldige oppføringer. Jokertegnet "*" kan brukes.</translation>
+    </message>
+    <message>
+        <source>Run external program on torrent added</source>
+        <translation>Kjør eksternt program når torrent legges til</translation>
+    </message>
+    <message>
+        <source>HTTPS certificate should not be empty</source>
+        <translation>HTTPS-sertifikatet kan ikke være tomt</translation>
+    </message>
+    <message>
+        <source>Specify reverse proxy IPs (or subnets, e.g. 0.0.0.0/24) in order to use forwarded client address (X-Forwarded-For header). Use ';' to split multiple entries.</source>
+        <translation>Angi IP-er til reverserte mellomtjenere (f.eks. 0.0.0.0/24 for subnett) for å bruke videresendte klientaddresser (attributtet X-Forwarded-For). Bruk «;» for å adskille flere oppføringer.</translation>
+    </message>
+    <message>
+        <source>HTTPS key should not be empty</source>
+        <translation>HTTPS-nøkkel kan ikke være tom</translation>
+    </message>
+    <message>
+        <source>Run external program</source>
+        <translation>Kjør eksternt program</translation>
+    </message>
+    <message>
+        <source>Files checked</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Enable port forwarding for embedded tracker:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>If checked, hostname lookups are done via the proxy.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Use proxy for hostname lookup</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Metadata received</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Torrent stop condition:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Example: 172.17.32.0/24, fdff:ffff:c8::/40</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -1596,6 +1730,10 @@
     <message>
         <source>Add peers...</source>
         <translation>Legg til likemenn …</translation>
+    </message>
+    <message>
+        <source>Peer ID Client</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -2242,10 +2380,6 @@
         <translation>Kopier sporerens nettadresse</translation>
     </message>
     <message>
-        <source>Add a new tracker...</source>
-        <translation>Legg til en ny sporer …</translation>
-    </message>
-    <message>
         <source>Edit tracker URL...</source>
         <translation>Rediger sporerens nettadresse …</translation>
     </message>
@@ -2293,16 +2427,20 @@
         <source>Times Downloaded</source>
         <translation>Ganger nedlastet</translation>
     </message>
+    <message>
+        <source>Add trackers...</source>
+        <translation>Legg til sporere …</translation>
+    </message>
 </context>
 <context>
     <name>TrackersAdditionDialog</name>
     <message>
-        <source>Trackers addition dialog</source>
-        <translation>Tilleggingsdialog for sporere</translation>
-    </message>
-    <message>
         <source>List of trackers to add (one per line):</source>
         <translation>Liste over sporere som skal legges til (én per linje):</translation>
+    </message>
+    <message>
+        <source>Add trackers</source>
+        <translation>Legg til sporere</translation>
     </message>
 </context>
 <context>
@@ -2430,11 +2568,6 @@
         <translation>Sett på pause</translation>
     </message>
     <message>
-        <source>Delete</source>
-        <comment>Delete the torrent</comment>
-        <translation>Slett</translation>
-    </message>
-    <message>
         <source>Limit share ratio...</source>
         <translation>Begrens delingsforhold …</translation>
     </message>
@@ -2507,10 +2640,6 @@
     <message>
         <source>Download in sequential order</source>
         <translation>Last ned i rekkefølge</translation>
-    </message>
-    <message>
-        <source>Force Recheck</source>
-        <translation>Påtving ny gjennomsjekk</translation>
     </message>
     <message>
         <source>New Category</source>
@@ -2592,6 +2721,10 @@
         <source>Export .torrent</source>
         <translation>Eksporter .torrent</translation>
     </message>
+    <message>
+        <source>Remove</source>
+        <translation>Fjern</translation>
+    </message>
 </context>
 <context>
     <name>UpDownRatioDialog</name>
@@ -2626,16 +2759,12 @@
 <context>
     <name>confirmDeletionDlg</name>
     <message>
-        <source>Deletion confirmation</source>
-        <translation>Slett bekreftelse</translation>
+        <source>Also permanently delete the files</source>
+        <translation>Slett også filene permanent</translation>
     </message>
     <message>
-        <source>Also delete the files on the hard disk</source>
-        <translation>Slett filene på harddisken samtidig</translation>
-    </message>
-    <message>
-        <source>Deletion confirmation - qBittorrent</source>
-        <translation>Slettingsbekreftelse - qBittorrent</translation>
+        <source>Remove torrent(s)</source>
+        <translation>Fjern torrent(er)</translation>
     </message>
 </context>
 <context>
@@ -2829,6 +2958,14 @@
         <source>showing</source>
         <translation>viser</translation>
     </message>
+    <message>
+        <source>Click the "Search plugins..." button at the bottom right of the window to install some.</source>
+        <translation>Klikk knappen «Søk etter programtillegg …» nederst til høyre i vinduet for å installere det.</translation>
+    </message>
+    <message>
+        <source>There aren't any search plugins installed.</source>
+        <translation>Ingen søkeprogramtillegg installert.</translation>
+    </message>
 </context>
 <context>
     <name>PluginSelectDlg</name>
@@ -2857,7 +2994,7 @@
         <translation>Aktivert</translation>
     </message>
     <message>
-        <source>Warning: Be sure to comply with your country&apos;s copyright laws when downloading torrents from any of these search engines.</source>
+        <source>Warning: Be sure to comply with your country's copyright laws when downloading torrents from any of these search engines.</source>
         <translation>Advarsel: Sørg for å overholde ditt lands opphavsrettslovgivning når du laster ned torrenter fra noen av disse søkemotorene.</translation>
     </message>
     <message>
@@ -2953,10 +3090,6 @@
         <translation>Legg til etikett …</translation>
     </message>
     <message>
-        <source>Delete torrents</source>
-        <translation>Slett torrenter</translation>
-    </message>
-    <message>
         <source>Tag:</source>
         <translation>Etikett:</translation>
     </message>
@@ -2979,6 +3112,10 @@
     <message>
         <source>Remove tag</source>
         <translation>Fjern etikett</translation>
+    </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>Fjern torrenter</translation>
     </message>
 </context>
 <context>
@@ -3472,16 +3609,12 @@ Støtter de følgende formatene: S01E01, 1x1, 2017.12.31, og 31.12.2017 (Datofor
         <translation>Opprinnelig</translation>
     </message>
     <message>
-        <source>Don&apos;t create subfolder</source>
+        <source>Don't create subfolder</source>
         <translation>Ikke lag undermappe</translation>
     </message>
 </context>
 <context>
     <name>TrackerFiltersList</name>
-    <message>
-        <source>Delete torrents</source>
-        <translation>Slett torrenter</translation>
-    </message>
     <message>
         <source>Resume torrents</source>
         <translation>Gjenoppta torrenter</translation>
@@ -3497,6 +3630,10 @@ Støtter de følgende formatene: S01E01, 1x1, 2017.12.31, og 31.12.2017 (Datofor
     <message>
         <source>Pause torrents</source>
         <translation>Sett torrenter på pause</translation>
+    </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>Fjern torrenter</translation>
     </message>
 </context>
 <context>

@@ -171,6 +171,9 @@ TransferListWidget::TransferListWidget(QWidget *parent, MainWindow *mainWindow)
         setColumnHidden(TransferListModel::TR_AMOUNT_LEFT, true);
         setColumnHidden(TransferListModel::TR_TIME_ELAPSED, true);
         setColumnHidden(TransferListModel::TR_SAVE_PATH, true);
+        setColumnHidden(TransferListModel::TR_DOWNLOAD_PATH, true);
+        setColumnHidden(TransferListModel::TR_INFOHASH_V1, true);
+        setColumnHidden(TransferListModel::TR_INFOHASH_V2, true);
         setColumnHidden(TransferListModel::TR_COMPLETED, true);
         setColumnHidden(TransferListModel::TR_RATIO_LIMIT, true);
         setColumnHidden(TransferListModel::TR_SEEN_COMPLETE_DATE, true);
@@ -360,12 +363,30 @@ void TransferListWidget::setSelectedTorrentsLocation()
 
 void TransferListWidget::pauseAllTorrents()
 {
+    // Show confirmation if user would really like to Pause All
+    const QMessageBox::StandardButton ret =
+            QMessageBox::question(this, tr("Confirm pause")
+                                  , tr("Would you like to pause all torrents?")
+                                  , (QMessageBox::Yes | QMessageBox::No));
+
+    if (ret != QMessageBox::Yes)
+        return;
+
     for (BitTorrent::Torrent *const torrent : asConst(BitTorrent::Session::instance()->torrents()))
         torrent->pause();
 }
 
 void TransferListWidget::resumeAllTorrents()
 {
+    // Show confirmation if user would really like to Resume All
+    const QMessageBox::StandardButton ret =
+            QMessageBox::question(this, tr("Confirm resume")
+                                  , tr("Would you like to resume all torrents?")
+                                  , (QMessageBox::Yes | QMessageBox::No));
+
+    if (ret != QMessageBox::Yes)
+        return;
+
     for (BitTorrent::Torrent *const torrent : asConst(BitTorrent::Session::instance()->torrents()))
         torrent->resume();
 }
@@ -909,19 +930,19 @@ void TransferListWidget::displayListMenu()
 
     // Create actions
 
-    auto *actionStart = new QAction(UIThemeManager::instance()->getIcon(u"media-playback-start"_qs), tr("&Resume", "Resume/start the torrent"), listMenu);
+    auto *actionStart = new QAction(UIThemeManager::instance()->getIcon(u"torrent-start"_qs), tr("&Resume", "Resume/start the torrent"), listMenu);
     connect(actionStart, &QAction::triggered, this, &TransferListWidget::startSelectedTorrents);
-    auto *actionPause = new QAction(UIThemeManager::instance()->getIcon(u"media-playback-pause"_qs), tr("&Pause", "Pause the torrent"), listMenu);
+    auto *actionPause = new QAction(UIThemeManager::instance()->getIcon(u"torrent-stop"_qs), tr("&Pause", "Pause the torrent"), listMenu);
     connect(actionPause, &QAction::triggered, this, &TransferListWidget::pauseSelectedTorrents);
-    auto *actionForceStart = new QAction(UIThemeManager::instance()->getIcon(u"media-seek-forward"_qs), tr("Force Resu&me", "Force Resume/start the torrent"), listMenu);
+    auto *actionForceStart = new QAction(UIThemeManager::instance()->getIcon(u"torrent-start-forced"_qs), tr("Force Resu&me", "Force Resume/start the torrent"), listMenu);
     connect(actionForceStart, &QAction::triggered, this, &TransferListWidget::forceStartSelectedTorrents);
-    auto *actionDelete = new QAction(UIThemeManager::instance()->getIcon(u"list-remove"_qs), tr("&Delete", "Delete the torrent"), listMenu);
+    auto *actionDelete = new QAction(UIThemeManager::instance()->getIcon(u"list-remove"_qs), tr("&Remove", "Remove the torrent"), listMenu);
     connect(actionDelete, &QAction::triggered, this, &TransferListWidget::softDeleteSelectedTorrents);
     auto *actionPreviewFile = new QAction(UIThemeManager::instance()->getIcon(u"view-preview"_qs), tr("Pre&view file..."), listMenu);
     connect(actionPreviewFile, &QAction::triggered, this, &TransferListWidget::previewSelectedTorrents);
     auto *actionTorrentOptions = new QAction(UIThemeManager::instance()->getIcon(u"configure"_qs), tr("Torrent &options..."), listMenu);
     connect(actionTorrentOptions, &QAction::triggered, this, &TransferListWidget::setTorrentOptions);
-    auto *actionOpenDestinationFolder = new QAction(UIThemeManager::instance()->getIcon(u"inode-directory"_qs), tr("Open destination &folder"), listMenu);
+    auto *actionOpenDestinationFolder = new QAction(UIThemeManager::instance()->getIcon(u"directory"_qs), tr("Open destination &folder"), listMenu);
     connect(actionOpenDestinationFolder, &QAction::triggered, this, &TransferListWidget::openSelectedTorrentsFolder);
     auto *actionIncreaseQueuePos = new QAction(UIThemeManager::instance()->getIcon(u"go-up"_qs), tr("Move &up", "i.e. move up in the queue"), listMenu);
     connect(actionIncreaseQueuePos, &QAction::triggered, this, &TransferListWidget::increaseQueuePosSelectedTorrents);
@@ -937,7 +958,7 @@ void TransferListWidget::displayListMenu()
     connect(actionForceRecheck, &QAction::triggered, this, &TransferListWidget::recheckSelectedTorrents);
     auto *actionForceReannounce = new QAction(UIThemeManager::instance()->getIcon(u"reannounce"_qs), tr("Force r&eannounce"), listMenu);
     connect(actionForceReannounce, &QAction::triggered, this, &TransferListWidget::reannounceSelectedTorrents);
-    auto *actionCopyMagnetLink = new QAction(UIThemeManager::instance()->getIcon(u"kt-magnet"_qs), tr("&Magnet link"), listMenu);
+    auto *actionCopyMagnetLink = new QAction(UIThemeManager::instance()->getIcon(u"torrent-magnet"_qs), tr("&Magnet link"), listMenu);
     connect(actionCopyMagnetLink, &QAction::triggered, this, &TransferListWidget::copySelectedMagnetURIs);
     auto *actionCopyID = new QAction(UIThemeManager::instance()->getIcon(u"help-about"_qs), tr("Torrent &ID"), listMenu);
     connect(actionCopyID, &QAction::triggered, this, &TransferListWidget::copySelectedIDs);
@@ -1068,6 +1089,12 @@ void TransferListWidget::displayListMenu()
         first = false;
 
         const bool rechecking = torrent->isChecking();
+        if (rechecking)
+        {
+            needsStart = true;
+            needsPause = true;
+        }
+
         const bool queued = (BitTorrent::Session::instance()->isQueueingSystemEnabled() && torrent->isQueued());
 
         if (!isPaused && !rechecking && !queued)
@@ -1227,7 +1254,7 @@ void TransferListWidget::displayListMenu()
     copySubMenu->addAction(actionCopyMagnetLink);
     copySubMenu->addAction(actionCopyID);
 
-    actionExportTorrent->setToolTip(u"Exported torrent is not necessarily the same as the imported"_qs);
+    actionExportTorrent->setToolTip(tr("Exported torrent is not necessarily the same as the imported"));
     listMenu->addAction(actionExportTorrent);
 
     listMenu->popup(QCursor::pos());
