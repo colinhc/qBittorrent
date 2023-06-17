@@ -45,6 +45,7 @@
 #include "../profile.h"
 #include "../settingsstorage.h"
 #include "../utils/fs.h"
+#include "../utils/io.h"
 #include "rss_article.h"
 #include "rss_feed.h"
 #include "rss_folder.h"
@@ -100,7 +101,7 @@ Session::Session()
     // Remove legacy/corrupted settings
     // (at least on Windows, QSettings is case-insensitive and it can get
     // confused when asked about settings that differ only in their case)
-    auto settingsStorage = SettingsStorage::instance();
+    auto *settingsStorage = SettingsStorage::instance();
     settingsStorage->removeValue(u"Rss/streamList"_qs);
     settingsStorage->removeValue(u"Rss/streamAlias"_qs);
     settingsStorage->removeValue(u"Rss/open_folders"_qs);
@@ -140,7 +141,7 @@ nonstd::expected<void, QString> Session::addFolder(const QString &path)
     if (!result)
         return result.get_unexpected();
 
-    const auto destFolder = result.value();
+    auto *destFolder = result.value();
     addItem(new Folder(path), destFolder);
     store();
     return {};
@@ -155,11 +156,40 @@ nonstd::expected<void, QString> Session::addFeed(const QString &url, const QStri
     if (!result)
         return result.get_unexpected();
 
-    const auto destFolder = result.value();
-    addItem(new Feed(generateUID(), url, path, this), destFolder);
+    auto *destFolder = result.value();
+    auto *feed = new Feed(generateUID(), url, path, this);
+    addItem(feed, destFolder);
     store();
     if (isProcessingEnabled())
-        feedByURL(url)->refresh();
+        feed->refresh();
+
+    return {};
+}
+
+nonstd::expected<void, QString> Session::setFeedURL(const QString &path, const QString &url)
+{
+    auto *feed = qobject_cast<Feed *>(m_itemsByPath.value(path));
+    if (!feed)
+        return nonstd::make_unexpected(tr("Feed doesn't exist: %1.").arg(path));
+
+    return setFeedURL(feed, url);
+}
+
+nonstd::expected<void, QString> Session::setFeedURL(Feed *feed, const QString &url)
+{
+    Q_ASSERT(feed);
+
+    if (url == feed->url())
+        return {};
+
+    if (m_feedsByURL.contains(url))
+        return nonstd::make_unexpected(tr("RSS feed with given URL already exists: %1.").arg(url));
+
+    m_feedsByURL[url] = m_feedsByURL.take(feed->url());
+    feed->setURL(url);
+    store();
+    if (isProcessingEnabled())
+        feed->refresh();
 
     return {};
 }
@@ -169,7 +199,7 @@ nonstd::expected<void, QString> Session::moveItem(const QString &itemPath, const
     if (itemPath.isEmpty())
         return nonstd::make_unexpected(tr("Cannot move root folder."));
 
-    auto item = m_itemsByPath.value(itemPath);
+    auto *item = m_itemsByPath.value(itemPath);
     if (!item)
         return nonstd::make_unexpected(tr("Item doesn't exist: %1.").arg(itemPath));
 
@@ -185,8 +215,11 @@ nonstd::expected<void, QString> Session::moveItem(Item *item, const QString &des
     if (!result)
         return result.get_unexpected();
 
-    auto srcFolder = static_cast<Folder *>(m_itemsByPath.value(Item::parentPath(item->path())));
-    const auto destFolder = result.value();
+    auto *destFolder = result.value();
+    if (static_cast<Item *>(destFolder) == item)
+        return nonstd::make_unexpected(tr("Couldn't move folder into itself."));
+
+    auto *srcFolder = static_cast<Folder *>(m_itemsByPath.value(Item::parentPath(item->path())));
     if (srcFolder != destFolder)
     {
         srcFolder->removeItem(item);
@@ -210,7 +243,7 @@ nonstd::expected<void, QString> Session::removeItem(const QString &itemPath)
     emit itemAboutToBeRemoved(item);
     item->cleanup();
 
-    auto folder = static_cast<Folder *>(m_itemsByPath.value(Item::parentPath(item->path())));
+    auto *folder = static_cast<Folder *>(m_itemsByPath.value(Item::parentPath(item->path())));
     folder->removeItem(item);
     delete item;
     store();
@@ -229,33 +262,35 @@ Item *Session::itemByPath(const QString &path) const
 
 void Session::load()
 {
-    QFile itemsFile {(m_confFileStorage->storageDir() / Path(FEEDS_FILE_NAME)).data()};
-    if (!itemsFile.exists())
-    {
-        loadLegacy();
-        return;
-    }
+    const int fileMaxSize = 10 * 1024 * 1024;
+    const Path path = m_confFileStorage->storageDir() / Path(FEEDS_FILE_NAME);
 
-    if (!itemsFile.open(QFile::ReadOnly))
+    const auto readResult = Utils::IO::readFile(path, fileMaxSize);
+    if (!readResult)
     {
-        LogMsg(tr("Couldn't read RSS session data. File: \"%1\". Error: \"%2\"")
-            .arg(itemsFile.fileName(), itemsFile.errorString()), Log::WARNING);
+        if (readResult.error().status == Utils::IO::ReadError::NotExist)
+        {
+            loadLegacy();
+            return;
+        }
+
+        LogMsg(tr("Failed to read RSS session data. %1").arg(readResult.error().message), Log::WARNING);
         return;
     }
 
     QJsonParseError jsonError;
-    const QJsonDocument jsonDoc = QJsonDocument::fromJson(itemsFile.readAll(), &jsonError);
+    const QJsonDocument jsonDoc = QJsonDocument::fromJson(readResult.value(), &jsonError);
     if (jsonError.error != QJsonParseError::NoError)
     {
-        LogMsg(tr("Couldn't parse RSS session data. File: \"%1\". Error: \"%2\"")
-            .arg(itemsFile.fileName(), jsonError.errorString()), Log::WARNING);
+        LogMsg(tr("Failed to parse RSS session data. File: \"%1\". Error: \"%2\"")
+            .arg(path.toString(), jsonError.errorString()), Log::WARNING);
         return;
     }
 
     if (!jsonDoc.isObject())
     {
-        LogMsg(tr("Couldn't load RSS session data. File: \"%1\". Error: Invalid data format.")
-            .arg(itemsFile.fileName()), Log::WARNING);
+        LogMsg(tr("Failed to load RSS session data. File: \"%1\". Error: \"Invalid data format.\"")
+            .arg(path.toString()), Log::WARNING);
         return;
     }
 
@@ -378,7 +413,7 @@ nonstd::expected<Folder *, QString> Session::prepareItemDest(const QString &path
         return nonstd::make_unexpected(tr("RSS item with given path already exists: %1.").arg(path));
 
     const QString destFolderPath = Item::parentPath(path);
-    const auto destFolder = qobject_cast<Folder *>(m_itemsByPath.value(destFolderPath));
+    auto *destFolder = qobject_cast<Folder *>(m_itemsByPath.value(destFolderPath));
     if (!destFolder)
         return nonstd::make_unexpected(tr("Parent folder doesn't exist: %1.").arg(destFolderPath));
 
@@ -387,25 +422,35 @@ nonstd::expected<Folder *, QString> Session::prepareItemDest(const QString &path
 
 Folder *Session::addSubfolder(const QString &name, Folder *parentFolder)
 {
-    auto folder = new Folder(Item::joinPath(parentFolder->path(), name));
+    auto *folder = new Folder(Item::joinPath(parentFolder->path(), name));
     addItem(folder, parentFolder);
     return folder;
 }
 
 Feed *Session::addFeedToFolder(const QUuid &uid, const QString &url, const QString &name, Folder *parentFolder)
 {
-    auto feed = new Feed(uid, url, Item::joinPath(parentFolder->path(), name), this);
+    auto *feed = new Feed(uid, url, Item::joinPath(parentFolder->path(), name), this);
     addItem(feed, parentFolder);
     return feed;
 }
 
 void Session::addItem(Item *item, Folder *destFolder)
 {
-    if (auto feed = qobject_cast<Feed *>(item))
+    if (auto *feed = qobject_cast<Feed *>(item))
     {
         connect(feed, &Feed::titleChanged, this, &Session::handleFeedTitleChanged);
         connect(feed, &Feed::iconLoaded, this, &Session::feedIconLoaded);
         connect(feed, &Feed::stateChanged, this, &Session::feedStateChanged);
+        connect(feed, &Feed::urlChanged, this, [this, feed](const QString &oldURL)
+        {
+            if (feed->name() == oldURL)
+            {
+                // If feed still use an URL as a name trying to rename it to match new URL...
+                moveItem(feed, Item::joinPath(Item::parentPath(feed->path()), feed->url()));
+            }
+
+            emit feedURLChanged(feed, oldURL);
+        });
         m_feedsByUID[feed->uid()] = feed;
         m_feedsByURL[feed->url()] = feed;
     }
@@ -488,7 +533,7 @@ QThread *Session::workingThread() const
 void Session::handleItemAboutToBeDestroyed(Item *item)
 {
     m_itemsByPath.remove(item->path());
-    auto feed = qobject_cast<Feed *>(item);
+    auto *feed = qobject_cast<Feed *>(item);
     if (feed)
     {
         m_feedsByUID.remove(feed->uid());
@@ -499,9 +544,11 @@ void Session::handleItemAboutToBeDestroyed(Item *item)
 void Session::handleFeedTitleChanged(Feed *feed)
 {
     if (feed->name() == feed->url())
+    {
         // Now we have something better than a URL.
         // Trying to rename feed...
         moveItem(feed, Item::joinPath(Item::parentPath(feed->path()), feed->title()));
+    }
 }
 
 QUuid Session::generateUID() const

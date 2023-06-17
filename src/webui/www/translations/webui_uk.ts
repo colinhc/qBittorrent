@@ -28,11 +28,11 @@
     </message>
     <message>
         <source>Content layout:</source>
-        <translation>Тип вмісту:</translation>
+        <translation>Структура вмісту торрента:</translation>
     </message>
     <message>
         <source>Original</source>
-        <translation>Як задано</translation>
+        <translation>Без змін</translation>
     </message>
     <message>
         <source>Create subfolder</source>
@@ -52,19 +52,23 @@
     </message>
     <message>
         <source>Metadata received</source>
-        <translation type="unfinished" />
+        <translation>Метадані отримано</translation>
     </message>
     <message>
         <source>Files checked</source>
-        <translation type="unfinished" />
+        <translation>Файли перевірено</translation>
     </message>
     <message>
         <source>Stop condition:</source>
-        <translation type="unfinished" />
+        <translation>Умови зупинки:</translation>
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished" />
+        <translation>Немає</translation>
+    </message>
+    <message>
+        <source>Add to top of queue</source>
+        <translation>Додати в початок черги</translation>
     </message>
 </context>
 <context>
@@ -110,7 +114,11 @@
     </message>
     <message>
         <source>Remove torrents</source>
-        <translation type="unfinished" />
+        <translation>Вилучити торренти</translation>
+    </message>
+    <message>
+        <source>Add subcategory...</source>
+        <translation>Додати підкатегорію...</translation>
     </message>
 </context>
 <context>
@@ -385,7 +393,7 @@
     </message>
     <message>
         <source>Are you sure you want to remove the selected torrents from the transfer list?</source>
-        <translation type="unfinished" />
+        <translation>Ви впевнені, що хочете видалити вибрані торренти зі списку передачі?</translation>
     </message>
 </context>
 <context>
@@ -597,19 +605,27 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished" />
+        <translation>Скасувати</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished" />
+        <translation>Вилучити</translation>
     </message>
     <message>
         <source>Would you like to resume all torrents?</source>
-        <translation type="unfinished" />
+        <translation>Бажаєте відновити всі торренти?</translation>
     </message>
     <message>
         <source>Would you like to pause all torrents?</source>
-        <translation type="unfinished" />
+        <translation>Хочете призупинити всі торренти?</translation>
+    </message>
+    <message>
+        <source>Execution Log</source>
+        <translation>Журнал виконання</translation>
+    </message>
+    <message>
+        <source>Log</source>
+        <translation>Журнал</translation>
     </message>
 </context>
 <context>
@@ -783,10 +799,6 @@
         <translation>Тип:</translation>
     </message>
     <message>
-        <source>(None)</source>
-        <translation>(Немає)</translation>
-    </message>
-    <message>
         <source>SOCKS4</source>
         <translation>SOCKS4</translation>
     </message>
@@ -809,10 +821,6 @@
     <message>
         <source>Use proxy for peer connections</source>
         <translation>Використовувати проксі для з'єднання з пірами</translation>
-    </message>
-    <message>
-        <source>Use proxy only for torrents</source>
-        <translation>Використовувати проксі лише для торрентів</translation>
     </message>
     <message>
         <source>Filter path (.dat, .p2p, .p2b):</source>
@@ -1042,7 +1050,7 @@
     </message>
     <message>
         <source>Default Save Path:</source>
-        <translation>Шлях збереження за замовчуванням:</translation>
+        <translation>Типовий шлях збереження:</translation>
     </message>
     <message>
         <source>The alternative Web UI files location cannot be blank.</source>
@@ -1114,7 +1122,7 @@
     </message>
     <message>
         <source>Default Torrent Management Mode:</source>
-        <translation>Режим керування торрентами за замовчуванням:</translation>
+        <translation>Типовий режим керування торрентами:</translation>
     </message>
     <message>
         <source>When adding a torrent</source>
@@ -1209,10 +1217,6 @@
         <translation>Розділ libtorrent</translation>
     </message>
     <message>
-        <source>Outgoing ports (Min) [0: Disabled]:</source>
-        <translation>Мінімум вихідних портів [0: Вимкнено]:</translation>
-    </message>
-    <message>
         <source>Recheck torrents on completion:</source>
         <translation>Перевірити торрент після закінчення завантаження:</translation>
     </message>
@@ -1231,10 +1235,6 @@
     <message>
         <source>Remove torrent</source>
         <translation>Видалити торрент</translation>
-    </message>
-    <message>
-        <source>Outgoing ports (Max) [0: Disabled]:</source>
-        <translation>Максимум вихідних портів [0: Вимкнено]:</translation>
     </message>
     <message>
         <source>Asynchronous I/O threads:</source>
@@ -1313,20 +1313,12 @@
         <translation>заблокувати на:</translation>
     </message>
     <message>
-        <source>Stop tracker timeout:</source>
-        <translation>Тайм-аут зупинки трекера:</translation>
-    </message>
-    <message>
         <source>Ban client after consecutive failures:</source>
         <translation>Заблокувати клієнта після послідовних збоїв:</translation>
     </message>
     <message>
         <source>Enable cookie Secure flag (requires HTTPS)</source>
         <translation>Увімкнути захист cookie (вимагає HTTPS)</translation>
-    </message>
-    <message>
-        <source>UPnP lease duration [0: Permanent lease]:</source>
-        <translation>Термін оренди UPnP [0: постійний]:</translation>
     </message>
     <message>
         <source>Header: value pairs, one per line</source>
@@ -1343,14 +1335,6 @@
     <message>
         <source>Enable fetching RSS feeds</source>
         <translation>Увімкнути завантаження RSS-подач</translation>
-    </message>
-    <message>
-        <source>Hashing threads (requires libtorrent &gt;= 2.0):</source>
-        <translation>Хешувати потоки (потребує libtorrent &gt;= 2.0):</translation>
-    </message>
-    <message>
-        <source>Coalesce reads &amp; writes (requires libtorrent &lt; 2.0):</source>
-        <translation>Об'єднувати операції читання і запису (потребує libtorrent &lt; 2.0):</translation>
     </message>
     <message>
         <source>Peer turnover threshold percentage:</source>
@@ -1415,14 +1399,6 @@
     <message>
         <source>RSS Smart Episode Filter</source>
         <translation>Розумний фільтр серій по RSS</translation>
-    </message>
-    <message>
-        <source>Disk cache (requires libtorrent &lt; 2.0):</source>
-        <translation>Кешування диску (потребує libtorrent &lt; 2.0):</translation>
-    </message>
-    <message>
-        <source>Disk cache expiry interval (requires libtorrent &lt; 2.0):</source>
-        <translation>Інтервал дії кешу диска (потребує libtorrent &lt; 2.0):</translation>
     </message>
     <message>
         <source>Validate HTTPS tracker certificate:</source>
@@ -1518,7 +1494,7 @@
     </message>
     <message>
         <source>Default</source>
-        <translation>За замовчуванням</translation>
+        <translation>Типово</translation>
     </message>
     <message>
         <source>POSIX-compliant</source>
@@ -1529,64 +1505,52 @@
         <translation>Ця опція менш ефективна на Linux</translation>
     </message>
     <message>
-        <source>Disk IO type (libtorrent &gt;= 2.0; requires restart):</source>
-        <translation>Тип введення-виводу диска (libtorrent &gt;= 2.0; потребує перезапуску):</translation>
-    </message>
-    <message>
-        <source>Write-through (requires libtorrent &gt;= 2.0.6)</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>It controls the internal state update interval which in turn will affect UI updates</source>
-        <translation type="unfinished" />
+        <translation>Він контролює внутрішній інтервал оновлення стану, який, у свою чергу, впливатиме на оновлення інтерфейсу користувача</translation>
     </message>
     <message>
         <source>Disk IO read mode:</source>
-        <translation type="unfinished" />
+        <translation>Режим читання дискового Вводу-Виводу</translation>
     </message>
     <message>
         <source>Disable OS cache</source>
-        <translation type="unfinished" />
+        <translation>Вимкнути кеш ОС</translation>
     </message>
     <message>
         <source>Disk IO write mode:</source>
-        <translation type="unfinished" />
+        <translation>Режим запису дискового Вводу-Виводу</translation>
     </message>
     <message>
         <source>Use piece extent affinity:</source>
-        <translation type="unfinished" />
+        <translation>Використовувати групування споріднених частин</translation>
     </message>
     <message>
         <source>Max concurrent HTTP announces:</source>
-        <translation type="unfinished" />
+        <translation>Максимум одночасних анонсів HTTP</translation>
     </message>
     <message>
         <source>Enable OS cache</source>
-        <translation type="unfinished" />
+        <translation>Увімкнути кеш ОС</translation>
     </message>
     <message>
         <source>Refresh interval:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Physical memory (RAM) usage limit (applied if libtorrent &gt;= 2.0):</source>
-        <translation type="unfinished" />
+        <translation>Інтервал оновлення:</translation>
     </message>
     <message>
         <source>ms</source>
-        <translation type="unfinished" />
+        <translation> мс</translation>
     </message>
     <message>
         <source>Excluded file names</source>
-        <translation type="unfinished" />
+        <translation>Виключені імена файлів</translation>
     </message>
     <message>
         <source>Support internationalized domain name (IDN):</source>
-        <translation type="unfinished" />
+        <translation>Підтримка інтернаціоналізації доменних імен (IDN)</translation>
     </message>
     <message>
         <source>Run external program on torrent finished</source>
-        <translation type="unfinished" />
+        <translation>Запуск зовнішньої програми на торренті завершено</translation>
     </message>
     <message>
         <source>Whitelist for filtering HTTP Host header values.
@@ -1602,55 +1566,175 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Run external program on torrent added</source>
-        <translation type="unfinished" />
+        <translation>Додано запуск зовнішньої програми на торрент</translation>
     </message>
     <message>
         <source>HTTPS certificate should not be empty</source>
-        <translation type="unfinished" />
+        <translation>Сертифікат HTTPS не повинен бути порожнім</translation>
     </message>
     <message>
         <source>Specify reverse proxy IPs (or subnets, e.g. 0.0.0.0/24) in order to use forwarded client address (X-Forwarded-For header). Use ';' to split multiple entries.</source>
-        <translation type="unfinished" />
+        <translation>Укажіть IP-адреси зворотного проксі-сервера (або підмережі, наприклад 0.0.0.0/24), щоб використовувати перенаправлену адресу клієнта (заголовок X-Forwarded-For). Використовуйте ';' щоб розділити кілька записів.</translation>
     </message>
     <message>
         <source>HTTPS key should not be empty</source>
-        <translation type="unfinished" />
+        <translation>Ключ HTTPS не повинен бути порожнім</translation>
     </message>
     <message>
         <source>Run external program</source>
-        <translation type="unfinished" />
+        <translation>Запускати зовнішню програму</translation>
     </message>
     <message>
         <source>Files checked</source>
-        <translation type="unfinished" />
+        <translation>Файли перевірено</translation>
     </message>
     <message>
         <source>Enable port forwarding for embedded tracker:</source>
-        <translation type="unfinished" />
+        <translation>Увімкнути переадресацію портів для вбудованого трекера</translation>
     </message>
     <message>
         <source>If checked, hostname lookups are done via the proxy.</source>
-        <translation type="unfinished" />
+        <translation>Якщо позначено, пошук імені хоста виконується через проксі.</translation>
     </message>
     <message>
         <source>Use proxy for hostname lookup</source>
-        <translation type="unfinished" />
+        <translation>Використовуйте проксі для пошуку імен хостів</translation>
     </message>
     <message>
         <source>Metadata received</source>
-        <translation type="unfinished" />
+        <translation>Метадані отримано</translation>
     </message>
     <message>
         <source>Torrent stop condition:</source>
-        <translation type="unfinished" />
+        <translation>Умови зупинки торрента:</translation>
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished" />
+        <translation>Жодного</translation>
     </message>
     <message>
         <source>Example: 172.17.32.0/24, fdff:ffff:c8::/40</source>
-        <translation type="unfinished" />
+        <translation>Приклад: 172.17.32.0/24, fdff:ffff:c8::/40</translation>
+    </message>
+    <message>
+        <source>SQLite database (experimental)</source>
+        <translation>База даних SQLite (експериментальна)</translation>
+    </message>
+    <message>
+        <source>Resume data storage type (requires restart):</source>
+        <translation>Відновити тип зберігання даних (потрібно перезапустити):</translation>
+    </message>
+    <message>
+        <source>Fastresume files</source>
+        <translation>Швидке відновлення файлів</translation>
+    </message>
+    <message>
+        <source>Backup the log file after:</source>
+        <translation>Резервна копія файлу журналу через:</translation>
+    </message>
+    <message>
+        <source>days</source>
+        <translation>днів</translation>
+    </message>
+    <message>
+        <source>Log file</source>
+        <translation>Файл журналу</translation>
+    </message>
+    <message>
+        <source>Behavior</source>
+        <translation>Поведінка</translation>
+    </message>
+    <message>
+        <source>Delete backup logs older than:</source>
+        <translation>Видаляти журнали резервних копій, старіші:</translation>
+    </message>
+    <message>
+        <source>Use proxy for BitTorrent purposes</source>
+        <translation>Використовувати проксі для завдань BitTorrent</translation>
+    </message>
+    <message>
+        <source>years</source>
+        <translation>років</translation>
+    </message>
+    <message>
+        <source>Save path:</source>
+        <translation>Шлях збереження:</translation>
+    </message>
+    <message>
+        <source>months</source>
+        <translation>місяців</translation>
+    </message>
+    <message>
+        <source>Remember Multi-Rename settings</source>
+        <translation>Запам'ятати налаштування масового перейменування</translation>
+    </message>
+    <message>
+        <source>Use proxy for general purposes</source>
+        <translation>Використовувати проксі для загальних завдань</translation>
+    </message>
+    <message>
+        <source>Use proxy for RSS purposes</source>
+        <translation>Використовувати проксі для завдань RSS</translation>
+    </message>
+    <message>
+        <source>Disk cache expiry interval (requires libtorrent &amp;lt; 2.0):</source>
+        <translation>Інтервал дії кешу диска (потребує libtorrent &lt; 2.0):</translation>
+    </message>
+    <message>
+        <source>Physical memory (RAM) usage limit (applied if libtorrent &amp;gt;= 2.0):</source>
+        <translation>Ліміт використання фізичної пам’яті (RAM) (застосовується, якщо libtorrent &gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>Disk cache (requires libtorrent &amp;lt; 2.0):</source>
+        <translation>Кешування диску (потребує libtorrent &lt; 2.0):</translation>
+    </message>
+    <message>
+        <source>Socket send buffer size [0: system default]:</source>
+        <translation>Розмір буфера надсилання сокета [0: системне замовчування]</translation>
+    </message>
+    <message>
+        <source>Coalesce reads &amp;amp; writes (requires libtorrent &amp;lt; 2.0):</source>
+        <translation>Об'єднувати операції читання і запису (потребує libtorrent &lt; 2.0):</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Max) [0: disabled]:</source>
+        <translation>Максимум вихідних портів [0: Вимкнено]:</translation>
+    </message>
+    <message>
+        <source>Socket receive buffer size [0: system default]:</source>
+        <translation>Розмір буфера отримання сокета [0: системне замовчування]</translation>
+    </message>
+    <message>
+        <source>Use Subcategories</source>
+        <translation>Використовувати підкатегорії</translation>
+    </message>
+    <message>
+        <source>Disk IO type (libtorrent &amp;gt;= 2.0; requires restart):</source>
+        <translation>Тип введення-виводу диска (libtorrent &gt;= 2.0; потребує перезапуску):</translation>
+    </message>
+    <message>
+        <source>Add to top of queue</source>
+        <translation>Додати в початок черги</translation>
+    </message>
+    <message>
+        <source>Write-through (requires libtorrent &amp;gt;= 2.0.6)</source>
+        <translation>Наскрізний запис (потрібен libtorrent &gt;= 2.0.6)</translation>
+    </message>
+    <message>
+        <source>Stop tracker timeout [0: disabled]:</source>
+        <translation>Час очікування зупинки трекера [0: вимкнено]</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Min) [0: disabled]:</source>
+        <translation>Мінімум вихідних портів [0: Вимкнено]:</translation>
+    </message>
+    <message>
+        <source>Hashing threads (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Хешувати потоки (потребує libtorrent &gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>UPnP lease duration [0: permanent lease]:</source>
+        <translation>Термін оренди UPnP [0: постійний]:</translation>
     </message>
 </context>
 <context>
@@ -1733,7 +1817,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Peer ID Client</source>
-        <translation type="unfinished" />
+        <translation>Peer ID Клієнт</translation>
     </message>
 </context>
 <context>
@@ -1956,6 +2040,66 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>Progress:</source>
         <translation>Прогрес:</translation>
     </message>
+    <message>
+        <source>Use regular expressions</source>
+        <translation>Використовувати регулярні вирази</translation>
+    </message>
+    <message>
+        <source>Filename</source>
+        <translation>Назва файлу</translation>
+    </message>
+    <message>
+        <source>Filename + Extension</source>
+        <translation>Назва + розширення файлу</translation>
+    </message>
+    <message>
+        <source>Enumerate Files</source>
+        <translation>Нумерувати файли</translation>
+    </message>
+    <message>
+        <source>Rename failed: file or folder already exists</source>
+        <translation>Не вдалося перейменувати: файл чи тека з такою назвою вже є</translation>
+    </message>
+    <message>
+        <source>Match all occurences</source>
+        <translation>Відповідність усіх входжень</translation>
+    </message>
+    <message>
+        <source>Toggle Selection</source>
+        <translation>Перемкнути вибір</translation>
+    </message>
+    <message>
+        <source>Replacement Input</source>
+        <translation>Дані для заміни</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation>Замінити</translation>
+    </message>
+    <message>
+        <source>Extension</source>
+        <translation>Розширення</translation>
+    </message>
+    <message>
+        <source>Replace All</source>
+        <translation>Замінити все</translation>
+    </message>
+    <message>
+        <source>Include files</source>
+        <translation>Включити файли</translation>
+    </message>
+    <message>
+        <source>Include folders</source>
+        <translation>Включити теки</translation>
+    </message>
+    <message>
+        <source>Search Files</source>
+        <translation>Пошук файлів</translation>
+    </message>
+    <message>
+        <source>Case sensitive</source>
+        <translation>Чутливий до регістру</translation>
+    </message>
 </context>
 <context>
     <name>ScanFoldersModel</name>
@@ -1973,7 +2117,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Default save location</source>
-        <translation>Місце збереження за замовчуванням</translation>
+        <translation>Типове місце збереження</translation>
     </message>
     <message>
         <source>Other...</source>
@@ -2429,7 +2573,15 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Add trackers...</source>
-        <translation type="unfinished" />
+        <translation>Додати трекери...</translation>
+    </message>
+    <message>
+        <source>Renamed</source>
+        <translation>Перейменовано</translation>
+    </message>
+    <message>
+        <source>Original</source>
+        <translation>Оригінал</translation>
     </message>
 </context>
 <context>
@@ -2440,7 +2592,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Add trackers</source>
-        <translation type="unfinished" />
+        <translation>Додати трекери</translation>
     </message>
 </context>
 <context>
@@ -2536,6 +2688,10 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Trackers</source>
         <translation>Трекери</translation>
+    </message>
+    <message>
+        <source>Collapse/expand</source>
+        <translation>Згорнути/розгорнути</translation>
     </message>
 </context>
 <context>
@@ -2723,7 +2879,15 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished" />
+        <translation>Вилучити</translation>
+    </message>
+    <message>
+        <source>Rename Files...</source>
+        <translation>Перейменувати файли...</translation>
+    </message>
+    <message>
+        <source>Renaming</source>
+        <translation>Перейменування</translation>
     </message>
 </context>
 <context>
@@ -2760,11 +2924,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <name>confirmDeletionDlg</name>
     <message>
         <source>Also permanently delete the files</source>
-        <translation type="unfinished" />
+        <translation>Також остаточно видалити файли</translation>
     </message>
     <message>
         <source>Remove torrent(s)</source>
-        <translation type="unfinished" />
+        <translation>Видалити торрент(и)</translation>
     </message>
 </context>
 <context>
@@ -2960,11 +3124,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Click the "Search plugins..." button at the bottom right of the window to install some.</source>
-        <translation type="unfinished" />
+        <translation>Натисніть кнопку «Пошук плагінів...» у нижній правій частині вікна, щоб установити деякі з них.</translation>
     </message>
     <message>
         <source>There aren't any search plugins installed.</source>
-        <translation type="unfinished" />
+        <translation>Немає встановлених плагінів пошуку.</translation>
     </message>
 </context>
 <context>
@@ -3115,7 +3279,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Remove torrents</source>
-        <translation type="unfinished" />
+        <translation>Вилучити торренти</translation>
     </message>
 </context>
 <context>
@@ -3267,6 +3431,10 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>New name:</source>
         <translation>Нова назва:</translation>
+    </message>
+    <message>
+        <source>Renaming)</source>
+        <translation>Перейменування)</translation>
     </message>
 </context>
 <context>
@@ -3633,7 +3801,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>Remove torrents</source>
-        <translation type="unfinished" />
+        <translation>Вилучити торренти</translation>
     </message>
 </context>
 <context>
@@ -3645,6 +3813,141 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     <message>
         <source>Unread</source>
         <translation>Непрочитані</translation>
+    </message>
+</context>
+<context>
+    <name>ExecutionLogWidget</name>
+    <message>
+        <source>General</source>
+        <translation>Загальний</translation>
+    </message>
+    <message>
+        <source>Blocked</source>
+        <translation>Заблокований</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Невідомий</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Всі</translation>
+    </message>
+    <message>
+        <source>showing</source>
+        <translation>показ</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Копіювати</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation>Вибрати Все</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Log Type</source>
+        <translation>Файл журналу</translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation>Очистити</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Попередження</translation>
+    </message>
+    <message>
+        <source>Information Messages</source>
+        <translation>Інформаційні повідомлення</translation>
+    </message>
+    <message>
+        <source>Warning Messages</source>
+        <translation>Попереджувальні повідомлення</translation>
+    </message>
+    <message>
+        <source>Filter logs</source>
+        <translation>Фільтр журналів</translation>
+    </message>
+    <message>
+        <source>Blocked IPs</source>
+        <translation>Заблоковані IP</translation>
+    </message>
+    <message>
+        <source>out of</source>
+        <translation>із</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Статус</translation>
+    </message>
+    <message>
+        <source>Timestamp</source>
+        <translation>Мітка часу</translation>
+    </message>
+    <message>
+        <source>Clear All</source>
+        <translation>Очистити все</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Повідомлення</translation>
+    </message>
+    <message>
+        <source>Log Levels:</source>
+        <translation>Рівні журналу:</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Причина</translation>
+    </message>
+    <message>
+        <source>item</source>
+        <translation>елемент</translation>
+    </message>
+    <message>
+        <source>IP</source>
+        <translation>IP</translation>
+    </message>
+    <message>
+        <source>Banned</source>
+        <translation>заблокований</translation>
+    </message>
+    <message>
+        <source>Normal Messages</source>
+        <translation>Звичайні Повідомлення</translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation>Критичний</translation>
+    </message>
+    <message>
+        <source>Critical Messages</source>
+        <translation>Критичні Повідомлення</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation>Нормальний</translation>
+    </message>
+    <message>
+        <source>items</source>
+        <translation>елементи</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>Результати</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation>Інформація</translation>
+    </message>
+    <message>
+        <source>Choose a log level...</source>
+        <translation>Виберіть рівень журналу...</translation>
     </message>
 </context>
 </TS>

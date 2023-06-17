@@ -58,8 +58,7 @@
 #define NB_STICKY_ITEM 3
 
 TrackerListWidget::TrackerListWidget(PropertiesWidget *properties)
-    : QTreeWidget()
-    , m_properties(properties)
+    : m_properties(properties)
 {
     // Set header
     // Must be set before calling loadSettings() otherwise the header is reset on restart
@@ -438,7 +437,7 @@ void TrackerListWidget::openAddTrackersDialog()
     if (!torrent)
         return;
 
-    const auto dialog = new TrackersAdditionDialog(this, torrent);
+    auto *dialog = new TrackersAdditionDialog(this, torrent);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->open();
 }
@@ -581,7 +580,7 @@ void TrackerListWidget::showTrackerListMenu()
     {
         menu->addAction(UIThemeManager::instance()->getIcon(u"edit-rename"_qs),tr("Edit tracker URL...")
             , this, &TrackerListWidget::editSelectedTracker);
-        menu->addAction(UIThemeManager::instance()->getIcon(u"edit-clear"_qs), tr("Remove tracker")
+        menu->addAction(UIThemeManager::instance()->getIcon(u"edit-clear"_qs, u"list-remove"_qs), tr("Remove tracker")
             , this, &TrackerListWidget::deleteSelectedTrackers);
         menu->addAction(UIThemeManager::instance()->getIcon(u"edit-copy"_qs), tr("Copy tracker URL")
             , this, &TrackerListWidget::copyTrackerUrl);
@@ -589,10 +588,10 @@ void TrackerListWidget::showTrackerListMenu()
 
     if (!torrent->isPaused())
     {
-        menu->addAction(UIThemeManager::instance()->getIcon(u"reannounce"_qs), tr("Force reannounce to selected trackers")
+        menu->addAction(UIThemeManager::instance()->getIcon(u"reannounce"_qs, u"view-refresh"_qs), tr("Force reannounce to selected trackers")
             , this, &TrackerListWidget::reannounceSelected);
         menu->addSeparator();
-        menu->addAction(UIThemeManager::instance()->getIcon(u"reannounce"_qs), tr("Force reannounce to all trackers")
+        menu->addAction(UIThemeManager::instance()->getIcon(u"reannounce"_qs, u"view-refresh"_qs), tr("Force reannounce to all trackers")
             , this, [this]()
         {
             BitTorrent::Torrent *h = m_properties->getCurrentTorrent();

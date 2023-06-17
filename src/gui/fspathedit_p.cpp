@@ -102,8 +102,8 @@ Private::FileSystemPathValidator::testPath(const Path &path) const
     // `QFileInfo` will cache the query results and avoid exessive querying to filesystem
     const QFileInfo info {path.data()};
 
-    if (existingOnly() && !info.exists())
-        return TestResult::DoesNotExist;
+    if (!info.exists())
+        return existingOnly() ? TestResult::DoesNotExist : TestResult::OK;
 
     if (directoriesOnly())
     {
@@ -152,8 +152,6 @@ Private::FileLineEdit::FileLineEdit(QWidget *parent)
     : QLineEdit {parent}
     , m_completerModel {new QFileSystemModel(this)}
     , m_completer {new QCompleter(this)}
-    , m_browseAction {nullptr}
-    , m_warningAction {nullptr}
 {
     m_iconProvider.setOptions(QFileIconProvider::DontUseCustomDirectoryIcons);
 

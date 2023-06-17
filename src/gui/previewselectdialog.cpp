@@ -30,7 +30,6 @@
 
 #include <QAction>
 #include <QDir>
-#include <QFile>
 #include <QHeaderView>
 #include <QMenu>
 #include <QMessageBox>
@@ -145,7 +144,7 @@ void PreviewSelectDialog::previewButtonClicked()
 
 void PreviewSelectDialog::displayColumnHeaderMenu()
 {
-    auto menu = new QMenu(this);
+    auto *menu = new QMenu(this);
     menu->setAttribute(Qt::WA_DeleteOnClose);
     menu->setToolTipsVisible(true);
 

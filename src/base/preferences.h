@@ -121,8 +121,6 @@ public:
     void setStatusbarDisplayed(bool displayed);
     bool isToolbarDisplayed() const;
     void setToolbarDisplayed(bool displayed);
-    bool startMinimized() const;
-    void setStartMinimized(bool b);
     bool isSplashScreenDisabled() const;
     void setSplashScreenDisabled(bool b);
     bool preventFromSuspendWhenDownloading() const;
@@ -199,6 +197,8 @@ public:
     void setWebUIBanDuration(std::chrono::seconds duration);
     int getWebUISessionTimeout() const;
     void setWebUISessionTimeout(int timeout);
+    QString getWebAPISessionCookieName() const;
+    void setWebAPISessionCookieName(const QString &cookieName);
 
     // WebUI security
     bool isWebUiClickjackingProtectionEnabled() const;
@@ -253,7 +253,7 @@ public:
     void setUILocked(bool locked);
 
     bool isAutoRunOnTorrentAddedEnabled() const;
-    void setAutoRunOnTorrentAddedEnabled(const bool enabled);
+    void setAutoRunOnTorrentAddedEnabled(bool enabled);
     QString getAutoRunOnTorrentAddedProgram() const;
     void setAutoRunOnTorrentAddedProgram(const QString &program);
     bool isAutoRunOnTorrentFinishedEnabled() const;
@@ -281,6 +281,10 @@ public:
     void resolvePeerCountries(bool resolve);
     bool resolvePeerHostNames() const;
     void resolvePeerHostNames(bool resolve);
+#if (defined(Q_OS_UNIX) && !defined(Q_OS_MACOS))
+    bool useSystemIcons() const;
+    void useSystemIcons(bool enabled);
+#endif
     bool isRecursiveDownloadEnabled() const;
     void setRecursiveDownloadEnabled(bool enable);
 #ifdef Q_OS_WIN
@@ -311,6 +315,8 @@ public:
     void setConfirmTorrentRecheck(bool enabled);
     bool confirmRemoveAllTags() const;
     void setConfirmRemoveAllTags(bool enabled);
+    bool confirmPauseAndResumeAll() const;
+    void setConfirmPauseAndResumeAll(bool enabled);
 #ifndef Q_OS_MACOS
     bool systemTrayEnabled() const;
     void setSystemTrayEnabled(bool enabled);
@@ -378,6 +384,8 @@ public:
     bool getTrackerFilterState() const;
     int getTransSelFilter() const;
     void setTransSelFilter(int index);
+    bool getHideZeroStatusFilters() const;
+    void setHideZeroStatusFilters(bool hide);
     QByteArray getTransHeaderState() const;
     void setTransHeaderState(const QByteArray &state);
     bool getRegexAsFilteringPatternForTransferList() const;
@@ -392,6 +400,13 @@ public:
     // Network
     QList<QNetworkCookie> getNetworkCookies() const;
     void setNetworkCookies(const QList<QNetworkCookie> &cookies);
+
+    bool useProxyForBT() const;
+    void setUseProxyForBT(bool value);
+    bool useProxyForRSS() const;
+    void setUseProxyForRSS(bool value);
+    bool useProxyForGeneralPurposes() const;
+    void setUseProxyForGeneralPurposes(bool value);
 
     // SpeedWidget
     bool isSpeedWidgetEnabled() const;

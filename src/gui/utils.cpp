@@ -35,10 +35,8 @@
 #endif
 
 #include <QApplication>
-#include <QColor>
 #include <QDesktopServices>
 #include <QIcon>
-#include <QPalette>
 #include <QPixmap>
 #include <QPixmapCache>
 #include <QPoint>
@@ -57,13 +55,6 @@
 #include "base/utils/fs.h"
 #include "base/utils/version.h"
 
-bool Utils::Gui::isDarkTheme()
-{
-    const QPalette palette = qApp->palette();
-    const QColor &color = palette.color(QPalette::Active, QPalette::Base);
-    return (color.lightness() < 127);
-}
-
 QPixmap Utils::Gui::scaledPixmap(const QIcon &icon, const QWidget *widget, const int height)
 {
     Q_UNUSED(widget);  // TODO: remove it
@@ -79,26 +70,6 @@ QPixmap Utils::Gui::scaledPixmap(const Path &path, const QWidget *widget, const 
 
     const QPixmap pixmap {path.data()};
     return (height == 0) ? pixmap : pixmap.scaledToHeight(height, Qt::SmoothTransformation);
-}
-
-QPixmap Utils::Gui::scaledPixmapSvg(const Path &path, const QWidget *widget, const int height)
-{
-    // (workaround) svg images require the use of `QIcon()` to load and scale losslessly,
-    // otherwise other image classes will convert it to pixmap first and follow-up scaling will become lossy.
-
-    Q_UNUSED(widget);
-    Q_ASSERT(height > 0);
-
-    const QString cacheKey = path.data() + u'@' + QString::number(height);
-
-    QPixmap pixmap;
-    QPixmapCache cache;
-    if (!cache.find(cacheKey, &pixmap))
-    {
-        pixmap = QIcon(path.data()).pixmap(height);
-        cache.insert(cacheKey, pixmap);
-    }
-    return pixmap;
 }
 
 QSize Utils::Gui::smallIconSize(const QWidget *widget)
@@ -206,10 +177,12 @@ void Utils::Gui::openFolderSelect(const Path &path)
     QObject::connect(thread, &QThread::finished, thread, &QObject::deleteLater);
     thread->start();
 #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+    const int lineMaxLength = 64;
+
     QProcess proc;
     proc.start(u"xdg-mime"_qs, {u"query"_qs, u"default"_qs, u"inode/directory"_qs});
     proc.waitForFinished();
-    const auto output = QString::fromLocal8Bit(proc.readLine().simplified());
+    const auto output = QString::fromLocal8Bit(proc.readLine(lineMaxLength).simplified());
     if ((output == u"dolphin.desktop") || (output == u"org.kde.dolphin.desktop"))
     {
         proc.startDetached(u"dolphin"_qs, {u"--select"_qs, path.toString()});
@@ -219,7 +192,7 @@ void Utils::Gui::openFolderSelect(const Path &path)
     {
         proc.start(u"nautilus"_qs, {u"--version"_qs});
         proc.waitForFinished();
-        const auto nautilusVerStr = QString::fromLocal8Bit(proc.readLine()).remove(QRegularExpression(u"[^0-9.]"_qs));
+        const auto nautilusVerStr = QString::fromLocal8Bit(proc.readLine(lineMaxLength)).remove(QRegularExpression(u"[^0-9.]"_qs));
         using NautilusVersion = Utils::Version<3>;
         if (NautilusVersion::fromString(nautilusVerStr, {1, 0, 0}) > NautilusVersion(3, 28, 0))
             proc.startDetached(u"nautilus"_qs, {(Fs::isDir(path) ? path.parentPath() : path).toString()});

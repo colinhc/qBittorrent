@@ -96,10 +96,10 @@ public:
     Application(int &argc, char **argv);
     ~Application() override;
 
-    int exec(const QStringList &params);
+    int exec();
 
     bool isRunning();
-    bool sendParams(const QStringList &params);
+    bool callMainInstance();
     const QBtCommandLineParameters &commandLineArgs() const;
 
     // FileLogger properties
@@ -130,6 +130,9 @@ public:
     DesktopIntegration *desktopIntegration() override;
     MainWindow *mainWindow() override;
 
+    WindowState startUpWindowState() const override;
+    void setStartUpWindowState(WindowState windowState) override;
+
     bool isTorrentAddedNotificationsEnabled() const override;
     void setTorrentAddedNotificationsEnabled(bool value) override;
 #endif
@@ -146,16 +149,8 @@ private slots:
 #endif
 
 private:
-    struct AddTorrentParams
-    {
-        QString torrentSource;
-        BitTorrent::AddTorrentParams torrentParams;
-        std::optional<bool> skipTorrentDialog;
-    };
-
     void initializeTranslation();
-    AddTorrentParams parseParams(const QStringList &params) const;
-    void processParams(const AddTorrentParams &params);
+    void processParams(const QBtCommandLineParameters &params);
     void runExternalProgram(const QString &programTemplate, const BitTorrent::Torrent *torrent) const;
     void sendNotificationEmail(const BitTorrent::Torrent *torrent);
 
@@ -178,7 +173,7 @@ private:
     ApplicationInstanceManager *m_instanceManager = nullptr;
     QAtomicInt m_isCleanupRun;
     bool m_isProcessingParamsAllowed = false;
-    ShutdownDialogAction m_shutdownAct;
+    ShutdownDialogAction m_shutdownAct = ShutdownDialogAction::Exit;
     QBtCommandLineParameters m_commandLineArgs;
 
     // FileLog
@@ -187,7 +182,7 @@ private:
     QTranslator m_qtTranslator;
     QTranslator m_translator;
 
-    QList<AddTorrentParams> m_paramsQueue;
+    QList<QBtCommandLineParameters> m_paramsQueue;
 
     SettingValue<bool> m_storeFileLoggerEnabled;
     SettingValue<bool> m_storeFileLoggerBackup;
@@ -203,6 +198,7 @@ private:
 #endif
 
 #ifndef DISABLE_GUI
+    SettingValue<WindowState> m_startUpWindowState;
     SettingValue<bool> m_storeNotificationTorrentAdded;
 
     DesktopIntegration *m_desktopIntegration = nullptr;

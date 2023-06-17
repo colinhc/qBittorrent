@@ -104,6 +104,7 @@ const QString KEY_PROP_CREATION_DATE = u"creation_date"_qs;
 const QString KEY_PROP_SAVE_PATH = u"save_path"_qs;
 const QString KEY_PROP_DOWNLOAD_PATH = u"download_path"_qs;
 const QString KEY_PROP_COMMENT = u"comment"_qs;
+const QString KEY_PROP_ISPRIVATE = u"is_private"_qs;
 
 // File keys
 const QString KEY_FILE_INDEX = u"index"_qs;
@@ -387,6 +388,10 @@ void TorrentsController::infoAction()
 //   - "save_path": Torrent save path
 //   - "download_path": Torrent download path
 //   - "comment": Torrent comment
+//   - "infohash_v1": Torrent v1 infohash (or empty string for v2 torrents)
+//   - "infohash_v2": Torrent v2 infohash (or empty string for v1 torrents)
+//   - "hash": Torrent TorrentID (infohashv1 for v1 torrents, truncated infohashv2 for v2/hybrid torrents)
+//   - "name": Torrent name
 void TorrentsController::propertiesAction()
 {
     requireParams({u"hash"_qs});
@@ -400,6 +405,8 @@ void TorrentsController::propertiesAction()
 
     dataDict[KEY_TORRENT_INFOHASHV1] = torrent->infoHash().v1().toString();
     dataDict[KEY_TORRENT_INFOHASHV2] = torrent->infoHash().v2().toString();
+    dataDict[KEY_TORRENT_NAME] = torrent->name();
+    dataDict[KEY_TORRENT_ID] = torrent->id().toString();
     dataDict[KEY_PROP_TIME_ELAPSED] = torrent->activeTime();
     dataDict[KEY_PROP_SEEDING_TIME] = torrent->finishedTime();
     dataDict[KEY_PROP_ETA] = static_cast<double>(torrent->eta());
@@ -430,6 +437,7 @@ void TorrentsController::propertiesAction()
     dataDict[KEY_PROP_PIECE_SIZE] = torrent->pieceLength();
     dataDict[KEY_PROP_PIECES_HAVE] = torrent->piecesHave();
     dataDict[KEY_PROP_CREATED_BY] = torrent->creator();
+    dataDict[KEY_PROP_ISPRIVATE] = torrent->isPrivate();
     dataDict[KEY_PROP_ADDITION_DATE] = static_cast<double>(torrent->addedTime().toSecsSinceEpoch());
     if (torrent->hasMetadata())
     {
@@ -585,7 +593,7 @@ void TorrentsController::filesAction()
             fileDict[KEY_FILE_PIECE_RANGE] = QJsonArray {idx.first(), idx.last()};
 
             if (index == 0)
-                fileDict[KEY_FILE_IS_SEED] = torrent->isSeed();
+                fileDict[KEY_FILE_IS_SEED] = torrent->isFinished();
 
             fileList.append(fileDict);
         }
@@ -653,6 +661,7 @@ void TorrentsController::addAction()
     const bool skipChecking = parseBool(params()[u"skip_checking"_qs]).value_or(false);
     const bool seqDownload = parseBool(params()[u"sequentialDownload"_qs]).value_or(false);
     const bool firstLastPiece = parseBool(params()[u"firstLastPiecePrio"_qs]).value_or(false);
+    const std::optional<bool> addToQueueTop = parseBool(params()[u"addToTopOfQueue"_qs]);
     const std::optional<bool> addPaused = parseBool(params()[u"paused"_qs]);
     const QString savepath = params()[u"savepath"_qs].trimmed();
     const QString downloadPath = params()[u"downloadPath"_qs].trimmed();
@@ -698,6 +707,7 @@ void TorrentsController::addAction()
     addTorrentParams.skipChecking = skipChecking;
     addTorrentParams.sequential = seqDownload;
     addTorrentParams.firstLastPiecePriority = firstLastPiece;
+    addTorrentParams.addToQueueTop = addToQueueTop;
     addTorrentParams.addPaused = addPaused;
     addTorrentParams.stopCondition = stopCondition;
     addTorrentParams.contentLayout = contentLayout;
@@ -1091,10 +1101,6 @@ void TorrentsController::setLocationAction()
     if (!Utils::Fs::mkpath(newLocation))
         throw APIError(APIErrorType::Conflict, tr("Cannot make save path"));
 
-    // check permissions
-    if (!Utils::Fs::isWritable(newLocation))
-        throw APIError(APIErrorType::AccessDenied, tr("Cannot write to directory"));
-
     applyToTorrents(hashes, [newLocation](BitTorrent::Torrent *const torrent)
     {
         LogMsg(tr("WebUI Set location: moving \"%1\", from \"%2\" to \"%3\"")
@@ -1273,7 +1279,7 @@ void TorrentsController::removeCategoriesAction()
 
 void TorrentsController::categoriesAction()
 {
-    const auto session = BitTorrent::Session::instance();
+    const auto *session = BitTorrent::Session::instance();
 
     QJsonObject categories;
     const QStringList categoriesList = session->categories();

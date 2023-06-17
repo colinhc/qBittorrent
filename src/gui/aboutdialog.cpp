@@ -28,11 +28,10 @@
 
 #include "aboutdialog.h"
 
-#include <QFile>
-
 #include "base/global.h"
 #include "base/path.h"
 #include "base/unicodestrings.h"
+#include "base/utils/io.h"
 #include "base/utils/misc.h"
 #include "base/version.h"
 #include "ui_aboutdialog.h"
@@ -51,7 +50,7 @@ AboutDialog::AboutDialog(QWidget *parent)
     // Title
     m_ui->labelName->setText(QStringLiteral("<b><h2>qBittorrent " QBT_VERSION " (%1-bit)</h2></b>").arg(QT_POINTER_SIZE * 8));
 
-    m_ui->logo->setPixmap(Utils::Gui::scaledPixmapSvg(UIThemeManager::instance()->getIconPath(u"qbittorrent-tray"_qs), this, 32));
+    m_ui->logo->setPixmap(UIThemeManager::instance()->getScaledPixmap(u"qbittorrent-tray"_qs, 32));
 
     // About
     const QString aboutText =
@@ -60,8 +59,8 @@ AboutDialog::AboutDialog(QWidget *parent)
         u"%2\n\n"
         u"<table>"
         u"<tr><td>%3</td><td><a href=\"https://www.qbittorrent.org\">https://www.qbittorrent.org</a></td></tr>"
-        u"<tr><td>%4</td><td><a href=\"http://forum.qbittorrent.org\">http://forum.qbittorrent.org</a></td></tr>"
-        u"<tr><td>%5</td><td><a href=\"http://bugs.qbittorrent.org\">http://bugs.qbittorrent.org</a></td></tr>"
+        u"<tr><td>%4</td><td><a href=\"https://forum.qbittorrent.org\">https://forum.qbittorrent.org</a></td></tr>"
+        u"<tr><td>%5</td><td><a href=\"https://bugs.qbittorrent.org\">https://bugs.qbittorrent.org</a></td></tr>"
         u"</table>"
         u"</p>"_qs
         .arg(tr("An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent-rasterbar.")
@@ -75,27 +74,24 @@ AboutDialog::AboutDialog(QWidget *parent)
     m_ui->labelMascot->setPixmap(Utils::Gui::scaledPixmap(Path(u":/icons/mascot.png"_qs), this));
 
     // Thanks
-    QFile thanksfile(u":/thanks.html"_qs);
-    if (thanksfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    if (const auto readResult = Utils::IO::readFile(Path(u":/thanks.html"_qs), -1, QIODevice::Text)
+        ; readResult)
     {
-        m_ui->textBrowserThanks->setHtml(QString::fromUtf8(thanksfile.readAll().constData()));
-        thanksfile.close();
+        m_ui->textBrowserThanks->setHtml(QString::fromUtf8(readResult.value()));
     }
 
     // Translation
-    QFile translatorsfile(u":/translators.html"_qs);
-    if (translatorsfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    if (const auto readResult = Utils::IO::readFile(Path(u":/translators.html"_qs), -1, QIODevice::Text)
+        ; readResult)
     {
-        m_ui->textBrowserTranslation->setHtml(QString::fromUtf8(translatorsfile.readAll().constData()));
-        translatorsfile.close();
+        m_ui->textBrowserTranslation->setHtml(QString::fromUtf8(readResult.value()));
     }
 
     // License
-    QFile licensefile(u":/gpl.html"_qs);
-    if (licensefile.open(QIODevice::ReadOnly | QIODevice::Text))
+    if (const auto readResult = Utils::IO::readFile(Path(u":/gpl.html"_qs), -1, QIODevice::Text)
+        ; readResult)
     {
-        m_ui->textBrowserLicense->setHtml(QString::fromUtf8(licensefile.readAll().constData()));
-        licensefile.close();
+        m_ui->textBrowserLicense->setHtml(QString::fromUtf8(readResult.value()));
     }
 
     // Software Used

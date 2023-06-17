@@ -52,19 +52,23 @@
     </message>
     <message>
         <source>Metadata received</source>
-        <translation type="unfinished" />
+        <translation>Meta məlumatları alındı</translation>
     </message>
     <message>
         <source>Files checked</source>
-        <translation type="unfinished" />
+        <translation>Fayllar yoxlanıldı</translation>
     </message>
     <message>
         <source>Stop condition:</source>
-        <translation type="unfinished" />
+        <translation>Dayandma vəziyyəti:</translation>
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished" />
+        <translation>Heç nə</translation>
+    </message>
+    <message>
+        <source>Add to top of queue</source>
+        <translation>Növbənin ən üst sırasına əlavə et</translation>
     </message>
 </context>
 <context>
@@ -111,6 +115,10 @@
     <message>
         <source>Remove torrents</source>
         <translation>Torrentləri silin</translation>
+    </message>
+    <message>
+        <source>Add subcategory...</source>
+        <translation>Alt kateqoriya əlavə edin...</translation>
     </message>
 </context>
 <context>
@@ -605,11 +613,19 @@
     </message>
     <message>
         <source>Would you like to resume all torrents?</source>
-        <translation type="unfinished" />
+        <translation>Bütün torrentlər davam etdirilsin?</translation>
     </message>
     <message>
         <source>Would you like to pause all torrents?</source>
-        <translation type="unfinished" />
+        <translation>Bütün torrenlərə fasilə verilsin?</translation>
+    </message>
+    <message>
+        <source>Execution Log</source>
+        <translation>İcra jurnalı</translation>
+    </message>
+    <message>
+        <source>Log</source>
+        <translation>Jurnal</translation>
     </message>
 </context>
 <context>
@@ -783,10 +799,6 @@
         <translation>Növ:</translation>
     </message>
     <message>
-        <source>(None)</source>
-        <translation>(Heç nə)</translation>
-    </message>
-    <message>
         <source>SOCKS4</source>
         <translation>SOCKS4</translation>
     </message>
@@ -809,10 +821,6 @@
     <message>
         <source>Use proxy for peer connections</source>
         <translation>Proksi serveri iştirakçı bağlantıları üçün istifadə etmək</translation>
-    </message>
-    <message>
-        <source>Use proxy only for torrents</source>
-        <translation>Proksini yalnız torrentlər üçün istifadə etmək</translation>
     </message>
     <message>
         <source>Filter path (.dat, .p2p, .p2b):</source>
@@ -1209,10 +1217,6 @@
         <translation>libtorrent bölməsi</translation>
     </message>
     <message>
-        <source>Outgoing ports (Min) [0: Disabled]:</source>
-        <translation>Xarici portlar (Ən az) [0: Söndürülüb]</translation>
-    </message>
-    <message>
         <source>Recheck torrents on completion:</source>
         <translation>Yüklənmə tamamlandıqdan sonta torrentləri yoxlamaq</translation>
     </message>
@@ -1231,10 +1235,6 @@
     <message>
         <source>Remove torrent</source>
         <translation>Torrenti silmək</translation>
-    </message>
-    <message>
-        <source>Outgoing ports (Max) [0: Disabled]:</source>
-        <translation>Çıxış portları (Ən çox) [0: Söndürülüb]</translation>
     </message>
     <message>
         <source>Asynchronous I/O threads:</source>
@@ -1313,20 +1313,12 @@
         <translation>bundan sonra bloklamaq:</translation>
     </message>
     <message>
-        <source>Stop tracker timeout:</source>
-        <translation>İzləyici boşdayanmasını dayandırmaq:</translation>
-    </message>
-    <message>
         <source>Ban client after consecutive failures:</source>
         <translation>Belə ardıcıl xətalardan sonra müştərini bloklamaq:</translation>
     </message>
     <message>
         <source>Enable cookie Secure flag (requires HTTPS)</source>
         <translation>Kukilərin təhlükəsizliyini aktiv etmək (HTTPS tələb olunur)</translation>
-    </message>
-    <message>
-        <source>UPnP lease duration [0: Permanent lease]:</source>
-        <translation>UPnP icarə müddəti [0: Daimi icarə]:</translation>
     </message>
     <message>
         <source>Header: value pairs, one per line</source>
@@ -1343,14 +1335,6 @@
     <message>
         <source>Enable fetching RSS feeds</source>
         <translation>RSS lentlərinin alınmasını aktiv etmək</translation>
-    </message>
-    <message>
-        <source>Hashing threads (requires libtorrent &gt;= 2.0):</source>
-        <translation>Heşləmə axını (libtorrent &gt;= 2.0 tələb olunur):</translation>
-    </message>
-    <message>
-        <source>Coalesce reads &amp; writes (requires libtorrent &lt; 2.0):</source>
-        <translation>Oxuma və yazma əməllərini birləşdirmək (libtorrnet &lt; 2.0 tələb olunur)</translation>
     </message>
     <message>
         <source>Peer turnover threshold percentage:</source>
@@ -1415,14 +1399,6 @@
     <message>
         <source>RSS Smart Episode Filter</source>
         <translation>RSS Ağıllı Bölmə Filtri</translation>
-    </message>
-    <message>
-        <source>Disk cache (requires libtorrent &lt; 2.0):</source>
-        <translation>Disk keşi ( libtorrent &lt; 2.0 tələb olunur):</translation>
-    </message>
-    <message>
-        <source>Disk cache expiry interval (requires libtorrent &lt; 2.0):</source>
-        <translation>Disk keçinin son istifadə intervalı (libtorrent &gt;= 2.0 tələb olunur):</translation>
     </message>
     <message>
         <source>Validate HTTPS tracker certificate:</source>
@@ -1529,14 +1505,6 @@
         <translation>Bu seçim Linuxda az effektlidir</translation>
     </message>
     <message>
-        <source>Disk IO type (libtorrent &gt;= 2.0; requires restart):</source>
-        <translation>Disk giriş/çıxış növü (libtorrent &gt;= 2.0; yenidən başladılmalıdır)</translation>
-    </message>
-    <message>
-        <source>Write-through (requires libtorrent &gt;= 2.0.6)</source>
-        <translation>Başdan sona yazmaq (libtorrent &gt;= 2.0.6 tələb olunur)</translation>
-    </message>
-    <message>
         <source>It controls the internal state update interval which in turn will affect UI updates</source>
         <translation>Bu yenilənmə tezliyinin daxili vəziyətini idarə edir, bu da öz növəsində İİ yenilənmələrinə təsir edəcək</translation>
     </message>
@@ -1567,10 +1535,6 @@
     <message>
         <source>Refresh interval:</source>
         <translation>Təzələnmə aralığı:</translation>
-    </message>
-    <message>
-        <source>Physical memory (RAM) usage limit (applied if libtorrent &gt;= 2.0):</source>
-        <translation>Fiziki yaddaşın (RAM) istifadə həddi (libtorrent  &gt;= 2.0.6 olarsa tətbiq edilir):</translation>
     </message>
     <message>
         <source>ms</source>
@@ -1622,35 +1586,155 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
     </message>
     <message>
         <source>Files checked</source>
-        <translation type="unfinished" />
+        <translation>Fayllar yoxlanıldı</translation>
     </message>
     <message>
         <source>Enable port forwarding for embedded tracker:</source>
-        <translation type="unfinished" />
+        <translation>Daxildə olan izləyicilər üçün port yönləndirməsini aktiv et:</translation>
     </message>
     <message>
         <source>If checked, hostname lookups are done via the proxy.</source>
-        <translation type="unfinished" />
+        <translation>Əgər işarələnərsə, host adı axtarışı proksi ilə icra olunur.</translation>
     </message>
     <message>
         <source>Use proxy for hostname lookup</source>
-        <translation type="unfinished" />
+        <translation>Host adı axtarışı ümün proksi istifadə et</translation>
     </message>
     <message>
         <source>Metadata received</source>
-        <translation type="unfinished" />
+        <translation>Meta məlumatları alındı</translation>
     </message>
     <message>
         <source>Torrent stop condition:</source>
-        <translation type="unfinished" />
+        <translation>Torrentin dayanma vəziyyəti:</translation>
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished" />
+        <translation>Heç nə</translation>
     </message>
     <message>
         <source>Example: 172.17.32.0/24, fdff:ffff:c8::/40</source>
-        <translation type="unfinished" />
+        <translation>Nümunə: 172.17.32.0/24, fdff:ffff:c8::/40</translation>
+    </message>
+    <message>
+        <source>SQLite database (experimental)</source>
+        <translation>SQLite verilənlər bazası (təcrübə üçün)</translation>
+    </message>
+    <message>
+        <source>Resume data storage type (requires restart):</source>
+        <translation>Davam etdirmə məlumatlarının saxlanılması növü (yenidən başladılmalıdır):</translation>
+    </message>
+    <message>
+        <source>Fastresume files</source>
+        <translation>Cəld davametdirmə faylları</translation>
+    </message>
+    <message>
+        <source>Backup the log file after:</source>
+        <translation>Bu vaxtdan sonra jurnal faylı yedəklənsin:</translation>
+    </message>
+    <message>
+        <source>days</source>
+        <translation>gün</translation>
+    </message>
+    <message>
+        <source>Log file</source>
+        <translation>Jurnal faylı</translation>
+    </message>
+    <message>
+        <source>Behavior</source>
+        <translation>Davranış</translation>
+    </message>
+    <message>
+        <source>Delete backup logs older than:</source>
+        <translation>Bu vaxtdan sonra köhnə jurnal faylları silinsin:</translation>
+    </message>
+    <message>
+        <source>Use proxy for BitTorrent purposes</source>
+        <translation>Proksini BitTorrent məqsədləri üçün istifadə et</translation>
+    </message>
+    <message>
+        <source>years</source>
+        <translation>il</translation>
+    </message>
+    <message>
+        <source>Save path:</source>
+        <translation>Saxlama yolu:</translation>
+    </message>
+    <message>
+        <source>months</source>
+        <translation>ay</translation>
+    </message>
+    <message>
+        <source>Remember Multi-Rename settings</source>
+        <translation>Birdən çox addəyişmə ayarları yadda saxlanılsın</translation>
+    </message>
+    <message>
+        <source>Use proxy for general purposes</source>
+        <translation>Əsas məqsədlər üçün proksi istifadə et</translation>
+    </message>
+    <message>
+        <source>Use proxy for RSS purposes</source>
+        <translation>RSS məqsədləri üçün proksi istifadə et</translation>
+    </message>
+    <message>
+        <source>Disk cache expiry interval (requires libtorrent &amp;lt; 2.0):</source>
+        <translation>Disk keşinin son istifadə intervalı (libtorrent &amp;lt; 2.0 tələb edilir):</translation>
+    </message>
+    <message>
+        <source>Physical memory (RAM) usage limit (applied if libtorrent &amp;gt;= 2.0):</source>
+        <translation>Fiziki yaddaşın (RAM) istifadə həddi (libtorrent &amp;gt;= 2.0 olarsa tətbiq edilir):</translation>
+    </message>
+    <message>
+        <source>Disk cache (requires libtorrent &amp;lt; 2.0):</source>
+        <translation>Disk keşi ( libtorrent &amp;lt; 2.0 tələb olunur):</translation>
+    </message>
+    <message>
+        <source>Socket send buffer size [0: system default]:</source>
+        <translation>Soket göndərmə bufer ölçüsü [0: sistemdəki standart]:</translation>
+    </message>
+    <message>
+        <source>Coalesce reads &amp;amp; writes (requires libtorrent &amp;lt; 2.0):</source>
+        <translation>Oxuma və yazma əməllərini birləşdirmək (libtorrnet &amp;lt; 2.0 tələb olunur):</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Max) [0: disabled]:</source>
+        <translation>Çıxış portları (Ən çox) [0: Söndürülüb]:</translation>
+    </message>
+    <message>
+        <source>Socket receive buffer size [0: system default]:</source>
+        <translation>Soket qəbul etmə bufer ölçüsü [0: sistemdəki standart]:</translation>
+    </message>
+    <message>
+        <source>Use Subcategories</source>
+        <translation>Alt kateqoriyaları istifadə etmək</translation>
+    </message>
+    <message>
+        <source>Disk IO type (libtorrent &amp;gt;= 2.0; requires restart):</source>
+        <translation>Disk giriş/çıxış növü (libtorrent &amp;gt;= 2.0; yenidən başladılmalıdır):</translation>
+    </message>
+    <message>
+        <source>Add to top of queue</source>
+        <translation>Növbənin ən üst sırasına əlavə et</translation>
+    </message>
+    <message>
+        <source>Write-through (requires libtorrent &amp;gt;= 2.0.6)</source>
+        <translation>Başdan sona yazmaq (libtorrent &amp;gt;= 2.0.6 tələb olunur)</translation>
+    </message>
+    <message>
+        <source>Stop tracker timeout [0: disabled]:</source>
+        <translation>İzləyici vaxtını dayandır [0: söndürülb]:</translation>
+    </message>
+    <message>
+        <source>Outgoing ports (Min) [0: disabled]:</source>
+        <translation>Xarici portlar (Ən az) [0: Söndürülüb]:</translation>
+    </message>
+    <message>
+        <source>Hashing threads (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Heşləmə axını (libtorrent &amp;gt;= 2.0 tələb olunur):</translation>
+    </message>
+    <message>
+        <source>UPnP lease duration [0: permanent lease]:</source>
+        <translation>UPnP icarə müddəti [0: daimi icarə]:</translation>
     </message>
 </context>
 <context>
@@ -1733,7 +1817,7 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
     </message>
     <message>
         <source>Peer ID Client</source>
-        <translation type="unfinished" />
+        <translation>İştirakçının İD müştərisi</translation>
     </message>
 </context>
 <context>
@@ -1955,6 +2039,66 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
     <message>
         <source>Progress:</source>
         <translation>Gedişat:</translation>
+    </message>
+    <message>
+        <source>Use regular expressions</source>
+        <translation>Müntəzəm ifadələri istiadə et</translation>
+    </message>
+    <message>
+        <source>Filename</source>
+        <translation>Fayl_adı</translation>
+    </message>
+    <message>
+        <source>Filename + Extension</source>
+        <translation>Fayl_adı + Uzantı</translation>
+    </message>
+    <message>
+        <source>Enumerate Files</source>
+        <translation>Faylları nömrələ</translation>
+    </message>
+    <message>
+        <source>Rename failed: file or folder already exists</source>
+        <translation>Adını dəyişmək mümkün olmadı: fayl və ya qovluq artıq mövcuddur</translation>
+    </message>
+    <message>
+        <source>Match all occurences</source>
+        <translation>Bütün hadisələri uyğunlaşdır</translation>
+    </message>
+    <message>
+        <source>Toggle Selection</source>
+        <translation>Seçim dəyişdirici</translation>
+    </message>
+    <message>
+        <source>Replacement Input</source>
+        <translation>Əvəzetmə girişi</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation>Əvəz et</translation>
+    </message>
+    <message>
+        <source>Extension</source>
+        <translation>Uzantı</translation>
+    </message>
+    <message>
+        <source>Replace All</source>
+        <translation>Hamısını əvəz et</translation>
+    </message>
+    <message>
+        <source>Include files</source>
+        <translation>Fayllar daxil</translation>
+    </message>
+    <message>
+        <source>Include folders</source>
+        <translation>Qovluqlar daxil</translation>
+    </message>
+    <message>
+        <source>Search Files</source>
+        <translation>Faylları axtar</translation>
+    </message>
+    <message>
+        <source>Case sensitive</source>
+        <translation>Böyük/kiçik hərfə həssas</translation>
     </message>
 </context>
 <context>
@@ -2381,7 +2525,7 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
     </message>
     <message>
         <source>Edit tracker URL...</source>
-        <translation>İzləyici URL-na dezəliş edin...</translation>
+        <translation>İzləyici URL-na düzəliş edin...</translation>
     </message>
     <message>
         <source>Tracker editing</source>
@@ -2430,6 +2574,14 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
     <message>
         <source>Add trackers...</source>
         <translation>İzləyicilər əlavə edin...</translation>
+    </message>
+    <message>
+        <source>Renamed</source>
+        <translation>Adı dəyişdirildi</translation>
+    </message>
+    <message>
+        <source>Original</source>
+        <translation>Orijinal</translation>
     </message>
 </context>
 <context>
@@ -2536,6 +2688,10 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
     <message>
         <source>Trackers</source>
         <translation>İzləyicilər</translation>
+    </message>
+    <message>
+        <source>Collapse/expand</source>
+        <translation>Yığ/Genişləndir</translation>
     </message>
 </context>
 <context>
@@ -2724,6 +2880,14 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
     <message>
         <source>Remove</source>
         <translation>Silin</translation>
+    </message>
+    <message>
+        <source>Rename Files...</source>
+        <translation>Faylların adını dəyiş...</translation>
+    </message>
+    <message>
+        <source>Renaming</source>
+        <translation>Adı dəyişdirilir</translation>
     </message>
 </context>
 <context>
@@ -3268,6 +3432,10 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
         <source>New name:</source>
         <translation>Yeni ad:</translation>
     </message>
+    <message>
+        <source>Renaming)</source>
+        <translation>Adı dəyişdirilir)</translation>
+    </message>
 </context>
 <context>
     <name>RSSWidget</name>
@@ -3645,6 +3813,141 @@ Bu formatlar dəstəklənir: S01E01, 1x1, 2017.12.31 və 31.12.2017 (Həmçinin 
     <message>
         <source>Unread</source>
         <translation>Oxunmamış</translation>
+    </message>
+</context>
+<context>
+    <name>ExecutionLogWidget</name>
+    <message>
+        <source>General</source>
+        <translation>Əsas</translation>
+    </message>
+    <message>
+        <source>Blocked</source>
+        <translation>Əngəllənmiş</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Naməlum</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Hamısı</translation>
+    </message>
+    <message>
+        <source>showing</source>
+        <translation>göstərərək</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Kopyalayın</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation>Hamısını seçin</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Log Type</source>
+        <translation>Jurnalın növü</translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation>Təmizləmək</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Xəbərdarlıq</translation>
+    </message>
+    <message>
+        <source>Information Messages</source>
+        <translation>Məlumat bildirişləri</translation>
+    </message>
+    <message>
+        <source>Warning Messages</source>
+        <translation>Xəbərdarlıq bildirişlər</translation>
+    </message>
+    <message>
+        <source>Filter logs</source>
+        <translation>Jurnalı süzgəclə</translation>
+    </message>
+    <message>
+        <source>Blocked IPs</source>
+        <translation>Əngələnmiş İP-lər</translation>
+    </message>
+    <message>
+        <source>out of</source>
+        <translation>kənarnda</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Vəziyyəti</translation>
+    </message>
+    <message>
+        <source>Timestamp</source>
+        <translation>Vaxt möhürü</translation>
+    </message>
+    <message>
+        <source>Clear All</source>
+        <translation>Hamısını təmizlə</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>İsmarıc</translation>
+    </message>
+    <message>
+        <source>Log Levels:</source>
+        <translation>Jurnallama səviyyələri:</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Səbəb:</translation>
+    </message>
+    <message>
+        <source>item</source>
+        <translation>element</translation>
+    </message>
+    <message>
+        <source>IP</source>
+        <translation>IP</translation>
+    </message>
+    <message>
+        <source>Banned</source>
+        <translation>Qadağan olunmuş</translation>
+    </message>
+    <message>
+        <source>Normal Messages</source>
+        <translation>Adi ismarıclar</translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation>Ciddi</translation>
+    </message>
+    <message>
+        <source>Critical Messages</source>
+        <translation>Ciddi ismarıclar</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation>Normal</translation>
+    </message>
+    <message>
+        <source>items</source>
+        <translation>elementlər</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>Nəticələr</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation>Məlumat</translation>
+    </message>
+    <message>
+        <source>Choose a log level...</source>
+        <translation>Jurnallama səviyyəsini seçin...</translation>
     </message>
 </context>
 </TS>

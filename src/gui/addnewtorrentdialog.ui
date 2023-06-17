@@ -202,6 +202,46 @@
                </widget>
               </item>
               <item>
+               <layout class="QHBoxLayout" name="tagsLayout" stretch="0,0,0">
+                <item>
+                 <widget class="QLabel" name="tagsLabel">
+                  <property name="text">
+                   <string>Tags:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="tagsLineEdit">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Click [...] button to add/remove tags.</string>
+                  </property>
+                  <property name="clearButtonEnabled">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="tagsEditButton">
+                  <property name="toolTip">
+                   <string>Add/remove tags</string>
+                  </property>
+                  <property name="text">
+                   <string>...</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
                <layout class="QGridLayout" name="gridLayout">
                <item row="0" column="0">
                  <widget class="QCheckBox" name="startTorrentCheckBox">
@@ -257,6 +297,13 @@
                  </spacer>
                 </item>
                 <item row="1" column="0">
+                 <widget class="QCheckBox" name="addToQueueTopCheckBox">
+                  <property name="text">
+                   <string>Add to top of queue</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
                  <widget class="QCheckBox" name="skipCheckingCheckBox">
                   <property name="text">
                    <string>Skip hash check</string>
@@ -503,7 +550,7 @@
             </layout>
            </item>
            <item>
-            <widget class="TorrentContentTreeView" name="contentTreeView">
+            <widget class="TorrentContentWidget" name="contentTreeView">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>1</horstretch>
@@ -605,9 +652,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TorrentContentTreeView</class>
+   <class>TorrentContentWidget</class>
    <extends>QTreeView</extends>
-   <header>gui/torrentcontenttreeview.h</header>
+   <header>gui/torrentcontentwidget.h</header>
   </customwidget>
   <customwidget>
    <class>FileSystemPathComboEdit</class>

@@ -33,11 +33,11 @@
 
 #include "base/bittorrent/session.h"
 #include "base/global.h"
-#include "autoexpandabledialog.h"
+#include "gui/autoexpandabledialog.h"
+#include "gui/uithememanager.h"
+#include "gui/utils.h"
 #include "tagfiltermodel.h"
 #include "tagfilterproxymodel.h"
-#include "uithememanager.h"
-#include "utils.h"
 
 namespace
 {
@@ -113,16 +113,16 @@ void TagFilterWidget::showMenu()
     const auto selectedRows = selectionModel()->selectedRows();
     if (!selectedRows.empty() && !TagFilterModel::isSpecialItem(selectedRows.first()))
     {
-        menu->addAction(UIThemeManager::instance()->getIcon(u"edit-clear"_qs), tr("Remove tag")
+        menu->addAction(UIThemeManager::instance()->getIcon(u"edit-clear"_qs, u"list-remove"_qs), tr("Remove tag")
             , this, &TagFilterWidget::removeTag);
     }
 
-    menu->addAction(UIThemeManager::instance()->getIcon(u"edit-clear"_qs), tr("Remove unused tags")
+    menu->addAction(UIThemeManager::instance()->getIcon(u"edit-clear"_qs, u"list-remove"_qs), tr("Remove unused tags")
         , this, &TagFilterWidget::removeUnusedTags);
     menu->addSeparator();
-    menu->addAction(UIThemeManager::instance()->getIcon(u"torrent-start"_qs), tr("Resume torrents")
+    menu->addAction(UIThemeManager::instance()->getIcon(u"torrent-start"_qs, u"media-playback-start"_qs), tr("Resume torrents")
         , this, &TagFilterWidget::actionResumeTorrentsTriggered);
-    menu->addAction(UIThemeManager::instance()->getIcon(u"torrent-stop"_qs), tr("Pause torrents")
+    menu->addAction(UIThemeManager::instance()->getIcon(u"torrent-stop"_qs, u"media-playback-pause"_qs), tr("Pause torrents")
         , this, &TagFilterWidget::actionPauseTorrentsTriggered);
     menu->addAction(UIThemeManager::instance()->getIcon(u"list-remove"_qs), tr("Remove torrents")
         , this, &TagFilterWidget::actionDeleteTorrentsTriggered);
@@ -208,7 +208,7 @@ void TagFilterWidget::removeTag()
 
 void TagFilterWidget::removeUnusedTags()
 {
-    auto session = BitTorrent::Session::instance();
+    auto *session = BitTorrent::Session::instance();
     for (const QString &tag : asConst(session->tags()))
         if (model()->data(static_cast<TagFilterProxyModel *>(model())->index(tag), Qt::UserRole) == 0)
             session->removeTag(tag);

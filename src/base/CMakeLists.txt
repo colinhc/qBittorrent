@@ -34,6 +34,7 @@ add_library(qbt_base STATIC
     bittorrent/sessionstatus.h
     bittorrent/speedmonitor.h
     bittorrent/torrent.h
+    bittorrent/torrentcontenthandler.h
     bittorrent/torrentcontentlayout.h
     bittorrent/torrentcreatorthread.h
     bittorrent/torrentimpl.h
@@ -109,6 +110,7 @@ add_library(qbt_base STATIC
     applicationcomponent.cpp
     asyncfilestorage.cpp
     bittorrent/abstractfilestorage.cpp
+    bittorrent/addtorrentparams.cpp
     bittorrent/bandwidthscheduler.cpp
     bittorrent/bencoderesumedatastorage.cpp
     bittorrent/categoryoptions.cpp
@@ -129,6 +131,7 @@ add_library(qbt_base STATIC
     bittorrent/sessionimpl.cpp
     bittorrent/speedmonitor.cpp
     bittorrent/torrent.cpp
+    bittorrent/torrentcontenthandler.cpp
     bittorrent/torrentcreatorthread.cpp
     bittorrent/torrentimpl.cpp
     bittorrent/torrentinfo.cpp

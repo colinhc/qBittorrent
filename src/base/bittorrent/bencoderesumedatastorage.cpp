@@ -36,6 +36,7 @@
 
 #include <QByteArray>
 #include <QDebug>
+#include <QFile>
 #include <QRegularExpression>
 #include <QThread>
 
@@ -133,17 +134,19 @@ BitTorrent::LoadResumeDataResult BitTorrent::BencodeResumeDataStorage::load(cons
     const Path fastresumePath = path() / Path(idString + u".fastresume");
     const Path torrentFilePath = path() / Path(idString + u".torrent");
 
-    QFile resumeDataFile {fastresumePath.data()};
-    if (!resumeDataFile.open(QIODevice::ReadOnly))
-        return nonstd::make_unexpected(tr("Cannot read file %1: %2").arg(fastresumePath.toString(), resumeDataFile.errorString()));
+    const auto resumeDataReadResult = Utils::IO::readFile(fastresumePath, MAX_TORRENT_SIZE);
+    if (!resumeDataReadResult)
+        return nonstd::make_unexpected(resumeDataReadResult.error().message);
 
-    QFile metadataFile {torrentFilePath.data()};
-    if (metadataFile.exists() && !metadataFile.open(QIODevice::ReadOnly))
-        return nonstd::make_unexpected(tr("Cannot read file %1: %2").arg(torrentFilePath.toString(), metadataFile.errorString()));
+    const auto metadataReadResult = Utils::IO::readFile(torrentFilePath, MAX_TORRENT_SIZE);
+    if (!metadataReadResult)
+    {
+        if (metadataReadResult.error().status != Utils::IO::ReadError::NotExist)
+            return nonstd::make_unexpected(metadataReadResult.error().message);
+    }
 
-    const QByteArray data = resumeDataFile.readAll();
-    const QByteArray metadata = (metadataFile.isOpen() ? metadataFile.readAll() : "");
-
+    const QByteArray data = resumeDataReadResult.value();
+    const QByteArray metadata = metadataReadResult.value_or(QByteArray());
     return loadTorrentResumeData(data, metadata);
 }
 
@@ -161,6 +164,8 @@ void BitTorrent::BencodeResumeDataStorage::doLoadAll() const
 
 void BitTorrent::BencodeResumeDataStorage::loadQueue(const Path &queueFilename)
 {
+    const int lineMaxLength = 48;
+
     QFile queueFile {queueFilename.data()};
     if (!queueFile.exists())
         return;
@@ -175,7 +180,7 @@ void BitTorrent::BencodeResumeDataStorage::loadQueue(const Path &queueFilename)
     int start = 0;
     while (true)
     {
-        const auto line = QString::fromLatin1(queueFile.readLine().trimmed());
+        const auto line = QString::fromLatin1(queueFile.readLine(lineMaxLength).trimmed());
         if (line.isEmpty())
             break;
 
@@ -206,7 +211,7 @@ BitTorrent::LoadResumeDataResult BitTorrent::BencodeResumeDataStorage::loadTorre
     LoadTorrentParams torrentParams;
     torrentParams.category = fromLTString(resumeDataRoot.dict_find_string_value("qBt-category"));
     torrentParams.name = fromLTString(resumeDataRoot.dict_find_string_value("qBt-name"));
-    torrentParams.hasSeedStatus = resumeDataRoot.dict_find_int_value("qBt-seedStatus");
+    torrentParams.hasFinishedStatus = resumeDataRoot.dict_find_int_value("qBt-seedStatus");
     torrentParams.firstLastPiecePriority = resumeDataRoot.dict_find_int_value("qBt-firstLastPiecePriority");
     torrentParams.seedingTimeLimit = resumeDataRoot.dict_find_int_value("qBt-seedingTimeLimit", Torrent::USE_GLOBAL_SEEDING_TIME);
 
@@ -380,7 +385,7 @@ void BitTorrent::BencodeResumeDataStorage::Worker::store(const TorrentID &id, co
     data["qBt-category"] = resumeData.category.toStdString();
     data["qBt-tags"] = setToEntryList(resumeData.tags);
     data["qBt-name"] = resumeData.name.toStdString();
-    data["qBt-seedStatus"] = resumeData.hasSeedStatus;
+    data["qBt-seedStatus"] = resumeData.hasFinishedStatus;
     data["qBt-contentLayout"] = Utils::String::fromEnum(resumeData.contentLayout).toStdString();
     data["qBt-firstLastPiecePriority"] = resumeData.firstLastPiecePriority;
     data["qBt-stopCondition"] = Utils::String::fromEnum(resumeData.stopCondition).toStdString();

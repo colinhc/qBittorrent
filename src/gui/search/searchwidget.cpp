@@ -75,7 +75,6 @@ namespace
         case SearchJobWidget::Status::Aborted:
             return u"task-reject"_qs;
         case SearchJobWidget::Status::Error:
-            return u"dialog-warning"_qs;
         case SearchJobWidget::Status::NoResults:
             return u"dialog-warning"_qs;
         default:
@@ -112,7 +111,7 @@ SearchWidget::SearchWidget(IGUIApplication *app, MainWindow *mainWindow)
 #ifndef Q_OS_MACOS
     // Icons
     m_ui->searchButton->setIcon(UIThemeManager::instance()->getIcon(u"edit-find"_qs));
-    m_ui->pluginsButton->setIcon(UIThemeManager::instance()->getIcon(u"plugins"_qs));
+    m_ui->pluginsButton->setIcon(UIThemeManager::instance()->getIcon(u"plugins"_qs, u"preferences-system-network"_qs));
 #else
     // On macOS the icons overlap the text otherwise
     QSize iconSize = m_ui->tabWidget->iconSize();
@@ -144,7 +143,7 @@ SearchWidget::SearchWidget(IGUIApplication *app, MainWindow *mainWindow)
     connect(m_ui->selectPlugin, qOverload<int>(&QComboBox::currentIndexChanged)
             , this, &SearchWidget::fillCatCombobox);
 
-    const auto focusSearchHotkey = new QShortcut(QKeySequence::Find, this);
+    const auto *focusSearchHotkey = new QShortcut(QKeySequence::Find, this);
     connect(focusSearchHotkey, &QShortcut::activated, this, &SearchWidget::toggleFocusBetweenLineEdits);
 }
 
@@ -156,7 +155,7 @@ bool SearchWidget::eventFilter(QObject *object, QEvent *event)
         if (event->type() != QEvent::MouseButtonRelease)
             return false;
 
-        const auto mouseEvent = static_cast<QMouseEvent *>(event);
+        const auto *mouseEvent = static_cast<QMouseEvent *>(event);
         const int tabIndex = m_ui->tabWidget->tabBar()->tabAt(mouseEvent->pos());
         if ((mouseEvent->button() == Qt::MiddleButton) && (tabIndex >= 0))
         {
@@ -330,15 +329,15 @@ void SearchWidget::on_searchButton_clicked()
         return;
     }
 
+    const QString plugin = selectedPlugin();
+
     QStringList plugins;
-    if (selectedPlugin() == u"all")
+    if (plugin == u"all")
         plugins = SearchPluginManager::instance()->allPlugins();
-    else if (selectedPlugin() == u"enabled")
-        plugins = SearchPluginManager::instance()->enabledPlugins();
-    else if (selectedPlugin() == u"multi")
+    else if ((plugin == u"enabled") || (plugin == u"multi"))
         plugins = SearchPluginManager::instance()->enabledPlugins();
     else
-        plugins << selectedPlugin();
+        plugins << plugin;
 
     qDebug("Search with category: %s", qUtf8Printable(selectedCategory()));
 

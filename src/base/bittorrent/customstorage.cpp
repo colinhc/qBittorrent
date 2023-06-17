@@ -120,7 +120,11 @@ void CustomDiskIOThread::async_move_storage(lt::storage_index_t storage, std::st
     m_nativeDiskIO->async_move_storage(storage, path, flags
                                        , [=, handler = std::move(handler)](lt::status_t status, const std::string &path, const lt::storage_error &error)
     {
+#if LIBTORRENT_VERSION_NUM < 20100
         if ((status != lt::status_t::fatal_disk_error) && (status != lt::status_t::file_exist))
+#else
+        if ((status != lt::disk_status::fatal_disk_error) && (status != lt::disk_status::file_exist))
+#endif
             m_storageData[storage].savePath = newSavePath;
 
         handler(status, path, error);
@@ -167,7 +171,7 @@ void CustomDiskIOThread::async_set_file_priority(lt::storage_index_t storage, lt
                                                  , std::function<void (const lt::storage_error &, lt::aux::vector<lt::download_priority_t, lt::file_index_t>)> handler)
 {
     m_nativeDiskIO->async_set_file_priority(storage, priorities
-                                            , [=, handler = std::move(handler)](const lt::storage_error &error, lt::aux::vector<lt::download_priority_t, lt::file_index_t> priorities)
+                                            , [=, handler = std::move(handler)](const lt::storage_error &error, const lt::aux::vector<lt::download_priority_t, lt::file_index_t> &priorities)
     {
         m_storageData[storage].filePriorities = priorities;
         handler(error, priorities);

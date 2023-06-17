@@ -30,6 +30,7 @@
     <script src="scripts/piecesbar.js?v=${CACHEID}"></script>
     <script src="scripts/file-tree.js?v=${CACHEID}"></script>
     <script src="scripts/dynamicTable.js?locale=${LANG}&v=${CACHEID}"></script>
+    <script src="scripts/rename-files.js?v=${CACHEID}"></script>
     <script src="scripts/client.js?locale=${LANG}&v=${CACHEID}"></script>
     <script src="scripts/contextmenu.js?locale=${LANG}&v=${CACHEID}"></script>
 </head>
@@ -77,6 +78,7 @@
                             <li><a id="speedInBrowserTitleBarLink"><img class="MyMenuIcon" src="images/checked-completed.svg" alt="QBT_TR(Speed in Title Bar)QBT_TR[CONTEXT=MainWindow]" width="16" height="16" />QBT_TR(Speed in Title Bar)QBT_TR[CONTEXT=MainWindow]</a></li>
                             <li class="divider"><a id="showSearchEngineLink"><img class="MyMenuIcon" src="images/checked-completed.svg" alt="QBT_TR(Search Engine)QBT_TR[CONTEXT=MainWindow]" width="16" height="16" />QBT_TR(Search Engine)QBT_TR[CONTEXT=MainWindow]</a></li>
                             <li><a id="showRssReaderLink"><img class="MyMenuIcon" src="images/checked-completed.svg" alt="QBT_TR(RSS)QBT_TR[CONTEXT=MainWindow]" width="16" height="16" />QBT_TR(RSS Reader)QBT_TR[CONTEXT=MainWindow]</a></li>
+                            <li><a id="showLogViewerLink"><img class="MyMenuIcon" src="images/checked-completed.svg" alt="QBT_TR(Log)QBT_TR[CONTEXT=MainWindow]" width="16" height="16" />QBT_TR(Log)QBT_TR[CONTEXT=MainWindow]</a></li>
                             <li class="divider"><a id="StatisticsLink"><img class="MyMenuIcon" src="images/view-statistics.svg" alt="QBT_TR(Statistics)QBT_TR[CONTEXT=MainWindow]" width="16" height="16" />QBT_TR(Statistics)QBT_TR[CONTEXT=MainWindow]</a></li>
                         </ul>
                     </li>
@@ -90,7 +92,7 @@
                     <li>
                         <a class="returnFalse">QBT_TR(Help)QBT_TR[CONTEXT=MainWindow]</a>
                         <ul>
-                            <li><a id="docsLink" target="_blank" href="http://wiki.qbittorrent.org/"><img class="MyMenuIcon" src="images/help-contents.svg" alt="QBT_TR(Documentation)QBT_TR[CONTEXT=MainWindow]" width="16" height="16" />QBT_TR(Documentation)QBT_TR[CONTEXT=MainWindow]</a></li>
+                            <li><a id="docsLink" target="_blank" href="https://wiki.qbittorrent.org/"><img class="MyMenuIcon" src="images/help-contents.svg" alt="QBT_TR(Documentation)QBT_TR[CONTEXT=MainWindow]" width="16" height="16" />QBT_TR(Documentation)QBT_TR[CONTEXT=MainWindow]</a></li>
                             <li class="divider"><a id="bugLink" target="_blank" href="https://www.qbittorrent.org/donate"><img class="MyMenuIcon" src="images/wallet-open.svg" alt="QBT_TR(Donate!)QBT_TR[CONTEXT=MainWindow]" width="16" height="16" />QBT_TR(Donate!)QBT_TR[CONTEXT=MainWindow]</a></li>
                             <li><a id="aboutLink"><img class="MyMenuIcon" src="images/help-about.svg" alt="QBT_TR(About)QBT_TR[CONTEXT=MainWindow]" width="16" height="16" />QBT_TR(About)QBT_TR[CONTEXT=MainWindow]</a></li>
                         </ul>
@@ -116,6 +118,7 @@
                         <li id="transfersTabLink" class="selected"><a class="tab">QBT_TR(Transfers)QBT_TR[CONTEXT=MainWindow]</a></li>
                         <li id="searchTabLink"><a class="tab">QBT_TR(Search)QBT_TR[CONTEXT=MainWindow]</a></li>
                         <li id="rssTabLink"><a class="tab">QBT_TR(RSS)QBT_TR[CONTEXT=MainWindow]</a></li>
+                        <li id="logTabLink"><a class="tab">QBT_TR(Execution Log)QBT_TR[CONTEXT=MainWindow]</a></li>
                     </ul>
                     <div class="clear"></div>
                 </div>
@@ -134,7 +137,12 @@
         <li class="separator"><a href="#delete"><img src="images/list-remove.svg" alt="QBT_TR(Remove)QBT_TR[CONTEXT=TransferListWidget]" /> QBT_TR(Remove)QBT_TR[CONTEXT=TransferListWidget]</a></li>
         <li class="separator">
             <a href="#setLocation"><img src="images/set-location.svg" alt="QBT_TR(Set location...)QBT_TR[CONTEXT=TransferListWidget]" /> QBT_TR(Set location...)QBT_TR[CONTEXT=TransferListWidget]</a>
+        </li>
+        <li>
             <a href="#rename"><img src="images/edit-rename.svg" alt="QBT_TR(Rename...)QBT_TR[CONTEXT=TransferListWidget]" /> QBT_TR(Rename...)QBT_TR[CONTEXT=TransferListWidget]</a>
+        </li>
+        <li>
+            <a href="#renameFiles"><img src="images/edit-rename.svg" alt="QBT_TR(Rename Files...)QBT_TR[CONTEXT=TransferListWidget]" /> QBT_TR(Rename Files...)QBT_TR[CONTEXT=TransferListWidget]</a>
         </li>
         <li>
             <a href="#Category" class="arrow-right"><img src="images/view-categories.svg" alt="QBT_TR(Category)QBT_TR[CONTEXT=TransferListWidget]" /> QBT_TR(Category)QBT_TR[CONTEXT=TransferListWidget]</a>
@@ -180,6 +188,7 @@
     </ul>
     <ul id="categoriesFilterMenu" class="contextMenu">
         <li><a href="#createCategory"><img src="images/list-add.svg" alt="QBT_TR(Add category...)QBT_TR[CONTEXT=CategoryFilterWidget]" /> QBT_TR(Add category...)QBT_TR[CONTEXT=CategoryFilterWidget]</a></li>
+        <li><a href="#createSubcategory"><img src="images/list-add.svg" alt="QBT_TR(Add subcategory...)QBT_TR[CONTEXT=CategoryFilterWidget]" /> QBT_TR(Add subcategory...)QBT_TR[CONTEXT=CategoryFilterWidget]</a></li>
         <li><a href="#editCategory"><img src="images/edit-rename.svg" alt="QBT_TR(Edit category...)QBT_TR[CONTEXT=CategoryFilterWidget]" /> QBT_TR(Edit category...)QBT_TR[CONTEXT=CategoryFilterWidget]</a></li>
         <li><a href="#deleteCategory"><img src="images/list-remove.svg" alt="QBT_TR(Remove category)QBT_TR[CONTEXT=CategoryFilterWidget]" /> QBT_TR(Remove category)QBT_TR[CONTEXT=CategoryFilterWidget]</a></li>
         <li><a href="#deleteUnusedCategories"><img src="images/list-remove.svg" alt="QBT_TR(Remove unused categories)QBT_TR[CONTEXT=CategoryFilterWidget]" /> QBT_TR(Remove unused categories)QBT_TR[CONTEXT=CategoryFilterWidget]</a></li>
@@ -223,6 +232,9 @@
             </ul>
         </li>
     </ul>
+    <ul id="multiRenameFilesMenu" class="contextMenu">
+        <li><a href="#ToggleSelection"><img src="images/edit-rename.svg" alt="QBT_TR(Toggle Selection)QBT_TR[CONTEXT=PropertiesWidget]" /> QBT_TR(Toggle Selection)QBT_TR[CONTEXT=PropertiesWidget]</a></li>
+    </ul>
     <div id="desktopFooterWrapper">
         <div id="desktopFooter">
             <span id="error_div"></span>
@@ -232,10 +244,10 @@
                     <td class="statusBarSeparator"></td>
                     <td id="DHTNodes"></td>
                     <td class="statusBarSeparator"></td>
-                    <td><img id="connectionStatus" alt="QBT_TR(Connection status)QBT_TR[CONTEXT=MainWindow]" title="QBT_TR(Connection status)QBT_TR[CONTEXT=MainWindow]" src="images/firewalled.svg" style="height: 1.5em;" /></td>
+                    <td><img id="connectionStatus" alt="QBT_TR(Connection status: Firewalled)QBT_TR[CONTEXT=MainWindow]" title="QBT_TR(Connection status: Firewalled)QBT_TR[CONTEXT=MainWindow]" src="images/firewalled.svg" style="height: 1.5em;" /></td>
                     <td id="myPublicIp"></td>
                     <td class="statusBarSeparator"></td>
-                    <td style="cursor:pointer;"><img id="alternativeSpeedLimits" alt="QBT_TR(Alternative speed limits)QBT_TR[CONTEXT=MainWindow]" title="QBT_TR(Alternative speed limits)QBT_TR[CONTEXT=MainWindow]" src="images/slow_off.svg" style="height: 1.5em;" /></td>
+                    <td style="cursor:pointer;"><img id="alternativeSpeedLimits" alt="QBT_TR(Alternative speed limits: Off)QBT_TR[CONTEXT=MainWindow]" title="QBT_TR(Alternative speed limits: Off)QBT_TR[CONTEXT=MainWindow]" src="images/slow_off.svg" style="height: 1.5em;" /></td>
                     <td class="statusBarSeparator"></td>
                     <td class="speedLabel"><img src="images/downloading.svg" alt="QBT_TR(Download speed icon)QBT_TR[CONTEXT=MainWindow]" style="height: 1.5em; padding-right: 5px; margin-bottom: -4px;"><span id="DlInfos"></span></td>
                     <td class="statusBarSeparator"></td>

@@ -34,6 +34,7 @@ HEADERS += \
     $$PWD/bittorrent/speedmonitor.h \
     $$PWD/bittorrent/torrent.h \
     $$PWD/bittorrent/torrentcontentlayout.h \
+    $$PWD/bittorrent/torrentcontenthandler.h \
     $$PWD/bittorrent/torrentcreatorthread.h \
     $$PWD/bittorrent/torrentimpl.h \
     $$PWD/bittorrent/torrentinfo.h \
@@ -109,6 +110,7 @@ SOURCES += \
     $$PWD/applicationcomponent.cpp \
     $$PWD/asyncfilestorage.cpp \
     $$PWD/bittorrent/abstractfilestorage.cpp \
+    $$PWD/bittorrent/addtorrentparams.cpp \
     $$PWD/bittorrent/bandwidthscheduler.cpp \
     $$PWD/bittorrent/bencoderesumedatastorage.cpp \
     $$PWD/bittorrent/categoryoptions.cpp \
@@ -129,6 +131,7 @@ SOURCES += \
     $$PWD/bittorrent/sessionimpl.cpp \
     $$PWD/bittorrent/speedmonitor.cpp \
     $$PWD/bittorrent/torrent.cpp \
+    $$PWD/bittorrent/torrentcontenthandler.h \
     $$PWD/bittorrent/torrentcreatorthread.cpp \
     $$PWD/bittorrent/torrentimpl.cpp \
     $$PWD/bittorrent/torrentinfo.cpp \
