@@ -25,7 +25,7 @@ RUN git clone --recurse-submodules https://github.com/arvidn/libtorrent.git \
 RUN mkdir -p /qbt/github
 COPY ./ /qbt/github
 WORKDIR /qbt/github
-RUN ./configure CXXFLAGS="-std=c++14" --disable-gui --prefix=/usr
+RUN ./configure --disable-gui --prefix=/usr
 RUN make -j$(nproc) && make install
 
 EXPOSE 8089
