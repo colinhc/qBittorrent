@@ -52,7 +52,7 @@
 #include "base/utils/version.h"
 #include "api/isessionmanager.h"
 
-inline const Utils::Version<3, 2> API_VERSION {2, 8, 18};
+inline const Utils::Version<3, 2> API_VERSION {2, 9, 1};
 
 class APIController;
 class AuthController;
@@ -148,6 +148,7 @@ private:
         {{u"auth"_qs, u"login"_qs}, Http::METHOD_POST},
         {{u"auth"_qs, u"logout"_qs}, Http::METHOD_POST},
         {{u"rss"_qs, u"addFeed"_qs}, Http::METHOD_POST},
+        {{u"rss"_qs, u"setFeedURL"_qs}, Http::METHOD_POST},
         {{u"rss"_qs, u"addFolder"_qs}, Http::METHOD_POST},
         {{u"rss"_qs, u"markAsRead"_qs}, Http::METHOD_POST},
         {{u"rss"_qs, u"moveItem"_qs}, Http::METHOD_POST},
@@ -221,20 +222,21 @@ private:
     bool m_translationFileLoaded = false;
 
     AuthController *m_authController = nullptr;
-    bool m_isLocalAuthEnabled;
-    bool m_isAuthSubnetWhitelistEnabled;
+    bool m_isLocalAuthEnabled = false;
+    bool m_isAuthSubnetWhitelistEnabled = false;
     QVector<Utils::Net::Subnet> m_authSubnetWhitelist;
-    int m_sessionTimeout;
+    int m_sessionTimeout = 0;
+    QString m_sessionCookieName;
 
     // security related
     QStringList m_domainList;
-    bool m_isCSRFProtectionEnabled;
-    bool m_isSecureCookieEnabled;
-    bool m_isHostHeaderValidationEnabled;
-    bool m_isHttpsEnabled;
+    bool m_isCSRFProtectionEnabled = true;
+    bool m_isSecureCookieEnabled = true;
+    bool m_isHostHeaderValidationEnabled = true;
+    bool m_isHttpsEnabled = false;
 
     // Reverse proxy
-    bool m_isReverseProxySupportEnabled;
+    bool m_isReverseProxySupportEnabled = false;
     QVector<Utils::Net::Subnet> m_trustedReverseProxyList;
     QHostAddress m_clientAddress;
 

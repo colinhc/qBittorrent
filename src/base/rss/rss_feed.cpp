@@ -45,6 +45,7 @@
 #include "base/global.h"
 #include "base/logger.h"
 #include "base/net/downloadmanager.h"
+#include "base/preferences.h"
 #include "base/profile.h"
 #include "base/utils/fs.h"
 #include "feed_serializer.h"
@@ -148,7 +149,7 @@ void Feed::refresh()
 
     // NOTE: Should we allow manually refreshing for disabled session?
 
-    m_downloadHandler = Net::DownloadManager::instance()->download(m_url);
+    m_downloadHandler = Net::DownloadManager::instance()->download(m_url, Preferences::instance()->useProxyForRSS());
     connect(m_downloadHandler, &Net::DownloadHandler::finished, this, &Feed::handleDownloadFinished);
 
     if (!m_iconPath.exists())
@@ -344,7 +345,7 @@ bool Feed::addArticle(const QVariantHash &articleData)
 
 void Feed::removeOldestArticle()
 {
-    auto oldestArticle = m_articlesByDate.last();
+    auto *oldestArticle = m_articlesByDate.last();
     emit articleAboutToBeRemoved(oldestArticle);
 
     m_articles.remove(oldestArticle->guid());
@@ -378,7 +379,7 @@ void Feed::downloadIcon()
     const auto iconUrl = u"%1://%2/favicon.ico"_qs.arg(url.scheme(), url.host());
     Net::DownloadManager::instance()->download(
             Net::DownloadRequest(iconUrl).saveToFile(true).destFileName(m_iconPath)
-                , this, &Feed::handleIconDownloadFinished);
+            , Preferences::instance()->useProxyForRSS(), this, &Feed::handleIconDownloadFinished);
 }
 
 int Feed::updateArticles(const QList<QVariantHash> &loadedArticles)
@@ -452,6 +453,13 @@ int Feed::updateArticles(const QList<QVariantHash> &loadedArticles)
 Path Feed::iconPath() const
 {
     return m_iconPath;
+}
+
+void Feed::setURL(const QString &url)
+{
+    const QString oldURL = m_url;
+    m_url = url;
+    emit urlChanged(oldURL);
 }
 
 QJsonValue Feed::toJsonValue(const bool withData) const

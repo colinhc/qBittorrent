@@ -44,8 +44,6 @@ const std::chrono::seconds IP_CHECK_INTERVAL = 30min;
 
 DNSUpdater::DNSUpdater(QObject *parent)
     : QObject(parent)
-    , m_state(OK)
-    , m_service(DNS::Service::None)
 {
     updateCredentials();
 
@@ -80,8 +78,8 @@ void DNSUpdater::checkPublicIP()
     Q_ASSERT(m_state == OK);
 
     DownloadManager::instance()->download(
-                DownloadRequest(u"http://checkip.dyndns.org"_qs).userAgent(QStringLiteral("qBittorrent/" QBT_VERSION_2))
-                , this, &DNSUpdater::ipRequestFinished);
+            DownloadRequest(u"http://checkip.dyndns.org"_qs).userAgent(QStringLiteral("qBittorrent/" QBT_VERSION_2))
+            , Preferences::instance()->useProxyForGeneralPurposes(), this, &DNSUpdater::ipRequestFinished);
 
     m_lastIPCheckTime = QDateTime::currentDateTime();
 }
@@ -128,8 +126,8 @@ void DNSUpdater::updateDNSService()
 
     m_lastIPCheckTime = QDateTime::currentDateTime();
     DownloadManager::instance()->download(
-                DownloadRequest(getUpdateUrl()).userAgent(QStringLiteral("qBittorrent/" QBT_VERSION_2))
-                , this, &DNSUpdater::ipUpdateFinished);
+            DownloadRequest(getUpdateUrl()).userAgent(QStringLiteral("qBittorrent/" QBT_VERSION_2))
+            , Preferences::instance()->useProxyForGeneralPurposes(), this, &DNSUpdater::ipUpdateFinished);
 }
 
 QString DNSUpdater::getUpdateUrl() const
@@ -217,7 +215,7 @@ void DNSUpdater::processIPUpdateReply(const QString &reply)
 
     if (code == u"badagent")
     {
-        LogMsg(tr("Dynamic DNS error: qBittorrent was blacklisted by the service, please submit a bug report at http://bugs.qbittorrent.org."),
+        LogMsg(tr("Dynamic DNS error: qBittorrent was blacklisted by the service, please submit a bug report at https://bugs.qbittorrent.org."),
                            Log::CRITICAL);
         m_state = FATAL;
         return;
@@ -225,7 +223,7 @@ void DNSUpdater::processIPUpdateReply(const QString &reply)
 
     if (code == u"!donator")
     {
-        LogMsg(tr("Dynamic DNS error: %1 was returned by the service, please submit a bug report at http://bugs.qbittorrent.org.").arg(u"!donator"_qs),
+        LogMsg(tr("Dynamic DNS error: %1 was returned by the service, please submit a bug report at https://bugs.qbittorrent.org.").arg(u"!donator"_qs),
                            Log::CRITICAL);
         m_state = FATAL;
         return;

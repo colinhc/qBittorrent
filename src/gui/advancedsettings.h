@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2015
+ * Copyright (C) 2015 qBittorrent project
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -51,11 +51,15 @@ signals:
     void settingsChanged();
 
 private slots:
+    void updateInterfaceAddressCombo();
+
 #ifndef QBT_USES_LIBTORRENT2
     void updateCacheSpinSuffix(int value);
 #endif
-    void updateSaveResumeDataIntervalSuffix(int value);
-    void updateInterfaceAddressCombo();
+
+#ifdef QBT_USES_DBUS
+    void updateNotificationTimeoutSuffix(int value);
+#endif
 
 private:
     void loadAdvancedSettings();
@@ -64,7 +68,8 @@ private:
     QSpinBox m_spinBoxAsyncIOThreads, m_spinBoxFilePoolSize, m_spinBoxCheckingMemUsage, m_spinBoxDiskQueueSize,
              m_spinBoxSaveResumeDataInterval, m_spinBoxOutgoingPortsMin, m_spinBoxOutgoingPortsMax, m_spinBoxUPnPLeaseDuration, m_spinBoxPeerToS,
              m_spinBoxListRefresh, m_spinBoxTrackerPort, m_spinBoxSendBufferWatermark, m_spinBoxSendBufferLowWatermark,
-             m_spinBoxSendBufferWatermarkFactor, m_spinBoxConnectionSpeed, m_spinBoxSocketBacklogSize, m_spinBoxMaxConcurrentHTTPAnnounces, m_spinBoxStopTrackerTimeout,
+             m_spinBoxSendBufferWatermarkFactor, m_spinBoxConnectionSpeed, m_spinBoxSocketSendBufferSize, m_spinBoxSocketReceiveBufferSize, m_spinBoxSocketBacklogSize,
+             m_spinBoxMaxConcurrentHTTPAnnounces, m_spinBoxStopTrackerTimeout,
              m_spinBoxSavePathHistoryLength, m_spinBoxPeerTurnover, m_spinBoxPeerTurnoverCutoff, m_spinBoxPeerTurnoverInterval, m_spinBoxRequestQueueSize;
     QCheckBox m_checkBoxOsCache, m_checkBoxRecheckCompleted, m_checkBoxResolveCountries, m_checkBoxResolveHosts,
               m_checkBoxProgramNotifications, m_checkBoxTorrentAddedNotifications, m_checkBoxReannounceWhenAddressChanged, m_checkBoxTrackerFavicon, m_checkBoxTrackerStatus,
@@ -80,7 +85,8 @@ private:
     QCheckBox m_checkBoxCoalesceRW;
 #else
     QComboBox m_comboBoxDiskIOType;
-    QSpinBox m_spinBoxMemoryWorkingSetLimit, m_spinBoxHashingThreads;
+    QSpinBox m_spinBoxMemoryWorkingSetLimit, m_spinBoxHashingThreads,
+             m_spinBoxI2PInboundQuantity, m_spinBoxI2POutboundQuantity, m_spinBoxI2PInboundLength, m_spinBoxI2POutboundLength;
 #endif
 
     // OS dependent settings
@@ -92,7 +98,7 @@ private:
     QCheckBox m_checkBoxIconsInMenusEnabled;
 #endif
 
-#if (defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)) && defined(QT_DBUS_LIB)
+#ifdef QBT_USES_DBUS
     QSpinBox m_spinBoxNotificationTimeout;
 #endif
 };

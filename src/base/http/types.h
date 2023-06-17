@@ -47,6 +47,7 @@ namespace Http
     inline const QString HEADER_CONTENT_LENGTH = u"content-length"_qs;
     inline const QString HEADER_CONTENT_SECURITY_POLICY = u"content-security-policy"_qs;
     inline const QString HEADER_CONTENT_TYPE = u"content-type"_qs;
+    inline const QString HEADER_CROSS_ORIGIN_OPENER_POLICY  = u"cross-origin-opener-policy"_qs;
     inline const QString HEADER_DATE = u"date"_qs;
     inline const QString HEADER_HOST = u"host"_qs;
     inline const QString HEADER_ORIGIN = u"origin"_qs;
@@ -79,10 +80,10 @@ namespace Http
     struct Environment
     {
         QHostAddress localAddress;
-        quint16 localPort;
+        quint16 localPort = 0;
 
         QHostAddress clientAddress;
-        quint16 clientPort;
+        quint16 clientPort = 0;
     };
 
     struct UploadedFile

@@ -108,7 +108,7 @@ void TorrentCategoryDialog::editCategory(QWidget *parent, const QString &categor
 
     Q_ASSERT(Session::instance()->categories().contains(categoryName));
 
-    auto dialog = new TorrentCategoryDialog(parent);
+    auto *dialog = new TorrentCategoryDialog(parent);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->setCategoryNameEditable(false);
     dialog->setCategoryName(categoryName);
@@ -133,6 +133,9 @@ QString TorrentCategoryDialog::categoryName() const
 void TorrentCategoryDialog::setCategoryName(const QString &categoryName)
 {
     m_ui->textCategoryName->setText(categoryName);
+
+    const int subcategoryNameStart = categoryName.lastIndexOf(u"/") + 1;
+    m_ui->textCategoryName->setSelection(subcategoryNameStart, (categoryName.size() - subcategoryNameStart));
 }
 
 BitTorrent::CategoryOptions TorrentCategoryDialog::categoryOptions() const

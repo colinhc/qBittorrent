@@ -279,16 +279,6 @@ void Preferences::setStatusbarDisplayed(const bool displayed)
     setValue(u"Preferences/General/StatusbarDisplayed"_qs, displayed);
 }
 
-bool Preferences::startMinimized() const
-{
-    return value(u"Preferences/General/StartMinimized"_qs, false);
-}
-
-void Preferences::setStartMinimized(const bool b)
-{
-    setValue(u"Preferences/General/StartMinimized"_qs, b);
-}
-
 bool Preferences::isSplashScreenDisabled() const
 {
     return value(u"Preferences/General/NoSplashScreen"_qs, true);
@@ -599,11 +589,7 @@ void Preferences::setWebUiPort(const quint16 port)
 
 bool Preferences::useUPnPForWebUIPort() const
 {
-#ifdef DISABLE_GUI
-    return value(u"Preferences/WebUI/UseUPnP"_qs, true);
-#else
     return value(u"Preferences/WebUI/UseUPnP"_qs, false);
-#endif
 }
 
 void Preferences::setUPnPForWebUIPort(const bool enabled)
@@ -661,6 +647,16 @@ int Preferences::getWebUISessionTimeout() const
 void Preferences::setWebUISessionTimeout(const int timeout)
 {
     setValue(u"Preferences/WebUI/SessionTimeout"_qs, timeout);
+}
+
+QString Preferences::getWebAPISessionCookieName() const
+{
+    return value<QString>(u"WebAPI/SessionCookieName"_qs);
+}
+
+void Preferences::setWebAPISessionCookieName(const QString &cookieName)
+{
+    setValue(u"WebAPI/SessionCookieName"_qs, cookieName);
 }
 
 bool Preferences::isWebUiClickjackingProtectionEnabled() const
@@ -996,6 +992,18 @@ void Preferences::resolvePeerHostNames(const bool resolve)
     setValue(u"Preferences/Connection/ResolvePeerHostNames"_qs, resolve);
 }
 
+#if (defined(Q_OS_UNIX) && !defined(Q_OS_MACOS))
+bool Preferences::useSystemIcons() const
+{
+    return value(u"Preferences/Advanced/useSystemIconTheme"_qs, false);
+}
+
+void Preferences::useSystemIcons(const bool enabled)
+{
+    setValue(u"Preferences/Advanced/useSystemIconTheme"_qs, enabled);
+}
+#endif
+
 bool Preferences::isRecursiveDownloadEnabled() const
 {
     return !value(u"Preferences/Advanced/DisableRecursiveDownload"_qs, false);
@@ -1214,6 +1222,16 @@ bool Preferences::confirmRemoveAllTags() const
 void Preferences::setConfirmRemoveAllTags(const bool enabled)
 {
     setValue(u"Preferences/Advanced/confirmRemoveAllTags"_qs, enabled);
+}
+
+bool Preferences::confirmPauseAndResumeAll() const
+{
+    return value(u"GUI/ConfirmActions/PauseAndResumeAllTorrents"_qs, true);
+}
+
+void Preferences::setConfirmPauseAndResumeAll(const bool enabled)
+{
+    setValue(u"GUI/ConfirmActions/PauseAndResumeAllTorrents"_qs, enabled);
 }
 
 #ifndef Q_OS_MACOS
@@ -1539,6 +1557,16 @@ void Preferences::setTransSelFilter(const int index)
     setValue(u"TransferListFilters/selectedFilterIndex"_qs, index);
 }
 
+bool Preferences::getHideZeroStatusFilters() const
+{
+    return value<bool>(u"TransferListFilters/HideZeroStatusFilters"_qs, false);
+}
+
+void Preferences::setHideZeroStatusFilters(const bool hide)
+{
+    setValue(u"TransferListFilters/HideZeroStatusFilters"_qs, hide);
+}
+
 QByteArray Preferences::getTransHeaderState() const
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
@@ -1605,6 +1633,37 @@ void Preferences::setNetworkCookies(const QList<QNetworkCookie> &cookies)
     for (const QNetworkCookie &cookie : cookies)
         rawCookies << QString::fromLatin1(cookie.toRawForm());
     setValue(u"Network/Cookies"_qs, rawCookies);
+}
+
+bool Preferences::useProxyForBT() const
+{
+    return value<bool>(u"Network/Proxy/Profiles/BitTorrent"_qs);
+}
+
+void Preferences::setUseProxyForBT(const bool value)
+{
+    setValue(u"Network/Proxy/Profiles/BitTorrent"_qs, value);
+}
+
+bool Preferences::useProxyForRSS() const
+{
+    return value<bool>(u"Network/Proxy/Profiles/RSS"_qs);
+}
+
+void Preferences::setUseProxyForRSS(const bool value)
+{
+    setValue(u"Network/Proxy/Profiles/RSS"_qs, value);
+}
+
+bool Preferences::useProxyForGeneralPurposes() const
+{
+    return value<bool>(u"Network/Proxy/Profiles/Misc"_qs);
+}
+
+
+void Preferences::setUseProxyForGeneralPurposes(const bool value)
+{
+    setValue(u"Network/Proxy/Profiles/Misc"_qs, value);
 }
 
 bool Preferences::isSpeedWidgetEnabled() const

@@ -83,7 +83,7 @@ namespace
         RESOLVE_COUNTRIES,
         PROGRAM_NOTIFICATIONS,
         TORRENT_ADDED_NOTIFICATIONS,
-#if (defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)) && defined(QT_DBUS_LIB)
+#ifdef QBT_USES_DBUS
         NOTIFICATION_TIMEOUT,
 #endif
         CONFIRM_REMOVE_ALL_TAGS,
@@ -127,6 +127,8 @@ namespace
         SEND_BUF_WATERMARK_FACTOR,
         // networking & ports
         CONNECTION_SPEED,
+        SOCKET_SEND_BUFFER_SIZE,
+        SOCKET_RECEIVE_BUFFER_SIZE,
         SOCKET_BACKLOG_SIZE,
         OUTGOING_PORT_MIN,
         OUTGOING_PORT_MAX,
@@ -151,6 +153,12 @@ namespace
         PEER_TURNOVER_CUTOFF,
         PEER_TURNOVER_INTERVAL,
         REQUEST_QUEUE_SIZE,
+#ifdef QBT_USES_LIBTORRENT2
+        I2P_INBOUND_QUANTITY,
+        I2P_OUTBOUND_QUANTITY,
+        I2P_INBOUND_LENGTH,
+        I2P_OUTBOUND_LENGTH,
+#endif
 
         ROW_COUNT
     };
@@ -228,6 +236,10 @@ void AdvancedSettings::saveAdvancedSettings() const
     session->setSendBufferWatermarkFactor(m_spinBoxSendBufferWatermarkFactor.value());
     // Outgoing connections per second
     session->setConnectionSpeed(m_spinBoxConnectionSpeed.value());
+    // Socket send buffer size
+    session->setSocketSendBufferSize(m_spinBoxSocketSendBufferSize.value() * 1024);
+    // Socket receive buffer size
+    session->setSocketReceiveBufferSize(m_spinBoxSocketReceiveBufferSize.value() * 1024);
     // Socket listen backlog size
     session->setSocketBacklogSize(m_spinBoxSocketBacklogSize.value());
     // Save resume data interval
@@ -277,7 +289,7 @@ void AdvancedSettings::saveAdvancedSettings() const
     session->setStopTrackerTimeout(m_spinBoxStopTrackerTimeout.value());
     // Program notification
     app()->desktopIntegration()->setNotificationsEnabled(m_checkBoxProgramNotifications.isChecked());
-#ifdef QBT_USES_CUSTOMDBUSNOTIFICATIONS
+#ifdef QBT_USES_DBUS
     app()->desktopIntegration()->setNotificationTimeout(m_spinBoxNotificationTimeout.value());
 #endif
     app()->setTorrentAddedNotificationsEnabled(m_checkBoxTorrentAddedNotifications.isChecked());
@@ -313,6 +325,13 @@ void AdvancedSettings::saveAdvancedSettings() const
     session->setPeerTurnoverInterval(m_spinBoxPeerTurnoverInterval.value());
     // Maximum outstanding requests to a single peer
     session->setRequestQueueSize(m_spinBoxRequestQueueSize.value());
+#ifdef QBT_USES_LIBTORRENT2
+    // I2P session options
+    session->setI2PInboundQuantity(m_spinBoxI2PInboundQuantity.value());
+    session->setI2POutboundQuantity(m_spinBoxI2POutboundQuantity.value());
+    session->setI2PInboundLength(m_spinBoxI2PInboundLength.value());
+    session->setI2POutboundLength(m_spinBoxI2POutboundLength.value());
+#endif
 }
 
 #ifndef QBT_USES_LIBTORRENT2
@@ -327,13 +346,17 @@ void AdvancedSettings::updateCacheSpinSuffix(const int value)
 }
 #endif
 
-void AdvancedSettings::updateSaveResumeDataIntervalSuffix(const int value)
+#ifdef QBT_USES_DBUS
+void AdvancedSettings::updateNotificationTimeoutSuffix(const int value)
 {
-    if (value > 0)
-        m_spinBoxSaveResumeDataInterval.setSuffix(tr(" min", " minutes"));
+    if (value == 0)
+        m_spinBoxNotificationTimeout.setSuffix(tr(" (infinite)"));
+    else if (value < 0)
+        m_spinBoxNotificationTimeout.setSuffix(tr(" (system default)"));
     else
-        m_spinBoxSaveResumeDataInterval.setSuffix(tr(" (disabled)"));
+        m_spinBoxNotificationTimeout.setSuffix(tr(" ms", " milliseconds"));
 }
+#endif
 
 void AdvancedSettings::updateInterfaceAddressCombo()
 {
@@ -500,7 +523,7 @@ void AdvancedSettings::loadAdvancedSettings()
 #endif
     // Disk queue size
     m_spinBoxDiskQueueSize.setMinimum(1);
-    m_spinBoxDiskQueueSize.setMaximum(std::numeric_limits<int>::max());
+    m_spinBoxDiskQueueSize.setMaximum(std::numeric_limits<int>::max() / 1024);
     m_spinBoxDiskQueueSize.setValue(session->diskQueueSize() / 1024);
     m_spinBoxDiskQueueSize.setSuffix(tr(" KiB"));
     addRow(DISK_QUEUE_SIZE, (tr("Disk queue size") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#max_queued_disk_bytes", u"(?)"))
@@ -567,6 +590,22 @@ void AdvancedSettings::loadAdvancedSettings()
     m_spinBoxConnectionSpeed.setValue(session->connectionSpeed());
     addRow(CONNECTION_SPEED, (tr("Outgoing connections per second") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#connection_speed", u"(?)"))
             , &m_spinBoxConnectionSpeed);
+    // Socket send buffer size
+    m_spinBoxSocketSendBufferSize.setMinimum(0);
+    m_spinBoxSocketSendBufferSize.setMaximum(std::numeric_limits<int>::max() / 1024);
+    m_spinBoxSocketSendBufferSize.setValue(session->socketSendBufferSize() / 1024);
+    m_spinBoxSocketSendBufferSize.setSuffix(tr(" KiB"));
+    m_spinBoxSocketSendBufferSize.setSpecialValueText(tr("0 (system default)"));
+    addRow(SOCKET_SEND_BUFFER_SIZE, (tr("Socket send buffer size [0: system default]") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#send_socket_buffer_size", u"(?)"))
+            , &m_spinBoxSocketSendBufferSize);
+    // Socket receive buffer size
+    m_spinBoxSocketReceiveBufferSize.setMinimum(0);
+    m_spinBoxSocketReceiveBufferSize.setMaximum(std::numeric_limits<int>::max() / 1024);
+    m_spinBoxSocketReceiveBufferSize.setValue(session->socketReceiveBufferSize() / 1024);
+    m_spinBoxSocketReceiveBufferSize.setSuffix(tr(" KiB"));
+    m_spinBoxSocketReceiveBufferSize.setSpecialValueText(tr("0 (system default)"));
+    addRow(SOCKET_RECEIVE_BUFFER_SIZE, (tr("Socket receive buffer size [0: system default]") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#recv_socket_buffer_size", u"(?)"))
+            , &m_spinBoxSocketReceiveBufferSize);
     // Socket listen backlog size
     m_spinBoxSocketBacklogSize.setMinimum(1);
     m_spinBoxSocketBacklogSize.setMaximum(std::numeric_limits<int>::max());
@@ -577,22 +616,23 @@ void AdvancedSettings::loadAdvancedSettings()
     m_spinBoxSaveResumeDataInterval.setMinimum(0);
     m_spinBoxSaveResumeDataInterval.setMaximum(std::numeric_limits<int>::max());
     m_spinBoxSaveResumeDataInterval.setValue(session->saveResumeDataInterval());
-    connect(&m_spinBoxSaveResumeDataInterval, qOverload<int>(&QSpinBox::valueChanged)
-        , this, &AdvancedSettings::updateSaveResumeDataIntervalSuffix);
-    updateSaveResumeDataIntervalSuffix(m_spinBoxSaveResumeDataInterval.value());
-    addRow(SAVE_RESUME_DATA_INTERVAL, tr("Save resume data interval", "How often the fastresume file is saved."), &m_spinBoxSaveResumeDataInterval);
+    m_spinBoxSaveResumeDataInterval.setSuffix(tr(" min", " minutes"));
+    m_spinBoxSaveResumeDataInterval.setSpecialValueText(tr("0 (disabled)"));
+    addRow(SAVE_RESUME_DATA_INTERVAL, tr("Save resume data interval [0: disabled]", "How often the fastresume file is saved."), &m_spinBoxSaveResumeDataInterval);
     // Outgoing port Min
     m_spinBoxOutgoingPortsMin.setMinimum(0);
     m_spinBoxOutgoingPortsMin.setMaximum(65535);
     m_spinBoxOutgoingPortsMin.setValue(session->outgoingPortsMin());
-    addRow(OUTGOING_PORT_MIN, (tr("Outgoing ports (Min) [0: Disabled]")
+    m_spinBoxOutgoingPortsMin.setSpecialValueText(tr("0 (disabled)"));
+    addRow(OUTGOING_PORT_MIN, (tr("Outgoing ports (Min) [0: disabled]")
         + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#outgoing_port", u"(?)"))
         , &m_spinBoxOutgoingPortsMin);
-    // Outgoing port Min
+    // Outgoing port Max
     m_spinBoxOutgoingPortsMax.setMinimum(0);
     m_spinBoxOutgoingPortsMax.setMaximum(65535);
     m_spinBoxOutgoingPortsMax.setValue(session->outgoingPortsMax());
-    addRow(OUTGOING_PORT_MAX, (tr("Outgoing ports (Max) [0: Disabled]")
+    m_spinBoxOutgoingPortsMax.setSpecialValueText(tr("0 (disabled)"));
+    addRow(OUTGOING_PORT_MAX, (tr("Outgoing ports (Max) [0: disabled]")
         + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#outgoing_port", u"(?)"))
         , &m_spinBoxOutgoingPortsMax);
     // UPnP lease duration
@@ -600,7 +640,8 @@ void AdvancedSettings::loadAdvancedSettings()
     m_spinBoxUPnPLeaseDuration.setMaximum(std::numeric_limits<int>::max());
     m_spinBoxUPnPLeaseDuration.setValue(session->UPnPLeaseDuration());
     m_spinBoxUPnPLeaseDuration.setSuffix(tr(" s", " seconds"));
-    addRow(UPNP_LEASE_DURATION, (tr("UPnP lease duration [0: Permanent lease]") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#upnp_lease_duration", u"(?)"))
+    m_spinBoxUPnPLeaseDuration.setSpecialValueText(tr("0 (permanent lease)"));
+    addRow(UPNP_LEASE_DURATION, (tr("UPnP lease duration [0: permanent lease]") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#upnp_lease_duration", u"(?)"))
         , &m_spinBoxUPnPLeaseDuration);
     // Type of service
     m_spinBoxPeerToS.setMinimum(0);
@@ -689,25 +730,27 @@ void AdvancedSettings::loadAdvancedSettings()
     addRow(MAX_CONCURRENT_HTTP_ANNOUNCES, (tr("Max concurrent HTTP announces") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#max_concurrent_http_announces", u"(?)"))
            , &m_spinBoxMaxConcurrentHTTPAnnounces);
     // Stop tracker timeout
+    m_spinBoxStopTrackerTimeout.setMaximum(std::numeric_limits<int>::max());
     m_spinBoxStopTrackerTimeout.setValue(session->stopTrackerTimeout());
     m_spinBoxStopTrackerTimeout.setSuffix(tr(" s", " seconds"));
-    addRow(STOP_TRACKER_TIMEOUT, (tr("Stop tracker timeout") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#stop_tracker_timeout", u"(?)"))
+    m_spinBoxStopTrackerTimeout.setSpecialValueText(tr("0 (disabled)"));
+    addRow(STOP_TRACKER_TIMEOUT, (tr("Stop tracker timeout [0: disabled]") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#stop_tracker_timeout", u"(?)"))
            , &m_spinBoxStopTrackerTimeout);
-
     // Program notifications
     m_checkBoxProgramNotifications.setChecked(app()->desktopIntegration()->isNotificationsEnabled());
     addRow(PROGRAM_NOTIFICATIONS, tr("Display notifications"), &m_checkBoxProgramNotifications);
     // Torrent added notifications
     m_checkBoxTorrentAddedNotifications.setChecked(app()->isTorrentAddedNotificationsEnabled());
     addRow(TORRENT_ADDED_NOTIFICATIONS, tr("Display notifications for added torrents"), &m_checkBoxTorrentAddedNotifications);
-#ifdef QBT_USES_CUSTOMDBUSNOTIFICATIONS
+#ifdef QBT_USES_DBUS
     // Notification timeout
     m_spinBoxNotificationTimeout.setMinimum(-1);
     m_spinBoxNotificationTimeout.setMaximum(std::numeric_limits<int>::max());
     m_spinBoxNotificationTimeout.setValue(app()->desktopIntegration()->notificationTimeout());
-    m_spinBoxNotificationTimeout.setSpecialValueText(tr("System default"));
-    m_spinBoxNotificationTimeout.setSuffix(tr(" ms", " milliseconds"));
-    addRow(NOTIFICATION_TIMEOUT, tr("Notification timeout [0: infinite]"), &m_spinBoxNotificationTimeout);
+    connect(&m_spinBoxNotificationTimeout, qOverload<int>(&QSpinBox::valueChanged)
+        , this, &AdvancedSettings::updateNotificationTimeoutSuffix);
+    updateNotificationTimeoutSuffix(m_spinBoxNotificationTimeout.value());
+    addRow(NOTIFICATION_TIMEOUT, tr("Notification timeout [0: infinite, -1: system default]"), &m_spinBoxNotificationTimeout);
 #endif
     // Reannounce to all trackers when ip/port changed
     m_checkBoxReannounceWhenAddressChanged.setChecked(session->isReannounceWhenAddressChangedEnabled());
@@ -796,12 +839,34 @@ void AdvancedSettings::loadAdvancedSettings()
     m_spinBoxRequestQueueSize.setValue(session->requestQueueSize());
     addRow(REQUEST_QUEUE_SIZE, (tr("Maximum outstanding requests to a single peer") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#max_out_request_queue", u"(?)"))
             , &m_spinBoxRequestQueueSize);
+#ifdef QBT_USES_LIBTORRENT2
+    m_spinBoxI2PInboundQuantity.setMinimum(1);
+    m_spinBoxI2PInboundQuantity.setMaximum(16);
+    m_spinBoxI2PInboundQuantity.setValue(session->I2PInboundQuantity());
+    addRow(I2P_INBOUND_QUANTITY, (tr("I2P inbound quantity") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#i2p_inbound_quantity", u"(?)"))
+        , &m_spinBoxI2PInboundQuantity);
+    m_spinBoxI2POutboundQuantity.setMinimum(1);
+    m_spinBoxI2POutboundQuantity.setMaximum(16);
+    m_spinBoxI2POutboundQuantity.setValue(session->I2POutboundQuantity());
+    addRow(I2P_OUTBOUND_QUANTITY, (tr("I2P outbound quantity") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#i2p_outbound_quantity", u"(?)"))
+        , &m_spinBoxI2POutboundQuantity);
+    m_spinBoxI2PInboundLength.setMinimum(0);
+    m_spinBoxI2PInboundLength.setMaximum(7);
+    m_spinBoxI2PInboundLength.setValue(session->I2PInboundLength());
+    addRow(I2P_INBOUND_LENGTH, (tr("I2P inbound length") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#i2p_inbound_length", u"(?)"))
+        , &m_spinBoxI2PInboundLength);
+    m_spinBoxI2POutboundLength.setMinimum(0);
+    m_spinBoxI2POutboundLength.setMaximum(7);
+    m_spinBoxI2POutboundLength.setValue(session->I2POutboundLength());
+    addRow(I2P_OUTBOUND_LENGTH, (tr("I2P outbound length") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#i2p_outbound_length", u"(?)"))
+        , &m_spinBoxI2POutboundLength);
+#endif
 }
 
 template <typename T>
 void AdvancedSettings::addRow(const int row, const QString &text, T *widget)
 {
-    auto label = new QLabel(text);
+    auto *label = new QLabel(text);
     label->setOpenExternalLinks(true);
 
     setCellWidget(row, PROPERTY, label);

@@ -29,6 +29,8 @@
 
 #include "programupdater.h"
 
+#include <QtGlobal>
+
 #if defined(Q_OS_WIN)
 #include <Windows.h>
 #include <versionhelpers.h>  // must follow after Windows.h
@@ -45,6 +47,7 @@
 
 #include "base/global.h"
 #include "base/net/downloadmanager.h"
+#include "base/preferences.h"
 #include "base/utils/version.h"
 #include "base/version.h"
 
@@ -76,8 +79,8 @@ void ProgramUpdater::checkForUpdates() const
     // Don't change this User-Agent. In case our updater goes haywire,
     // the filehost can identify it and contact us.
     Net::DownloadManager::instance()->download(
-        Net::DownloadRequest(RSS_URL).userAgent(QStringLiteral("qBittorrent/" QBT_VERSION_2 " ProgramUpdater (www.qbittorrent.org)"))
-        , this, &ProgramUpdater::rssDownloadFinished);
+            Net::DownloadRequest(RSS_URL).userAgent(QStringLiteral("qBittorrent/" QBT_VERSION_2 " ProgramUpdater (www.qbittorrent.org)"))
+            , Preferences::instance()->useProxyForGeneralPurposes(), this, &ProgramUpdater::rssDownloadFinished);
 }
 
 QString ProgramUpdater::getNewVersion() const

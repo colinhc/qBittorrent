@@ -32,11 +32,11 @@
 
 #include "base/bittorrent/session.h"
 #include "base/global.h"
+#include "gui/torrentcategorydialog.h"
+#include "gui/uithememanager.h"
+#include "gui/utils.h"
 #include "categoryfiltermodel.h"
 #include "categoryfilterproxymodel.h"
-#include "torrentcategorydialog.h"
-#include "uithememanager.h"
-#include "utils.h"
 
 namespace
 {
@@ -121,18 +121,18 @@ void CategoryFilterWidget::showMenu()
                 , this, &CategoryFilterWidget::addSubcategory);
         }
 
-        menu->addAction(UIThemeManager::instance()->getIcon(u"edit-rename"_qs), tr("Edit category...")
+        menu->addAction(UIThemeManager::instance()->getIcon(u"edit-rename"_qs, u"document-edit"_qs), tr("Edit category...")
             , this, &CategoryFilterWidget::editCategory);
-        menu->addAction(UIThemeManager::instance()->getIcon(u"edit-clear"_qs), tr("Remove category")
+        menu->addAction(UIThemeManager::instance()->getIcon(u"edit-clear"_qs, u"list-remove"_qs), tr("Remove category")
             , this, &CategoryFilterWidget::removeCategory);
     }
 
-    menu->addAction(UIThemeManager::instance()->getIcon(u"edit-clear"_qs), tr("Remove unused categories")
+    menu->addAction(UIThemeManager::instance()->getIcon(u"edit-clear"_qs, u"list-remove"_qs), tr("Remove unused categories")
         , this, &CategoryFilterWidget::removeUnusedCategories);
     menu->addSeparator();
-    menu->addAction(UIThemeManager::instance()->getIcon(u"torrent-start"_qs), tr("Resume torrents")
+    menu->addAction(UIThemeManager::instance()->getIcon(u"torrent-start"_qs, u"media-playback-start"_qs), tr("Resume torrents")
         , this, &CategoryFilterWidget::actionResumeTorrentsTriggered);
-    menu->addAction(UIThemeManager::instance()->getIcon(u"torrent-stop"_qs), tr("Pause torrents")
+    menu->addAction(UIThemeManager::instance()->getIcon(u"torrent-stop"_qs, u"media-playback-pause"_qs), tr("Pause torrents")
         , this, &CategoryFilterWidget::actionPauseTorrentsTriggered);
     menu->addAction(UIThemeManager::instance()->getIcon(u"list-remove"_qs), tr("Remove torrents")
         , this, &CategoryFilterWidget::actionDeleteTorrentsTriggered);
@@ -214,7 +214,7 @@ void CategoryFilterWidget::removeCategory()
 
 void CategoryFilterWidget::removeUnusedCategories()
 {
-    auto session = BitTorrent::Session::instance();
+    auto *session = BitTorrent::Session::instance();
     for (const QString &category : asConst(session->categories()))
     {
         if (model()->data(static_cast<CategoryFilterProxyModel *>(model())->index(category), Qt::UserRole) == 0)

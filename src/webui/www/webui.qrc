@@ -12,6 +12,7 @@
         <file>private/css/noscript.css</file>
         <file>private/css/style.css</file>
         <file>private/css/Tabs.css</file>
+        <file>private/css/lib/vanillaSelectBox.css</file>
         <file>private/css/Window.css</file>
         <file>private/download.html</file>
         <file>private/downloadlimit.html</file>
@@ -117,6 +118,7 @@
         <file>private/images/flags/er.svg</file>
         <file>private/images/flags/es-ct.svg</file>
         <file>private/images/flags/es-ga.svg</file>
+        <file>private/images/flags/es-pv.svg</file>
         <file>private/images/flags/es.svg</file>
         <file>private/images/flags/et.svg</file>
         <file>private/images/flags/eu.svg</file>
@@ -309,6 +311,7 @@
         <file>private/images/flags/za.svg</file>
         <file>private/images/flags/zm.svg</file>
         <file>private/images/flags/zw.svg</file>
+        <file>private/images/folder-documents.svg</file>
         <file>private/images/folder-new.svg</file>
         <file>private/images/force-recheck.svg</file>
         <file>private/images/go-bottom.svg</file>
@@ -344,10 +347,12 @@
         <file>private/images/spinner.gif</file>
         <file>private/images/stalledDL.svg</file>
         <file>private/images/stalledUP.svg</file>
+        <file>private/images/stopped.svg</file>
         <file>private/images/system-log-out.svg</file>
         <file>private/images/tabs.gif</file>
         <file>private/images/tags.svg</file>
         <file>private/images/task-complete.svg</file>
+        <file>private/images/task-reject.svg</file>
         <file>private/images/toolbox-divider.gif</file>
         <file>private/images/torrent-magnet.svg</file>
         <file>private/images/torrent-start-forced.svg</file>
@@ -368,6 +373,7 @@
         <file>private/rename.html</file>
         <file>private/rename_feed.html</file>
         <file>private/rename_file.html</file>
+        <file>private/rename_files.html</file>
         <file>private/rename_rule.html</file>
         <file>private/scripts/client.js</file>
         <file>private/scripts/contextmenu.js</file>
@@ -389,7 +395,9 @@
         <file>private/scripts/prop-peers.js</file>
         <file>private/scripts/prop-trackers.js</file>
         <file>private/scripts/prop-webseeds.js</file>
+        <file>private/scripts/rename-files.js</file>
         <file>private/scripts/speedslider.js</file>
+        <file>private/scripts/lib/vanillaSelectBox.js</file>
         <file>private/setlocation.html</file>
         <file>private/shareratio.html</file>
         <file>private/upload.html</file>
@@ -398,6 +406,8 @@
         <file>private/views/aboutToolbar.html</file>
         <file>private/views/filters.html</file>
         <file>private/views/installsearchplugin.html</file>
+        <file>private/views/log.html</file>
+        <file>private/views/logTabs.html</file>
         <file>private/views/preferences.html</file>
         <file>private/views/preferencesToolbar.html</file>
         <file>private/views/properties.html</file>
