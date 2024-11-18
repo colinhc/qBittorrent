@@ -434,3 +434,7 @@ td.speedLabel {
 #DHTNodes {
     white-space: nowrap;
 }
+
+#myPublicIpv4 {
+  white-space: nowrap;
+}

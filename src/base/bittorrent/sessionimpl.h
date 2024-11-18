@@ -431,6 +431,7 @@ namespace BitTorrent
         void decreaseTorrentsQueuePos(const QVector<TorrentID> &ids) override;
         void topTorrentsQueuePos(const QVector<TorrentID> &ids) override;
         void bottomTorrentsQueuePos(const QVector<TorrentID> &ids) override;
+        QString externalIpv4() const override;
 
         // Torrent interface
         void handleTorrentNeedSaveResumeData(const TorrentImpl *torrent);
