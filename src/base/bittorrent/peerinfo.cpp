@@ -184,7 +184,7 @@ QString PeerInfo::I2PAddress() const
     if (!useI2PSocket())
         return {};
 
-#ifdef QBT_USES_LIBTORRENT2
+#if defined(QBT_USES_LIBTORRENT2) && TORRENT_USE_I2P
     if (m_I2PAddress.isEmpty())
     {
         const lt::sha256_hash destHash = m_nativeInfo.i2p_destination();
@@ -262,8 +262,8 @@ QString PeerInfo::connectionType() const
         return C_UTP;
 
     return (m_nativeInfo.connection_type == lt::peer_info::standard_bittorrent)
-        ? u"BT"_qs
-        : u"Web"_qs;
+        ? u"BT"_s
+        : u"Web"_s;
 }
 
 qreal PeerInfo::calcRelevance(const QBitArray &allPieces) const
@@ -287,7 +287,7 @@ void PeerInfo::determineFlags()
     const auto updateFlags = [this](const QChar specifier, const QString &explanation)
     {
         m_flags += (specifier + u' ');
-        m_flagsDescription += u"%1 = %2\n"_qs.arg(specifier, explanation);
+        m_flagsDescription += u"%1 = %2\n"_s.arg(specifier, explanation);
     };
 
     if (isInteresting())

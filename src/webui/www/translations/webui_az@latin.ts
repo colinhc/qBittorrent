@@ -16,7 +16,7 @@
     </message>
     <message>
         <source>Start torrent</source>
-        <translation>Torrenti başlatmaq</translation>
+        <translation>Torrenti başlat</translation>
     </message>
     <message>
         <source>Skip hash check</source>
@@ -574,10 +574,6 @@
     <message>
         <source>Download speed icon</source>
         <translation>Endirmə sürəti nişanı</translation>
-    </message>
-    <message>
-        <source>Connection status</source>
-        <translation>Bağlantının vəziyyəti</translation>
     </message>
     <message>
         <source>Alternative speed limits: On</source>
@@ -1169,10 +1165,6 @@
         <translation>Göstəricini aşdıqda</translation>
     </message>
     <message>
-        <source>When seeding time reaches</source>
-        <translation>Paylaşma vaxtını aşdıqda</translation>
-    </message>
-    <message>
         <source>Allow multiple connections from the same IP address:</source>
         <translation>Eyni İP ünvanından çoxsaylı bağlantılara icazə vermək</translation>
     </message>
@@ -1597,10 +1589,6 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
         <translation>Əgər işarələnərsə, host adı axtarışı proksi ilə icra olunur.</translation>
     </message>
     <message>
-        <source>Use proxy for hostname lookup</source>
-        <translation>Host adı axtarışı ümün proksi istifadə et</translation>
-    </message>
-    <message>
         <source>Metadata received</source>
         <translation>Meta məlumatları alındı</translation>
     </message>
@@ -1735,6 +1723,62 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
     <message>
         <source>UPnP lease duration [0: permanent lease]:</source>
         <translation>UPnP icarə müddəti [0: daimi icarə]:</translation>
+    </message>
+    <message>
+        <source>Bdecode token limit:</source>
+        <translation>Bdecode tokeni həddi:</translation>
+    </message>
+    <message>
+        <source>When inactive seeding time reaches</source>
+        <translation>Qeyri-aktiv göndərmə həddinə çatdıqda</translation>
+    </message>
+    <message>
+        <source>(None)</source>
+        <translation>(Heç nə)</translation>
+    </message>
+    <message>
+        <source>Bdecode depth limit:</source>
+        <translation>Bdecode dərinliyi həddi:</translation>
+    </message>
+    <message>
+        <source>.torrent file size limit:</source>
+        <translation>.torrent faylı ölçüsünün həddi:</translation>
+    </message>
+    <message>
+        <source>When total seeding time reaches</source>
+        <translation>Ümumi göndərmə həddinə çatdıqda</translation>
+    </message>
+    <message>
+        <source>Perform hostname lookup via proxy</source>
+        <translation>Proksi vasitəsilə host adı axtarışını icra etmək</translation>
+    </message>
+    <message>
+        <source>Mixed mode</source>
+        <translation>Qarışıq rejim</translation>
+    </message>
+    <message>
+        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
+        <translation>Əgər &amp;quot;qarışıq rejim&amp;quot; aktiv edilərsə I2P torrentlərə izləyicidən başqa digər mənbələrdən iştirakçılar əldə etməyə və heç bir anonimləşdirmə təmin etməyən adi IP-lərə qoşulmağa icazə verilir. Bu, istifadəçiyə I2P-nin anonimləşdirilmə maraqlı deyilsə, lakin yenə də I2P iştirakçılarına qoşulmaq istədiyi halda faydalı ola bilər.</translation>
+    </message>
+    <message>
+        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Daxil olan İ2P kəmiyyəti (libtorrent &amp;gt;= 2.0 tələb olunur):</translation>
+    </message>
+    <message>
+        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
+        <translation>İ2P (Təcrübi) (libtorrent &amp;gt;= 2.0 tələb olunur)</translation>
+    </message>
+    <message>
+        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Çıxan İ2P kəmiyyəti (libtorrent &amp;gt;= 2.0 tələb olunur):</translation>
+    </message>
+    <message>
+        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Çıxan İ2P uzunluğu (libtorrent &amp;gt;= 2.0 tələb olunur):</translation>
+    </message>
+    <message>
+        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Daxil olan İ2P uzunluğu (libtorrent &amp;gt;= 2.0 tələb olunur):</translation>
     </message>
 </context>
 <context>
@@ -2061,10 +2105,6 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
         <translation>Adını dəyişmək mümkün olmadı: fayl və ya qovluq artıq mövcuddur</translation>
     </message>
     <message>
-        <source>Match all occurences</source>
-        <translation>Bütün hadisələri uyğunlaşdır</translation>
-    </message>
-    <message>
         <source>Toggle Selection</source>
         <translation>Seçim dəyişdirici</translation>
     </message>
@@ -2099,6 +2139,10 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
     <message>
         <source>Case sensitive</source>
         <translation>Böyük/kiçik hərfə həssas</translation>
+    </message>
+    <message>
+        <source>Match all occurrences</source>
+        <translation>Bütün hadisələri uyğunlaşdırın</translation>
     </message>
 </context>
 <context>
@@ -2636,7 +2680,7 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
     </message>
     <message>
         <source>Downloading metadata</source>
-        <translation>Endirilmə meta verilənləri</translation>
+        <translation>Torrent verilənləri alınır</translation>
     </message>
     <message>
         <source>Checking</source>
@@ -2668,7 +2712,7 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
     </message>
     <message>
         <source>[F] Downloading metadata</source>
-        <translation>[F] Meta verilənləri endirilir</translation>
+        <translation>[F] Torrent verilənləri endirilir</translation>
     </message>
 </context>
 <context>
@@ -2913,8 +2957,12 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
         <translation>nisbət</translation>
     </message>
     <message>
-        <source>minutes</source>
-        <translation>dəqiqələr</translation>
+        <source>total minutes</source>
+        <translation>ümumi dəqiqələr</translation>
+    </message>
+    <message>
+        <source>inactive minutes</source>
+        <translation>qeyri-aktiv dəqiqlələr</translation>
     </message>
 </context>
 <context>
@@ -3432,10 +3480,6 @@ serveri tərəfindən istifadə olunan domen adını göstərməlisiniz.
         <source>New name:</source>
         <translation>Yeni ad:</translation>
     </message>
-    <message>
-        <source>Renaming)</source>
-        <translation>Adı dəyişdirilir)</translation>
-    </message>
 </context>
 <context>
     <name>RSSWidget</name>
@@ -3779,6 +3823,10 @@ Bu formatlar dəstəklənir: S01E01, 1x1, 2017.12.31 və 31.12.2017 (Həmçinin 
     <message>
         <source>Don't create subfolder</source>
         <translation>Alt qovluq yaratmamaq</translation>
+    </message>
+    <message>
+        <source>Add Tags:</source>
+        <translation>Etiketlər əlavə edin:</translation>
     </message>
 </context>
 <context>

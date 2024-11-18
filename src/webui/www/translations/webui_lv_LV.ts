@@ -64,7 +64,7 @@
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished" />
+        <translation>Nevienu</translation>
     </message>
     <message>
         <source>Add to top of queue</source>
@@ -574,10 +574,6 @@
     <message>
         <source>Download speed icon</source>
         <translation>Lejupielādes ātruma ikona</translation>
-    </message>
-    <message>
-        <source>Connection status</source>
-        <translation>Savienojuma statuss</translation>
     </message>
     <message>
         <source>Alternative speed limits: On</source>
@@ -1169,10 +1165,6 @@
         <translation>Kad reitings sasniedz</translation>
     </message>
     <message>
-        <source>When seeding time reaches</source>
-        <translation>Kad augšupielādes laiks sasniedz</translation>
-    </message>
-    <message>
         <source>Allow multiple connections from the same IP address:</source>
         <translation>Atļaut vairākus savienojumus no vienas IP adreses</translation>
     </message>
@@ -1597,10 +1589,6 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>Ja atzīmēts, arī datoru nosaukumu noteikšanai izmantos starpniekserveri.</translation>
     </message>
     <message>
-        <source>Use proxy for hostname lookup</source>
-        <translation>Izmantot starpniekserveri datora nosaukumu noteikšanai</translation>
-    </message>
-    <message>
         <source>Metadata received</source>
         <translation>Metadati ielādēti</translation>
     </message>
@@ -1610,7 +1598,7 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished" />
+        <translation>Nevienu</translation>
     </message>
     <message>
         <source>Example: 172.17.32.0/24, fdff:ffff:c8::/40</source>
@@ -1650,7 +1638,7 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     </message>
     <message>
         <source>Use proxy for BitTorrent purposes</source>
-        <translation type="unfinished" />
+        <translation>Izmantot starpniekserveri tikai BiTtorrent vajadzībām</translation>
     </message>
     <message>
         <source>years</source>
@@ -1670,7 +1658,7 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     </message>
     <message>
         <source>Use proxy for general purposes</source>
-        <translation type="unfinished" />
+        <translation>Izmantot starpniekserveri visiem savienojumiem</translation>
     </message>
     <message>
         <source>Use proxy for RSS purposes</source>
@@ -1735,6 +1723,62 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     <message>
         <source>UPnP lease duration [0: permanent lease]:</source>
         <translation>UPnP nomas ilgums [0: neierobežots]:</translation>
+    </message>
+    <message>
+        <source>Bdecode token limit:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>When inactive seeding time reaches</source>
+        <translation>Kad neaktīvais augšupielādes laiks sasniedz</translation>
+    </message>
+    <message>
+        <source>(None)</source>
+        <translation>(Nevienu)</translation>
+    </message>
+    <message>
+        <source>Bdecode depth limit:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>.torrent file size limit:</source>
+        <translation>.torrent faila atļautais izmērs:</translation>
+    </message>
+    <message>
+        <source>When total seeding time reaches</source>
+        <translation>Kad kopējais augšupielādes laiks sasniedz</translation>
+    </message>
+    <message>
+        <source>Perform hostname lookup via proxy</source>
+        <translation>Izmantot starpniekserveri datoru nosaukumu noteikšanai</translation>
+    </message>
+    <message>
+        <source>Mixed mode</source>
+        <translation>Jauktais režīms</translation>
+    </message>
+    <message>
+        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
+        <translation>Ja ir ieslēgts "Jauktais režīms", I2P torrentiem ir atļauts iegūt koplietotājus ne tikai caur trakeru saitēm, bet arī no citiem avotiem, nenodrošinot anonimitāti. Tas var būt noderīgi, ja lietotājam anonimitāte nav svarīgāka par nepieciešamību pēc vairāk I2P koplietotājiem.</translation>
+    </message>
+    <message>
+        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P ienākošais daudzums (nepieciešams libtorrent %gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
+        <translation>I2P (eksperimentālais) (nepieciešams libtorrent %gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P izejošais daudzums (nepieciešams libtorrent %gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P izejošais garums (nepieciešams libtorrent %gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P ienākošais garums (nepieciešams libtorrent %gt;= 2.0):</translation>
     </message>
 </context>
 <context>
@@ -2061,10 +2105,6 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>Pārdēvēšana neizdevās: tāds fails vai mape jau pastāv</translation>
     </message>
     <message>
-        <source>Match all occurences</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Toggle Selection</source>
         <translation type="unfinished" />
     </message>
@@ -2099,6 +2139,10 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     <message>
         <source>Case sensitive</source>
         <translation>Reģistrjūtīgs</translation>
+    </message>
+    <message>
+        <source>Match all occurrences</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -2913,8 +2957,12 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>reitings</translation>
     </message>
     <message>
-        <source>minutes</source>
-        <translation>minūtes</translation>
+        <source>total minutes</source>
+        <translation>kopējās minūtes</translation>
+    </message>
+    <message>
+        <source>inactive minutes</source>
+        <translation>neaktīvās minūtes</translation>
     </message>
 </context>
 <context>
@@ -3432,10 +3480,6 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <source>New name:</source>
         <translation>Jaunais nosaukums:</translation>
     </message>
-    <message>
-        <source>Renaming)</source>
-        <translation>Pārdēvē</translation>
-    </message>
 </context>
 <context>
     <name>RSSWidget</name>
@@ -3779,6 +3823,10 @@ Atbalsta formātus: S01E01, 1x1, 2017.12.31 un 31.12.2017 (Datumu formātos kā 
     <message>
         <source>Don't create subfolder</source>
         <translation>Neizveidot apakšmapi</translation>
+    </message>
+    <message>
+        <source>Add Tags:</source>
+        <translation>Pievienot atzīmes:</translation>
     </message>
 </context>
 <context>

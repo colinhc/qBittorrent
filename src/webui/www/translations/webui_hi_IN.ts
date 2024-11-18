@@ -64,7 +64,7 @@
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished" />
+        <translation>कोई नहीं</translation>
     </message>
     <message>
         <source>Add to top of queue</source>
@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Remove torrents</source>
-        <translation type="unfinished" />
+        <translation>टौरेंटो को हटायें</translation>
     </message>
     <message>
         <source>Add subcategory...</source>
@@ -230,7 +230,7 @@
     </message>
     <message>
         <source>Cookie:</source>
-        <translation>कुकी :</translation>
+        <translation>कुकी:</translation>
     </message>
     <message>
         <source>More information</source>
@@ -337,7 +337,7 @@
     </message>
     <message>
         <source>Torrent inactivity timer must be greater than 0.</source>
-        <translation type="unfinished" />
+        <translation>टॉरेंट निष्क्रियता कालक 0 से बड़ा होना चाहिये।</translation>
     </message>
     <message>
         <source>Saving Management</source>
@@ -357,7 +357,7 @@
     </message>
     <message>
         <source>Register to handle magnet links...</source>
-        <translation type="unfinished" />
+        <translation>चुँबक कड़ियों को सँभालने के लिये पंजीकृत करें...</translation>
     </message>
     <message>
         <source>Unable to add peers. Please ensure you are adhering to the IP:port format.</source>
@@ -385,7 +385,7 @@
     </message>
     <message>
         <source>The port used for incoming connections must be between 0 and 65535.</source>
-        <translation type="unfinished" />
+        <translation>आवक संपर्कों के लिये प्रयोग होने वाला पोर्ट 0 और 65535 के बीच होना चाहिये।</translation>
     </message>
     <message>
         <source>Original author</source>
@@ -576,10 +576,6 @@
         <translation>डाउनलोड गति का चित्र</translation>
     </message>
     <message>
-        <source>Connection status</source>
-        <translation>कनेक्शन स्थिति</translation>
-    </message>
-    <message>
         <source>Alternative speed limits: On</source>
         <translation>गति की वैकल्पिक सीमा: चालू</translation>
     </message>
@@ -601,7 +597,7 @@
     </message>
     <message>
         <source>Filters Sidebar</source>
-        <translation type="unfinished" />
+        <translation>छन्नी साइडबार</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -1014,7 +1010,7 @@
     </message>
     <message>
         <source>KiB/s</source>
-        <translation>किलोबाइट्स/सेकंड्स</translation>
+        <translation>केबी/से०</translation>
     </message>
     <message>
         <source>Enable clickjacking protection</source>
@@ -1169,10 +1165,6 @@
         <translation>जब अनुपात तक पहुँचे</translation>
     </message>
     <message>
-        <source>When seeding time reaches</source>
-        <translation>जब स्रोत काल समाप्त हो जाए</translation>
-    </message>
-    <message>
         <source>Allow multiple connections from the same IP address:</source>
         <translation type="unfinished" />
     </message>
@@ -1242,7 +1234,7 @@
     </message>
     <message>
         <source>s</source>
-        <translation>सेकंड</translation>
+        <translation>से०</translation>
     </message>
     <message>
         <source>Send buffer watermark:</source>
@@ -1274,7 +1266,7 @@
     </message>
     <message>
         <source>KiB</source>
-        <translation>किलोबाइट्स</translation>
+        <translation>केबी</translation>
     </message>
     <message>
         <source>Round-robin</source>
@@ -1494,7 +1486,7 @@
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished" />
+        <translation>पूर्व निर्धारित</translation>
     </message>
     <message>
         <source>POSIX-compliant</source>
@@ -1593,20 +1585,16 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>Use proxy for hostname lookup</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Metadata received</source>
         <translation>मेटाडाटा प्राप्त </translation>
     </message>
     <message>
         <source>Torrent stop condition:</source>
-        <translation type="unfinished" />
+        <translation>टाॅरेंट रोकने की स्थिति:</translation>
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished" />
+        <translation>कोई नहीं</translation>
     </message>
     <message>
         <source>Example: 172.17.32.0/24, fdff:ffff:c8::/40</source>
@@ -1730,6 +1718,62 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>UPnP lease duration [0: permanent lease]:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Bdecode token limit:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>When inactive seeding time reaches</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>(None)</source>
+        <translation>(कोई नहीं)</translation>
+    </message>
+    <message>
+        <source>Bdecode depth limit:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>.torrent file size limit:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>When total seeding time reaches</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Perform hostname lookup via proxy</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Mixed mode</source>
+        <translation>मिश्रित रीति</translation>
+    </message>
+    <message>
+        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
         <translation type="unfinished" />
     </message>
 </context>
@@ -2057,10 +2101,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>Match all occurences</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Toggle Selection</source>
         <translation type="unfinished" />
     </message>
@@ -2096,6 +2136,10 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>Case sensitive</source>
         <translation type="unfinished" />
     </message>
+    <message>
+        <source>Match all occurrences</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>ScanFoldersModel</name>
@@ -2128,7 +2172,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <name>SpeedLimitDialog</name>
     <message>
         <source>KiB/s</source>
-        <translation>किलोबाइट्स/सेकंड्स</translation>
+        <translation>केबी/से०</translation>
     </message>
 </context>
 <context>
@@ -2306,11 +2350,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Checking (%1)</source>
-        <translation type="unfinished" />
+        <translation>जाँच रहे हैं (%1)</translation>
     </message>
     <message>
         <source>Checking (0)</source>
-        <translation type="unfinished" />
+        <translation>जाँच रहे हैं (0)</translation>
     </message>
 </context>
 <context>
@@ -2909,8 +2953,12 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>अनुपात</translation>
     </message>
     <message>
-        <source>minutes</source>
-        <translation>मिनट</translation>
+        <source>total minutes</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>inactive minutes</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -2920,11 +2968,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <name>confirmDeletionDlg</name>
     <message>
         <source>Also permanently delete the files</source>
-        <translation type="unfinished" />
+        <translation>फाइलों को भी मिटा दें</translation>
     </message>
     <message>
         <source>Remove torrent(s)</source>
-        <translation type="unfinished" />
+        <translation>टौरेंट(ओं) को हटायें</translation>
     </message>
 </context>
 <context>
@@ -2952,37 +3000,37 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>KiB</source>
         <comment>kibibytes (1024 bytes)</comment>
-        <translation>किलोबाइट्स</translation>
+        <translation>केबी</translation>
     </message>
     <message>
         <source>MiB</source>
         <comment>mebibytes (1024 kibibytes)</comment>
-        <translation> मेगाबाइट्स</translation>
+        <translation>एमबी</translation>
     </message>
     <message>
         <source>GiB</source>
         <comment>gibibytes (1024 mibibytes)</comment>
-        <translation>गीगाबाइट्स</translation>
+        <translation>जीबी</translation>
     </message>
     <message>
         <source>TiB</source>
         <comment>tebibytes (1024 gibibytes)</comment>
-        <translation>टेराबाइट्स</translation>
+        <translation>टीबी</translation>
     </message>
     <message>
         <source>PiB</source>
         <comment>pebibytes (1024 tebibytes)</comment>
-        <translation>पेटाबाइट्स</translation>
+        <translation>पीबी</translation>
     </message>
     <message>
         <source>EiB</source>
         <comment>exbibytes (1024 pebibytes)</comment>
-        <translation>एक्साबाइट्स</translation>
+        <translation>ईबी</translation>
     </message>
     <message>
         <source>/s</source>
         <comment>per second</comment>
-        <translation>/सेकंड</translation>
+        <translation>/से०</translation>
     </message>
     <message>
         <source>%1h %2m</source>
@@ -3275,7 +3323,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Remove torrents</source>
-        <translation type="unfinished" />
+        <translation>टौरेंटो को हटायें</translation>
     </message>
 </context>
 <context>
@@ -3427,10 +3475,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>New name:</source>
         <translation>नया नाम:</translation>
-    </message>
-    <message>
-        <source>Renaming)</source>
-        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -3776,6 +3820,10 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
         <source>Don't create subfolder</source>
         <translation>उपफोल्डर न बनायें</translation>
     </message>
+    <message>
+        <source>Add Tags:</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>TrackerFiltersList</name>
@@ -3797,7 +3845,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>Remove torrents</source>
-        <translation type="unfinished" />
+        <translation>टौरेंटो को हटायें</translation>
     </message>
 </context>
 <context>

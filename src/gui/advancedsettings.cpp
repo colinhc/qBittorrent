@@ -48,7 +48,7 @@ namespace
 {
     QString makeLink(const QStringView url, const QStringView linkLabel)
     {
-         return u"<a href=\"%1\">%2</a>"_qs.arg(url, linkLabel);
+         return u"<a href=\"%1\">%2</a>"_s.arg(url, linkLabel);
     }
 
     enum AdvSettingsCols
@@ -63,7 +63,7 @@ namespace
         // qBittorrent section
         QBITTORRENT_HEADER,
         RESUME_DATA_STORAGE,
-#ifdef QBT_USES_LIBTORRENT2
+#if defined(QBT_USES_LIBTORRENT2) && !defined(Q_OS_MACOS)
         MEMORY_WORKING_SET_LIMIT,
 #endif
 #if defined(Q_OS_WIN)
@@ -75,6 +75,7 @@ namespace
         NETWORK_IFACE_ADDRESS,
         // behavior
         SAVE_RESUME_DATA_INTERVAL,
+        TORRENT_FILE_SIZE_LIMIT,
         CONFIRM_RECHECK_TORRENT,
         RECHECK_COMPLETED,
         // UI related
@@ -93,6 +94,7 @@ namespace
         ENABLE_SPEED_WIDGET,
 #ifndef Q_OS_MACOS
         ENABLE_ICONS_IN_MENUS,
+        USE_ATTACHED_ADD_NEW_TORRENT_DIALOG,
 #endif
         // embedded tracker
         TRACKER_STATUS,
@@ -100,6 +102,8 @@ namespace
         TRACKER_PORT_FORWARDING,
         // libtorrent section
         LIBTORRENT_HEADER,
+        BDECODE_DEPTH_LIMIT,
+        BDECODE_TOKEN_LIMIT,
         ASYNC_IO_THREADS,
 #ifdef QBT_USES_LIBTORRENT2
         HASHING_THREADS,
@@ -153,7 +157,7 @@ namespace
         PEER_TURNOVER_CUTOFF,
         PEER_TURNOVER_INTERVAL,
         REQUEST_QUEUE_SIZE,
-#ifdef QBT_USES_LIBTORRENT2
+#if defined(QBT_USES_LIBTORRENT2) && TORRENT_USE_I2P
         I2P_INBOUND_QUANTITY,
         I2P_OUTBOUND_QUANTITY,
         I2P_INBOUND_LENGTH,
@@ -191,13 +195,17 @@ void AdvancedSettings::saveAdvancedSettings() const
     BitTorrent::Session *const session = BitTorrent::Session::instance();
 
     session->setResumeDataStorageType(m_comboBoxResumeDataStorage.currentData().value<BitTorrent::ResumeDataStorageType>());
-#ifdef QBT_USES_LIBTORRENT2
+#if defined(QBT_USES_LIBTORRENT2) && !defined(Q_OS_MACOS)
     // Physical memory (RAM) usage limit
     app()->setMemoryWorkingSetLimit(m_spinBoxMemoryWorkingSetLimit.value());
 #endif
 #if defined(Q_OS_WIN)
     app()->setProcessMemoryPriority(m_comboBoxOSMemoryPriority.currentData().value<MemoryPriority>());
 #endif
+    // Bdecode depth limit
+    pref->setBdecodeDepthLimit(m_spinBoxBdecodeDepthLimit.value());
+    // Bdecode token limit
+    pref->setBdecodeTokenLimit(m_spinBoxBdecodeTokenLimit.value());
     // Async IO threads
     session->setAsyncIOThreads(m_spinBoxAsyncIOThreads.value());
 #ifdef QBT_USES_LIBTORRENT2
@@ -244,6 +252,8 @@ void AdvancedSettings::saveAdvancedSettings() const
     session->setSocketBacklogSize(m_spinBoxSocketBacklogSize.value());
     // Save resume data interval
     session->setSaveResumeDataInterval(m_spinBoxSaveResumeDataInterval.value());
+    // .torrent file size limit
+    pref->setTorrentFileSizeLimit(m_spinBoxTorrentFileSizeLimit.value() * 1024 * 1024);
     // Outgoing ports
     session->setOutgoingPortsMin(m_spinBoxOutgoingPortsMin.value());
     session->setOutgoingPortsMax(m_spinBoxOutgoingPortsMax.value());
@@ -301,6 +311,7 @@ void AdvancedSettings::saveAdvancedSettings() const
     pref->setSpeedWidgetEnabled(m_checkBoxSpeedWidgetEnabled.isChecked());
 #ifndef Q_OS_MACOS
     pref->setIconsInMenusEnabled(m_checkBoxIconsInMenusEnabled.isChecked());
+    AddNewTorrentDialog::setAttached(m_checkBoxAttachedAddNewTorrentDialog.isChecked());
 #endif
 
     // Tracker
@@ -325,7 +336,7 @@ void AdvancedSettings::saveAdvancedSettings() const
     session->setPeerTurnoverInterval(m_spinBoxPeerTurnoverInterval.value());
     // Maximum outstanding requests to a single peer
     session->setRequestQueueSize(m_spinBoxRequestQueueSize.value());
-#ifdef QBT_USES_LIBTORRENT2
+#if defined(QBT_USES_LIBTORRENT2) && TORRENT_USE_I2P
     // I2P session options
     session->setI2PInboundQuantity(m_spinBoxI2PInboundQuantity.value());
     session->setI2POutboundQuantity(m_spinBoxI2POutboundQuantity.value());
@@ -424,7 +435,7 @@ void AdvancedSettings::loadAdvancedSettings()
                  , tr("Open documentation"))
         , this);
     labelQbtLink->setOpenExternalLinks(true);
-    addRow(QBITTORRENT_HEADER, u"<b>%1</b>"_qs.arg(tr("qBittorrent Section")), labelQbtLink);
+    addRow(QBITTORRENT_HEADER, u"<b>%1</b>"_s.arg(tr("qBittorrent Section")), labelQbtLink);
     static_cast<QLabel *>(cellWidget(QBITTORRENT_HEADER, PROPERTY))->setAlignment(Qt::AlignCenter | Qt::AlignVCenter);
 
     auto *labelLibtorrentLink = new QLabel(
@@ -432,7 +443,7 @@ void AdvancedSettings::loadAdvancedSettings()
                  , tr("Open documentation"))
         , this);
     labelLibtorrentLink->setOpenExternalLinks(true);
-    addRow(LIBTORRENT_HEADER, u"<b>%1</b>"_qs.arg(tr("libtorrent Section")), labelLibtorrentLink);
+    addRow(LIBTORRENT_HEADER, u"<b>%1</b>"_s.arg(tr("libtorrent Section")), labelLibtorrentLink);
     static_cast<QLabel *>(cellWidget(LIBTORRENT_HEADER, PROPERTY))->setAlignment(Qt::AlignCenter | Qt::AlignVCenter);
 
     m_comboBoxResumeDataStorage.addItem(tr("Fastresume files"), QVariant::fromValue(BitTorrent::ResumeDataStorageType::Legacy));
@@ -440,7 +451,7 @@ void AdvancedSettings::loadAdvancedSettings()
     m_comboBoxResumeDataStorage.setCurrentIndex(m_comboBoxResumeDataStorage.findData(QVariant::fromValue(session->resumeDataStorageType())));
     addRow(RESUME_DATA_STORAGE, tr("Resume data storage type (requires restart)"), &m_comboBoxResumeDataStorage);
 
-#ifdef QBT_USES_LIBTORRENT2
+#if defined(QBT_USES_LIBTORRENT2) && !defined(Q_OS_MACOS)
     // Physical memory (RAM) usage limit
     m_spinBoxMemoryWorkingSetLimit.setMinimum(1);
     m_spinBoxMemoryWorkingSetLimit.setMaximum(std::numeric_limits<int>::max());
@@ -461,6 +472,18 @@ void AdvancedSettings::loadAdvancedSettings()
         + u' ' + makeLink(u"https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/ns-processthreadsapi-memory_priority_information", u"(?)"))
         , &m_comboBoxOSMemoryPriority);
 #endif
+    // Bdecode depth limit
+    m_spinBoxBdecodeDepthLimit.setMinimum(0);
+    m_spinBoxBdecodeDepthLimit.setMaximum(std::numeric_limits<int>::max());
+    m_spinBoxBdecodeDepthLimit.setValue(pref->getBdecodeDepthLimit());
+    addRow(BDECODE_DEPTH_LIMIT, (tr("Bdecode depth limit") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Bdecoding.html#bdecode()", u"(?)"))
+            , &m_spinBoxBdecodeDepthLimit);
+    // Bdecode token limit
+    m_spinBoxBdecodeTokenLimit.setMinimum(0);
+    m_spinBoxBdecodeTokenLimit.setMaximum(std::numeric_limits<int>::max());
+    m_spinBoxBdecodeTokenLimit.setValue(pref->getBdecodeTokenLimit());
+    addRow(BDECODE_TOKEN_LIMIT, (tr("Bdecode token limit") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Bdecoding.html#bdecode()", u"(?)"))
+            , &m_spinBoxBdecodeTokenLimit);
     // Async IO threads
     m_spinBoxAsyncIOThreads.setMinimum(1);
     m_spinBoxAsyncIOThreads.setMaximum(1024);
@@ -580,7 +603,7 @@ void AdvancedSettings::loadAdvancedSettings()
             , &m_spinBoxSendBufferLowWatermark);
     m_spinBoxSendBufferWatermarkFactor.setMinimum(1);
     m_spinBoxSendBufferWatermarkFactor.setMaximum(std::numeric_limits<int>::max());
-    m_spinBoxSendBufferWatermarkFactor.setSuffix(u" %"_qs);
+    m_spinBoxSendBufferWatermarkFactor.setSuffix(u" %"_s);
     m_spinBoxSendBufferWatermarkFactor.setValue(session->sendBufferWatermarkFactor());
     addRow(SEND_BUF_WATERMARK_FACTOR, (tr("Send buffer watermark factor") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#send_buffer_watermark_factor", u"(?)"))
             , &m_spinBoxSendBufferWatermarkFactor);
@@ -619,6 +642,12 @@ void AdvancedSettings::loadAdvancedSettings()
     m_spinBoxSaveResumeDataInterval.setSuffix(tr(" min", " minutes"));
     m_spinBoxSaveResumeDataInterval.setSpecialValueText(tr("0 (disabled)"));
     addRow(SAVE_RESUME_DATA_INTERVAL, tr("Save resume data interval [0: disabled]", "How often the fastresume file is saved."), &m_spinBoxSaveResumeDataInterval);
+    // .torrent file size limit
+    m_spinBoxTorrentFileSizeLimit.setMinimum(1);
+    m_spinBoxTorrentFileSizeLimit.setMaximum(std::numeric_limits<int>::max() / 1024 / 1024);
+    m_spinBoxTorrentFileSizeLimit.setValue(pref->getTorrentFileSizeLimit() / 1024 / 1024);
+    m_spinBoxTorrentFileSizeLimit.setSuffix(tr(" MiB"));
+    addRow(TORRENT_FILE_SIZE_LIMIT, tr(".torrent file size limit"), &m_spinBoxTorrentFileSizeLimit);
     // Outgoing port Min
     m_spinBoxOutgoingPortsMin.setMinimum(0);
     m_spinBoxOutgoingPortsMin.setMaximum(65535);
@@ -769,6 +798,9 @@ void AdvancedSettings::loadAdvancedSettings()
     // Enable icons in menus
     m_checkBoxIconsInMenusEnabled.setChecked(pref->iconsInMenusEnabled());
     addRow(ENABLE_ICONS_IN_MENUS, tr("Enable icons in menus"), &m_checkBoxIconsInMenusEnabled);
+
+    m_checkBoxAttachedAddNewTorrentDialog.setChecked(AddNewTorrentDialog::isAttached());
+    addRow(USE_ATTACHED_ADD_NEW_TORRENT_DIALOG, tr("Attach \"Add new torrent\" dialog to main window"), &m_checkBoxAttachedAddNewTorrentDialog);
 #endif
     // Tracker State
     m_checkBoxTrackerStatus.setChecked(session->isTrackerEnabled());
@@ -818,12 +850,12 @@ void AdvancedSettings::loadAdvancedSettings()
     m_spinBoxPeerTurnover.setMinimum(0);
     m_spinBoxPeerTurnover.setMaximum(100);
     m_spinBoxPeerTurnover.setValue(session->peerTurnover());
-    m_spinBoxPeerTurnover.setSuffix(u" %"_qs);
+    m_spinBoxPeerTurnover.setSuffix(u" %"_s);
     addRow(PEER_TURNOVER, (tr("Peer turnover disconnect percentage") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#peer_turnover", u"(?)"))
             , &m_spinBoxPeerTurnover);
     m_spinBoxPeerTurnoverCutoff.setMinimum(0);
     m_spinBoxPeerTurnoverCutoff.setMaximum(100);
-    m_spinBoxPeerTurnoverCutoff.setSuffix(u" %"_qs);
+    m_spinBoxPeerTurnoverCutoff.setSuffix(u" %"_s);
     m_spinBoxPeerTurnoverCutoff.setValue(session->peerTurnoverCutoff());
     addRow(PEER_TURNOVER_CUTOFF, (tr("Peer turnover threshold percentage") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#peer_turnover", u"(?)"))
             , &m_spinBoxPeerTurnoverCutoff);
@@ -839,7 +871,7 @@ void AdvancedSettings::loadAdvancedSettings()
     m_spinBoxRequestQueueSize.setValue(session->requestQueueSize());
     addRow(REQUEST_QUEUE_SIZE, (tr("Maximum outstanding requests to a single peer") + u' ' + makeLink(u"https://www.libtorrent.org/reference-Settings.html#max_out_request_queue", u"(?)"))
             , &m_spinBoxRequestQueueSize);
-#ifdef QBT_USES_LIBTORRENT2
+#if defined(QBT_USES_LIBTORRENT2) && TORRENT_USE_I2P
     m_spinBoxI2PInboundQuantity.setMinimum(1);
     m_spinBoxI2PInboundQuantity.setMaximum(16);
     m_spinBoxI2PInboundQuantity.setValue(session->I2PInboundQuantity());

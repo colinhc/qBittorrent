@@ -245,7 +245,7 @@
                   <string>Shows a confirmation dialog upon pausing/resuming all the torrents</string>
                  </property>
                  <property name="text">
-                  <string>Confirm "Pause/Resume all" actions</string>
+                  <string>Confirm &quot;Pause/Resume all&quot; actions</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
@@ -949,6 +949,35 @@
                   </spacer>
                  </item>
                 </layout>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="duplicateTorrentGroup">
+                 <property name="title">
+                  <string>When duplicate torrent is being added</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="duplicateTorrentBoxLayout">
+                  <item>
+                   <widget class="QCheckBox" name="checkMergeTrackers">
+                    <property name="text">
+                     <string>Merge trackers to existing torrent</string>
+                    </property>
+                    <property name="checked">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkConfirmMergeTrackers">
+                    <property name="text">
+                     <string>Ask for merging trackers when torrent is being added manually</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
                </item>
                <item>
                 <widget class="QGroupBox" name="deleteTorrentBox">
@@ -2864,8 +2893,51 @@ Disable encryption: Only connect to peers without protocol encryption</string>
               <property name="title">
                <string>Seeding Limits</string>
               </property>
-              <layout class="QGridLayout" name="gridLayout_91">
-               <item row="2" column="1">
+              <layout class="QGridLayout" name="gridLayout_15">
+               <item row="0" column="0">
+                <widget class="QCheckBox" name="checkMaxRatio">
+                 <property name="text">
+                  <string>When ratio reaches</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="spinMaxRatio">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="maximum">
+                  <double>9998.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.050000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <spacer name="horizontalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="checkMaxSeedingMinutes">
+                 <property name="text">
+                  <string>When total seeding time reaches</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
                 <widget class="QSpinBox" name="spinMaxSeedingMinutes">
                  <property name="enabled">
                   <bool>false</bool>
@@ -2882,9 +2954,25 @@ Disable encryption: Only connect to peers without protocol encryption</string>
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QCheckBox" name="checkMaxSeedingMinutes">
+                <widget class="QCheckBox" name="checkMaxInactiveSeedingMinutes">
                  <property name="text">
-                  <string>When seeding time reaches</string>
+                  <string>When inactive seeding time reaches</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QSpinBox" name="spinMaxInactiveSeedingMinutes">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="suffix">
+                  <string extracomment="minutes"> min</string>
+                 </property>
+                 <property name="maximum">
+                  <number>9999999</number>
+                 </property>
+                 <property name="value">
+                  <number>1440</number>
                  </property>
                 </widget>
                </item>
@@ -2924,42 +3012,6 @@ Disable encryption: Only connect to peers without protocol encryption</string>
                   </property>
                  </item>
                 </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QCheckBox" name="checkMaxRatio">
-                 <property name="text">
-                  <string>When ratio reaches</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QDoubleSpinBox" name="spinMaxRatio">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="maximum">
-                  <double>9998.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>0.050000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="2">
-                <spacer name="horizontalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
                </item>
               </layout>
              </widget>
@@ -3171,8 +3223,8 @@ Disable encryption: Only connect to peers without protocol encryption</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabWebuiPage">
-       <layout class="QVBoxLayout" name="tabWebuiPageLayout">
+      <widget class="QWidget" name="tabWebUIPage">
+       <layout class="QVBoxLayout" name="tabWebUIPageLayout">
         <property name="leftMargin">
          <number>0</number>
         </property>
@@ -3201,7 +3253,7 @@ Disable encryption: Only connect to peers without protocol encryption</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_23">
             <item>
-             <widget class="QGroupBox" name="checkWebUi">
+             <widget class="QGroupBox" name="checkWebUI">
               <property name="title">
                <string>Web User Interface (Remote control)</string>
               </property>
@@ -3213,16 +3265,28 @@ Disable encryption: Only connect to peers without protocol encryption</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
+                <widget class="QLabel" name="labelWebUIError">
+                 <property name="font">
+                  <font>
+                   <italic>true</italic>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_2">
                  <item>
-                  <widget class="QLabel" name="lblWebUiAddress">
+                  <widget class="QLabel" name="lblWebUIAddress">
                    <property name="text">
                     <string>IP address:</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="textWebUiAddress">
+                  <widget class="QLineEdit" name="textWebUIAddress">
                    <property name="toolTip">
                     <string>IP address that the Web UI will bind to.
 Specify an IPv4 or IPv6 address. You can specify &quot;0.0.0.0&quot; for any IPv4 address,
@@ -3231,14 +3295,14 @@ Specify an IPv4 or IPv6 address. You can specify &quot;0.0.0.0&quot; for any IPv
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="lblWebUiPort">
+                  <widget class="QLabel" name="lblWebUIPort">
                    <property name="text">
                     <string>Port:</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QSpinBox" name="spinWebUiPort">
+                  <widget class="QSpinBox" name="spinWebUIPort">
                    <property name="minimum">
                     <number>1</number>
                    </property>
@@ -3263,7 +3327,7 @@ Specify an IPv4 or IPv6 address. You can specify &quot;0.0.0.0&quot; for any IPv
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="checkWebUiHttps">
+                <widget class="QGroupBox" name="checkWebUIHttps">
                  <property name="title">
                   <string>&amp;Use HTTPS instead of HTTP</string>
                  </property>
@@ -3275,14 +3339,14 @@ Specify an IPv4 or IPv6 address. You can specify &quot;0.0.0.0&quot; for any IPv
                  </property>
                  <layout class="QGridLayout" name="gridLayout_11">
                   <item row="1" column="1">
-                   <widget class="QLabel" name="lblWebUiKey">
+                   <widget class="QLabel" name="lblWebUIKey">
                     <property name="text">
                      <string>Key:</string>
                     </property>
                    </widget>
                   </item>
                   <item row="0" column="1">
-                   <widget class="QLabel" name="lblWebUiCrt">
+                   <widget class="QLabel" name="lblWebUICrt">
                     <property name="text">
                      <string>Certificate:</string>
                     </property>
@@ -3314,7 +3378,7 @@ Specify an IPv4 or IPv6 address. You can specify &quot;0.0.0.0&quot; for any IPv
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="groupWebUiAuth">
+                <widget class="QGroupBox" name="groupWebUIAuth">
                  <property name="title">
                   <string>Authentication</string>
                  </property>
@@ -3322,24 +3386,24 @@ Specify an IPv4 or IPv6 address. You can specify &quot;0.0.0.0&quot; for any IPv
                   <item>
                    <layout class="QGridLayout" name="gridLayout_8">
                     <item row="0" column="0">
-                     <widget class="QLabel" name="lblWebUiUsername">
+                     <widget class="QLabel" name="lblWebUIUsername">
                       <property name="text">
                        <string>Username:</string>
                       </property>
                      </widget>
                     </item>
                     <item row="0" column="1">
-                     <widget class="QLineEdit" name="textWebUiUsername"/>
+                     <widget class="QLineEdit" name="textWebUIUsername"/>
                     </item>
                     <item row="1" column="0">
-                     <widget class="QLabel" name="lblWebUiPassword">
+                     <widget class="QLabel" name="lblWebUIPassword">
                       <property name="text">
                        <string>Password:</string>
                       </property>
                      </widget>
                     </item>
                     <item row="1" column="1">
-                     <widget class="QLineEdit" name="textWebUiPassword">
+                     <widget class="QLineEdit" name="textWebUIPassword">
                       <property name="echoMode">
                        <enum>QLineEdit::Password</enum>
                       </property>
@@ -3767,13 +3831,13 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
   <tabstop>stopConditionComboBox</tabstop>
   <tabstop>spinPort</tabstop>
   <tabstop>checkUPnP</tabstop>
-  <tabstop>textWebUiUsername</tabstop>
-  <tabstop>checkWebUi</tabstop>
+  <tabstop>textWebUIUsername</tabstop>
+  <tabstop>checkWebUI</tabstop>
   <tabstop>textSavePath</tabstop>
   <tabstop>scrollArea_7</tabstop>
   <tabstop>scrollArea_2</tabstop>
-  <tabstop>spinWebUiPort</tabstop>
-  <tabstop>textWebUiPassword</tabstop>
+  <tabstop>spinWebUIPort</tabstop>
+  <tabstop>textWebUIPassword</tabstop>
   <tabstop>buttonBox</tabstop>
   <tabstop>tabSelection</tabstop>
   <tabstop>scrollArea</tabstop>
@@ -3863,7 +3927,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
   <tabstop>spinMaxActiveUploads</tabstop>
   <tabstop>spinMaxActiveTorrents</tabstop>
   <tabstop>checkWebUIUPnP</tabstop>
-  <tabstop>checkWebUiHttps</tabstop>
+  <tabstop>checkWebUIHttps</tabstop>
   <tabstop>checkBypassLocalAuth</tabstop>
   <tabstop>checkBypassAuthSubnetWhitelist</tabstop>
   <tabstop>IPSubnetWhitelistButton</tabstop>
@@ -3875,134 +3939,5 @@ Use ';' to split multiple entries. Can use wildcard '*'.</string>
   <tabstop>DNSPasswordTxt</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>checkMaxConnections</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>spinMaxConnec</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>604</x>
-     <y>205</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>677</x>
-     <y>206</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkMaxConnectionsPerTorrent</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>spinMaxConnecPerTorrent</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>604</x>
-     <y>238</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>677</x>
-     <y>239</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkMaxUploadsPerTorrent</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>spinMaxUploadsPerTorrent</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>604</x>
-     <y>304</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>677</x>
-     <y>305</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkMaxUploads</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>spinMaxUploads</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>547</x>
-     <y>415</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>642</x>
-     <y>414</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkMaxRatio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>spinMaxRatio</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>395</x>
-     <y>203</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>496</x>
-     <y>204</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkMaxSeedingMinutes</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>spinMaxSeedingMinutes</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>395</x>
-     <y>170</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>496</x>
-     <y>171</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>deleteTorrentBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>deleteTorrentWarningIcon</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>554</x>
-     <y>153</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>324</x>
-     <y>214</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>deleteTorrentBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>deleteTorrentWarningLabel</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>646</x>
-     <y>158</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>629</x>
-     <y>207</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

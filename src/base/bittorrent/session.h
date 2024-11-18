@@ -203,6 +203,8 @@ namespace BitTorrent
         virtual void setGlobalMaxRatio(qreal ratio) = 0;
         virtual int globalMaxSeedingMinutes() const = 0;
         virtual void setGlobalMaxSeedingMinutes(int minutes) = 0;
+        virtual int globalMaxInactiveSeedingMinutes() const = 0;
+        virtual void setGlobalMaxInactiveSeedingMinutes(int minutes) = 0;
         virtual bool isDHTEnabled() const = 0;
         virtual void setDHTEnabled(bool enabled) = 0;
         virtual bool isLSDEnabled() const = 0;
@@ -419,6 +421,8 @@ namespace BitTorrent
         virtual void setBannedIPs(const QStringList &newList) = 0;
         virtual ResumeDataStorageType resumeDataStorageType() const = 0;
         virtual void setResumeDataStorageType(ResumeDataStorageType type) = 0;
+        virtual bool isMergeTrackersEnabled() const = 0;
+        virtual void setMergeTrackersEnabled(bool enabled) = 0;
 
         virtual bool isRestored() const = 0;
 
@@ -448,6 +452,7 @@ namespace BitTorrent
         virtual void decreaseTorrentsQueuePos(const QVector<TorrentID> &ids) = 0;
         virtual void topTorrentsQueuePos(const QVector<TorrentID> &ids) = 0;
         virtual void bottomTorrentsQueuePos(const QVector<TorrentID> &ids) = 0;
+        virtual QString externalIpv4() const = 0;
 
         virtual QString externalIp() const = 0;
 

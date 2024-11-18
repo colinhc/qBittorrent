@@ -99,6 +99,7 @@ add_library(qbt_base STATIC
     utils/io.h
     utils/misc.h
     utils/net.h
+    utils/os.h
     utils/password.h
     utils/random.h
     utils/string.h
@@ -184,6 +185,7 @@ add_library(qbt_base STATIC
     utils/io.cpp
     utils/misc.cpp
     utils/net.cpp
+    utils/os.cpp
     utils/password.cpp
     utils/random.cpp
     utils/string.cpp
@@ -192,11 +194,16 @@ add_library(qbt_base STATIC
 
 target_link_libraries(qbt_base
     PRIVATE
-        OpenSSL::Crypto OpenSSL::SSL
+        OpenSSL::Crypto
+        OpenSSL::SSL
         ZLIB::ZLIB
     PUBLIC
         LibtorrentRasterbar::torrent-rasterbar
-        Qt::Core Qt::Network Qt::Sql Qt::Xml
+        Qt::Core
+        Qt::CorePrivate
+        Qt::Network
+        Qt::Sql
+        Qt::Xml
         qbt_common_cfg
 )
 

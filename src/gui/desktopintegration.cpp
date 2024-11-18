@@ -31,6 +31,7 @@
 
 #include <chrono>
 
+#include <QtGlobal>
 #include <QMenu>
 #include <QTimer>
 
@@ -70,13 +71,13 @@ namespace
 using namespace std::chrono_literals;
 
 #define SETTINGS_KEY(name) u"GUI/" name
-#define NOTIFICATIONS_SETTINGS_KEY(name) (SETTINGS_KEY(u"Notifications/"_qs) name)
+#define NOTIFICATIONS_SETTINGS_KEY(name) (SETTINGS_KEY(u"Notifications/"_s) name)
 
 DesktopIntegration::DesktopIntegration(QObject *parent)
     : QObject(parent)
-    , m_storeNotificationEnabled {NOTIFICATIONS_SETTINGS_KEY(u"Enabled"_qs), true}
+    , m_storeNotificationEnabled {NOTIFICATIONS_SETTINGS_KEY(u"Enabled"_s), true}
 #ifdef QBT_USES_DBUS
-    , m_storeNotificationTimeOut {NOTIFICATIONS_SETTINGS_KEY(u"Timeout"_qs), -1}
+    , m_storeNotificationTimeOut {NOTIFICATIONS_SETTINGS_KEY(u"Timeout"_s), -1}
 #endif
 {
 #ifdef Q_OS_MACOS
@@ -286,17 +287,25 @@ void DesktopIntegration::createTrayIcon()
 QIcon DesktopIntegration::getSystrayIcon() const
 {
     const TrayIcon::Style style = Preferences::instance()->trayIconStyle();
+    QIcon icon;
     switch (style)
     {
     default:
     case TrayIcon::Style::Normal:
-        return UIThemeManager::instance()->getIcon(u"qbittorrent-tray"_qs);
-
+        icon = UIThemeManager::instance()->getIcon(u"qbittorrent-tray"_s);
+        break;
     case TrayIcon::Style::MonoDark:
-        return UIThemeManager::instance()->getIcon(u"qbittorrent-tray-dark"_qs);
-
+        icon = UIThemeManager::instance()->getIcon(u"qbittorrent-tray-dark"_s);
+        break;
     case TrayIcon::Style::MonoLight:
-        return UIThemeManager::instance()->getIcon(u"qbittorrent-tray-light"_qs);
+        icon = UIThemeManager::instance()->getIcon(u"qbittorrent-tray-light"_s);
+        break;
     }
+#ifdef Q_OS_UNIX
+    // Workaround for invisible tray icon in KDE, https://bugreports.qt.io/browse/QTBUG-53550
+    if (qEnvironmentVariable("XDG_CURRENT_DESKTOP").compare(u"KDE", Qt::CaseInsensitive) == 0)
+        return icon.pixmap(32);
+#endif
+    return icon;
 }
 #endif // Q_OS_MACOS

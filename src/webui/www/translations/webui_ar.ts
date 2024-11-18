@@ -114,7 +114,7 @@
     </message>
     <message>
         <source>Remove torrents</source>
-        <translation type="unfinished" />
+        <translation>إزالة التورنت</translation>
     </message>
     <message>
         <source>Add subcategory...</source>
@@ -574,10 +574,6 @@
     <message>
         <source>Download speed icon</source>
         <translation>رمز سرعة التنزيل</translation>
-    </message>
-    <message>
-        <source>Connection status</source>
-        <translation>حالة الاتصال</translation>
     </message>
     <message>
         <source>Alternative speed limits: On</source>
@@ -1169,10 +1165,6 @@
         <translation>عندما تصل النسبة</translation>
     </message>
     <message>
-        <source>When seeding time reaches</source>
-        <translation>عندما يصل وقت البذر</translation>
-    </message>
-    <message>
         <source>Allow multiple connections from the same IP address:</source>
         <translation>السماح باتصالات متعددة من نفس عنوان الآي بي:</translation>
     </message>
@@ -1490,7 +1482,7 @@
     </message>
     <message>
         <source>Memory mapped files</source>
-        <translation type="unfinished" />
+        <translation>ملفات الذاكرة المعينة</translation>
     </message>
     <message>
         <source>Default</source>
@@ -1498,15 +1490,15 @@
     </message>
     <message>
         <source>POSIX-compliant</source>
-        <translation type="unfinished" />
+        <translation>متوافق مع POSIX</translation>
     </message>
     <message>
         <source>This option is less effective on Linux</source>
-        <translation type="unfinished" />
+        <translation>هذا الخيار أقل فعالية على Linux</translation>
     </message>
     <message>
         <source>It controls the internal state update interval which in turn will affect UI updates</source>
-        <translation type="unfinished" />
+        <translation>فهو يتحكم في الفاصل الزمني لتحديث الحالة الداخلية والذي سيؤثر بدوره على تحديثات واجهة المستخدم</translation>
     </message>
     <message>
         <source>Disk IO read mode:</source>
@@ -1514,7 +1506,7 @@
     </message>
     <message>
         <source>Disable OS cache</source>
-        <translation type="unfinished" />
+        <translation>تعطيل ذاكرة التخزين المؤقت لنظام التشغيل</translation>
     </message>
     <message>
         <source>Disk IO write mode:</source>
@@ -1542,7 +1534,7 @@
     </message>
     <message>
         <source>Excluded file names</source>
-        <translation type="unfinished" />
+        <translation>أسماء الملفات المستبعدة</translation>
     </message>
     <message>
         <source>Support internationalized domain name (IDN):</source>
@@ -1574,7 +1566,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Specify reverse proxy IPs (or subnets, e.g. 0.0.0.0/24) in order to use forwarded client address (X-Forwarded-For header). Use ';' to split multiple entries.</source>
-        <translation type="unfinished" />
+        <translation>حدد عناوين IP للوكيل العكسي (أو الشبكات الفرعية، على سبيل المثال 0.0.0.0/24) لاستخدام عنوان العميل المُعاد توجيهه (رأس X-Forwarded-For). يستخدم '؛' لتقسيم إدخالات متعددة.</translation>
     </message>
     <message>
         <source>HTTPS key should not be empty</source>
@@ -1582,7 +1574,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Run external program</source>
-        <translation type="unfinished" />
+        <translation>تشغيل برنامج خارجي</translation>
     </message>
     <message>
         <source>Files checked</source>
@@ -1597,16 +1589,12 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>Use proxy for hostname lookup</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Metadata received</source>
         <translation>تم استلام البيانات الوصفية</translation>
     </message>
     <message>
         <source>Torrent stop condition:</source>
-        <translation type="unfinished" />
+        <translation>شرط توقف التورنت:</translation>
     </message>
     <message>
         <source>None</source>
@@ -1650,7 +1638,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Use proxy for BitTorrent purposes</source>
-        <translation type="unfinished" />
+        <translation>استخدم الوكيل لأغراض BitTorrent</translation>
     </message>
     <message>
         <source>years</source>
@@ -1670,11 +1658,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Use proxy for general purposes</source>
-        <translation type="unfinished" />
+        <translation>استخدم الوكيل للأغراض العامة</translation>
     </message>
     <message>
         <source>Use proxy for RSS purposes</source>
-        <translation type="unfinished" />
+        <translation>استخدم الوكيل لأغراض RSS</translation>
     </message>
     <message>
         <source>Disk cache expiry interval (requires libtorrent &amp;lt; 2.0):</source>
@@ -1734,6 +1722,62 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>UPnP lease duration [0: permanent lease]:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Bdecode token limit:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>When inactive seeding time reaches</source>
+        <translation>عندما يصل وقت البذر غير النشط</translation>
+    </message>
+    <message>
+        <source>(None)</source>
+        <translation>(لا شيء)</translation>
+    </message>
+    <message>
+        <source>Bdecode depth limit:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>.torrent file size limit:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>When total seeding time reaches</source>
+        <translation>عندما يصل وقت البذر الكلي</translation>
+    </message>
+    <message>
+        <source>Perform hostname lookup via proxy</source>
+        <translation>إجراء بحث عن اسم المضيف عبر الوكيل</translation>
+    </message>
+    <message>
+        <source>Mixed mode</source>
+        <translation>وضع مختلط</translation>
+    </message>
+    <message>
+        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
         <translation type="unfinished" />
     </message>
 </context>
@@ -1817,7 +1861,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Peer ID Client</source>
-        <translation type="unfinished" />
+        <translation>عميل معرف النظير</translation>
     </message>
 </context>
 <context>
@@ -2061,10 +2105,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>Match all occurences</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Toggle Selection</source>
         <translation type="unfinished" />
     </message>
@@ -2098,6 +2138,10 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Case sensitive</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Match all occurrences</source>
         <translation type="unfinished" />
     </message>
 </context>
@@ -2569,11 +2613,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Times Downloaded</source>
-        <translation type="unfinished" />
+        <translation>مرات التنزيل</translation>
     </message>
     <message>
         <source>Add trackers...</source>
-        <translation type="unfinished" />
+        <translation>إضافة تتبع...</translation>
     </message>
     <message>
         <source>Renamed</source>
@@ -2592,7 +2636,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Add trackers</source>
-        <translation type="unfinished" />
+        <translation>إضافة تتبع</translation>
     </message>
 </context>
 <context>
@@ -2913,8 +2957,12 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>النسبة</translation>
     </message>
     <message>
-        <source>minutes</source>
-        <translation>دقائق</translation>
+        <source>total minutes</source>
+        <translation>إجمالي الدقائق</translation>
+    </message>
+    <message>
+        <source>inactive minutes</source>
+        <translation>دقائق غير نشطة</translation>
     </message>
 </context>
 <context>
@@ -2924,11 +2972,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <name>confirmDeletionDlg</name>
     <message>
         <source>Also permanently delete the files</source>
-        <translation type="unfinished" />
+        <translation>أيضًا احذف الملفات نهائيًا</translation>
     </message>
     <message>
         <source>Remove torrent(s)</source>
-        <translation type="unfinished" />
+        <translation>إزالة التورنت (الملفات)</translation>
     </message>
 </context>
 <context>
@@ -3279,7 +3327,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Remove torrents</source>
-        <translation type="unfinished" />
+        <translation>إزالة التورنت</translation>
     </message>
 </context>
 <context>
@@ -3431,10 +3479,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>New name:</source>
         <translation>الاسم الجديد:</translation>
-    </message>
-    <message>
-        <source>Renaming)</source>
-        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -3780,6 +3824,10 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
         <source>Don't create subfolder</source>
         <translation>لا تقم بإنشاء مجلد فرعي</translation>
     </message>
+    <message>
+        <source>Add Tags:</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>TrackerFiltersList</name>
@@ -3801,7 +3849,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>Remove torrents</source>
-        <translation type="unfinished" />
+        <translation>إزالة التورنت</translation>
     </message>
 </context>
 <context>

@@ -65,7 +65,7 @@ Section $(inst_qbt_req) ;"qBittorrent (required)"
 SectionEnd
 
 ; Optional section (can be disabled by the user)
-Section /o $(inst_dekstop) ;"Create Desktop Shortcut"
+Section /o $(inst_desktop) ;"Create Desktop Shortcut"
 
   CreateShortCut "$DESKTOP\qBittorrent.lnk" "$INSTDIR\qbittorrent.exe"
 
@@ -109,7 +109,7 @@ Section $(inst_torrent) ;"Open .torrent files with qBittorrent"
 
   !insertmacro UAC_AsUser_Call Function inst_torrent_user ${UAC_SYNCREGISTERS}|${UAC_SYNCOUTDIR}|${UAC_SYNCINSTDIR}
 
-  System::Call 'Shell32::SHChangeNotify(i ${SHCNE_ASSOCCHANGED}, i ${SHCNF_IDLIST}, i 0, i 0)'
+  System::Call 'Shell32::SHChangeNotify(i ${SHCNE_ASSOCCHANGED}, i ${SHCNF_IDLIST}, p 0, p 0)'
 
 SectionEnd
 
@@ -142,7 +142,7 @@ Section $(inst_magnet) ;"Open magnet links with qBittorrent"
 
   !insertmacro UAC_AsUser_Call Function inst_magnet_user ${UAC_SYNCREGISTERS}|${UAC_SYNCOUTDIR}|${UAC_SYNCINSTDIR}
 
-  System::Call 'Shell32::SHChangeNotify(i ${SHCNE_ASSOCCHANGED}, i ${SHCNF_IDLIST}, i 0, i 0)'
+  System::Call 'Shell32::SHChangeNotify(i ${SHCNE_ASSOCCHANGED}, i ${SHCNF_IDLIST}, p 0, p 0)'
 
 SectionEnd
 
@@ -183,7 +183,7 @@ Function .onInit
       Abort
     ${EndIf}
   !else
-    ${IfNot} ${AtLeastWaaS} 1809 ; Windows 10 1809. Min supported version by Qt6
+    ${IfNot} ${AtLeastWaaS} 1809 ; Windows 10 (1809) / Windows Server 2019. Min supported version by Qt6
       MessageBox MB_OK|MB_ICONEXCLAMATION $(inst_requires_win10)
       Abort
     ${EndIf}

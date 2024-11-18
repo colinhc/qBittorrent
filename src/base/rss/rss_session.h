@@ -88,7 +88,7 @@ namespace RSS
     class Folder;
     class Item;
 
-    class Session : public QObject
+    class Session final : public QObject
     {
         Q_OBJECT
         Q_DISABLE_COPY_MOVE(Session)
@@ -149,7 +149,7 @@ namespace RSS
     private:
         QUuid generateUID() const;
         void load();
-        void loadFolder(const QJsonObject &jsonObj, Folder *folder);
+        bool loadFolder(const QJsonObject &jsonObj, Folder *folder);
         void loadLegacy();
         void store();
         nonstd::expected<Folder *, QString> prepareItemDest(const QString &path);

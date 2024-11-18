@@ -63,10 +63,10 @@ using namespace std::chrono_literals;
 
 const std::chrono::seconds WATCH_INTERVAL {10};
 const int MAX_FAILED_RETRIES = 5;
-const QString CONF_FILE_NAME = u"watched_folders.json"_qs;
+const QString CONF_FILE_NAME = u"watched_folders.json"_s;
 
-const QString OPTION_ADDTORRENTPARAMS = u"add_torrent_params"_qs;
-const QString OPTION_RECURSIVE = u"recursive"_qs;
+const QString OPTION_ADDTORRENTPARAMS = u"add_torrent_params"_s;
+const QString OPTION_RECURSIVE = u"recursive"_s;
 
 namespace
 {
@@ -92,7 +92,7 @@ class TorrentFilesWatcher::Worker final : public QObject
     Q_DISABLE_COPY_MOVE(Worker)
 
 public:
-    Worker();
+    Worker(QFileSystemWatcher *watcher);
 
 public slots:
     void setWatchedFolder(const Path &path, const TorrentFilesWatcher::WatchedFolderOptions &options);
@@ -141,24 +141,10 @@ TorrentFilesWatcher *TorrentFilesWatcher::instance()
 }
 
 TorrentFilesWatcher::TorrentFilesWatcher(QObject *parent)
-    : QObject {parent}
+    : QObject(parent)
     , m_ioThread {new QThread}
+    , m_asyncWorker {new TorrentFilesWatcher::Worker(new QFileSystemWatcher(this))}
 {
-    const auto *btSession = BitTorrent::Session::instance();
-    if (btSession->isRestored())
-        initWorker();
-    else
-        connect(btSession, &BitTorrent::Session::restored, this, &TorrentFilesWatcher::initWorker);
-
-    load();
-}
-
-void TorrentFilesWatcher::initWorker()
-{
-    Q_ASSERT(!m_asyncWorker);
-
-    m_asyncWorker = new TorrentFilesWatcher::Worker;
-
     connect(m_asyncWorker, &TorrentFilesWatcher::Worker::magnetFound, this, &TorrentFilesWatcher::onMagnetFound);
     connect(m_asyncWorker, &TorrentFilesWatcher::Worker::torrentFound, this, &TorrentFilesWatcher::onTorrentFound);
 
@@ -166,13 +152,7 @@ void TorrentFilesWatcher::initWorker()
     connect(m_ioThread.get(), &QThread::finished, m_asyncWorker, &QObject::deleteLater);
     m_ioThread->start();
 
-    for (auto it = m_watchedFolders.cbegin(); it != m_watchedFolders.cend(); ++it)
-    {
-        QMetaObject::invokeMethod(m_asyncWorker, [this, path = it.key(), options = it.value()]()
-        {
-            m_asyncWorker->setWatchedFolder(path, options);
-        });
-    }
+    load();
 }
 
 void TorrentFilesWatcher::load()
@@ -227,7 +207,7 @@ void TorrentFilesWatcher::load()
 
 void TorrentFilesWatcher::loadLegacy()
 {
-    const auto dirs = SettingsStorage::instance()->loadValue<QVariantHash>(u"Preferences/Downloads/ScanDirsV2"_qs);
+    const auto dirs = SettingsStorage::instance()->loadValue<QVariantHash>(u"Preferences/Downloads/ScanDirsV2"_s);
 
     for (auto it = dirs.cbegin(); it != dirs.cend(); ++it)
     {
@@ -259,7 +239,7 @@ void TorrentFilesWatcher::loadLegacy()
     }
 
     store();
-    SettingsStorage::instance()->removeValue(u"Preferences/Downloads/ScanDirsV2"_qs);
+    SettingsStorage::instance()->removeValue(u"Preferences/Downloads/ScanDirsV2"_s);
 }
 
 void TorrentFilesWatcher::store() const
@@ -303,13 +283,10 @@ void TorrentFilesWatcher::doSetWatchedFolder(const Path &path, const WatchedFold
 
     m_watchedFolders[path] = options;
 
-    if (m_asyncWorker)
+    QMetaObject::invokeMethod(m_asyncWorker, [this, path, options]
     {
-        QMetaObject::invokeMethod(m_asyncWorker, [this, path, options]()
-        {
-            m_asyncWorker->setWatchedFolder(path, options);
-        });
-    }
+        m_asyncWorker->setWatchedFolder(path, options);
+    });
 
     emit watchedFolderSet(path, options);
 }
@@ -344,8 +321,8 @@ void TorrentFilesWatcher::onTorrentFound(const BitTorrent::TorrentInfo &torrentI
     BitTorrent::Session::instance()->addTorrent(torrentInfo, addTorrentParams);
 }
 
-TorrentFilesWatcher::Worker::Worker()
-    : m_watcher {new QFileSystemWatcher(this)}
+TorrentFilesWatcher::Worker::Worker(QFileSystemWatcher *watcher)
+    : m_watcher {watcher}
     , m_watchTimer {new QTimer(this)}
     , m_retryTorrentTimer {new QTimer(this)}
 {
@@ -406,7 +383,7 @@ void TorrentFilesWatcher::Worker::processWatchedFolder(const Path &path)
 void TorrentFilesWatcher::Worker::processFolder(const Path &path, const Path &watchedFolderPath
                                               , const TorrentFilesWatcher::WatchedFolderOptions &options)
 {
-    QDirIterator dirIter {path.data(), {u"*.torrent"_qs, u"*.magnet"_qs}, QDir::Files};
+    QDirIterator dirIter {path.data(), {u"*.torrent"_s, u"*.magnet"_s}, QDir::Files};
     while (dirIter.hasNext())
     {
         const Path filePath {dirIter.next()};
@@ -426,7 +403,7 @@ void TorrentFilesWatcher::Worker::processFolder(const Path &path, const Path &wa
             }
         }
 
-        if (filePath.hasExtension(u".magnet"_qs))
+        if (filePath.hasExtension(u".magnet"_s))
         {
             const int fileMaxSize = 100 * 1024 * 1024;
 

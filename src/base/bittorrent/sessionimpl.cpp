@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2015-2023  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2015-2024  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
@@ -96,7 +96,6 @@
 #include "base/version.h"
 #include "bandwidthscheduler.h"
 #include "bencoderesumedatastorage.h"
-#include "common.h"
 #include "customstorage.h"
 #include "dbresumedatastorage.h"
 #include "downloadpriority.h"
@@ -115,7 +114,7 @@
 using namespace std::chrono_literals;
 using namespace BitTorrent;
 
-const Path CATEGORIES_FILE_NAME {u"categories.json"_qs};
+const Path CATEGORIES_FILE_NAME {u"categories.json"_s};
 const int MAX_PROCESSING_RESUMEDATA_COUNT = 50;
 const int STATISTICS_SAVE_INTERVAL = std::chrono::milliseconds(15min).count();
 
@@ -213,33 +212,33 @@ namespace
         {
 #ifdef QBT_USES_LIBTORRENT2
         case lt::socket_type_t::http:
-            return u"HTTP"_qs;
+            return u"HTTP"_s;
         case lt::socket_type_t::http_ssl:
-            return u"HTTP_SSL"_qs;
+            return u"HTTP_SSL"_s;
 #endif
         case lt::socket_type_t::i2p:
-            return u"I2P"_qs;
+            return u"I2P"_s;
         case lt::socket_type_t::socks5:
-            return u"SOCKS5"_qs;
+            return u"SOCKS5"_s;
 #ifdef QBT_USES_LIBTORRENT2
         case lt::socket_type_t::socks5_ssl:
-            return u"SOCKS5_SSL"_qs;
+            return u"SOCKS5_SSL"_s;
 #endif
         case lt::socket_type_t::tcp:
-            return u"TCP"_qs;
+            return u"TCP"_s;
         case lt::socket_type_t::tcp_ssl:
-            return u"TCP_SSL"_qs;
+            return u"TCP_SSL"_s;
 #ifdef QBT_USES_LIBTORRENT2
         case lt::socket_type_t::utp:
-            return u"UTP"_qs;
+            return u"UTP"_s;
 #else
         case lt::socket_type_t::udp:
-            return u"UDP"_qs;
+            return u"UDP"_s;
 #endif
         case lt::socket_type_t::utp_ssl:
-            return u"UTP_SSL"_qs;
+            return u"UTP_SSL"_s;
         }
-        return u"INVALID"_qs;
+        return u"INVALID"_s;
     }
 
     QString toString(const lt::address &address)
@@ -378,7 +377,7 @@ Session *Session::instance()
 
 bool Session::isValidCategoryName(const QString &name)
 {
-    const QRegularExpression re {uR"(^([^\\\/]|[^\\\/]([^\\\/]|\/(?=[^\/]))*[^\\\/])$)"_qs};
+    const QRegularExpression re {uR"(^([^\\\/]|[^\\\/]([^\\\/]|\/(?=[^\/]))*[^\\\/])$)"_s};
     return (name.isEmpty() || (name.indexOf(re) == 0));
 }
 
@@ -406,131 +405,133 @@ QStringList Session::expandCategory(const QString &category)
 
 SessionImpl::SessionImpl(QObject *parent)
     : Session(parent)
-    , m_isDHTEnabled(BITTORRENT_SESSION_KEY(u"DHTEnabled"_qs), true)
-    , m_isLSDEnabled(BITTORRENT_SESSION_KEY(u"LSDEnabled"_qs), true)
-    , m_isPeXEnabled(BITTORRENT_SESSION_KEY(u"PeXEnabled"_qs), true)
-    , m_isIPFilteringEnabled(BITTORRENT_SESSION_KEY(u"IPFilteringEnabled"_qs), false)
-    , m_isTrackerFilteringEnabled(BITTORRENT_SESSION_KEY(u"TrackerFilteringEnabled"_qs), false)
-    , m_IPFilterFile(BITTORRENT_SESSION_KEY(u"IPFilter"_qs))
-    , m_announceToAllTrackers(BITTORRENT_SESSION_KEY(u"AnnounceToAllTrackers"_qs), false)
-    , m_announceToAllTiers(BITTORRENT_SESSION_KEY(u"AnnounceToAllTiers"_qs), true)
-    , m_asyncIOThreads(BITTORRENT_SESSION_KEY(u"AsyncIOThreadsCount"_qs), 10)
-    , m_hashingThreads(BITTORRENT_SESSION_KEY(u"HashingThreadsCount"_qs), 1)
-    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_qs), 500)
-    , m_checkingMemUsage(BITTORRENT_SESSION_KEY(u"CheckingMemUsageSize"_qs), 32)
-    , m_diskCacheSize(BITTORRENT_SESSION_KEY(u"DiskCacheSize"_qs), -1)
-    , m_diskCacheTTL(BITTORRENT_SESSION_KEY(u"DiskCacheTTL"_qs), 60)
-    , m_diskQueueSize(BITTORRENT_SESSION_KEY(u"DiskQueueSize"_qs), (1024 * 1024))
-    , m_diskIOType(BITTORRENT_SESSION_KEY(u"DiskIOType"_qs), DiskIOType::Default)
-    , m_diskIOReadMode(BITTORRENT_SESSION_KEY(u"DiskIOReadMode"_qs), DiskIOReadMode::EnableOSCache)
-    , m_diskIOWriteMode(BITTORRENT_SESSION_KEY(u"DiskIOWriteMode"_qs), DiskIOWriteMode::EnableOSCache)
+    , m_isDHTEnabled(BITTORRENT_SESSION_KEY(u"DHTEnabled"_s), true)
+    , m_isLSDEnabled(BITTORRENT_SESSION_KEY(u"LSDEnabled"_s), true)
+    , m_isPeXEnabled(BITTORRENT_SESSION_KEY(u"PeXEnabled"_s), true)
+    , m_isIPFilteringEnabled(BITTORRENT_SESSION_KEY(u"IPFilteringEnabled"_s), false)
+    , m_isTrackerFilteringEnabled(BITTORRENT_SESSION_KEY(u"TrackerFilteringEnabled"_s), false)
+    , m_IPFilterFile(BITTORRENT_SESSION_KEY(u"IPFilter"_s))
+    , m_announceToAllTrackers(BITTORRENT_SESSION_KEY(u"AnnounceToAllTrackers"_s), false)
+    , m_announceToAllTiers(BITTORRENT_SESSION_KEY(u"AnnounceToAllTiers"_s), true)
+    , m_asyncIOThreads(BITTORRENT_SESSION_KEY(u"AsyncIOThreadsCount"_s), 10)
+    , m_hashingThreads(BITTORRENT_SESSION_KEY(u"HashingThreadsCount"_s), 1)
+    , m_filePoolSize(BITTORRENT_SESSION_KEY(u"FilePoolSize"_s), 100)
+    , m_checkingMemUsage(BITTORRENT_SESSION_KEY(u"CheckingMemUsageSize"_s), 32)
+    , m_diskCacheSize(BITTORRENT_SESSION_KEY(u"DiskCacheSize"_s), -1)
+    , m_diskCacheTTL(BITTORRENT_SESSION_KEY(u"DiskCacheTTL"_s), 60)
+    , m_diskQueueSize(BITTORRENT_SESSION_KEY(u"DiskQueueSize"_s), (1024 * 1024))
+    , m_diskIOType(BITTORRENT_SESSION_KEY(u"DiskIOType"_s), DiskIOType::Default)
+    , m_diskIOReadMode(BITTORRENT_SESSION_KEY(u"DiskIOReadMode"_s), DiskIOReadMode::EnableOSCache)
+    , m_diskIOWriteMode(BITTORRENT_SESSION_KEY(u"DiskIOWriteMode"_s), DiskIOWriteMode::EnableOSCache)
 #ifdef Q_OS_WIN
-    , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY(u"CoalesceReadWrite"_qs), true)
+    , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY(u"CoalesceReadWrite"_s), true)
 #else
-    , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY(u"CoalesceReadWrite"_qs), false)
+    , m_coalesceReadWriteEnabled(BITTORRENT_SESSION_KEY(u"CoalesceReadWrite"_s), false)
 #endif
-    , m_usePieceExtentAffinity(BITTORRENT_SESSION_KEY(u"PieceExtentAffinity"_qs), false)
-    , m_isSuggestMode(BITTORRENT_SESSION_KEY(u"SuggestMode"_qs), false)
-    , m_sendBufferWatermark(BITTORRENT_SESSION_KEY(u"SendBufferWatermark"_qs), 500)
-    , m_sendBufferLowWatermark(BITTORRENT_SESSION_KEY(u"SendBufferLowWatermark"_qs), 10)
-    , m_sendBufferWatermarkFactor(BITTORRENT_SESSION_KEY(u"SendBufferWatermarkFactor"_qs), 50)
-    , m_connectionSpeed(BITTORRENT_SESSION_KEY(u"ConnectionSpeed"_qs), 30)
-    , m_socketSendBufferSize(BITTORRENT_SESSION_KEY(u"SocketSendBufferSize"_qs), 0)
-    , m_socketReceiveBufferSize(BITTORRENT_SESSION_KEY(u"SocketReceiveBufferSize"_qs), 0)
-    , m_socketBacklogSize(BITTORRENT_SESSION_KEY(u"SocketBacklogSize"_qs), 30)
-    , m_isAnonymousModeEnabled(BITTORRENT_SESSION_KEY(u"AnonymousModeEnabled"_qs), false)
-    , m_isQueueingEnabled(BITTORRENT_SESSION_KEY(u"QueueingSystemEnabled"_qs), false)
-    , m_maxActiveDownloads(BITTORRENT_SESSION_KEY(u"MaxActiveDownloads"_qs), 3, lowerLimited(-1))
-    , m_maxActiveUploads(BITTORRENT_SESSION_KEY(u"MaxActiveUploads"_qs), 3, lowerLimited(-1))
-    , m_maxActiveTorrents(BITTORRENT_SESSION_KEY(u"MaxActiveTorrents"_qs), 5, lowerLimited(-1))
-    , m_ignoreSlowTorrentsForQueueing(BITTORRENT_SESSION_KEY(u"IgnoreSlowTorrentsForQueueing"_qs), false)
-    , m_downloadRateForSlowTorrents(BITTORRENT_SESSION_KEY(u"SlowTorrentsDownloadRate"_qs), 2)
-    , m_uploadRateForSlowTorrents(BITTORRENT_SESSION_KEY(u"SlowTorrentsUploadRate"_qs), 2)
-    , m_slowTorrentsInactivityTimer(BITTORRENT_SESSION_KEY(u"SlowTorrentsInactivityTimer"_qs), 60)
-    , m_outgoingPortsMin(BITTORRENT_SESSION_KEY(u"OutgoingPortsMin"_qs), 0)
-    , m_outgoingPortsMax(BITTORRENT_SESSION_KEY(u"OutgoingPortsMax"_qs), 0)
-    , m_UPnPLeaseDuration(BITTORRENT_SESSION_KEY(u"UPnPLeaseDuration"_qs), 0)
-    , m_peerToS(BITTORRENT_SESSION_KEY(u"PeerToS"_qs), 0x04)
-    , m_ignoreLimitsOnLAN(BITTORRENT_SESSION_KEY(u"IgnoreLimitsOnLAN"_qs), false)
-    , m_includeOverheadInLimits(BITTORRENT_SESSION_KEY(u"IncludeOverheadInLimits"_qs), false)
-    , m_announceIP(BITTORRENT_SESSION_KEY(u"AnnounceIP"_qs))
-    , m_maxConcurrentHTTPAnnounces(BITTORRENT_SESSION_KEY(u"MaxConcurrentHTTPAnnounces"_qs), 50)
-    , m_isReannounceWhenAddressChangedEnabled(BITTORRENT_SESSION_KEY(u"ReannounceWhenAddressChanged"_qs), false)
-    , m_stopTrackerTimeout(BITTORRENT_SESSION_KEY(u"StopTrackerTimeout"_qs), 5)
-    , m_maxConnections(BITTORRENT_SESSION_KEY(u"MaxConnections"_qs), 500, lowerLimited(0, -1))
-    , m_maxUploads(BITTORRENT_SESSION_KEY(u"MaxUploads"_qs), 20, lowerLimited(0, -1))
-    , m_maxConnectionsPerTorrent(BITTORRENT_SESSION_KEY(u"MaxConnectionsPerTorrent"_qs), 100, lowerLimited(0, -1))
-    , m_maxUploadsPerTorrent(BITTORRENT_SESSION_KEY(u"MaxUploadsPerTorrent"_qs), 4, lowerLimited(0, -1))
-    , m_btProtocol(BITTORRENT_SESSION_KEY(u"BTProtocol"_qs), BTProtocol::Both
+    , m_usePieceExtentAffinity(BITTORRENT_SESSION_KEY(u"PieceExtentAffinity"_s), false)
+    , m_isSuggestMode(BITTORRENT_SESSION_KEY(u"SuggestMode"_s), false)
+    , m_sendBufferWatermark(BITTORRENT_SESSION_KEY(u"SendBufferWatermark"_s), 500)
+    , m_sendBufferLowWatermark(BITTORRENT_SESSION_KEY(u"SendBufferLowWatermark"_s), 10)
+    , m_sendBufferWatermarkFactor(BITTORRENT_SESSION_KEY(u"SendBufferWatermarkFactor"_s), 50)
+    , m_connectionSpeed(BITTORRENT_SESSION_KEY(u"ConnectionSpeed"_s), 30)
+    , m_socketSendBufferSize(BITTORRENT_SESSION_KEY(u"SocketSendBufferSize"_s), 0)
+    , m_socketReceiveBufferSize(BITTORRENT_SESSION_KEY(u"SocketReceiveBufferSize"_s), 0)
+    , m_socketBacklogSize(BITTORRENT_SESSION_KEY(u"SocketBacklogSize"_s), 30)
+    , m_isAnonymousModeEnabled(BITTORRENT_SESSION_KEY(u"AnonymousModeEnabled"_s), false)
+    , m_isQueueingEnabled(BITTORRENT_SESSION_KEY(u"QueueingSystemEnabled"_s), false)
+    , m_maxActiveDownloads(BITTORRENT_SESSION_KEY(u"MaxActiveDownloads"_s), 3, lowerLimited(-1))
+    , m_maxActiveUploads(BITTORRENT_SESSION_KEY(u"MaxActiveUploads"_s), 3, lowerLimited(-1))
+    , m_maxActiveTorrents(BITTORRENT_SESSION_KEY(u"MaxActiveTorrents"_s), 5, lowerLimited(-1))
+    , m_ignoreSlowTorrentsForQueueing(BITTORRENT_SESSION_KEY(u"IgnoreSlowTorrentsForQueueing"_s), false)
+    , m_downloadRateForSlowTorrents(BITTORRENT_SESSION_KEY(u"SlowTorrentsDownloadRate"_s), 2)
+    , m_uploadRateForSlowTorrents(BITTORRENT_SESSION_KEY(u"SlowTorrentsUploadRate"_s), 2)
+    , m_slowTorrentsInactivityTimer(BITTORRENT_SESSION_KEY(u"SlowTorrentsInactivityTimer"_s), 60)
+    , m_outgoingPortsMin(BITTORRENT_SESSION_KEY(u"OutgoingPortsMin"_s), 0)
+    , m_outgoingPortsMax(BITTORRENT_SESSION_KEY(u"OutgoingPortsMax"_s), 0)
+    , m_UPnPLeaseDuration(BITTORRENT_SESSION_KEY(u"UPnPLeaseDuration"_s), 0)
+    , m_peerToS(BITTORRENT_SESSION_KEY(u"PeerToS"_s), 0x04)
+    , m_ignoreLimitsOnLAN(BITTORRENT_SESSION_KEY(u"IgnoreLimitsOnLAN"_s), false)
+    , m_includeOverheadInLimits(BITTORRENT_SESSION_KEY(u"IncludeOverheadInLimits"_s), false)
+    , m_announceIP(BITTORRENT_SESSION_KEY(u"AnnounceIP"_s))
+    , m_maxConcurrentHTTPAnnounces(BITTORRENT_SESSION_KEY(u"MaxConcurrentHTTPAnnounces"_s), 50)
+    , m_isReannounceWhenAddressChangedEnabled(BITTORRENT_SESSION_KEY(u"ReannounceWhenAddressChanged"_s), false)
+    , m_stopTrackerTimeout(BITTORRENT_SESSION_KEY(u"StopTrackerTimeout"_s), 2)
+    , m_maxConnections(BITTORRENT_SESSION_KEY(u"MaxConnections"_s), 500, lowerLimited(0, -1))
+    , m_maxUploads(BITTORRENT_SESSION_KEY(u"MaxUploads"_s), 20, lowerLimited(0, -1))
+    , m_maxConnectionsPerTorrent(BITTORRENT_SESSION_KEY(u"MaxConnectionsPerTorrent"_s), 100, lowerLimited(0, -1))
+    , m_maxUploadsPerTorrent(BITTORRENT_SESSION_KEY(u"MaxUploadsPerTorrent"_s), 4, lowerLimited(0, -1))
+    , m_btProtocol(BITTORRENT_SESSION_KEY(u"BTProtocol"_s), BTProtocol::Both
         , clampValue(BTProtocol::Both, BTProtocol::UTP))
-    , m_isUTPRateLimited(BITTORRENT_SESSION_KEY(u"uTPRateLimited"_qs), true)
-    , m_utpMixedMode(BITTORRENT_SESSION_KEY(u"uTPMixedMode"_qs), MixedModeAlgorithm::TCP
+    , m_isUTPRateLimited(BITTORRENT_SESSION_KEY(u"uTPRateLimited"_s), true)
+    , m_utpMixedMode(BITTORRENT_SESSION_KEY(u"uTPMixedMode"_s), MixedModeAlgorithm::TCP
         , clampValue(MixedModeAlgorithm::TCP, MixedModeAlgorithm::Proportional))
-    , m_IDNSupportEnabled(BITTORRENT_SESSION_KEY(u"IDNSupportEnabled"_qs), false)
-    , m_multiConnectionsPerIpEnabled(BITTORRENT_SESSION_KEY(u"MultiConnectionsPerIp"_qs), false)
-    , m_validateHTTPSTrackerCertificate(BITTORRENT_SESSION_KEY(u"ValidateHTTPSTrackerCertificate"_qs), true)
-    , m_SSRFMitigationEnabled(BITTORRENT_SESSION_KEY(u"SSRFMitigation"_qs), true)
-    , m_blockPeersOnPrivilegedPorts(BITTORRENT_SESSION_KEY(u"BlockPeersOnPrivilegedPorts"_qs), false)
-    , m_isAddTrackersEnabled(BITTORRENT_SESSION_KEY(u"AddTrackersEnabled"_qs), false)
-    , m_additionalTrackers(BITTORRENT_SESSION_KEY(u"AdditionalTrackers"_qs))
-    , m_globalMaxRatio(BITTORRENT_SESSION_KEY(u"GlobalMaxRatio"_qs), -1, [](qreal r) { return r < 0 ? -1. : r;})
-    , m_globalMaxSeedingMinutes(BITTORRENT_SESSION_KEY(u"GlobalMaxSeedingMinutes"_qs), -1, lowerLimited(-1))
-    , m_isAddTorrentToQueueTop(BITTORRENT_SESSION_KEY(u"AddTorrentToTopOfQueue"_qs), false)
-    , m_isAddTorrentPaused(BITTORRENT_SESSION_KEY(u"AddTorrentPaused"_qs), false)
-    , m_torrentStopCondition(BITTORRENT_SESSION_KEY(u"TorrentStopCondition"_qs), Torrent::StopCondition::None)
-    , m_torrentContentLayout(BITTORRENT_SESSION_KEY(u"TorrentContentLayout"_qs), TorrentContentLayout::Original)
-    , m_isAppendExtensionEnabled(BITTORRENT_SESSION_KEY(u"AddExtensionToIncompleteFiles"_qs), false)
-    , m_refreshInterval(BITTORRENT_SESSION_KEY(u"RefreshInterval"_qs), 1500)
-    , m_isPreallocationEnabled(BITTORRENT_SESSION_KEY(u"Preallocation"_qs), false)
-    , m_torrentExportDirectory(BITTORRENT_SESSION_KEY(u"TorrentExportDirectory"_qs))
-    , m_finishedTorrentExportDirectory(BITTORRENT_SESSION_KEY(u"FinishedTorrentExportDirectory"_qs))
-    , m_globalDownloadSpeedLimit(BITTORRENT_SESSION_KEY(u"GlobalDLSpeedLimit"_qs), 0, lowerLimited(0))
-    , m_globalUploadSpeedLimit(BITTORRENT_SESSION_KEY(u"GlobalUPSpeedLimit"_qs), 0, lowerLimited(0))
-    , m_altGlobalDownloadSpeedLimit(BITTORRENT_SESSION_KEY(u"AlternativeGlobalDLSpeedLimit"_qs), 10, lowerLimited(0))
-    , m_altGlobalUploadSpeedLimit(BITTORRENT_SESSION_KEY(u"AlternativeGlobalUPSpeedLimit"_qs), 10, lowerLimited(0))
-    , m_isAltGlobalSpeedLimitEnabled(BITTORRENT_SESSION_KEY(u"UseAlternativeGlobalSpeedLimit"_qs), false)
-    , m_isBandwidthSchedulerEnabled(BITTORRENT_SESSION_KEY(u"BandwidthSchedulerEnabled"_qs), false)
-    , m_isPerformanceWarningEnabled(BITTORRENT_SESSION_KEY(u"PerformanceWarning"_qs), false)
-    , m_saveResumeDataInterval(BITTORRENT_SESSION_KEY(u"SaveResumeDataInterval"_qs), 60)
-    , m_port(BITTORRENT_SESSION_KEY(u"Port"_qs), -1)
-    , m_networkInterface(BITTORRENT_SESSION_KEY(u"Interface"_qs))
-    , m_networkInterfaceName(BITTORRENT_SESSION_KEY(u"InterfaceName"_qs))
-    , m_networkInterfaceAddress(BITTORRENT_SESSION_KEY(u"InterfaceAddress"_qs))
-    , m_encryption(BITTORRENT_SESSION_KEY(u"Encryption"_qs), 0)
-    , m_maxActiveCheckingTorrents(BITTORRENT_SESSION_KEY(u"MaxActiveCheckingTorrents"_qs), 1)
-    , m_isProxyPeerConnectionsEnabled(BITTORRENT_SESSION_KEY(u"ProxyPeerConnections"_qs), false)
-    , m_chokingAlgorithm(BITTORRENT_SESSION_KEY(u"ChokingAlgorithm"_qs), ChokingAlgorithm::FixedSlots
+    , m_IDNSupportEnabled(BITTORRENT_SESSION_KEY(u"IDNSupportEnabled"_s), false)
+    , m_multiConnectionsPerIpEnabled(BITTORRENT_SESSION_KEY(u"MultiConnectionsPerIp"_s), false)
+    , m_validateHTTPSTrackerCertificate(BITTORRENT_SESSION_KEY(u"ValidateHTTPSTrackerCertificate"_s), true)
+    , m_SSRFMitigationEnabled(BITTORRENT_SESSION_KEY(u"SSRFMitigation"_s), true)
+    , m_blockPeersOnPrivilegedPorts(BITTORRENT_SESSION_KEY(u"BlockPeersOnPrivilegedPorts"_s), false)
+    , m_isAddTrackersEnabled(BITTORRENT_SESSION_KEY(u"AddTrackersEnabled"_s), false)
+    , m_additionalTrackers(BITTORRENT_SESSION_KEY(u"AdditionalTrackers"_s))
+    , m_globalMaxRatio(BITTORRENT_SESSION_KEY(u"GlobalMaxRatio"_s), -1, [](qreal r) { return r < 0 ? -1. : r;})
+    , m_globalMaxSeedingMinutes(BITTORRENT_SESSION_KEY(u"GlobalMaxSeedingMinutes"_s), -1, lowerLimited(-1))
+    , m_globalMaxInactiveSeedingMinutes(BITTORRENT_SESSION_KEY(u"GlobalMaxInactiveSeedingMinutes"_s), -1, lowerLimited(-1))
+    , m_isAddTorrentToQueueTop(BITTORRENT_SESSION_KEY(u"AddTorrentToTopOfQueue"_s), false)
+    , m_isAddTorrentPaused(BITTORRENT_SESSION_KEY(u"AddTorrentPaused"_s), false)
+    , m_torrentStopCondition(BITTORRENT_SESSION_KEY(u"TorrentStopCondition"_s), Torrent::StopCondition::None)
+    , m_torrentContentLayout(BITTORRENT_SESSION_KEY(u"TorrentContentLayout"_s), TorrentContentLayout::Original)
+    , m_isAppendExtensionEnabled(BITTORRENT_SESSION_KEY(u"AddExtensionToIncompleteFiles"_s), false)
+    , m_refreshInterval(BITTORRENT_SESSION_KEY(u"RefreshInterval"_s), 1500)
+    , m_isPreallocationEnabled(BITTORRENT_SESSION_KEY(u"Preallocation"_s), false)
+    , m_torrentExportDirectory(BITTORRENT_SESSION_KEY(u"TorrentExportDirectory"_s))
+    , m_finishedTorrentExportDirectory(BITTORRENT_SESSION_KEY(u"FinishedTorrentExportDirectory"_s))
+    , m_globalDownloadSpeedLimit(BITTORRENT_SESSION_KEY(u"GlobalDLSpeedLimit"_s), 0, lowerLimited(0))
+    , m_globalUploadSpeedLimit(BITTORRENT_SESSION_KEY(u"GlobalUPSpeedLimit"_s), 0, lowerLimited(0))
+    , m_altGlobalDownloadSpeedLimit(BITTORRENT_SESSION_KEY(u"AlternativeGlobalDLSpeedLimit"_s), 10, lowerLimited(0))
+    , m_altGlobalUploadSpeedLimit(BITTORRENT_SESSION_KEY(u"AlternativeGlobalUPSpeedLimit"_s), 10, lowerLimited(0))
+    , m_isAltGlobalSpeedLimitEnabled(BITTORRENT_SESSION_KEY(u"UseAlternativeGlobalSpeedLimit"_s), false)
+    , m_isBandwidthSchedulerEnabled(BITTORRENT_SESSION_KEY(u"BandwidthSchedulerEnabled"_s), false)
+    , m_isPerformanceWarningEnabled(BITTORRENT_SESSION_KEY(u"PerformanceWarning"_s), false)
+    , m_saveResumeDataInterval(BITTORRENT_SESSION_KEY(u"SaveResumeDataInterval"_s), 60)
+    , m_port(BITTORRENT_SESSION_KEY(u"Port"_s), -1)
+    , m_networkInterface(BITTORRENT_SESSION_KEY(u"Interface"_s))
+    , m_networkInterfaceName(BITTORRENT_SESSION_KEY(u"InterfaceName"_s))
+    , m_networkInterfaceAddress(BITTORRENT_SESSION_KEY(u"InterfaceAddress"_s))
+    , m_encryption(BITTORRENT_SESSION_KEY(u"Encryption"_s), 0)
+    , m_maxActiveCheckingTorrents(BITTORRENT_SESSION_KEY(u"MaxActiveCheckingTorrents"_s), 1)
+    , m_isProxyPeerConnectionsEnabled(BITTORRENT_SESSION_KEY(u"ProxyPeerConnections"_s), false)
+    , m_chokingAlgorithm(BITTORRENT_SESSION_KEY(u"ChokingAlgorithm"_s), ChokingAlgorithm::FixedSlots
         , clampValue(ChokingAlgorithm::FixedSlots, ChokingAlgorithm::RateBased))
-    , m_seedChokingAlgorithm(BITTORRENT_SESSION_KEY(u"SeedChokingAlgorithm"_qs), SeedChokingAlgorithm::FastestUpload
+    , m_seedChokingAlgorithm(BITTORRENT_SESSION_KEY(u"SeedChokingAlgorithm"_s), SeedChokingAlgorithm::FastestUpload
         , clampValue(SeedChokingAlgorithm::RoundRobin, SeedChokingAlgorithm::AntiLeech))
-    , m_storedTags(BITTORRENT_SESSION_KEY(u"Tags"_qs))
-    , m_maxRatioAction(BITTORRENT_SESSION_KEY(u"MaxRatioAction"_qs), Pause)
-    , m_savePath(BITTORRENT_SESSION_KEY(u"DefaultSavePath"_qs), specialFolderLocation(SpecialFolder::Downloads))
-    , m_downloadPath(BITTORRENT_SESSION_KEY(u"TempPath"_qs), (savePath() / Path(u"temp"_qs)))
-    , m_isDownloadPathEnabled(BITTORRENT_SESSION_KEY(u"TempPathEnabled"_qs), false)
-    , m_isSubcategoriesEnabled(BITTORRENT_SESSION_KEY(u"SubcategoriesEnabled"_qs), false)
-    , m_useCategoryPathsInManualMode(BITTORRENT_SESSION_KEY(u"UseCategoryPathsInManualMode"_qs), false)
-    , m_isAutoTMMDisabledByDefault(BITTORRENT_SESSION_KEY(u"DisableAutoTMMByDefault"_qs), true)
-    , m_isDisableAutoTMMWhenCategoryChanged(BITTORRENT_SESSION_KEY(u"DisableAutoTMMTriggers/CategoryChanged"_qs), false)
-    , m_isDisableAutoTMMWhenDefaultSavePathChanged(BITTORRENT_SESSION_KEY(u"DisableAutoTMMTriggers/DefaultSavePathChanged"_qs), true)
-    , m_isDisableAutoTMMWhenCategorySavePathChanged(BITTORRENT_SESSION_KEY(u"DisableAutoTMMTriggers/CategorySavePathChanged"_qs), true)
-    , m_isTrackerEnabled(BITTORRENT_KEY(u"TrackerEnabled"_qs), false)
-    , m_peerTurnover(BITTORRENT_SESSION_KEY(u"PeerTurnover"_qs), 4)
-    , m_peerTurnoverCutoff(BITTORRENT_SESSION_KEY(u"PeerTurnoverCutOff"_qs), 90)
-    , m_peerTurnoverInterval(BITTORRENT_SESSION_KEY(u"PeerTurnoverInterval"_qs), 300)
-    , m_requestQueueSize(BITTORRENT_SESSION_KEY(u"RequestQueueSize"_qs), 500)
-    , m_isExcludedFileNamesEnabled(BITTORRENT_KEY(u"ExcludedFileNamesEnabled"_qs), false)
-    , m_excludedFileNames(BITTORRENT_SESSION_KEY(u"ExcludedFileNames"_qs))
-    , m_bannedIPs(u"State/BannedIPs"_qs, QStringList(), Algorithm::sorted<QStringList>)
-    , m_resumeDataStorageType(BITTORRENT_SESSION_KEY(u"ResumeDataStorageType"_qs), ResumeDataStorageType::Legacy)
-    , m_isI2PEnabled {BITTORRENT_SESSION_KEY(u"I2P/Enabled"_qs), false}
-    , m_I2PAddress {BITTORRENT_SESSION_KEY(u"I2P/Address"_qs), u"127.0.0.1"_qs}
-    , m_I2PPort {BITTORRENT_SESSION_KEY(u"I2P/Port"_qs), 7656}
-    , m_I2PMixedMode {BITTORRENT_SESSION_KEY(u"I2P/MixedMode"_qs), false}
-    , m_I2PInboundQuantity {BITTORRENT_SESSION_KEY(u"I2P/InboundQuantity"_qs), 3}
-    , m_I2POutboundQuantity {BITTORRENT_SESSION_KEY(u"I2P/OutboundQuantity"_qs), 3}
-    , m_I2PInboundLength {BITTORRENT_SESSION_KEY(u"I2P/InboundLength"_qs), 3}
-    , m_I2POutboundLength {BITTORRENT_SESSION_KEY(u"I2P/OutboundLength"_qs), 3}
+    , m_storedTags(BITTORRENT_SESSION_KEY(u"Tags"_s))
+    , m_maxRatioAction(BITTORRENT_SESSION_KEY(u"MaxRatioAction"_s), Pause)
+    , m_savePath(BITTORRENT_SESSION_KEY(u"DefaultSavePath"_s), specialFolderLocation(SpecialFolder::Downloads))
+    , m_downloadPath(BITTORRENT_SESSION_KEY(u"TempPath"_s), (savePath() / Path(u"temp"_s)))
+    , m_isDownloadPathEnabled(BITTORRENT_SESSION_KEY(u"TempPathEnabled"_s), false)
+    , m_isSubcategoriesEnabled(BITTORRENT_SESSION_KEY(u"SubcategoriesEnabled"_s), false)
+    , m_useCategoryPathsInManualMode(BITTORRENT_SESSION_KEY(u"UseCategoryPathsInManualMode"_s), false)
+    , m_isAutoTMMDisabledByDefault(BITTORRENT_SESSION_KEY(u"DisableAutoTMMByDefault"_s), true)
+    , m_isDisableAutoTMMWhenCategoryChanged(BITTORRENT_SESSION_KEY(u"DisableAutoTMMTriggers/CategoryChanged"_s), false)
+    , m_isDisableAutoTMMWhenDefaultSavePathChanged(BITTORRENT_SESSION_KEY(u"DisableAutoTMMTriggers/DefaultSavePathChanged"_s), true)
+    , m_isDisableAutoTMMWhenCategorySavePathChanged(BITTORRENT_SESSION_KEY(u"DisableAutoTMMTriggers/CategorySavePathChanged"_s), true)
+    , m_isTrackerEnabled(BITTORRENT_KEY(u"TrackerEnabled"_s), false)
+    , m_peerTurnover(BITTORRENT_SESSION_KEY(u"PeerTurnover"_s), 4)
+    , m_peerTurnoverCutoff(BITTORRENT_SESSION_KEY(u"PeerTurnoverCutOff"_s), 90)
+    , m_peerTurnoverInterval(BITTORRENT_SESSION_KEY(u"PeerTurnoverInterval"_s), 300)
+    , m_requestQueueSize(BITTORRENT_SESSION_KEY(u"RequestQueueSize"_s), 500)
+    , m_isExcludedFileNamesEnabled(BITTORRENT_KEY(u"ExcludedFileNamesEnabled"_s), false)
+    , m_excludedFileNames(BITTORRENT_SESSION_KEY(u"ExcludedFileNames"_s))
+    , m_bannedIPs(u"State/BannedIPs"_s, QStringList(), Algorithm::sorted<QStringList>)
+    , m_resumeDataStorageType(BITTORRENT_SESSION_KEY(u"ResumeDataStorageType"_s), ResumeDataStorageType::Legacy)
+    , m_isMergeTrackersEnabled(BITTORRENT_KEY(u"MergeTrackersEnabled"_s), false)
+    , m_isI2PEnabled {BITTORRENT_SESSION_KEY(u"I2P/Enabled"_s), false}
+    , m_I2PAddress {BITTORRENT_SESSION_KEY(u"I2P/Address"_s), u"127.0.0.1"_s}
+    , m_I2PPort {BITTORRENT_SESSION_KEY(u"I2P/Port"_s), 7656}
+    , m_I2PMixedMode {BITTORRENT_SESSION_KEY(u"I2P/MixedMode"_s), false}
+    , m_I2PInboundQuantity {BITTORRENT_SESSION_KEY(u"I2P/InboundQuantity"_s), 3}
+    , m_I2POutboundQuantity {BITTORRENT_SESSION_KEY(u"I2P/OutboundQuantity"_s), 3}
+    , m_I2PInboundLength {BITTORRENT_SESSION_KEY(u"I2P/InboundLength"_s), 3}
+    , m_I2POutboundLength {BITTORRENT_SESSION_KEY(u"I2P/OutboundLength"_s), 3}
     , m_seedingLimitTimer {new QTimer(this)}
     , m_resumeDataTimer {new QTimer(this)}
     , m_ioThread {new QThread}
@@ -879,7 +880,7 @@ bool SessionImpl::removeCategory(const QString &name)
     for (TorrentImpl *const torrent : asConst(m_torrents))
     {
         if (torrent->belongsToCategory(name))
-            torrent->setCategory(u""_qs);
+            torrent->setCategory(u""_s);
     }
 
     // remove stored category and its subcategories if exist
@@ -1118,6 +1119,22 @@ void SessionImpl::setGlobalMaxSeedingMinutes(int minutes)
     }
 }
 
+int SessionImpl::globalMaxInactiveSeedingMinutes() const
+{
+    return m_globalMaxInactiveSeedingMinutes;
+}
+
+void SessionImpl::setGlobalMaxInactiveSeedingMinutes(int minutes)
+{
+    minutes = std::max(minutes, -1);
+
+    if (minutes != globalMaxInactiveSeedingMinutes())
+    {
+        m_globalMaxInactiveSeedingMinutes = minutes;
+        updateSeedingLimitTimer();
+    }
+}
+
 void SessionImpl::applyBandwidthLimits()
 {
     lt::settings_pack settingsPack;
@@ -1156,7 +1173,7 @@ void SessionImpl::prepareStartup()
 {
     qDebug("Initializing torrents resume data storage...");
 
-    const Path dbPath = specialFolderLocation(SpecialFolder::Data) / Path(u"torrents.db"_qs);
+    const Path dbPath = specialFolderLocation(SpecialFolder::Data) / Path(u"torrents.db"_s);
     const bool dbStorageExists = dbPath.exists();
 
     auto *context = new ResumeSessionContext(this);
@@ -1168,13 +1185,13 @@ void SessionImpl::prepareStartup()
 
         if (!dbStorageExists)
         {
-            const Path dataPath = specialFolderLocation(SpecialFolder::Data) / Path(u"BT_backup"_qs);
+            const Path dataPath = specialFolderLocation(SpecialFolder::Data) / Path(u"BT_backup"_s);
             context->startupStorage = new BencodeResumeDataStorage(dataPath, this);
         }
     }
     else
     {
-        const Path dataPath = specialFolderLocation(SpecialFolder::Data) / Path(u"BT_backup"_qs);
+        const Path dataPath = specialFolderLocation(SpecialFolder::Data) / Path(u"BT_backup"_s);
         m_resumeDataStorage = new BencodeResumeDataStorage(dataPath, this);
 
         if (dbStorageExists)
@@ -1200,13 +1217,13 @@ void SessionImpl::prepareStartup()
         context->isLoadFinished = true;
     });
 
-    connect(this, &SessionImpl::torrentsLoaded, context, [this, context](const QVector<Torrent *> &torrents)
+    connect(this, &SessionImpl::addTorrentAlertsReceived, context, [this, context](const qsizetype alertsCount)
     {
-        context->processingResumeDataCount -= torrents.count();
-        context->finishedResumeDataCount += torrents.count();
+        context->processingResumeDataCount -= alertsCount;
+        context->finishedResumeDataCount += alertsCount;
         if (!context->isLoadedResumeDataHandlingEnqueued)
         {
-            QMetaObject::invokeMethod(this, [this, context]() { handleLoadedResumeData(context); }, Qt::QueuedConnection);
+            QMetaObject::invokeMethod(this, [this, context] { handleLoadedResumeData(context); }, Qt::QueuedConnection);
             context->isLoadedResumeDataHandlingEnqueued = true;
         }
 
@@ -1318,7 +1335,7 @@ void SessionImpl::processNextResumeData(ResumeSessionContext *context)
                 std::shared_ptr<lt::torrent_info> ti = resumeData.ltAddTorrentParams.ti;
                 resumeData = *loadPreferredResumeDataResult;
                 if (!resumeData.ltAddTorrentParams.ti)
-                    resumeData.ltAddTorrentParams.ti = ti;
+                    resumeData.ltAddTorrentParams.ti = std::move(ti);
             }
         }
     }
@@ -1668,6 +1685,7 @@ lt::settings_pack SessionImpl::loadLTSettings() const
     settingsPack.set_int(lt::settings_pack::active_checking, maxActiveCheckingTorrents());
 
     // I2P
+#if defined(QBT_USES_LIBTORRENT2) && TORRENT_USE_I2P
     if (isI2PEnabled())
     {
         settingsPack.set_str(lt::settings_pack::i2p_hostname, I2PAddress().toStdString());
@@ -1681,7 +1699,6 @@ lt::settings_pack SessionImpl::loadLTSettings() const
         settingsPack.set_bool(lt::settings_pack::allow_i2p_mixed, false);
     }
 
-#ifdef QBT_USES_LIBTORRENT2
     // I2P session options
     settingsPack.set_int(lt::settings_pack::i2p_inbound_quantity, I2PInboundQuantity());
     settingsPack.set_int(lt::settings_pack::i2p_outbound_quantity, I2POutboundQuantity());
@@ -1691,11 +1708,10 @@ lt::settings_pack SessionImpl::loadLTSettings() const
 
     // proxy
     settingsPack.set_int(lt::settings_pack::proxy_type, lt::settings_pack::none);
-    if (Preferences::instance()->useProxyForBT())
+    const auto *proxyManager = Net::ProxyConfigurationManager::instance();
+    const Net::ProxyConfiguration proxyConfig = proxyManager->proxyConfiguration();
+    if ((proxyConfig.type != Net::ProxyType::None) && Preferences::instance()->useProxyForBT())
     {
-        const auto *proxyManager = Net::ProxyConfigurationManager::instance();
-        const Net::ProxyConfiguration proxyConfig = proxyManager->proxyConfiguration();
-
         switch (proxyConfig.type)
         {
         case Net::ProxyType::SOCKS4:
@@ -1741,6 +1757,10 @@ lt::settings_pack SessionImpl::loadLTSettings() const
     settingsPack.set_int(lt::settings_pack::peer_turnover_interval, peerTurnoverInterval());
 
     settingsPack.set_int(lt::settings_pack::max_out_request_queue, requestQueueSize());
+
+#ifdef QBT_USES_LIBTORRENT2
+    settingsPack.set_int(lt::settings_pack::metadata_token_limit, Preferences::instance()->getBdecodeTokenLimit());
+#endif
 
     settingsPack.set_int(lt::settings_pack::aio_threads, asyncIOThreads());
 #ifdef QBT_USES_LIBTORRENT2
@@ -2068,7 +2088,7 @@ void SessionImpl::configurePeerClasses()
 
 void SessionImpl::enableTracker(const bool enable)
 {
-    const QString profile = u"embeddedTracker"_qs;
+    const QString profile = u"embeddedTracker"_s;
     auto *portForwarder = Net::PortForwarder::instance();
 
     if (enable)
@@ -2146,23 +2166,23 @@ void SessionImpl::processShareLimits()
 
                         if (m_maxRatioAction == Remove)
                         {
-                            LogMsg(u"%1 %2 %3"_qs.arg(description, tr("Removed torrent."), torrentName));
+                            LogMsg(u"%1 %2 %3"_s.arg(description, tr("Removed torrent."), torrentName));
                             deleteTorrent(torrent->id());
                         }
                         else if (m_maxRatioAction == DeleteFiles)
                         {
-                            LogMsg(u"%1 %2 %3"_qs.arg(description, tr("Removed torrent and deleted its content."), torrentName));
+                            LogMsg(u"%1 %2 %3"_s.arg(description, tr("Removed torrent and deleted its content."), torrentName));
                             deleteTorrent(torrent->id(), DeleteTorrentAndFiles);
                         }
                         else if ((m_maxRatioAction == Pause) && !torrent->isPaused())
                         {
                             torrent->pause();
-                            LogMsg(u"%1 %2 %3"_qs.arg(description, tr("Torrent paused."), torrentName));
+                            LogMsg(u"%1 %2 %3"_s.arg(description, tr("Torrent paused."), torrentName));
                         }
                         else if ((m_maxRatioAction == EnableSuperSeeding) && !torrent->isPaused() && !torrent->superSeeding())
                         {
                             torrent->setSuperSeeding(true);
-                            LogMsg(u"%1 %2 %3"_qs.arg(description, tr("Super seeding enabled."), torrentName));
+                            LogMsg(u"%1 %2 %3"_s.arg(description, tr("Super seeding enabled."), torrentName));
                         }
 
                         continue;
@@ -2189,23 +2209,66 @@ void SessionImpl::processShareLimits()
 
                         if (m_maxRatioAction == Remove)
                         {
-                            LogMsg(u"%1 %2 %3"_qs.arg(description, tr("Removed torrent."), torrentName));
+                            LogMsg(u"%1 %2 %3"_s.arg(description, tr("Removed torrent."), torrentName));
                             deleteTorrent(torrent->id());
                         }
                         else if (m_maxRatioAction == DeleteFiles)
                         {
-                            LogMsg(u"%1 %2 %3"_qs.arg(description, tr("Removed torrent and deleted its content."), torrentName));
+                            LogMsg(u"%1 %2 %3"_s.arg(description, tr("Removed torrent and deleted its content."), torrentName));
                             deleteTorrent(torrent->id(), DeleteTorrentAndFiles);
                         }
                         else if ((m_maxRatioAction == Pause) && !torrent->isPaused())
                         {
                             torrent->pause();
-                            LogMsg(u"%1 %2 %3"_qs.arg(description, tr("Torrent paused."), torrentName));
+                            LogMsg(u"%1 %2 %3"_s.arg(description, tr("Torrent paused."), torrentName));
                         }
                         else if ((m_maxRatioAction == EnableSuperSeeding) && !torrent->isPaused() && !torrent->superSeeding())
                         {
                             torrent->setSuperSeeding(true);
-                            LogMsg(u"%1 %2 %3"_qs.arg(description, tr("Super seeding enabled."), torrentName));
+                            LogMsg(u"%1 %2 %3"_s.arg(description, tr("Super seeding enabled."), torrentName));
+                        }
+
+                        continue;
+                    }
+                }
+            }
+
+            if (torrent->inactiveSeedingTimeLimit() != Torrent::NO_INACTIVE_SEEDING_TIME_LIMIT)
+            {
+                const qlonglong inactiveSeedingTimeInMinutes = torrent->timeSinceActivity() / 60;
+                int inactiveSeedingTimeLimit = torrent->inactiveSeedingTimeLimit();
+                if (inactiveSeedingTimeLimit == Torrent::USE_GLOBAL_INACTIVE_SEEDING_TIME)
+                {
+                    // If Global Seeding Time Limit is really set...
+                    inactiveSeedingTimeLimit = globalMaxInactiveSeedingMinutes();
+                }
+
+                if (inactiveSeedingTimeLimit >= 0)
+                {
+                    if ((inactiveSeedingTimeInMinutes <= Torrent::MAX_INACTIVE_SEEDING_TIME) && (inactiveSeedingTimeInMinutes >= inactiveSeedingTimeLimit))
+                    {
+                        const QString description = tr("Torrent reached the inactive seeding time limit.");
+                        const QString torrentName = tr("Torrent: \"%1\".").arg(torrent->name());
+
+                        if (m_maxRatioAction == Remove)
+                        {
+                            LogMsg(u"%1 %2 %3"_s.arg(description, tr("Removed torrent."), torrentName));
+                            deleteTorrent(torrent->id());
+                        }
+                        else if (m_maxRatioAction == DeleteFiles)
+                        {
+                            LogMsg(u"%1 %2 %3"_s.arg(description, tr("Removed torrent and deleted its content."), torrentName));
+                            deleteTorrent(torrent->id(), DeleteTorrentAndFiles);
+                        }
+                        else if ((m_maxRatioAction == Pause) && !torrent->isPaused())
+                        {
+                            torrent->pause();
+                            LogMsg(u"%1 %2 %3"_s.arg(description, tr("Torrent paused."), torrentName));
+                        }
+                        else if ((m_maxRatioAction == EnableSuperSeeding) && !torrent->isPaused() && !torrent->superSeeding())
+                        {
+                            torrent->setSuperSeeding(true);
+                            LogMsg(u"%1 %2 %3"_s.arg(description, tr("Super seeding enabled."), torrentName));
                         }
                     }
                 }
@@ -2374,6 +2437,11 @@ bool SessionImpl::cancelDownloadMetadata(const TorrentID &id)
         return false;
 
     const lt::torrent_handle nativeHandle = downloadedMetadataIter.value();
+    m_downloadedMetadata.erase(downloadedMetadataIter);
+
+    if (!nativeHandle.is_valid())
+        return true;
+
 #ifdef QBT_USES_LIBTORRENT2
     const InfoHash infoHash {nativeHandle.info_hashes()};
     if (infoHash.isHybrid())
@@ -2381,10 +2449,10 @@ bool SessionImpl::cancelDownloadMetadata(const TorrentID &id)
         // if magnet link was hybrid initially then it is indexed also by v1 info hash
         // so we need to remove both entries
         const auto altID = TorrentID::fromSHA1Hash(infoHash.v1());
-        m_downloadedMetadata.remove((altID == downloadedMetadataIter.key()) ? id : altID);
+        m_downloadedMetadata.remove(altID);
     }
 #endif
-    m_downloadedMetadata.erase(downloadedMetadataIter);
+
     m_nativeSession->remove_torrent(nativeHandle, lt::session::delete_files);
     return true;
 }
@@ -2559,9 +2627,10 @@ bool SessionImpl::addTorrent(const QString &source, const AddTorrentParams &para
     if (Net::DownloadManager::hasSupportedScheme(source))
     {
         LogMsg(tr("Downloading torrent, please wait... Source: \"%1\"").arg(source));
+        const auto *pref = Preferences::instance();
         // Launch downloader
-        Net::DownloadManager::instance()->download(Net::DownloadRequest(source).limit(MAX_TORRENT_SIZE)
-                , Preferences::instance()->useProxyForGeneralPurposes(), this, &SessionImpl::handleDownloadFinished);
+        Net::DownloadManager::instance()->download(Net::DownloadRequest(source).limit(pref->getTorrentFileSizeLimit())
+                , pref->useProxyForGeneralPurposes(), this, &SessionImpl::handleDownloadFinished);
         m_downloadedTorrents[source] = params;
         return true;
     }
@@ -2616,10 +2685,11 @@ LoadTorrentParams SessionImpl::initLoadTorrentParams(const AddTorrentParams &add
     loadTorrentParams.addToQueueTop = addTorrentParams.addToQueueTop.value_or(isAddTorrentToQueueTop());
     loadTorrentParams.ratioLimit = addTorrentParams.ratioLimit;
     loadTorrentParams.seedingTimeLimit = addTorrentParams.seedingTimeLimit;
+    loadTorrentParams.inactiveSeedingTimeLimit = addTorrentParams.inactiveSeedingTimeLimit;
 
     const QString category = addTorrentParams.category;
     if (!category.isEmpty() && !m_categories.contains(category) && !addCategory(category))
-        loadTorrentParams.category = u""_qs;
+        loadTorrentParams.category = u""_s;
     else
         loadTorrentParams.category = category;
 
@@ -2680,14 +2750,46 @@ bool SessionImpl::addTorrent_impl(const std::variant<MagnetUri, TorrentInfo> &so
     if (m_loadingTorrents.contains(id) || (infoHash.isHybrid() && m_loadingTorrents.contains(altID)))
         return false;
 
-    if (Torrent *torrent = findTorrent(infoHash); torrent)
+    if (Torrent *torrent = findTorrent(infoHash))
     {
+        // a duplicate torrent is being added
         if (hasMetadata)
         {
             // Trying to set metadata to existing torrent in case if it has none
             torrent->setMetadata(std::get<TorrentInfo>(source));
         }
 
+        if (!isMergeTrackersEnabled())
+        {
+            LogMsg(tr("Detected an attempt to add a duplicate torrent. Merging of trackers is disabled. Torrent: %1").arg(torrent->name()));
+            return false;
+        }
+
+        const bool isPrivate = torrent->isPrivate() || (hasMetadata && std::get<TorrentInfo>(source).isPrivate());
+        if (isPrivate)
+        {
+            LogMsg(tr("Detected an attempt to add a duplicate torrent. Trackers cannot be merged because it is a private torrent. Torrent: %1").arg(torrent->name()));
+            return false;
+        }
+
+        if (hasMetadata)
+        {
+            const TorrentInfo &torrentInfo = std::get<TorrentInfo>(source);
+
+            // merge trackers and web seeds
+            torrent->addTrackers(torrentInfo.trackers());
+            torrent->addUrlSeeds(torrentInfo.urlSeeds());
+        }
+        else
+        {
+            const MagnetUri &magnetUri = std::get<MagnetUri>(source);
+
+            // merge trackers and web seeds
+            torrent->addTrackers(magnetUri.trackers());
+            torrent->addUrlSeeds(magnetUri.urlSeeds());
+        }
+
+        LogMsg(tr("Detected an attempt to add a duplicate torrent. Trackers are merged from new source. Torrent: %1").arg(torrent->name()));
         return false;
     }
 
@@ -2709,6 +2811,14 @@ bool SessionImpl::addTorrent_impl(const std::variant<MagnetUri, TorrentInfo> &so
 
     if (hasMetadata)
     {
+        // Torrent  that is being added with metadata is considered to be added as stopped
+        // if "metadata received" stop condition is set for it.
+        if (loadTorrentParams.stopCondition == Torrent::StopCondition::MetadataReceived)
+        {
+            loadTorrentParams.stopped = true;
+            loadTorrentParams.stopCondition = Torrent::StopCondition::None;
+        }
+
         const TorrentInfo &torrentInfo = std::get<TorrentInfo>(source);
 
         Q_ASSERT(addTorrentParams.filePaths.isEmpty() || (addTorrentParams.filePaths.size() == torrentInfo.filesCount()));
@@ -2860,7 +2970,7 @@ bool SessionImpl::addTorrent_impl(const std::variant<MagnetUri, TorrentInfo> &so
 }
 
 void SessionImpl::findIncompleteFiles(const TorrentInfo &torrentInfo, const Path &savePath
-                                  , const Path &downloadPath, const PathList &filePaths) const
+        , const Path &downloadPath, const PathList &filePaths) const
 {
     Q_ASSERT(filePaths.isEmpty() || (filePaths.size() == torrentInfo.filesCount()));
 
@@ -3017,13 +3127,13 @@ void SessionImpl::exportTorrentFile(const Torrent *torrent, const Path &folderPa
         return;
 
     const QString validName = Utils::Fs::toValidFileName(torrent->name());
-    QString torrentExportFilename = u"%1.torrent"_qs.arg(validName);
+    QString torrentExportFilename = u"%1.torrent"_s.arg(validName);
     Path newTorrentPath = folderPath / Path(torrentExportFilename);
     int counter = 0;
     while (newTorrentPath.exists())
     {
         // Append number to torrent name to make it unique
-        torrentExportFilename = u"%1 %2.torrent"_qs.arg(validName).arg(++counter);
+        torrentExportFilename = u"%1 %2.torrent"_s.arg(validName).arg(++counter);
         newTorrentPath = folderPath / Path(torrentExportFilename);
     }
 
@@ -3053,8 +3163,16 @@ void SessionImpl::generateResumeData()
 void SessionImpl::saveResumeData()
 {
     for (const TorrentImpl *torrent : asConst(m_torrents))
-        torrent->nativeHandle().save_resume_data(lt::torrent_handle::only_if_modified);
-    m_numResumeData += m_torrents.size();
+    {
+        // When the session is terminated due to unrecoverable error
+        // some of the torrent handles can be corrupted
+        try
+        {
+            torrent->nativeHandle().save_resume_data(lt::torrent_handle::only_if_modified);
+            ++m_numResumeData;
+        }
+        catch (const std::exception &) {}
+    }
 
     // clear queued storage move jobs except the current ongoing one
     if (m_moveStorageQueue.size() > 1)
@@ -3158,7 +3276,7 @@ void SessionImpl::setSavePath(const Path &path)
 
 void SessionImpl::setDownloadPath(const Path &path)
 {
-    const Path newPath = (path.isAbsolute() ? path : (savePath() / Path(u"temp"_qs) / path));
+    const Path newPath = (path.isAbsolute() ? path : (savePath() / Path(u"temp"_s) / path));
     if (newPath == m_downloadPath)
         return;
 
@@ -3234,13 +3352,13 @@ QStringList SessionImpl::getListeningIPs() const
     if (ifaceName.isEmpty())
     {
         if (ifaceAddr.isEmpty())
-            return {u"0.0.0.0"_qs, u"::"_qs}; // Indicates all interfaces + all addresses (aka default)
+            return {u"0.0.0.0"_s, u"::"_s}; // Indicates all interfaces + all addresses (aka default)
 
         if (allIPv4)
-            return {u"0.0.0.0"_qs};
+            return {u"0.0.0.0"_s};
 
         if (allIPv6)
-            return {u"::"_qs};
+            return {u"::"_s};
     }
 
     const auto checkAndAddIP = [allIPv4, allIPv6, &IPs](const QHostAddress &addr, const QHostAddress &match)
@@ -3907,6 +4025,16 @@ ResumeDataStorageType SessionImpl::resumeDataStorageType() const
 void SessionImpl::setResumeDataStorageType(const ResumeDataStorageType type)
 {
     m_resumeDataStorageType = type;
+}
+
+bool SessionImpl::isMergeTrackersEnabled() const
+{
+    return m_isMergeTrackersEnabled;
+}
+
+void SessionImpl::setMergeTrackersEnabled(const bool enabled)
+{
+    m_isMergeTrackersEnabled = enabled;
 }
 
 QStringList SessionImpl::bannedIPs() const
@@ -4806,7 +4934,8 @@ bool SessionImpl::isKnownTorrent(const InfoHash &infoHash) const
 void SessionImpl::updateSeedingLimitTimer()
 {
     if ((globalMaxRatio() == Torrent::NO_RATIO_LIMIT) && !hasPerTorrentRatioLimit()
-        && (globalMaxSeedingMinutes() == Torrent::NO_SEEDING_TIME_LIMIT) && !hasPerTorrentSeedingTimeLimit())
+        && (globalMaxSeedingMinutes() == Torrent::NO_SEEDING_TIME_LIMIT) && !hasPerTorrentSeedingTimeLimit()
+        && (globalMaxInactiveSeedingMinutes() == Torrent::NO_INACTIVE_SEEDING_TIME_LIMIT) && !hasPerTorrentInactiveSeedingTimeLimit())
         {
         if (m_seedingLimitTimer->isActive())
             m_seedingLimitTimer->stop();
@@ -4924,7 +5053,7 @@ void SessionImpl::handleTorrentFinished(TorrentImpl *const torrent)
     // Check whether it contains .torrent files
     for (const Path &torrentRelpath : asConst(torrent->filePaths()))
     {
-        if (torrentRelpath.hasExtension(u".torrent"_qs))
+        if (torrentRelpath.hasExtension(u".torrent"_s))
         {
             emit recursiveTorrentDownloadPossible(torrent);
             break;
@@ -4965,6 +5094,11 @@ void SessionImpl::handleTorrentInfoHashChanged(TorrentImpl *torrent, const InfoH
         m_torrents[torrent->id()] = m_torrents.take(prevID);
         m_changedTorrentIDs[torrent->id()] = prevID;
     }
+}
+
+void SessionImpl::handleTorrentStorageMovingStateChanged(TorrentImpl *torrent)
+{
+    emit torrentsUpdated({torrent});
 }
 
 bool SessionImpl::addMoveTorrentStorageJob(TorrentImpl *torrent, const Path &newPath, const MoveStorageMode mode, const MoveStorageContext context)
@@ -5088,7 +5222,7 @@ void SessionImpl::storeCategories() const
 
 void SessionImpl::upgradeCategories()
 {
-    const auto legacyCategories = SettingValue<QVariantMap>(u"BitTorrent/Session/Categories"_qs).get();
+    const auto legacyCategories = SettingValue<QVariantMap>(u"BitTorrent/Session/Categories"_s).get();
     for (auto it = legacyCategories.cbegin(); it != legacyCategories.cend(); ++it)
     {
         const QString &categoryName = it.key();
@@ -5165,6 +5299,14 @@ bool SessionImpl::hasPerTorrentSeedingTimeLimit() const
     });
 }
 
+bool SessionImpl::hasPerTorrentInactiveSeedingTimeLimit() const
+{
+    return std::any_of(m_torrents.cbegin(), m_torrents.cend(), [](const TorrentImpl *torrent)
+    {
+       return (torrent->inactiveSeedingTimeLimit() >= 0);
+    });
+}
+
 void SessionImpl::configureDeferred()
 {
     if (m_deferredConfigureScheduled)
@@ -5218,7 +5360,7 @@ void SessionImpl::recursiveTorrentDownload(const TorrentID &id)
 
     for (const Path &torrentRelpath : asConst(torrent->filePaths()))
     {
-        if (torrentRelpath.hasExtension(u".torrent"_qs))
+        if (torrentRelpath.hasExtension(u".torrent"_s))
         {
             const Path torrentFullpath = torrent->savePath() / torrentRelpath;
 
@@ -5330,10 +5472,13 @@ void SessionImpl::handleAddTorrentAlerts(const std::vector<lt::alert *> &alerts)
     if (!isRestored())
         loadedTorrents.reserve(MAX_PROCESSING_RESUMEDATA_COUNT);
 
+    qsizetype alertsCount = 0;
     for (const lt::alert *a : alerts)
     {
         if (a->type() != lt::add_torrent_alert::alert_type)
             continue;
+
+        ++alertsCount;
 
         const auto *alert = static_cast<const lt::add_torrent_alert *>(a);
         if (alert->error)
@@ -5344,6 +5489,7 @@ void SessionImpl::handleAddTorrentAlerts(const std::vector<lt::alert *> &alerts)
 
             const lt::add_torrent_params &params = alert->params;
             const bool hasMetadata = (params.ti && params.ti->is_valid());
+
 #ifdef QBT_USES_LIBTORRENT2
             const InfoHash infoHash {(hasMetadata ? params.ti->info_hashes() : params.info_hashes)};
             if (infoHash.isHybrid())
@@ -5368,9 +5514,8 @@ void SessionImpl::handleAddTorrentAlerts(const std::vector<lt::alert *> &alerts)
                 }
             }
 
-            return;
+            continue;
         }
-
 
 #ifdef QBT_USES_LIBTORRENT2
         const InfoHash infoHash {alert->handle.info_hashes()};
@@ -5389,7 +5534,7 @@ void SessionImpl::handleAddTorrentAlerts(const std::vector<lt::alert *> &alerts)
             loadedTorrents.append(torrent);
         }
         else if (const auto downloadedMetadataIter = m_downloadedMetadata.find(torrentID)
-                 ; downloadedMetadataIter != m_downloadedMetadata.end())
+                ; downloadedMetadataIter != m_downloadedMetadata.end())
         {
             downloadedMetadataIter.value() = alert->handle;
             if (infoHash.isHybrid())
@@ -5401,11 +5546,16 @@ void SessionImpl::handleAddTorrentAlerts(const std::vector<lt::alert *> &alerts)
         }
     }
 
-    if (!loadedTorrents.isEmpty())
+    if (alertsCount > 0)
     {
-        if (isRestored())
-            m_torrentsQueueChanged = true;
-        emit torrentsLoaded(loadedTorrents);
+        emit addTorrentAlertsReceived(alertsCount);
+
+        if (!loadedTorrents.isEmpty())
+        {
+            if (isRestored())
+                m_torrentsQueueChanged = true;
+            emit torrentsLoaded(loadedTorrents);
+        }
     }
 }
 
@@ -5433,10 +5583,13 @@ void SessionImpl::handleAlert(const lt::alert *a)
             dispatchTorrentAlert(static_cast<const lt::torrent_alert *>(a));
             break;
         case lt::state_update_alert::alert_type:
-            handleStateUpdateAlert(static_cast<const lt::state_update_alert*>(a));
+            handleStateUpdateAlert(static_cast<const lt::state_update_alert *>(a));
+            break;
+        case lt::session_error_alert::alert_type:
+            handleSessionErrorAlert(static_cast<const lt::session_error_alert *>(a));
             break;
         case lt::session_stats_alert::alert_type:
-            handleSessionStatsAlert(static_cast<const lt::session_stats_alert*>(a));
+            handleSessionStatsAlert(static_cast<const lt::session_stats_alert *>(a));
             break;
         case lt::tracker_announce_alert::alert_type:
         case lt::tracker_error_alert::alert_type:
@@ -5445,55 +5598,58 @@ void SessionImpl::handleAlert(const lt::alert *a)
             handleTrackerAlert(static_cast<const lt::tracker_alert *>(a));
             break;
         case lt::file_error_alert::alert_type:
-            handleFileErrorAlert(static_cast<const lt::file_error_alert*>(a));
+            handleFileErrorAlert(static_cast<const lt::file_error_alert *>(a));
             break;
         case lt::add_torrent_alert::alert_type:
             // handled separately
             break;
         case lt::torrent_removed_alert::alert_type:
-            handleTorrentRemovedAlert(static_cast<const lt::torrent_removed_alert*>(a));
+            handleTorrentRemovedAlert(static_cast<const lt::torrent_removed_alert *>(a));
             break;
         case lt::torrent_deleted_alert::alert_type:
-            handleTorrentDeletedAlert(static_cast<const lt::torrent_deleted_alert*>(a));
+            handleTorrentDeletedAlert(static_cast<const lt::torrent_deleted_alert *>(a));
             break;
         case lt::torrent_delete_failed_alert::alert_type:
-            handleTorrentDeleteFailedAlert(static_cast<const lt::torrent_delete_failed_alert*>(a));
+            handleTorrentDeleteFailedAlert(static_cast<const lt::torrent_delete_failed_alert *>(a));
             break;
         case lt::portmap_error_alert::alert_type:
-            handlePortmapWarningAlert(static_cast<const lt::portmap_error_alert*>(a));
+            handlePortmapWarningAlert(static_cast<const lt::portmap_error_alert *>(a));
             break;
         case lt::portmap_alert::alert_type:
-            handlePortmapAlert(static_cast<const lt::portmap_alert*>(a));
+            handlePortmapAlert(static_cast<const lt::portmap_alert *>(a));
             break;
         case lt::peer_blocked_alert::alert_type:
-            handlePeerBlockedAlert(static_cast<const lt::peer_blocked_alert*>(a));
+            handlePeerBlockedAlert(static_cast<const lt::peer_blocked_alert *>(a));
             break;
         case lt::peer_ban_alert::alert_type:
-            handlePeerBanAlert(static_cast<const lt::peer_ban_alert*>(a));
+            handlePeerBanAlert(static_cast<const lt::peer_ban_alert *>(a));
             break;
         case lt::url_seed_alert::alert_type:
-            handleUrlSeedAlert(static_cast<const lt::url_seed_alert*>(a));
+            handleUrlSeedAlert(static_cast<const lt::url_seed_alert *>(a));
             break;
         case lt::listen_succeeded_alert::alert_type:
-            handleListenSucceededAlert(static_cast<const lt::listen_succeeded_alert*>(a));
+            handleListenSucceededAlert(static_cast<const lt::listen_succeeded_alert *>(a));
             break;
         case lt::listen_failed_alert::alert_type:
-            handleListenFailedAlert(static_cast<const lt::listen_failed_alert*>(a));
+            handleListenFailedAlert(static_cast<const lt::listen_failed_alert *>(a));
             break;
         case lt::external_ip_alert::alert_type:
-            handleExternalIPAlert(static_cast<const lt::external_ip_alert*>(a));
+            handleExternalIPAlert(static_cast<const lt::external_ip_alert *>(a));
             break;
         case lt::alerts_dropped_alert::alert_type:
             handleAlertsDroppedAlert(static_cast<const lt::alerts_dropped_alert *>(a));
             break;
         case lt::storage_moved_alert::alert_type:
-            handleStorageMovedAlert(static_cast<const lt::storage_moved_alert*>(a));
+            handleStorageMovedAlert(static_cast<const lt::storage_moved_alert *>(a));
             break;
         case lt::storage_moved_failed_alert::alert_type:
-            handleStorageMovedFailedAlert(static_cast<const lt::storage_moved_failed_alert*>(a));
+            handleStorageMovedFailedAlert(static_cast<const lt::storage_moved_failed_alert *>(a));
             break;
         case lt::socks5_alert::alert_type:
             handleSocks5Alert(static_cast<const lt::socks5_alert *>(a));
+            break;
+        case lt::i2p_alert::alert_type:
+            handleI2PAlert(static_cast<const lt::i2p_alert *>(a));
             break;
 #ifdef QBT_USES_LIBTORRENT2
         case lt::torrent_conflict_alert::alert_type:
@@ -5696,7 +5852,7 @@ void SessionImpl::handleFileErrorAlert(const lt::file_error_alert *p)
 
         const QString msg = QString::fromStdString(p->message());
         LogMsg(tr("File error alert. Torrent: \"%1\". File: \"%2\". Reason: \"%3\"")
-                .arg(torrent->name(), QString::fromLocal8Bit(p->filename()), msg)
+                .arg(torrent->name(), QString::fromUtf8(p->filename()), msg)
             , Log::WARNING);
         emit fullDiskError(torrent, msg);
     }
@@ -5727,7 +5883,7 @@ void SessionImpl::handlePeerBlockedAlert(const lt::peer_blocked_alert *p)
         reason = tr("filtered port (%1)", "this peer was blocked. Reason: filtered port (8899).").arg(QString::number(p->endpoint.port()));
         break;
     case lt::peer_blocked_alert::i2p_mixed:
-        reason = tr("%1 mixed mode restrictions", "this peer was blocked. Reason: I2P mixed mode restrictions.").arg(u"I2P"_qs); // don't translate I2P
+        reason = tr("%1 mixed mode restrictions", "this peer was blocked. Reason: I2P mixed mode restrictions.").arg(u"I2P"_s); // don't translate I2P
         break;
     case lt::peer_blocked_alert::privileged_ports:
         reason = tr("privileged port (%1)", "this peer was blocked. Reason: privileged port (80).").arg(QString::number(p->endpoint.port()));
@@ -5736,7 +5892,7 @@ void SessionImpl::handlePeerBlockedAlert(const lt::peer_blocked_alert *p)
         reason = tr("%1 is disabled", "this peer was blocked. Reason: uTP is disabled.").arg(C_UTP); // don't translate μTP
         break;
     case lt::peer_blocked_alert::tcp_disabled:
-        reason = tr("%1 is disabled", "this peer was blocked. Reason: TCP is disabled.").arg(u"TCP"_qs); // don't translate TCP
+        reason = tr("%1 is disabled", "this peer was blocked. Reason: TCP is disabled.").arg(u"TCP"_s); // don't translate TCP
         break;
     }
 
@@ -5799,6 +5955,16 @@ void SessionImpl::handleExternalIPAlert(const lt::external_ip_alert *p)
             reannounceToAllTrackers();
         m_lastExternalIP = externalIP;
     }
+}
+
+QString SessionImpl::externalIpv4() const {
+    return m_lastExternalIP;
+}
+
+void SessionImpl::handleSessionErrorAlert(const lt::session_error_alert *p) const
+{
+    LogMsg(tr("BitTorrent session encountered a serious error. Reason: \"%1\"")
+        .arg(QString::fromStdString(p->message())), Log::CRITICAL);
 }
 
 void SessionImpl::handleSessionStatsAlert(const lt::session_stats_alert *p)
@@ -5987,11 +6153,20 @@ void SessionImpl::handleSocks5Alert(const lt::socks5_alert *p) const
     if (p->error)
     {
         const auto addr = p->ip.address();
-        const QString endpoint = (addr.is_v6() ? u"[%1]:%2"_qs : u"%1:%2"_qs)
+        const QString endpoint = (addr.is_v6() ? u"[%1]:%2"_s : u"%1:%2"_s)
                 .arg(QString::fromStdString(addr.to_string()), QString::number(p->ip.port()));
         LogMsg(tr("SOCKS5 proxy error. Address: %1. Message: \"%2\".")
                 .arg(endpoint, QString::fromLocal8Bit(p->error.message().c_str()))
                 , Log::WARNING);
+    }
+}
+
+void SessionImpl::handleI2PAlert(const lt::i2p_alert *p) const
+{
+    if (p->error)
+    {
+        LogMsg(tr("I2P error. Message: \"%1\".")
+            .arg(QString::fromStdString(p->message())), Log::WARNING);
     }
 }
 
@@ -6090,7 +6265,8 @@ void SessionImpl::processTrackerStatuses()
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
                         updatedTrackerEntries[trackerEntry.url] = std::move(trackerEntry);
 #else
-                        updatedTrackerEntries.emplace(trackerEntry.url, std::move(trackerEntry));
+                        const QString url = trackerEntry.url;
+                        updatedTrackerEntries.emplace(url, std::move(trackerEntry));
 #endif
                     }
 
@@ -6112,10 +6288,10 @@ void SessionImpl::saveStatistics() const
         return;
 
     const QVariantHash stats {
-        {u"AlltimeDL"_qs, m_status.allTimeDownload},
-        {u"AlltimeUL"_qs, m_status.allTimeUpload}};
-    std::unique_ptr<QSettings> settings = Profile::instance()->applicationSettings(u"qBittorrent-data"_qs);
-    settings->setValue(u"Stats/AllStats"_qs, stats);
+        {u"AlltimeDL"_s, m_status.allTimeDownload},
+        {u"AlltimeUL"_s, m_status.allTimeUpload}};
+    std::unique_ptr<QSettings> settings = Profile::instance()->applicationSettings(u"qBittorrent-data"_s);
+    settings->setValue(u"Stats/AllStats"_s, stats);
 
     m_statisticsLastUpdateTimer.start();
     m_isStatisticsDirty = false;
@@ -6123,9 +6299,9 @@ void SessionImpl::saveStatistics() const
 
 void SessionImpl::loadStatistics()
 {
-    const std::unique_ptr<QSettings> settings = Profile::instance()->applicationSettings(u"qBittorrent-data"_qs);
-    const QVariantHash value = settings->value(u"Stats/AllStats"_qs).toHash();
+    const std::unique_ptr<QSettings> settings = Profile::instance()->applicationSettings(u"qBittorrent-data"_s);
+    const QVariantHash value = settings->value(u"Stats/AllStats"_s).toHash();
 
-    m_previouslyDownloaded = value[u"AlltimeDL"_qs].toLongLong();
-    m_previouslyUploaded = value[u"AlltimeUL"_qs].toLongLong();
+    m_previouslyDownloaded = value[u"AlltimeDL"_s].toLongLong();
+    m_previouslyUploaded = value[u"AlltimeUL"_s].toLongLong();
 }

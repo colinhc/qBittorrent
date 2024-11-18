@@ -46,7 +46,7 @@
 #endif
 
 #include <QCoreApplication>
-#include <QDebug>
+#include <QString>
 #include <QThread>
 
 #ifndef DISABLE_GUI
@@ -86,6 +86,7 @@ using namespace std::chrono_literals;
 void displayVersion();
 bool userAgreesWithLegalNotice();
 void displayBadArgMessage(const QString &message);
+void displayErrorMessage(const QString &message);
 
 #ifndef DISABLE_GUI
 void showSplashScreen();
@@ -93,12 +94,18 @@ void showSplashScreen();
 
 #ifdef Q_OS_UNIX
 void adjustFileDescriptorLimit();
+void adjustLocale();
 #endif
 
 // Main
 int main(int argc, char *argv[])
 {
+#ifdef DISABLE_GUI
+    setvbuf(stdout, nullptr, _IONBF, 0);
+#endif
+
 #ifdef Q_OS_UNIX
+    adjustLocale();
     adjustFileDescriptorLimit();
 #endif
 
@@ -114,10 +121,12 @@ int main(int argc, char *argv[])
         Application::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 #endif
 
+    // `app` must be declared out of try block to allow display message box in case of exception
+    std::unique_ptr<Application> app;
     try
     {
         // Create Application
-        auto app = std::make_unique<Application>(argc, argv);
+        app = std::make_unique<Application>(argc, argv);
 
 #ifdef Q_OS_WIN
         // QCoreApplication::applicationDirPath() needs an Application object instantiated first
@@ -127,7 +136,7 @@ int main(int argc, char *argv[])
         if (envValue.isEmpty())
             qputenv(envName, Application::applicationDirPath().toLocal8Bit());
         else
-            qputenv(envName, u"%1;%2"_qs.arg(envValue, Application::applicationDirPath()).toLocal8Bit());
+            qputenv(envName, u"%1;%2"_s.arg(envValue, Application::applicationDirPath()).toLocal8Bit());
 #endif
 
         const QBtCommandLineParameters params = app->commandLineArgs();
@@ -146,7 +155,7 @@ int main(int argc, char *argv[])
                 return EXIT_SUCCESS;
             }
             throw CommandLineParameterError(QCoreApplication::translate("Main", "%1 must be the single command line parameter.")
-                                     .arg(u"-v (or --version)"_qs));
+                                     .arg(u"-v (or --version)"_s));
         }
 #endif
         if (params.showHelp)
@@ -157,7 +166,7 @@ int main(int argc, char *argv[])
                 return EXIT_SUCCESS;
             }
             throw CommandLineParameterError(QCoreApplication::translate("Main", "%1 must be the single command line parameter.")
-                                 .arg(u"-h (or --help)"_qs));
+                                 .arg(u"-h (or --help)"_s));
         }
 
         const bool firstTimeUser = !Preferences::instance()->getAcceptedLegal();
@@ -189,7 +198,7 @@ int main(int argc, char *argv[])
             if (params.shouldDaemonize)
             {
                 throw CommandLineParameterError(QCoreApplication::translate("Main", "You cannot use %1: qBittorrent is already running for this user.")
-                                     .arg(u"-d (or --daemon)"_qs));
+                                     .arg(u"-d (or --daemon)"_s));
             }
 #endif
 
@@ -268,7 +277,7 @@ int main(int argc, char *argv[])
     }
     catch (const RuntimeError &er)
     {
-        qDebug() << er.message();
+        displayErrorMessage(er.message());
         return EXIT_FAILURE;
     }
 }
@@ -276,11 +285,11 @@ int main(int argc, char *argv[])
 #if !defined(DISABLE_GUI)
 void showSplashScreen()
 {
-    QPixmap splashImg(u":/icons/splash.png"_qs);
+    QPixmap splashImg(u":/icons/splash.png"_s);
     QPainter painter(&splashImg);
     const auto version = QStringLiteral(QBT_VERSION);
     painter.setPen(QPen(Qt::white));
-    painter.setFont(QFont(u"Arial"_qs, 22, QFont::Black));
+    painter.setFont(QFont(u"Arial"_s, 22, QFont::Black));
     painter.drawText(224 - painter.fontMetrics().horizontalAdvance(version), 270, version);
     QSplashScreen *splash = new QSplashScreen(splashImg);
     splash->show();
@@ -311,16 +320,40 @@ void displayBadArgMessage(const QString &message)
 #endif
 }
 
+void displayErrorMessage(const QString &message)
+{
+#ifndef DISABLE_GUI
+    if (QApplication::instance())
+    {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setText(QCoreApplication::translate("Main", "An unrecoverable error occurred."));
+        msgBox.setInformativeText(message);
+        msgBox.show(); // Need to be shown or to moveToCenter does not work
+        msgBox.move(Utils::Gui::screenCenter(&msgBox));
+        msgBox.exec();
+    }
+    else
+    {
+        const QString errMsg = QCoreApplication::translate("Main", "qBittorrent has encountered an unrecoverable error.") + u'\n' + message + u'\n';
+        fprintf(stderr, "%s", qUtf8Printable(errMsg));
+    }
+#else
+    const QString errMsg = QCoreApplication::translate("Main", "qBittorrent has encountered an unrecoverable error.") + u'\n' + message + u'\n';
+    fprintf(stderr, "%s", qUtf8Printable(errMsg));
+#endif
+}
+
 bool userAgreesWithLegalNotice()
 {
     Preferences *const pref = Preferences::instance();
     Q_ASSERT(!pref->getAcceptedLegal());
 
 #ifdef DISABLE_GUI
-    const QString eula = u"\n*** %1 ***\n"_qs.arg(QCoreApplication::translate("Main", "Legal Notice"))
+    const QString eula = u"\n*** %1 ***\n"_s.arg(QCoreApplication::translate("Main", "Legal Notice"))
         + QCoreApplication::translate("Main", "qBittorrent is a file sharing program. When you run a torrent, its data will be made available to others by means of upload. Any content you share is your sole responsibility.") + u"\n\n"
         + QCoreApplication::translate("Main", "No further notices will be issued.") + u"\n\n"
-        + QCoreApplication::translate("Main", "Press %1 key to accept and continue...").arg(u"'y'"_qs) + u'\n';
+        + QCoreApplication::translate("Main", "Press %1 key to accept and continue...").arg(u"'y'"_s) + u'\n';
     printf("%s", qUtf8Printable(eula));
 
     const char ret = getchar(); // Read pressed key
@@ -360,5 +393,13 @@ void adjustFileDescriptorLimit()
 
     limit.rlim_cur = limit.rlim_max;
     setrlimit(RLIMIT_NOFILE, &limit);
+}
+
+void adjustLocale()
+{
+    // specify the default locale just in case if user has not set any other locale
+    // only `C` locale is available universally without installing locale packages
+    if (qEnvironmentVariableIsEmpty("LANG"))
+        qputenv("LANG", "C.UTF-8");
 }
 #endif

@@ -576,10 +576,6 @@
         <translation>Ikona brzine preuzimanja</translation>
     </message>
     <message>
-        <source>Connection status</source>
-        <translation>Status veze</translation>
-    </message>
-    <message>
         <source>Alternative speed limits: On</source>
         <translation>Alternativna ograničenja brzine: Uklj</translation>
     </message>
@@ -1169,10 +1165,6 @@
         <translation>Kada se dosegne omjer</translation>
     </message>
     <message>
-        <source>When seeding time reaches</source>
-        <translation>Kada se dosegne vrijeme dijeljenja</translation>
-    </message>
-    <message>
         <source>Allow multiple connections from the same IP address:</source>
         <translation>Dopusti višestruke veze s iste IP adrese:</translation>
     </message>
@@ -1597,10 +1589,6 @@ Koristite ';' za razdvajanje više unosa. Može koristiti zamjenski znak '*'.</t
         <translation>Ako je označeno, traženje naziva hosta vrši se putem proxyja.</translation>
     </message>
     <message>
-        <source>Use proxy for hostname lookup</source>
-        <translation>Koristite proxy za traženje naziva hosta</translation>
-    </message>
-    <message>
         <source>Metadata received</source>
         <translation>Metapodaci primljeni</translation>
     </message>
@@ -1735,6 +1723,62 @@ Koristite ';' za razdvajanje više unosa. Može koristiti zamjenski znak '*'.</t
     <message>
         <source>UPnP lease duration [0: permanent lease]:</source>
         <translation>Trajanje zakupa UPnP-a [0: trajni zakup]:</translation>
+    </message>
+    <message>
+        <source>Bdecode token limit:</source>
+        <translation>Ograničenje Bdecode tokena:</translation>
+    </message>
+    <message>
+        <source>When inactive seeding time reaches</source>
+        <translation>Kada neaktivno vrijeme seedanja dosegne</translation>
+    </message>
+    <message>
+        <source>(None)</source>
+        <translation>(Nijedno)</translation>
+    </message>
+    <message>
+        <source>Bdecode depth limit:</source>
+        <translation>Ograničenje dubine Bdecode-a:</translation>
+    </message>
+    <message>
+        <source>.torrent file size limit:</source>
+        <translation>Ograničenje veličine .torrent datoteke:</translation>
+    </message>
+    <message>
+        <source>When total seeding time reaches</source>
+        <translation>Kada ukupno vrijeme seedanja dosegne</translation>
+    </message>
+    <message>
+        <source>Perform hostname lookup via proxy</source>
+        <translation>Izvršite traženje naziva hosta putem proxyja</translation>
+    </message>
+    <message>
+        <source>Mixed mode</source>
+        <translation>Mješoviti način rada</translation>
+    </message>
+    <message>
+        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
+        <translation>Ako je omogućen &amp;quot;mješoviti način&amp;quot;, I2P torrentima je dopušteno također dobivati peerove iz drugih izvora osim trackera, i povezivati se na uobičajene IP adrese, ne pružajući nikakvu anonimizaciju. Ovo može biti korisno ako korisnik nije zainteresiran za anonimizaciju I2P-a, ali i dalje želi imati mogućnost povezivanja s I2P peerovima.</translation>
+    </message>
+    <message>
+        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P ulazna količina (zahtijeva libtorrent &amp;gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
+        <translation>I2P (eksperimentalno) (zahtijeva libtorrent &amp;gt;= 2.0)</translation>
+    </message>
+    <message>
+        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P izlazna količina (zahtijeva libtorrent &amp;gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P izlazna duljina (zahtijeva libtorrent &amp;gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P ulazna duljina (zahtijeva libtorrent &amp;gt;= 2.0):</translation>
     </message>
 </context>
 <context>
@@ -2061,10 +2105,6 @@ Koristite ';' za razdvajanje više unosa. Može koristiti zamjenski znak '*'.</t
         <translation>Preimenovanje nije uspjelo: datoteka ili mapa već postoji</translation>
     </message>
     <message>
-        <source>Match all occurences</source>
-        <translation>Spari sve pojave</translation>
-    </message>
-    <message>
         <source>Toggle Selection</source>
         <translation>Prebaci odabir</translation>
     </message>
@@ -2099,6 +2139,10 @@ Koristite ';' za razdvajanje više unosa. Može koristiti zamjenski znak '*'.</t
     <message>
         <source>Case sensitive</source>
         <translation>Osjetljivo na velika i mala slova</translation>
+    </message>
+    <message>
+        <source>Match all occurrences</source>
+        <translation>Spoji sve pojave</translation>
     </message>
 </context>
 <context>
@@ -2913,8 +2957,12 @@ Koristite ';' za razdvajanje više unosa. Može koristiti zamjenski znak '*'.</t
         <translation>omjer</translation>
     </message>
     <message>
-        <source>minutes</source>
-        <translation>minuta</translation>
+        <source>total minutes</source>
+        <translation>ukupno minuta</translation>
+    </message>
+    <message>
+        <source>inactive minutes</source>
+        <translation>neaktivnih minuta</translation>
     </message>
 </context>
 <context>
@@ -3432,10 +3480,6 @@ Koristite ';' za razdvajanje više unosa. Može koristiti zamjenski znak '*'.</t
         <source>New name:</source>
         <translation>Novi naziv:</translation>
     </message>
-    <message>
-        <source>Renaming)</source>
-        <translation>Preimenovanje)</translation>
-    </message>
 </context>
 <context>
     <name>RSSWidget</name>
@@ -3778,6 +3822,10 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     <message>
         <source>Don't create subfolder</source>
         <translation>Nemoj stvarati podmapu</translation>
+    </message>
+    <message>
+        <source>Add Tags:</source>
+        <translation>Dodaj oznake:</translation>
     </message>
 </context>
 <context>

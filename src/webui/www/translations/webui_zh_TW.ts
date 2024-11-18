@@ -309,7 +309,7 @@
     </message>
     <message>
         <source>qBittorrent client is not reachable</source>
-        <translation>連接不到 qBittorrent 客戶端</translation>
+        <translation>無法連線到 qBittorrent 用戶端</translation>
     </message>
     <message>
         <source>Global number of upload slots limit must be greater than 0 or disabled.</source>
@@ -361,7 +361,7 @@
     </message>
     <message>
         <source>Unable to add peers. Please ensure you are adhering to the IP:port format.</source>
-        <translation>無法新增 peers。請確保您遵循 IP:連接埠號 格式。</translation>
+        <translation>無法新增節點。請確認您遵循 IP:連接埠 格式。</translation>
     </message>
     <message>
         <source>JavaScript Required! You must enable JavaScript for the Web UI to work properly</source>
@@ -576,10 +576,6 @@
         <translation>下載速度圖示</translation>
     </message>
     <message>
-        <source>Connection status</source>
-        <translation>連線狀態</translation>
-    </message>
-    <message>
         <source>Alternative speed limits: On</source>
         <translation>替代速率限制：開啟</translation>
     </message>
@@ -680,7 +676,7 @@
     </message>
     <message>
         <source>Automatically add these trackers to new downloads:</source>
-        <translation>自動新增這些追蹤者到新的下載中：</translation>
+        <translation>自動新增這些 Tracker 到新的下載中：</translation>
     </message>
     <message>
         <source>Web User Interface (Remote control)</source>
@@ -700,11 +696,11 @@
     </message>
     <message>
         <source>Bypass authentication for clients on localhost</source>
-        <translation>在本機上跳過客戶端驗證</translation>
+        <translation>在本機上略過用戶端驗證</translation>
     </message>
     <message>
         <source>Bypass authentication for clients in whitelisted IP subnets</source>
-        <translation>在已在白名單中的 IP 子網跳過驗證</translation>
+        <translation>讓已在白名單中的 IP 子網路略過驗證</translation>
     </message>
     <message>
         <source>Update my dynamic domain name</source>
@@ -724,7 +720,7 @@
     </message>
     <message>
         <source>Pre-allocate disk space for all files</source>
-        <translation>為所有檔案事先分配硬碟空間</translation>
+        <translation>為所有檔案預先分配磁碟空間</translation>
     </message>
     <message>
         <source>Append .!qB extension to incomplete files</source>
@@ -832,7 +828,7 @@
     </message>
     <message>
         <source>Apply to trackers</source>
-        <translation>套用到追蹤者</translation>
+        <translation>套用到 Tracker</translation>
     </message>
     <message>
         <source>Global Rate Limits</source>
@@ -994,7 +990,7 @@
     </message>
     <message>
         <source>%T: Current tracker</source>
-        <translation>%T：目前的追蹤者</translation>
+        <translation>%T：目前的 Tracker</translation>
     </message>
     <message>
         <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., "%N")</source>
@@ -1169,10 +1165,6 @@
         <translation>當分享率達到</translation>
     </message>
     <message>
-        <source>When seeding time reaches</source>
-        <translation>當做種時間達到</translation>
-    </message>
-    <message>
         <source>Allow multiple connections from the same IP address:</source>
         <translation>允許從同一個 IP 位置而來的多重連線：</translation>
     </message>
@@ -1190,7 +1182,7 @@
     </message>
     <message>
         <source>Embedded tracker port:</source>
-        <translation>嵌入追蹤者埠：</translation>
+        <translation>內嵌的 Tracker 埠號：</translation>
     </message>
     <message>
         <source>Fastest upload</source>
@@ -1230,7 +1222,7 @@
     </message>
     <message>
         <source>Enable embedded tracker:</source>
-        <translation>啟用嵌入追蹤者：</translation>
+        <translation>啟用內嵌 Tracker ：</translation>
     </message>
     <message>
         <source>Remove torrent</source>
@@ -1314,7 +1306,7 @@
     </message>
     <message>
         <source>Ban client after consecutive failures:</source>
-        <translation>連續失敗後封鎖客戶端：</translation>
+        <translation>連續失敗後封鎖用戶端：</translation>
     </message>
     <message>
         <source>Enable cookie Secure flag (requires HTTPS)</source>
@@ -1402,7 +1394,7 @@
     </message>
     <message>
         <source>Validate HTTPS tracker certificate:</source>
-        <translation>驗證 HTTPS 追蹤器憑證：</translation>
+        <translation>驗證 HTTPS  Tracker 憑證：</translation>
     </message>
     <message>
         <source>Peer connection protocol:</source>
@@ -1442,7 +1434,7 @@
     </message>
     <message>
         <source>Reannounce to all trackers when IP or port changed:</source>
-        <translation>當 IP 或連接埠變更時通知所有追蹤者：</translation>
+        <translation>當 IP 或連接埠變更時通知所有 Tracker：</translation>
     </message>
     <message>
         <source>Trusted proxies list:</source>
@@ -1462,7 +1454,7 @@
     </message>
     <message>
         <source>IP address reported to trackers (requires restart):</source>
-        <translation>向追蹤器回報的 IP 位置（需要重新啟動）：</translation>
+        <translation>向 Tracker 回報的 IP 位置（需要重新啟動）：</translation>
     </message>
     <message>
         <source>Set to 0 to let your system pick an unused port</source>
@@ -1574,7 +1566,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Specify reverse proxy IPs (or subnets, e.g. 0.0.0.0/24) in order to use forwarded client address (X-Forwarded-For header). Use ';' to split multiple entries.</source>
-        <translation>指定反向代理 IP（或子網路，例如 0.0.0.0/24）以使用轉發的客戶端位置（X-Forwarded-For 標頭）。使用 ';' 來分隔多個項目。</translation>
+        <translation>指定反向代理 IP（或子網路，例如 0.0.0.0/24）以使用轉送的用戶端位置（X-Forwarded-For 標頭）。使用 ';' 來分隔多個項目。</translation>
     </message>
     <message>
         <source>HTTPS key should not be empty</source>
@@ -1590,15 +1582,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Enable port forwarding for embedded tracker:</source>
-        <translation>為嵌入的追蹤者啟用通訊埠轉發：</translation>
+        <translation>為嵌入的追蹤器啟用通訊埠轉送：</translation>
     </message>
     <message>
         <source>If checked, hostname lookups are done via the proxy.</source>
         <translation>若勾選，主機名稱查詢將會透過代理伺服器完成。</translation>
-    </message>
-    <message>
-        <source>Use proxy for hostname lookup</source>
-        <translation>為主機名稱查詢使用代理伺服器</translation>
     </message>
     <message>
         <source>Metadata received</source>
@@ -1678,7 +1666,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Disk cache expiry interval (requires libtorrent &amp;lt; 2.0):</source>
-        <translation>磁碟快取過期間隔（需要 libtorrent &amp;lt; 2.0）：</translation>
+        <translation>磁碟快取到期區間（需要 libtorrent &amp;lt; 2.0）：</translation>
     </message>
     <message>
         <source>Physical memory (RAM) usage limit (applied if libtorrent &amp;gt;= 2.0):</source>
@@ -1686,7 +1674,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Disk cache (requires libtorrent &amp;lt; 2.0):</source>
-        <translation>磁碟快娶（需要 libtorrent &amp;lt; 2.0）：</translation>
+        <translation>磁碟快取（需要 libtorrent &amp;lt; 2.0）：</translation>
     </message>
     <message>
         <source>Socket send buffer size [0: system default]:</source>
@@ -1722,7 +1710,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Stop tracker timeout [0: disabled]:</source>
-        <translation>停止追蹤器逾時 [0：停用]：</translation>
+        <translation>停止 Tracker 逾時 [0：停用]：</translation>
     </message>
     <message>
         <source>Outgoing ports (Min) [0: disabled]:</source>
@@ -1735,6 +1723,62 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>UPnP lease duration [0: permanent lease]:</source>
         <translation>UPnP 租約期限 [0：永久租約]：</translation>
+    </message>
+    <message>
+        <source>Bdecode token limit:</source>
+        <translation>Bdecode 權杖限制：</translation>
+    </message>
+    <message>
+        <source>When inactive seeding time reaches</source>
+        <translation>當不活躍種子時間達到</translation>
+    </message>
+    <message>
+        <source>(None)</source>
+        <translation>(無)</translation>
+    </message>
+    <message>
+        <source>Bdecode depth limit:</source>
+        <translation>Bdecode 深度限制：</translation>
+    </message>
+    <message>
+        <source>.torrent file size limit:</source>
+        <translation>.torrent 檔案大小限制：</translation>
+    </message>
+    <message>
+        <source>When total seeding time reaches</source>
+        <translation>當總種子時間達到</translation>
+    </message>
+    <message>
+        <source>Perform hostname lookup via proxy</source>
+        <translation>透過代理伺服器執行主機名稱查詢</translation>
+    </message>
+    <message>
+        <source>Mixed mode</source>
+        <translation>混合模式</translation>
+    </message>
+    <message>
+        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
+        <translation>若啟用「混合模式」，I2P torrent 也允許從追蹤者以外的來源取得 peer，並連線到一般 IP，不提供任何匿名化。若使用者對 I2P 的匿名化不感興趣，但仍希望可以連線至 I2P peer，這可能會很有用。</translation>
+    </message>
+    <message>
+        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P 入站數量（需要 libtorrent &amp;gt;= 2.0）：</translation>
+    </message>
+    <message>
+        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
+        <translation>I2P（實驗性）（需要 libtorrent &amp;gt;= 2.0）</translation>
+    </message>
+    <message>
+        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P 出站數量（需要 libtorrent &amp;gt;= 2.0）：</translation>
+    </message>
+    <message>
+        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P 出站長度（需要 libtorrent &amp;gt;= 2.0）：</translation>
+    </message>
+    <message>
+        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P 入站長度（需要 libtorrent &amp;gt;= 2.0）：</translation>
     </message>
 </context>
 <context>
@@ -1758,7 +1802,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Client</source>
         <comment>i.e.: Client application</comment>
-        <translation>客戶端</translation>
+        <translation>用戶端</translation>
     </message>
     <message>
         <source>Progress</source>
@@ -1817,7 +1861,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Peer ID Client</source>
-        <translation>Peer ID 客戶端</translation>
+        <translation>Peer ID 用戶端</translation>
     </message>
 </context>
 <context>
@@ -1854,7 +1898,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Trackers</source>
-        <translation>追蹤者</translation>
+        <translation>Trackers</translation>
     </message>
     <message>
         <source>Peers</source>
@@ -2061,10 +2105,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>重新命名失敗：檔案或資料已存在</translation>
     </message>
     <message>
-        <source>Match all occurences</source>
-        <translation>符合所有出現的</translation>
-    </message>
-    <message>
         <source>Toggle Selection</source>
         <translation>切換選取</translation>
     </message>
@@ -2099,6 +2139,10 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Case sensitive</source>
         <translation>區分大小寫</translation>
+    </message>
+    <message>
+        <source>Match all occurrences</source>
+        <translation>符合所有出現的狀況</translation>
     </message>
 </context>
 <context>
@@ -2392,7 +2436,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Tracker</source>
-        <translation>追蹤者</translation>
+        <translation>Tracker</translation>
     </message>
     <message>
         <source>Down Limit</source>
@@ -2489,7 +2533,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Tracker URL:</source>
-        <translation>追蹤者 URL：</translation>
+        <translation>Tracker URL：</translation>
     </message>
     <message>
         <source>Updating...</source>
@@ -2521,15 +2565,15 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Copy tracker URL</source>
-        <translation>複製追蹤者 URL</translation>
+        <translation>複製 Tracker URL</translation>
     </message>
     <message>
         <source>Edit tracker URL...</source>
-        <translation>編輯追蹤者 URL…</translation>
+        <translation>編輯 Tracker URL…</translation>
     </message>
     <message>
         <source>Tracker editing</source>
-        <translation>編輯追蹤者</translation>
+        <translation>編輯 Tracker</translation>
     </message>
     <message>
         <source>Leeches</source>
@@ -2537,7 +2581,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Remove tracker</source>
-        <translation>移除追蹤者</translation>
+        <translation>移除 Tracker</translation>
     </message>
     <message>
         <source>Remaining</source>
@@ -2573,7 +2617,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Add trackers...</source>
-        <translation>新增追蹤者...</translation>
+        <translation>新增 Tracker…</translation>
     </message>
     <message>
         <source>Renamed</source>
@@ -2588,11 +2632,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <name>TrackersAdditionDialog</name>
     <message>
         <source>List of trackers to add (one per line):</source>
-        <translation>要增加的追蹤者清單 (每行一個)：</translation>
+        <translation>要增加的 Tracker 清單 (每行一個)：</translation>
     </message>
     <message>
         <source>Add trackers</source>
-        <translation>新增追蹤者</translation>
+        <translation>新增 Tracker</translation>
     </message>
 </context>
 <context>
@@ -2636,7 +2680,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Downloading metadata</source>
-        <translation>正在下載中介資料</translation>
+        <translation>正在下載詮釋資料</translation>
     </message>
     <message>
         <source>Checking</source>
@@ -2668,7 +2712,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>[F] Downloading metadata</source>
-        <translation>[F] 正在下載詮釋資</translation>
+        <translation>[F] 正在下載詮釋資料</translation>
     </message>
 </context>
 <context>
@@ -2687,7 +2731,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Trackers</source>
-        <translation>追蹤器</translation>
+        <translation>Trackers</translation>
     </message>
     <message>
         <source>Collapse/expand</source>
@@ -2913,8 +2957,12 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>上傳╱下載比率</translation>
     </message>
     <message>
-        <source>minutes</source>
-        <translation>分鐘</translation>
+        <source>total minutes</source>
+        <translation>總分鐘</translation>
+    </message>
+    <message>
+        <source>inactive minutes</source>
+        <translation>不活躍分鐘</translation>
     </message>
 </context>
 <context>
@@ -2924,7 +2972,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <name>confirmDeletionDlg</name>
     <message>
         <source>Also permanently delete the files</source>
-        <translation>並永久刪除檔案</translation>
+        <translation>同時永久刪除檔案</translation>
     </message>
     <message>
         <source>Remove torrent(s)</source>
@@ -3033,7 +3081,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Plugin path:</source>
-        <translation>外掛路徑：</translation>
+        <translation>附加元件路徑：</translation>
     </message>
     <message>
         <source>URL or local directory</source>
@@ -3041,7 +3089,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Install plugin</source>
-        <translation>安裝外掛</translation>
+        <translation>安裝附加元件</translation>
     </message>
     <message>
         <source>Ok</source>
@@ -3056,7 +3104,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>All plugins</source>
-        <translation>所有外掛</translation>
+        <translation>所有附加元件</translation>
     </message>
     <message>
         <source>Size:</source>
@@ -3072,7 +3120,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Search plugins...</source>
-        <translation>搜尋外掛…</translation>
+        <translation>搜尋附加元件…</translation>
     </message>
     <message>
         <source>All categories</source>
@@ -3124,11 +3172,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Click the "Search plugins..." button at the bottom right of the window to install some.</source>
-        <translation>點擊視窗右下角的「搜尋外掛程式...」按鈕來安裝一些。</translation>
+        <translation>點選視窗右下角的「搜尋附加元件…」按鈕來安裝一些吧。</translation>
     </message>
     <message>
         <source>There aren't any search plugins installed.</source>
-        <translation>沒有安裝任何搜尋外掛程式。</translation>
+        <translation>沒有安裝任何搜尋附加元件。</translation>
     </message>
 </context>
 <context>
@@ -3139,11 +3187,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Install new plugin</source>
-        <translation>安裝新的外掛</translation>
+        <translation>安裝新的附加元件</translation>
     </message>
     <message>
         <source>You can get new search engine plugins here:</source>
-        <translation>您可以在這裡取得新的搜尋引擎外掛：</translation>
+        <translation>您可以在這裡取得新的搜尋引擎附加元件：</translation>
     </message>
     <message>
         <source>Close</source>
@@ -3151,7 +3199,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Installed search plugins:</source>
-        <translation>已安裝的搜尋外掛：</translation>
+        <translation>已安裝的搜尋附加元件：</translation>
     </message>
     <message>
         <source>Enabled</source>
@@ -3167,7 +3215,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Search plugins</source>
-        <translation>搜尋外掛</translation>
+        <translation>搜尋附加元件</translation>
     </message>
 </context>
 <context>
@@ -3329,7 +3377,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent-rasterbar.</source>
-        <translation>一個以 C++ 撰寫，基於 Qt 工具箱和 libtorrent-rasterbar 的進階 BitTorrent 客戶端。</translation>
+        <translation>一個以 C++ 撰寫，基於 Qt 工具箱和 libtorrent-rasterbar 的進階 BitTorrent 用戶端。</translation>
     </message>
     <message>
         <source>Name:</source>
@@ -3431,10 +3479,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>New name:</source>
         <translation>新名稱：</translation>
-    </message>
-    <message>
-        <source>Renaming)</source>
-        <translation>重新命名)</translation>
     </message>
 </context>
 <context>
@@ -3652,7 +3696,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Are you sure you want to remove the selected download rules?</source>
-        <translation>您確定要移除所選的下載規則嗎？</translation>
+        <translation>您確定要移除選取的下載規則嗎？</translation>
     </message>
     <message>
         <source>Use global settings</source>
@@ -3780,6 +3824,10 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
         <source>Don't create subfolder</source>
         <translation>不要建立子資料夾</translation>
     </message>
+    <message>
+        <source>Add Tags:</source>
+        <translation>新增標籤：</translation>
+    </message>
 </context>
 <context>
     <name>TrackerFiltersList</name>
@@ -3793,7 +3841,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>Trackerless (%1)</source>
-        <translation>缺少追蹤者 (%1)</translation>
+        <translation>缺少 Tracker (%1)</translation>
     </message>
     <message>
         <source>Pause torrents</source>

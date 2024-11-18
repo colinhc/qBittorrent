@@ -111,7 +111,8 @@ window.qBittorrent.DynamicTable = (function() {
 
                     let n = 2;
 
-                    while (panel.clientWidth != panel.offsetWidth && n > 0) { // is panel vertical scrollbar visible ?
+                    // is panel vertical scrollbar visible or does panel content not fit?
+                    while (((panel.clientWidth != panel.offsetWidth) || (panel.clientHeight != panel.scrollHeight)) && (n > 0)) {
                         --n;
                         h -= 0.5;
                         $(this.dynamicTableDivId).style.height = h + 'px';
@@ -700,10 +701,7 @@ window.qBittorrent.DynamicTable = (function() {
             return null;
         },
 
-        updateTable: function(fullUpdate) {
-            if (fullUpdate === undefined)
-                fullUpdate = false;
-
+        updateTable: function(fullUpdate = false) {
             const rows = this.getFilteredAndSortedRows();
 
             for (let i = 0; i < this.selectedRows.length; ++i)
@@ -816,8 +814,7 @@ window.qBittorrent.DynamicTable = (function() {
             let rowPos = rows.length;
 
             while ((rowPos < trs.length) && (trs.length > 0)) {
-                trs[trs.length - 1].dispose();
-                trs.pop();
+                trs.pop().destroy();
             }
         },
 
@@ -839,7 +836,7 @@ window.qBittorrent.DynamicTable = (function() {
             this.selectedRows.erase(rowId);
             const tr = this.getTrByRowId(rowId);
             if (tr !== null) {
-                tr.dispose();
+                tr.destroy();
                 this.rows.erase(rowId);
                 return true;
             }
@@ -851,8 +848,7 @@ window.qBittorrent.DynamicTable = (function() {
             this.rows.empty();
             const trs = this.tableBody.getElements('tr');
             while (trs.length > 0) {
-                trs[trs.length - 1].dispose();
-                trs.pop();
+                trs.pop().destroy();
             }
         },
 
@@ -1001,10 +997,14 @@ window.qBittorrent.DynamicTable = (function() {
                     case "checkingUP":
                     case "queuedForChecking":
                     case "checkingResumeData":
-                    case "moving":
                         state = "force-recheck";
                         img_path = "images/force-recheck.svg";
                         break;
+                    case "moving":
+                        state = "moving";
+                        img_path = "images/set-location.svg";
+                        break;
+                    case "error":
                     case "unknown":
                     case "missingFiles":
                         state = "error";
@@ -1135,9 +1135,9 @@ window.qBittorrent.DynamicTable = (function() {
             // progress
             this.columns['progress'].updateTd = function(td, row) {
                 const progress = this.getRowValue(row);
-                let progressFormated = (progress * 100).round(1);
-                if (progressFormated == 100.0 && progress != 1.0)
-                    progressFormated = 99.9;
+                let progressFormatted = (progress * 100).round(1);
+                if (progressFormatted == 100.0 && progress != 1.0)
+                    progressFormatted = 99.9;
 
                 if (td.getChildren('div').length > 0) {
                     const div = td.getChildren('div')[0];
@@ -1145,13 +1145,13 @@ window.qBittorrent.DynamicTable = (function() {
                         td.resized = false;
                         div.setWidth(ProgressColumnWidth - 5);
                     }
-                    if (div.getValue() != progressFormated)
-                        div.setValue(progressFormated);
+                    if (div.getValue() != progressFormatted)
+                        div.setValue(progressFormatted);
                 }
                 else {
                     if (ProgressColumnWidth < 0)
                         ProgressColumnWidth = td.offsetWidth;
-                    td.adopt(new window.qBittorrent.ProgressBar.ProgressBar(progressFormated.toFloat(), {
+                    td.adopt(new window.qBittorrent.ProgressBar.ProgressBar(progressFormatted.toFloat(), {
                         'width': ProgressColumnWidth - 5
                     }));
                     td.resized = false;
@@ -1545,7 +1545,7 @@ window.qBittorrent.DynamicTable = (function() {
 
                 if (!country_code) {
                     if (td.getChildren('img').length > 0)
-                        td.getChildren('img')[0].dispose();
+                        td.getChildren('img')[0].destroy();
                     return;
                 }
 
@@ -1592,12 +1592,12 @@ window.qBittorrent.DynamicTable = (function() {
             // progress
             this.columns['progress'].updateTd = function(td, row) {
                 const progress = this.getRowValue(row);
-                let progressFormated = (progress * 100).round(1);
-                if (progressFormated == 100.0 && progress != 1.0)
-                    progressFormated = 99.9;
-                progressFormated += "%";
-                td.set('text', progressFormated);
-                td.set('title', progressFormated);
+                let progressFormatted = (progress * 100).round(1);
+                if (progressFormatted == 100.0 && progress != 1.0)
+                    progressFormatted = 99.9;
+                progressFormatted += "%";
+                td.set('text', progressFormatted);
+                td.set('title', progressFormatted);
             };
 
             // dl_speed, up_speed
@@ -3064,7 +3064,7 @@ window.qBittorrent.DynamicTable = (function() {
 
         filterText: '',
 
-        filterdLength: function() {
+        filteredLength: function() {
             return this.tableBody.getElements('tr').length;
         },
 

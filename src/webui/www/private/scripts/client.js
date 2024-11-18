@@ -453,7 +453,7 @@ window.addEvent('load', function() {
         const categoryList = $('categoryFilterList');
         if (!categoryList)
             return;
-        categoryList.empty();
+        categoryList.getChildren().each(c => c.destroy());
 
         const create_link = function(hash, text, count) {
             let display_name = text;
@@ -488,7 +488,21 @@ window.addEvent('load', function() {
         Object.each(category_list, function(category) {
             sortedCategories.push(category.name);
         });
-        sortedCategories.sort();
+        sortedCategories.sort(function(category1, category2) {
+            for (let i = 0; i < Math.min(category1.length, category2.length); ++i) {
+                if (category1[i] === "/" && category2[i] !== "/") {
+                    return -1;
+                }
+                else if (category1[i] !== "/" && category2[i] === "/") {
+                    return 1;
+                }
+                else if (category1[i] !== category2[i]) {
+                    return category1[i].localeCompare(category2[i]);
+                }
+            }
+
+            return category1.length - category2.length;
+        });
 
         for (let i = 0; i < sortedCategories.length; ++i) {
             const categoryName = sortedCategories[i];
@@ -526,8 +540,7 @@ window.addEvent('load', function() {
         if (tagFilterList === null)
             return;
 
-        while (tagFilterList.firstChild !== null)
-            tagFilterList.removeChild(tagFilterList.firstChild);
+        tagFilterList.getChildren().each(c => c.destroy());
 
         const createLink = function(hash, text, count) {
             const html = '<a href="#" onclick="setTagFilter(' + hash + ');return false;">'
@@ -580,8 +593,7 @@ window.addEvent('load', function() {
         if (trackerFilterList === null)
             return;
 
-        while (trackerFilterList.firstChild !== null)
-            trackerFilterList.removeChild(trackerFilterList.firstChild);
+        trackerFilterList.getChildren().each(c => c.destroy());
 
         const createLink = function(hash, text, count) {
             const html = '<a href="#" onclick="setTrackerFilter(' + hash + ');return false;">'
@@ -646,6 +658,8 @@ window.addEvent('load', function() {
                 $('error_div').set('html', '');
                 if (response) {
                     clearTimeout(torrentsFilterInputTimer);
+                    torrentsFilterInputTimer = -1;
+
                     let torrentsTableSelectedRows;
                     let update_categories = false;
                     let updateTags = false;
@@ -656,6 +670,7 @@ window.addEvent('load', function() {
                         torrentsTable.clear();
                         category_list = {};
                         tagList = {};
+                        trackerList.clear();
                     }
                     if (response['rid']) {
                         syncMainDataLastResponseId = response['rid'];
@@ -867,7 +882,7 @@ window.addEvent('load', function() {
                 break;
         }
 
-        $('myPublicIp').set('html', serverState.my_public_ip);
+        $('myPublicIpv4').set('html', serverState.my_public_ip);
 
         if (queueing_enabled != serverState.queueing) {
             queueing_enabled = serverState.queueing;
@@ -1347,18 +1362,14 @@ window.addEvent('load', function() {
         $('torrentFilesFilterToolbar').addClass("invisible");
     };
 
-    let prevTorrentsFilterValue;
-    let torrentsFilterInputTimer = null;
     // listen for changes to torrentsFilterInput
-    $('torrentsFilterInput').addEvent('input', function() {
-        const value = $('torrentsFilterInput').get("value");
-        if (value !== prevTorrentsFilterValue) {
-            prevTorrentsFilterValue = value;
-            clearTimeout(torrentsFilterInputTimer);
-            torrentsFilterInputTimer = setTimeout(function() {
-                torrentsTable.updateTable(false);
-            }, 400);
-        }
+    let torrentsFilterInputTimer = -1;
+    $('torrentsFilterInput').addEvent('input', () => {
+        clearTimeout(torrentsFilterInputTimer);
+        torrentsFilterInputTimer = setTimeout(() => {
+            torrentsFilterInputTimer = -1;
+            torrentsTable.updateTable();
+        }, window.qBittorrent.Misc.FILTER_INPUT_DELAY);
     });
 
     $('transfersTabLink').addEvent('click', showTransfersTab);

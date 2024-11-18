@@ -86,7 +86,7 @@ namespace TrayIcon
     Q_ENUM_NS(Style)
 }
 
-class Preferences : public QObject
+class Preferences final : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(Preferences)
@@ -142,7 +142,7 @@ public:
     QString getMailNotificationEmail() const;
     void setMailNotificationEmail(const QString &mail);
     QString getMailNotificationSMTP() const;
-    void setMailNotificationSMTP(const QString &smtp_server);
+    void setMailNotificationSMTP(const QString &smtpServer);
     bool getMailNotificationSMTPSSL() const;
     void setMailNotificationSMTPSSL(bool use);
     bool getMailNotificationSMTPAuth() const;
@@ -169,26 +169,26 @@ public:
     void setSearchEnabled(bool enabled);
 
     // HTTP Server
-    bool isWebUiEnabled() const;
-    void setWebUiEnabled(bool enabled);
+    bool isWebUIEnabled() const;
+    void setWebUIEnabled(bool enabled);
     QString getServerDomains() const;
     void setServerDomains(const QString &str);
-    QString getWebUiAddress() const;
-    void setWebUiAddress(const QString &addr);
-    quint16 getWebUiPort() const;
-    void setWebUiPort(quint16 port);
+    QString getWebUIAddress() const;
+    void setWebUIAddress(const QString &addr);
+    quint16 getWebUIPort() const;
+    void setWebUIPort(quint16 port);
     bool useUPnPForWebUIPort() const;
     void setUPnPForWebUIPort(bool enabled);
 
     // Authentication
-    bool isWebUiLocalAuthEnabled() const;
-    void setWebUiLocalAuthEnabled(bool enabled);
-    bool isWebUiAuthSubnetWhitelistEnabled() const;
-    void setWebUiAuthSubnetWhitelistEnabled(bool enabled);
-    QVector<Utils::Net::Subnet> getWebUiAuthSubnetWhitelist() const;
-    void setWebUiAuthSubnetWhitelist(QStringList subnets);
-    QString getWebUiUsername() const;
-    void setWebUiUsername(const QString &username);
+    bool isWebUILocalAuthEnabled() const;
+    void setWebUILocalAuthEnabled(bool enabled);
+    bool isWebUIAuthSubnetWhitelistEnabled() const;
+    void setWebUIAuthSubnetWhitelistEnabled(bool enabled);
+    QVector<Utils::Net::Subnet> getWebUIAuthSubnetWhitelist() const;
+    void setWebUIAuthSubnetWhitelist(QStringList subnets);
+    QString getWebUIUsername() const;
+    void setWebUIUsername(const QString &username);
     QByteArray getWebUIPassword() const;
     void setWebUIPassword(const QByteArray &password);
     int getWebUIMaxAuthFailCount() const;
@@ -201,26 +201,26 @@ public:
     void setWebAPISessionCookieName(const QString &cookieName);
 
     // WebUI security
-    bool isWebUiClickjackingProtectionEnabled() const;
-    void setWebUiClickjackingProtectionEnabled(bool enabled);
-    bool isWebUiCSRFProtectionEnabled() const;
-    void setWebUiCSRFProtectionEnabled(bool enabled);
-    bool isWebUiSecureCookieEnabled () const;
-    void setWebUiSecureCookieEnabled(bool enabled);
+    bool isWebUIClickjackingProtectionEnabled() const;
+    void setWebUIClickjackingProtectionEnabled(bool enabled);
+    bool isWebUICSRFProtectionEnabled() const;
+    void setWebUICSRFProtectionEnabled(bool enabled);
+    bool isWebUISecureCookieEnabled () const;
+    void setWebUISecureCookieEnabled(bool enabled);
     bool isWebUIHostHeaderValidationEnabled() const;
     void setWebUIHostHeaderValidationEnabled(bool enabled);
 
     // HTTPS
-    bool isWebUiHttpsEnabled() const;
-    void setWebUiHttpsEnabled(bool enabled);
+    bool isWebUIHttpsEnabled() const;
+    void setWebUIHttpsEnabled(bool enabled);
     Path getWebUIHttpsCertificatePath() const;
     void setWebUIHttpsCertificatePath(const Path &path);
     Path getWebUIHttpsKeyPath() const;
     void setWebUIHttpsKeyPath(const Path &path);
-    bool isAltWebUiEnabled() const;
-    void setAltWebUiEnabled(bool enabled);
-    Path getWebUiRootFolder() const;
-    void setWebUiRootFolder(const Path &path);
+    bool isAltWebUIEnabled() const;
+    void setAltWebUIEnabled(bool enabled);
+    Path getWebUIRootFolder() const;
+    void setWebUIRootFolder(const Path &path);
 
     // WebUI custom HTTP headers
     bool isWebUICustomHTTPHeadersEnabled() const;
@@ -290,17 +290,8 @@ public:
 #ifdef Q_OS_WIN
     bool neverCheckFileAssoc() const;
     void setNeverCheckFileAssoc(bool check = true);
-    static bool isTorrentFileAssocSet();
-    static bool isMagnetLinkAssocSet();
-    static void setTorrentFileAssoc(bool set);
-    static void setMagnetLinkAssoc(bool set);
 #endif
-#ifdef Q_OS_MACOS
-    static bool isTorrentFileAssocSet();
-    static bool isMagnetLinkAssocSet();
-    static void setTorrentFileAssoc();
-    static void setMagnetLinkAssoc();
-#endif
+
     int getTrackerPort() const;
     void setTrackerPort(int port);
     bool isTrackerPortForwardingEnabled() const;
@@ -317,6 +308,8 @@ public:
     void setConfirmRemoveAllTags(bool enabled);
     bool confirmPauseAndResumeAll() const;
     void setConfirmPauseAndResumeAll(bool enabled);
+    bool confirmMergeTrackers() const;
+    void setConfirmMergeTrackers(bool enabled);
 #ifndef Q_OS_MACOS
     bool systemTrayEnabled() const;
     void setSystemTrayEnabled(bool enabled);
@@ -333,6 +326,12 @@ public:
     bool iconsInMenusEnabled() const;
     void setIconsInMenusEnabled(bool enable);
 #endif // Q_OS_MACOS
+    qint64 getTorrentFileSizeLimit() const;
+    void setTorrentFileSizeLimit(qint64 value);
+    int getBdecodeDepthLimit() const;
+    void setBdecodeDepthLimit(int value);
+    int getBdecodeTokenLimit() const;
+    void setBdecodeTokenLimit(int value);
 
     // Stuff that don't appear in the Options GUI but are saved
     // in the same file.

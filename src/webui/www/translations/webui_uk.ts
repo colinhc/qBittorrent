@@ -576,10 +576,6 @@
         <translation>Значок швидкості завантаження</translation>
     </message>
     <message>
-        <source>Connection status</source>
-        <translation>Статус з'єднання</translation>
-    </message>
-    <message>
         <source>Alternative speed limits: On</source>
         <translation>Особливі обмеження швидкості: увімк.</translation>
     </message>
@@ -1169,10 +1165,6 @@
         <translation>При досягненні коефіцієнта роздачі</translation>
     </message>
     <message>
-        <source>When seeding time reaches</source>
-        <translation>По досягненню часу роздачі</translation>
-    </message>
-    <message>
         <source>Allow multiple connections from the same IP address:</source>
         <translation>Дозволити декілька з'єднань з однієї IP-адреси:</translation>
     </message>
@@ -1597,10 +1589,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>Якщо позначено, пошук імені хоста виконується через проксі.</translation>
     </message>
     <message>
-        <source>Use proxy for hostname lookup</source>
-        <translation>Використовуйте проксі для пошуку імен хостів</translation>
-    </message>
-    <message>
         <source>Metadata received</source>
         <translation>Метадані отримано</translation>
     </message>
@@ -1735,6 +1723,62 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>UPnP lease duration [0: permanent lease]:</source>
         <translation>Термін оренди UPnP [0: постійний]:</translation>
+    </message>
+    <message>
+        <source>Bdecode token limit:</source>
+        <translation>Ліміт токенів Bdecode:</translation>
+    </message>
+    <message>
+        <source>When inactive seeding time reaches</source>
+        <translation>По досягненні часу бездіяльності роздачі</translation>
+    </message>
+    <message>
+        <source>(None)</source>
+        <translation>(Немає)</translation>
+    </message>
+    <message>
+        <source>Bdecode depth limit:</source>
+        <translation>Обмеження глибини Bdecode:</translation>
+    </message>
+    <message>
+        <source>.torrent file size limit:</source>
+        <translation>Обмеження розміру файлу .torrent:</translation>
+    </message>
+    <message>
+        <source>When total seeding time reaches</source>
+        <translation>По досягненні загального часу роздачі</translation>
+    </message>
+    <message>
+        <source>Perform hostname lookup via proxy</source>
+        <translation>Виконайте пошук імені хоста через проксі</translation>
+    </message>
+    <message>
+        <source>Mixed mode</source>
+        <translation>Змішаний режим</translation>
+    </message>
+    <message>
+        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
+        <translation>Якщо ввімкнено «змішаний режим», торрентам I2P також дозволено отримувати однорангові джерела з інших джерел, крім трекера, і підключатися до звичайних IP-адрес, не забезпечуючи жодної анонімності. Це може бути корисним, якщо користувач не зацікавлений в анонімізації I2P, але все одно хоче мати можливість підключатися до однорангових I2P.</translation>
+    </message>
+    <message>
+        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Вхідна кількість I2P (потрібен libtorrent &gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
+        <translation>I2P (експериментальний) (потрібен libtorrent &gt;= 2.0)</translation>
+    </message>
+    <message>
+        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Вихідна кількість I2P (потрібен libtorrent &gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Довжина вихідного I2P (потрібен libtorrent &gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Довжина вхідного I2P (потрібен libtorrent &gt;= 2.0):</translation>
     </message>
 </context>
 <context>
@@ -2061,10 +2105,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>Не вдалося перейменувати: файл чи тека з такою назвою вже є</translation>
     </message>
     <message>
-        <source>Match all occurences</source>
-        <translation>Відповідність усіх входжень</translation>
-    </message>
-    <message>
         <source>Toggle Selection</source>
         <translation>Перемкнути вибір</translation>
     </message>
@@ -2099,6 +2139,10 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Case sensitive</source>
         <translation>Чутливий до регістру</translation>
+    </message>
+    <message>
+        <source>Match all occurrences</source>
+        <translation>Зіставте всі випадки</translation>
     </message>
 </context>
 <context>
@@ -2913,8 +2957,12 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>коефіцієнт</translation>
     </message>
     <message>
-        <source>minutes</source>
-        <translation>хвилин</translation>
+        <source>total minutes</source>
+        <translation>всього хвилин</translation>
+    </message>
+    <message>
+        <source>inactive minutes</source>
+        <translation>хвилин неактивності</translation>
     </message>
 </context>
 <context>
@@ -3432,10 +3480,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>New name:</source>
         <translation>Нова назва:</translation>
     </message>
-    <message>
-        <source>Renaming)</source>
-        <translation>Перейменування)</translation>
-    </message>
 </context>
 <context>
     <name>RSSWidget</name>
@@ -3779,6 +3823,10 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     <message>
         <source>Don't create subfolder</source>
         <translation>Не створювати підтеку</translation>
+    </message>
+    <message>
+        <source>Add Tags:</source>
+        <translation>Додати теги:</translation>
     </message>
 </context>
 <context>

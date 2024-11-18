@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2015-2023  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2015-2024  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
@@ -182,6 +182,8 @@ namespace BitTorrent
         void setGlobalMaxRatio(qreal ratio) override;
         int globalMaxSeedingMinutes() const override;
         void setGlobalMaxSeedingMinutes(int minutes) override;
+        int globalMaxInactiveSeedingMinutes() const override;
+        void setGlobalMaxInactiveSeedingMinutes(int minutes) override;
         bool isDHTEnabled() const override;
         void setDHTEnabled(bool enabled) override;
         bool isLSDEnabled() const override;
@@ -398,6 +400,8 @@ namespace BitTorrent
         void setBannedIPs(const QStringList &newList) override;
         ResumeDataStorageType resumeDataStorageType() const override;
         void setResumeDataStorageType(ResumeDataStorageType type) override;
+        bool isMergeTrackersEnabled() const override;
+        void setMergeTrackersEnabled(bool enabled) override;
 
         bool isRestored() const override;
 
@@ -427,7 +431,8 @@ namespace BitTorrent
         void decreaseTorrentsQueuePos(const QVector<TorrentID> &ids) override;
         void topTorrentsQueuePos(const QVector<TorrentID> &ids) override;
         void bottomTorrentsQueuePos(const QVector<TorrentID> &ids) override;
-        QString externalIp() const override;
+
+        QString externalIpv4() const override;
 
         // Torrent interface
         void handleTorrentNeedSaveResumeData(const TorrentImpl *torrent);
@@ -452,6 +457,7 @@ namespace BitTorrent
         void handleTorrentUrlSeedsRemoved(TorrentImpl *torrent, const QVector<QUrl> &urlSeeds);
         void handleTorrentResumeDataReady(TorrentImpl *torrent, const LoadTorrentParams &data);
         void handleTorrentInfoHashChanged(TorrentImpl *torrent, const InfoHash &prevInfoHash);
+        void handleTorrentStorageMovingStateChanged(TorrentImpl *torrent);
 
         bool addMoveTorrentStorageJob(TorrentImpl *torrent, const Path &newPath, MoveStorageMode mode, MoveStorageContext context);
 
@@ -470,6 +476,9 @@ namespace BitTorrent
         }
 
         void invokeAsync(std::function<void ()> func);
+
+    signals:
+        void addTorrentAlertsReceived(qsizetype count);
 
     private slots:
         void configureDeferred();
@@ -511,6 +520,7 @@ namespace BitTorrent
 
         bool hasPerTorrentRatioLimit() const;
         bool hasPerTorrentSeedingTimeLimit() const;
+        bool hasPerTorrentInactiveSeedingTimeLimit() const;
 
         // Session configuration
         Q_INVOKABLE void configure();
@@ -559,11 +569,13 @@ namespace BitTorrent
         void handleListenSucceededAlert(const lt::listen_succeeded_alert *p);
         void handleListenFailedAlert(const lt::listen_failed_alert *p);
         void handleExternalIPAlert(const lt::external_ip_alert *p);
+        void handleSessionErrorAlert(const lt::session_error_alert *p) const;
         void handleSessionStatsAlert(const lt::session_stats_alert *p);
         void handleAlertsDroppedAlert(const lt::alerts_dropped_alert *p) const;
         void handleStorageMovedAlert(const lt::storage_moved_alert *p);
         void handleStorageMovedFailedAlert(const lt::storage_moved_failed_alert *p);
         void handleSocks5Alert(const lt::socks5_alert *p) const;
+        void handleI2PAlert(const lt::i2p_alert *p) const;
         void handleTrackerAlert(const lt::tracker_alert *a);
 #ifdef QBT_USES_LIBTORRENT2
         void handleTorrentConflictAlert(const lt::torrent_conflict_alert *a);
@@ -658,6 +670,7 @@ namespace BitTorrent
         CachedSettingValue<QString> m_additionalTrackers;
         CachedSettingValue<qreal> m_globalMaxRatio;
         CachedSettingValue<int> m_globalMaxSeedingMinutes;
+        CachedSettingValue<int> m_globalMaxInactiveSeedingMinutes;
         CachedSettingValue<bool> m_isAddTorrentToQueueTop;
         CachedSettingValue<bool> m_isAddTorrentPaused;
         CachedSettingValue<Torrent::StopCondition> m_torrentStopCondition;
@@ -704,6 +717,7 @@ namespace BitTorrent
         CachedSettingValue<QStringList> m_excludedFileNames;
         CachedSettingValue<QStringList> m_bannedIPs;
         CachedSettingValue<ResumeDataStorageType> m_resumeDataStorageType;
+        CachedSettingValue<bool> m_isMergeTrackersEnabled;
         CachedSettingValue<bool> m_isI2PEnabled;
         CachedSettingValue<QString> m_I2PAddress;
         CachedSettingValue<int> m_I2PPort;

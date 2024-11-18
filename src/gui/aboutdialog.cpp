@@ -28,6 +28,8 @@
 
 #include "aboutdialog.h"
 
+#include <QClipboard>
+
 #include "base/global.h"
 #include "base/path.h"
 #include "base/unicodestrings.h"
@@ -43,14 +45,14 @@
 AboutDialog::AboutDialog(QWidget *parent)
     : QDialog(parent)
     , m_ui(new Ui::AboutDialog)
-    , m_storeDialogSize(SETTINGS_KEY(u"Size"_qs))
+    , m_storeDialogSize(SETTINGS_KEY(u"Size"_s))
 {
     m_ui->setupUi(this);
 
     // Title
     m_ui->labelName->setText(QStringLiteral("<b><h2>qBittorrent " QBT_VERSION " (%1-bit)</h2></b>").arg(QT_POINTER_SIZE * 8));
 
-    m_ui->logo->setPixmap(UIThemeManager::instance()->getScaledPixmap(u"qbittorrent-tray"_qs, 32));
+    m_ui->logo->setPixmap(UIThemeManager::instance()->getScaledPixmap(u"qbittorrent-tray"_s, 32));
 
     // About
     const QString aboutText =
@@ -62,34 +64,31 @@ AboutDialog::AboutDialog(QWidget *parent)
         u"<tr><td>%4</td><td><a href=\"https://forum.qbittorrent.org\">https://forum.qbittorrent.org</a></td></tr>"
         u"<tr><td>%5</td><td><a href=\"https://bugs.qbittorrent.org\">https://bugs.qbittorrent.org</a></td></tr>"
         u"</table>"
-        u"</p>"_qs
+        u"</p>"_s
         .arg(tr("An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent-rasterbar.")
-                .replace(u"C++"_qs, u"C\u2060+\u2060+"_qs) // make C++ non-breaking
-            , tr("Copyright %1 2006-2022 The qBittorrent project").arg(C_COPYRIGHT)
+                .replace(u"C++"_s, u"C\u2060+\u2060+"_s) // make C++ non-breaking
+            , tr("Copyright %1 2006-2024 The qBittorrent project").arg(C_COPYRIGHT)
             , tr("Home Page:")
             , tr("Forum:")
             , tr("Bug Tracker:"));
     m_ui->labelAbout->setText(aboutText);
 
-    m_ui->labelMascot->setPixmap(Utils::Gui::scaledPixmap(Path(u":/icons/mascot.png"_qs), this));
+    m_ui->labelMascot->setPixmap(Utils::Gui::scaledPixmap(Path(u":/icons/mascot.png"_s), this));
 
     // Thanks
-    if (const auto readResult = Utils::IO::readFile(Path(u":/thanks.html"_qs), -1, QIODevice::Text)
-        ; readResult)
+    if (const auto readResult = Utils::IO::readFile(Path(u":/thanks.html"_s), -1, QIODevice::Text))
     {
         m_ui->textBrowserThanks->setHtml(QString::fromUtf8(readResult.value()));
     }
 
     // Translation
-    if (const auto readResult = Utils::IO::readFile(Path(u":/translators.html"_qs), -1, QIODevice::Text)
-        ; readResult)
+    if (const auto readResult = Utils::IO::readFile(Path(u":/translators.html"_s), -1, QIODevice::Text))
     {
         m_ui->textBrowserTranslation->setHtml(QString::fromUtf8(readResult.value()));
     }
 
     // License
-    if (const auto readResult = Utils::IO::readFile(Path(u":/gpl.html"_qs), -1, QIODevice::Text)
-        ; readResult)
+    if (const auto readResult = Utils::IO::readFile(Path(u":/gpl.html"_s), -1, QIODevice::Text))
     {
         m_ui->textBrowserLicense->setHtml(QString::fromUtf8(readResult.value()));
     }
@@ -101,9 +100,11 @@ AboutDialog::AboutDialog(QWidget *parent)
     m_ui->labelOpensslVer->setText(Utils::Misc::opensslVersionString());
     m_ui->labelZlibVer->setText(Utils::Misc::zlibVersionString());
 
+    connect(m_ui->btnCopyToClipboard, &QAbstractButton::clicked, this, &AboutDialog::copyVersionsToClipboard);
+
     const QString DBIPText = u"<html><head/><body><p>"
                              u"%1 (<a href=\"https://db-ip.com/\">https://db-ip.com/</a>)"
-                             u"</p></body></html>"_qs
+                             u"</p></body></html>"_s
                              .arg(tr("The free IP to Country Lite database by DB-IP is used for resolving the countries of peers. "
                                      "The database is licensed under the Creative Commons Attribution 4.0 International License"));
     m_ui->labelDBIP->setText(DBIPText);
@@ -116,4 +117,15 @@ AboutDialog::~AboutDialog()
 {
     m_storeDialogSize = size();
     delete m_ui;
+}
+
+void AboutDialog::copyVersionsToClipboard() const
+{
+    const QString versions = u"%1 %2\n%3 %4\n%5 %6\n%7 %8\n%9 %10\n"_s
+        .arg(m_ui->labelQt->text(), m_ui->labelQtVer->text()
+            , m_ui->labelLibt->text(), m_ui->labelLibtVer->text()
+            , m_ui->labelBoost->text(), m_ui->labelBoostVer->text()
+            , m_ui->labelOpenssl->text(), m_ui->labelOpensslVer->text()
+            , m_ui->labelZlib->text(), m_ui->labelZlibVer->text());
+    qApp->clipboard()->setText(versions);
 }

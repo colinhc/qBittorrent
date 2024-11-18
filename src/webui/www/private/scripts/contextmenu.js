@@ -175,12 +175,14 @@ window.qBittorrent.ContextMenu = (function() {
 
                 const touchstartEvent = e;
                 this.touchstartTimer = setTimeout(function() {
+                    this.touchstartTimer = -1;
                     this.triggerMenu(touchstartEvent, elem);
                 }.bind(this), this.options.touchTimer);
             }.bind(this));
             elem.addEvent('touchend', function(e) {
                 e.preventDefault();
                 clearTimeout(this.touchstartTimer);
+                this.touchstartTimer = -1;
             }.bind(this));
         },
 
@@ -444,7 +446,7 @@ window.qBittorrent.ContextMenu = (function() {
 
         updateCategoriesSubMenu: function(category_list) {
             const categoryList = $('contextCategoryList');
-            categoryList.empty();
+            categoryList.getChildren().each(c => c.destroy());
             categoryList.appendChild(new Element('li', {
                 html: '<a href="javascript:torrentNewCategoryFN();"><img src="images/list-add.svg" alt="QBT_TR(New...)QBT_TR[CONTEXT=TransferListWidget]"/> QBT_TR(New...)QBT_TR[CONTEXT=TransferListWidget]</a>'
             }));

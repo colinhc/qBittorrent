@@ -1,0 +1,7 @@
+src/base/bittorrent/session.h
+src/base/bittorrent/sessionimpl.cpp
+src/base/bittorrent/sessionimpl.h
+src/webui/api/synccontroller.cpp
+src/webui/www/private/css/Layout.css
+src/webui/www/private/index.html
+src/webui/www/private/scripts/client.js

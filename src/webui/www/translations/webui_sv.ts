@@ -297,7 +297,7 @@
     </message>
     <message>
         <source>Download Torrents from their URLs or Magnet links</source>
-        <translation>Hämta torrenter från deras URLs eller magnetlänkar</translation>
+        <translation>Hämta torrenter från deras URL:er eller magnetlänkar</translation>
     </message>
     <message>
         <source>Upload local torrent</source>
@@ -353,7 +353,7 @@
     </message>
     <message>
         <source>Open documentation</source>
-        <translation>Öppna dokumentation</translation>
+        <translation>Öppna dokumentationen</translation>
     </message>
     <message>
         <source>Register to handle magnet links...</source>
@@ -574,10 +574,6 @@
     <message>
         <source>Download speed icon</source>
         <translation>Ikon för hämtningshastighet</translation>
-    </message>
-    <message>
-        <source>Connection status</source>
-        <translation>Anslutningsstatus</translation>
     </message>
     <message>
         <source>Alternative speed limits: On</source>
@@ -1138,7 +1134,7 @@
     </message>
     <message>
         <source>Upload rate based</source>
-        <translation>Sändning betygbaserad</translation>
+        <translation>Baserat på sändningshastighet</translation>
     </message>
     <message>
         <source>%G: Tags (separated by comma)</source>
@@ -1169,16 +1165,12 @@
         <translation>När kvoten når</translation>
     </message>
     <message>
-        <source>When seeding time reaches</source>
-        <translation>När distributionstiden når</translation>
-    </message>
-    <message>
         <source>Allow multiple connections from the same IP address:</source>
         <translation>Tillåt flera anslutningar från samma IP-adress:</translation>
     </message>
     <message>
         <source>File pool size:</source>
-        <translation>Filpool storlek:</translation>
+        <translation>Filpoolstorlek:</translation>
     </message>
     <message>
         <source>Any interface</source>
@@ -1338,7 +1330,7 @@
     </message>
     <message>
         <source>Peer turnover threshold percentage:</source>
-        <translation type="unfinished" />
+        <translation>Procenttröskelandel av peer-omsättning:</translation>
     </message>
     <message>
         <source>RSS Torrent Auto Downloader</source>
@@ -1370,7 +1362,7 @@
     </message>
     <message>
         <source>Peer turnover disconnect percentage:</source>
-        <translation type="unfinished" />
+        <translation>Procentandel för bortkoppling av peer-omsättning:</translation>
     </message>
     <message>
         <source>Maximum number of articles per feed:</source>
@@ -1382,7 +1374,7 @@
     </message>
     <message>
         <source>Peer turnover disconnect interval:</source>
-        <translation type="unfinished" />
+        <translation>Intervall för bortkoppling av peer-omsättning:</translation>
     </message>
     <message>
         <source>Optional IP address to bind to:</source>
@@ -1454,11 +1446,11 @@
     </message>
     <message>
         <source>%J: Info hash v2</source>
-        <translation>%J: Infohash v2</translation>
+        <translation>%J: Info-hash v2</translation>
     </message>
     <message>
         <source>%I: Info hash v1</source>
-        <translation>%I: Infohash v1</translation>
+        <translation>%I: Info-hash v1</translation>
     </message>
     <message>
         <source>IP address reported to trackers (requires restart):</source>
@@ -1597,16 +1589,12 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
         <translation>Om ifylld görs värdnamnsuppslag via proxy.</translation>
     </message>
     <message>
-        <source>Use proxy for hostname lookup</source>
-        <translation>Använd proxy för värdnamnsuppslag</translation>
-    </message>
-    <message>
         <source>Metadata received</source>
         <translation>Metadata mottagna</translation>
     </message>
     <message>
         <source>Torrent stop condition:</source>
-        <translation>Torrent-stoppvillkor:</translation>
+        <translation>Torrentstoppvillkor:</translation>
     </message>
     <message>
         <source>None</source>
@@ -1622,7 +1610,7 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
     </message>
     <message>
         <source>Resume data storage type (requires restart):</source>
-        <translation>Återuppta datalagringstyp (kräver omstart):</translation>
+        <translation>Lagringstyp för återupptagningsdata (kräver omstart):</translation>
     </message>
     <message>
         <source>Fastresume files</source>
@@ -1735,6 +1723,62 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
     <message>
         <source>UPnP lease duration [0: permanent lease]:</source>
         <translation>UPnP-anslutningstid [0: permanent anslutning]:</translation>
+    </message>
+    <message>
+        <source>Bdecode token limit:</source>
+        <translation>Bdecode-tokengräns:</translation>
+    </message>
+    <message>
+        <source>When inactive seeding time reaches</source>
+        <translation>När inaktiva distributionstiden når</translation>
+    </message>
+    <message>
+        <source>(None)</source>
+        <translation>(Ingen)</translation>
+    </message>
+    <message>
+        <source>Bdecode depth limit:</source>
+        <translation>Bdecode-djupgräns:</translation>
+    </message>
+    <message>
+        <source>.torrent file size limit:</source>
+        <translation>.Storleksgräns för .torrent-filer:</translation>
+    </message>
+    <message>
+        <source>When total seeding time reaches</source>
+        <translation>När totala distributionstiden når</translation>
+    </message>
+    <message>
+        <source>Perform hostname lookup via proxy</source>
+        <translation>Utför värdnamnsuppslagning via proxy</translation>
+    </message>
+    <message>
+        <source>Mixed mode</source>
+        <translation>Blandat läge</translation>
+    </message>
+    <message>
+        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
+        <translation>Om &amp;quot;blandat läge&amp;quot; är aktiverat, tillåts I2P-torrenter att även få jämlikar från andra källor än spåraren och ansluta till vanliga IP-adresser, utan att ge någon anonymisering. Detta kan vara användbart om användaren inte är intresserad av anonymisering av I2P, men ändå vill kunna ansluta till I2P-jämlikar.</translation>
+    </message>
+    <message>
+        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P inkommande kvantitet (kräver libtorrent &amp;gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
+        <translation>I2P (experimentell) (kräver libtorrent &amp;gt;= 2.0)</translation>
+    </message>
+    <message>
+        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P utgående kvantitet (kräver libtorrent &amp;gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P utgående längd (kräver libtorrent &amp;gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P inkommande längd (kräver libtorrent &amp;gt;= 2.0):</translation>
     </message>
 </context>
 <context>
@@ -1938,7 +1982,7 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
     </message>
     <message>
         <source>Reannounce In:</source>
-        <translation>Annonseras igen:</translation>
+        <translation>Omannonseras:</translation>
     </message>
     <message>
         <source>Last Seen Complete:</source>
@@ -2026,11 +2070,11 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
     </message>
     <message>
         <source>Info Hash v2:</source>
-        <translation>Infohash v2:</translation>
+        <translation>Info-hash v2:</translation>
     </message>
     <message>
         <source>Info Hash v1:</source>
-        <translation>Infohash v1:</translation>
+        <translation>Info-hash v1:</translation>
     </message>
     <message>
         <source>N/A</source>
@@ -2059,10 +2103,6 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
     <message>
         <source>Rename failed: file or folder already exists</source>
         <translation>Det gick inte att byta namn: fil eller mapp finns redan</translation>
-    </message>
-    <message>
-        <source>Match all occurences</source>
-        <translation>Matcha alla händelser</translation>
     </message>
     <message>
         <source>Toggle Selection</source>
@@ -2099,6 +2139,10 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
     <message>
         <source>Case sensitive</source>
         <translation>Skiftlägeskänsliga</translation>
+    </message>
+    <message>
+        <source>Match all occurrences</source>
+        <translation>Matcha alla händelser</translation>
     </message>
 </context>
 <context>
@@ -2863,11 +2907,11 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
     </message>
     <message>
         <source>Info hash v1</source>
-        <translation>Infohash v1</translation>
+        <translation>Info-hash v1</translation>
     </message>
     <message>
         <source>Info hash v2</source>
-        <translation>Infohash v2</translation>
+        <translation>Info-hash v2</translation>
     </message>
     <message>
         <source>Torrent ID</source>
@@ -2913,8 +2957,12 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
         <translation>kvot</translation>
     </message>
     <message>
-        <source>minutes</source>
-        <translation>minuter</translation>
+        <source>total minutes</source>
+        <translation>minuter totalt</translation>
+    </message>
+    <message>
+        <source>inactive minutes</source>
+        <translation>minuter inaktiv</translation>
     </message>
 </context>
 <context>
@@ -2935,7 +2983,7 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
     <name>downloadFromURL</name>
     <message>
         <source>Download from URLs</source>
-        <translation>Hämta från URLs</translation>
+        <translation>Hämta från URL:er</translation>
     </message>
     <message>
         <source>Download</source>
@@ -3432,10 +3480,6 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
         <source>New name:</source>
         <translation>Nytt namn:</translation>
     </message>
-    <message>
-        <source>Renaming)</source>
-        <translation>Byter namn)</translation>
-    </message>
 </context>
 <context>
     <name>RSSWidget</name>
@@ -3684,7 +3728,7 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
     </message>
     <message>
         <source>Rule deletion confirmation</source>
-        <translation>Bekräftelse på borttagning av regel</translation>
+        <translation>Bekräftelse på regelborttagning</translation>
     </message>
     <message>
         <source>Last Match: %1 days ago</source>
@@ -3779,6 +3823,10 @@ Stöder formaten: S01E01, 1x1, 2017.12.31 och 31.12.2017 (datumformatet stöder 
     <message>
         <source>Don't create subfolder</source>
         <translation>Skapa inte undermapp</translation>
+    </message>
+    <message>
+        <source>Add Tags:</source>
+        <translation>Lägg till taggar:</translation>
     </message>
 </context>
 <context>
@@ -3903,7 +3951,7 @@ Stöder formaten: S01E01, 1x1, 2017.12.31 och 31.12.2017 (datumformatet stöder 
     </message>
     <message>
         <source>Reason</source>
-        <translation>Anledning</translation>
+        <translation>Orsak</translation>
     </message>
     <message>
         <source>item</source>

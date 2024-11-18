@@ -1,5 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
+ * Copyright (C) 2024  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2017  Mike Tzou
  *
  * This program is free software; you can redistribute it and/or
@@ -27,6 +28,8 @@
  */
 
 #include "utils.h"
+
+#include <QtGlobal>
 
 #ifdef Q_OS_WIN
 #include <Objbase.h>
@@ -180,32 +183,32 @@ void Utils::Gui::openFolderSelect(const Path &path)
     const int lineMaxLength = 64;
 
     QProcess proc;
-    proc.start(u"xdg-mime"_qs, {u"query"_qs, u"default"_qs, u"inode/directory"_qs});
+    proc.start(u"xdg-mime"_s, {u"query"_s, u"default"_s, u"inode/directory"_s});
     proc.waitForFinished();
     const auto output = QString::fromLocal8Bit(proc.readLine(lineMaxLength).simplified());
     if ((output == u"dolphin.desktop") || (output == u"org.kde.dolphin.desktop"))
     {
-        proc.startDetached(u"dolphin"_qs, {u"--select"_qs, path.toString()});
+        proc.startDetached(u"dolphin"_s, {u"--select"_s, path.toString()});
     }
     else if ((output == u"nautilus.desktop") || (output == u"org.gnome.Nautilus.desktop")
                  || (output == u"nautilus-folder-handler.desktop"))
     {
-        proc.start(u"nautilus"_qs, {u"--version"_qs});
+        proc.start(u"nautilus"_s, {u"--version"_s});
         proc.waitForFinished();
-        const auto nautilusVerStr = QString::fromLocal8Bit(proc.readLine(lineMaxLength)).remove(QRegularExpression(u"[^0-9.]"_qs));
+        const auto nautilusVerStr = QString::fromLocal8Bit(proc.readLine(lineMaxLength)).remove(QRegularExpression(u"[^0-9.]"_s));
         using NautilusVersion = Utils::Version<3>;
         if (NautilusVersion::fromString(nautilusVerStr, {1, 0, 0}) > NautilusVersion(3, 28, 0))
-            proc.startDetached(u"nautilus"_qs, {(Fs::isDir(path) ? path.parentPath() : path).toString()});
+            proc.startDetached(u"nautilus"_s, {(Fs::isDir(path) ? path.parentPath() : path).toString()});
         else
-            proc.startDetached(u"nautilus"_qs, {u"--no-desktop"_qs, (Fs::isDir(path) ? path.parentPath() : path).toString()});
+            proc.startDetached(u"nautilus"_s, {u"--no-desktop"_s, (Fs::isDir(path) ? path.parentPath() : path).toString()});
     }
     else if (output == u"nemo.desktop")
     {
-        proc.startDetached(u"nemo"_qs, {u"--no-desktop"_qs, (Fs::isDir(path) ? path.parentPath() : path).toString()});
+        proc.startDetached(u"nemo"_s, {u"--no-desktop"_s, (Fs::isDir(path) ? path.parentPath() : path).toString()});
     }
     else if ((output == u"konqueror.desktop") || (output == u"kfmclient_dir.desktop"))
     {
-        proc.startDetached(u"konqueror"_qs, {u"--select"_qs, path.toString()});
+        proc.startDetached(u"konqueror"_s, {u"--select"_s, path.toString()});
     }
     else
     {
@@ -215,4 +218,30 @@ void Utils::Gui::openFolderSelect(const Path &path)
 #else
     openPath(path.parentPath());
 #endif
+}
+
+QString Utils::Gui::tagToWidgetText(const QString &tag)
+{
+    return QString(tag).replace(u'&', u"&&"_s);
+}
+
+QString Utils::Gui::widgetTextToTag(const QString &text)
+{
+    // replace pairs of '&' with single '&' and remove non-paired occurrences of '&'
+    QString cleanedText;
+    cleanedText.reserve(text.size());
+    bool amp = false;
+    for (const QChar c : text)
+    {
+        if (c == u'&')
+        {
+            amp = !amp;
+            if (amp)
+                continue;
+        }
+
+        cleanedText.append(c);
+    }
+
+    return cleanedText;
 }

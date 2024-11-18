@@ -93,7 +93,7 @@ public slots:
     void previewSelectedTorrents();
     void hideQueuePosColumn(bool hide);
     void applyFilter(const QString &name, const TransferListModel::Column &type);
-    void applyStatusFilter(int f);
+    void applyStatusFilter(int filterIndex);
     void applyCategoryFilter(const QString &category);
     void applyTagFilter(const QString &tag);
     void applyTrackerFilterAll();
@@ -119,6 +119,7 @@ private slots:
 private:
     void wheelEvent(QWheelEvent *event) override;
     QModelIndex mapToSource(const QModelIndex &index) const;
+    QModelIndexList mapToSource(const QModelIndexList &indexes) const;
     QModelIndex mapFromSource(const QModelIndex &index) const;
     bool loadSettings();
     QVector<BitTorrent::Torrent *> getSelectedTorrents() const;

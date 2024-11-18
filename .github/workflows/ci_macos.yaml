@@ -33,19 +33,26 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: |
-          export \
-            HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1 \
-            HOMEBREW_NO_INSTALL_CLEANUP=1
-          brew update > /dev/null
-          brew install \
-            cmake ninja \
-            openssl@1.1 zlib
+        uses: Wandalen/wretry.action@v1
+        env:
+           HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
+           HOMEBREW_NO_INSTALL_CLEANUP: 1
+        with:
+          attempt_delay: 20000
+          attempt_limit: 6
+          command: |
+            brew update > /dev/null
+            brew install \
+              cmake ninja \
+              openssl@1.1 zlib
 
       - name: Setup ccache
         uses: Chocobo1/setup-ccache-action@v1
         with:
+          store_cache: ${{ github.ref == 'refs/heads/master' }}
           update_packager_index: false
+          ccache_options: |
+            max_size=2G
 
       - name: Install boost
         run: |
@@ -62,6 +69,7 @@ jobs:
           version: ${{ matrix.qt_version }}
           archives: qtbase qtdeclarative qtsvg qttools
           # Not sure why Qt made a hard dependency on qtdeclarative, try removing it when Qt > 6.4.0
+          cache: true
 
       - name: Install libtorrent
         run: |
@@ -130,8 +138,18 @@ jobs:
           if [ "${{ matrix.qbt_gui }}" = "GUI=OFF" ]; then
             appName="qbittorrent-nox"
           fi
+          # package
           pushd build
-          macdeployqt "$appName.app" -dmg -no-strip
+          PACKAGE_RETRY=0
+          while [ "$PACKAGE_RETRY" -lt "3" ]; do
+            macdeployqt "$appName.app" -dmg -no-strip
+            if [ -f "$appName.dmg" ]; then
+              break
+            fi
+            sleep 5
+            PACKAGE_RETRY=$((PACKAGE_RETRY + 1))
+            echo "Retry $PACKAGE_RETRY..."
+          done
           popd
           # prepare upload folder
           mkdir upload

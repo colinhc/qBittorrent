@@ -576,10 +576,6 @@
         <translation>Icono de velocidad de descarga</translation>
     </message>
     <message>
-        <source>Connection status</source>
-        <translation>Estatus de conexión</translation>
-    </message>
-    <message>
         <source>Alternative speed limits: On</source>
         <translation>Límites alternativos de velocidad: Activado</translation>
     </message>
@@ -1169,10 +1165,6 @@
         <translation>Cuando la proporción alcance</translation>
     </message>
     <message>
-        <source>When seeding time reaches</source>
-        <translation>Cuando el tiempo de sembrado alcance</translation>
-    </message>
-    <message>
         <source>Allow multiple connections from the same IP address:</source>
         <translation>Permitir múltiples conexiones desde la misma dirección IP:</translation>
     </message>
@@ -1597,10 +1589,6 @@ Use ';' para dividir múltiples entradas. Puede usar el comodin '*'.</translatio
         <translation>Si se verifica, las búsquedas del nombre de host se realizan a través del proxy.</translation>
     </message>
     <message>
-        <source>Use proxy for hostname lookup</source>
-        <translation>Use proxy para la búsqueda del nombre de host</translation>
-    </message>
-    <message>
         <source>Metadata received</source>
         <translation>Metadatos recibidos</translation>
     </message>
@@ -1735,6 +1723,62 @@ Use ';' para dividir múltiples entradas. Puede usar el comodin '*'.</translatio
     <message>
         <source>UPnP lease duration [0: permanent lease]:</source>
         <translation>Duración de la cesión UPnP [0: cesión permanente]:</translation>
+    </message>
+    <message>
+        <source>Bdecode token limit:</source>
+        <translation>Límite de token de Bdecode:</translation>
+    </message>
+    <message>
+        <source>When inactive seeding time reaches</source>
+        <translation>Cuando el tiempo de siembra inactiva alcanza</translation>
+    </message>
+    <message>
+        <source>(None)</source>
+        <translation>(Ninguno)</translation>
+    </message>
+    <message>
+        <source>Bdecode depth limit:</source>
+        <translation>Límite de profundidad de Bdecode:</translation>
+    </message>
+    <message>
+        <source>.torrent file size limit:</source>
+        <translation>Límite de tamaño de archivo .torrent</translation>
+    </message>
+    <message>
+        <source>When total seeding time reaches</source>
+        <translation>Cuando el tiempo total de siembra alcance</translation>
+    </message>
+    <message>
+        <source>Perform hostname lookup via proxy</source>
+        <translation>Realizar búsqueda de hots via proxy</translation>
+    </message>
+    <message>
+        <source>Mixed mode</source>
+        <translation>Modo mixto</translation>
+    </message>
+    <message>
+        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
+        <translation>Si el &amp;quot;modo mixto&amp;quot; está habilitado, los torrents I2P también pueden obtener pares de otras fuentes además del rastreador y conectarse a direcciones IP normales, sin proporcionar ninguna anonimización. Esto puede ser útil si el usuario no está interesado en la anonimización de I2P, pero aún desea poder conectarse con pares I2P.</translation>
+    </message>
+    <message>
+        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Cantidad de entrada I2P (requiere libtorrent &amp;gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
+        <translation>I2P (Experimental) (requiere libtorrent &amp;gt;= 2.0)</translation>
+    </message>
+    <message>
+        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Cantidad saliente I2P (requiere libtorrent &amp;gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Longitud de salida I2P (requiere libtorrent &amp;gt;= 2.0):</translation>
+    </message>
+    <message>
+        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>Longitud de entrada I2P (requiere libtorrent &amp;gt;= 2.0):</translation>
     </message>
 </context>
 <context>
@@ -2061,10 +2105,6 @@ Use ';' para dividir múltiples entradas. Puede usar el comodin '*'.</translatio
         <translation>Renombrado fallido: el archivo o carpeta ya existe</translation>
     </message>
     <message>
-        <source>Match all occurences</source>
-        <translation>Coincidir con todas las ocurrencias</translation>
-    </message>
-    <message>
         <source>Toggle Selection</source>
         <translation>Alternar Selección</translation>
     </message>
@@ -2099,6 +2139,10 @@ Use ';' para dividir múltiples entradas. Puede usar el comodin '*'.</translatio
     <message>
         <source>Case sensitive</source>
         <translation>Distingue Mayúsculas y Minúsculas</translation>
+    </message>
+    <message>
+        <source>Match all occurrences</source>
+        <translation>Coincidir con todas las ocurrencias</translation>
     </message>
 </context>
 <context>
@@ -2913,8 +2957,12 @@ Use ';' para dividir múltiples entradas. Puede usar el comodin '*'.</translatio
         <translation>ratio</translation>
     </message>
     <message>
-        <source>minutes</source>
-        <translation>minutos</translation>
+        <source>total minutes</source>
+        <translation>minutos totales</translation>
+    </message>
+    <message>
+        <source>inactive minutes</source>
+        <translation>minutos inactivos</translation>
     </message>
 </context>
 <context>
@@ -3432,10 +3480,6 @@ Use ';' para dividir múltiples entradas. Puede usar el comodin '*'.</translatio
         <source>New name:</source>
         <translation>Nuevo nombre:</translation>
     </message>
-    <message>
-        <source>Renaming)</source>
-        <translation>Renombrando)</translation>
-    </message>
 </context>
 <context>
     <name>RSSWidget</name>
@@ -3779,6 +3823,10 @@ Admite los formatos: S01E01, 1x1, 2017.12.31 y 31.12.2017 (los formatos de fecha
     <message>
         <source>Don't create subfolder</source>
         <translation>No crear subcarpeta</translation>
+    </message>
+    <message>
+        <source>Add Tags:</source>
+        <translation>Añadir etiquetas</translation>
     </message>
 </context>
 <context>

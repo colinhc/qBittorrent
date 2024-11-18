@@ -169,11 +169,11 @@
     </message>
     <message>
         <source>Maximum number of upload slots per torrent limit must be greater than 0 or disabled.</source>
-        <translation>每个 torrent 上传窗口数上限必须大于 0 或禁用。</translation>
+        <translation>每个 torrent 的上传窗口数上限必须大于 0 或禁用。</translation>
     </message>
     <message>
         <source>Unable to save program preferences, qBittorrent is probably unreachable.</source>
-        <translation>无法保存程序偏好选项，可能是无法连接到 qBttorrent。</translation>
+        <translation>无法保存程序偏好选项，可能无法连接到 qBttorrent。</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -193,7 +193,7 @@
     </message>
     <message>
         <source>Unable to log in, qBittorrent is probably unreachable.</source>
-        <translation>登录失败，可能是无法连接到 qBttorrent。</translation>
+        <translation>登录失败，可能无法连接到 qBttorrent。</translation>
     </message>
     <message>
         <source>Invalid Username or Password.</source>
@@ -574,10 +574,6 @@
     <message>
         <source>Download speed icon</source>
         <translation>下载速度图标</translation>
-    </message>
-    <message>
-        <source>Connection status</source>
-        <translation>连接状态</translation>
     </message>
     <message>
         <source>Alternative speed limits: On</source>
@@ -1169,10 +1165,6 @@
         <translation>当分享率达到</translation>
     </message>
     <message>
-        <source>When seeding time reaches</source>
-        <translation>当做种时间达到</translation>
-    </message>
-    <message>
         <source>Allow multiple connections from the same IP address:</source>
         <translation>允许来自同一 IP 地址的多个连接:</translation>
     </message>
@@ -1358,7 +1350,7 @@
     </message>
     <message>
         <source>Edit auto downloading rules...</source>
-        <translation>修改自动下载规则...</translation>
+        <translation>编辑自动下载规则...</translation>
     </message>
     <message>
         <source>Download REPACK/PROPER episodes</source>
@@ -1526,7 +1518,7 @@
     </message>
     <message>
         <source>Max concurrent HTTP announces:</source>
-        <translation>最大并行 HTTP 发布：</translation>
+        <translation>最大并行 HTTP 汇报：</translation>
     </message>
     <message>
         <source>Enable OS cache</source>
@@ -1597,10 +1589,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>勾选后将通过代理查找主机名</translation>
     </message>
     <message>
-        <source>Use proxy for hostname lookup</source>
-        <translation>使用代理进行主机名查询</translation>
-    </message>
-    <message>
         <source>Metadata received</source>
         <translation>已收到元数据</translation>
     </message>
@@ -1666,7 +1654,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Remember Multi-Rename settings</source>
-        <translation>记住多重命名设置</translation>
+        <translation>记住多重重命名设置</translation>
     </message>
     <message>
         <source>Use proxy for general purposes</source>
@@ -1694,7 +1682,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Coalesce reads &amp;amp; writes (requires libtorrent &amp;lt; 2.0):</source>
-        <translation>合并读取 &amp;amp; 写入（需要 libtorrent &amp;lt; 2.0）：</translation>
+        <translation>合并读写（需要 libtorrent &amp;lt; 2.0）：</translation>
     </message>
     <message>
         <source>Outgoing ports (Max) [0: disabled]:</source>
@@ -1710,7 +1698,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Disk IO type (libtorrent &amp;gt;= 2.0; requires restart):</source>
-        <translation>磁盘 IO 类型（libtorrent &amp;gt;=2.0；需要重启）：</translation>
+        <translation>磁盘 IO 类型（libtorrent &amp;gt;= 2.0；需要重启）：</translation>
     </message>
     <message>
         <source>Add to top of queue</source>
@@ -1730,11 +1718,67 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Hashing threads (requires libtorrent &amp;gt;= 2.0):</source>
-        <translation>散列线程（需要libtorrent &amp;gt;=2.0）：</translation>
+        <translation>散列线程（需要 libtorrent &amp;gt;= 2.0）：</translation>
     </message>
     <message>
         <source>UPnP lease duration [0: permanent lease]:</source>
         <translation>UPnP 租期 [0：永久 ]：</translation>
+    </message>
+    <message>
+        <source>Bdecode token limit:</source>
+        <translation>Bdecode 令牌限制</translation>
+    </message>
+    <message>
+        <source>When inactive seeding time reaches</source>
+        <translation>达到不活跃做种时间时</translation>
+    </message>
+    <message>
+        <source>(None)</source>
+        <translation>(无)</translation>
+    </message>
+    <message>
+        <source>Bdecode depth limit:</source>
+        <translation>Bdecode 深度限制</translation>
+    </message>
+    <message>
+        <source>.torrent file size limit:</source>
+        <translation>.torrent 文件大小限制</translation>
+    </message>
+    <message>
+        <source>When total seeding time reaches</source>
+        <translation>达到总做种时间时</translation>
+    </message>
+    <message>
+        <source>Perform hostname lookup via proxy</source>
+        <translation>通过代理查找主机名</translation>
+    </message>
+    <message>
+        <source>Mixed mode</source>
+        <translation>混合模式</translation>
+    </message>
+    <message>
+        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
+        <translation>如启用 “混合模式”，则 I2P Torrent 也被允许从 Tracker 之外的来源获得 peers，并连接到正常的 IP 地址，这样的结果是不提供任何的匿名性。对于对 I2P 匿名性不感兴趣，但让仍希望能连接到 I2P peer 的用户来说，此模式会有用处。</translation>
+    </message>
+    <message>
+        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P 传入量 （需要 libtorrent &amp;gt;= 2.0）：</translation>
+    </message>
+    <message>
+        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
+        <translation>I2P （实验性）（需要 libtorrent &amp;gt;= 2.0）</translation>
+    </message>
+    <message>
+        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P 传出量 （需要 libtorrent &amp;gt;= 2.0）：</translation>
+    </message>
+    <message>
+        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P 传出长度 （需要 libtorrent &amp;gt;= 2.0）：</translation>
+    </message>
+    <message>
+        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <translation>I2P 传入长度 （需要 libtorrent &amp;gt;= 2.0）：</translation>
     </message>
 </context>
 <context>
@@ -2061,10 +2105,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>重命名失败：文件或文件夹已存在</translation>
     </message>
     <message>
-        <source>Match all occurences</source>
-        <translation>匹配所有出现</translation>
-    </message>
-    <message>
         <source>Toggle Selection</source>
         <translation>切换所选</translation>
     </message>
@@ -2099,6 +2139,10 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Case sensitive</source>
         <translation>区分大小写</translation>
+    </message>
+    <message>
+        <source>Match all occurrences</source>
+        <translation>匹配所有出现</translation>
     </message>
 </context>
 <context>
@@ -2913,8 +2957,12 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>比率</translation>
     </message>
     <message>
-        <source>minutes</source>
-        <translation>时间</translation>
+        <source>total minutes</source>
+        <translation>总分钟</translation>
+    </message>
+    <message>
+        <source>inactive minutes</source>
+        <translation>不活跃分钟</translation>
     </message>
 </context>
 <context>
@@ -3432,10 +3480,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>New name:</source>
         <translation>新名称：</translation>
     </message>
-    <message>
-        <source>Renaming)</source>
-        <translation>正在重命名）</translation>
-    </message>
 </context>
 <context>
     <name>RSSWidget</name>
@@ -3779,6 +3823,10 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     <message>
         <source>Don't create subfolder</source>
         <translation>不创建子文件夹</translation>
+    </message>
+    <message>
+        <source>Add Tags:</source>
+        <translation>添加标签：</translation>
     </message>
 </context>
 <context>

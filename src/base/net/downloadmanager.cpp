@@ -51,7 +51,7 @@
 namespace
 {
     // Disguise as Firefox to avoid web server banning
-    const char DEFAULT_USER_AGENT[] = "Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0";
+    const char DEFAULT_USER_AGENT[] = "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0";
 }
 
 class Net::DownloadManager::NetworkCookieJar final : public QNetworkCookieJar
@@ -62,11 +62,10 @@ public:
     {
         const QDateTime now = QDateTime::currentDateTime();
         QList<QNetworkCookie> cookies = Preferences::instance()->getNetworkCookies();
-        for (const QNetworkCookie &cookie : asConst(Preferences::instance()->getNetworkCookies()))
+        cookies.erase(std::remove_if(cookies.begin(), cookies.end(), [&now](const QNetworkCookie &cookie)
         {
-            if (cookie.isSessionCookie() || (cookie.expirationDate() <= now))
-                cookies.removeAll(cookie);
-        }
+            return cookie.isSessionCookie() || (cookie.expirationDate() <= now);
+        }), cookies.end());
 
         setAllCookies(cookies);
     }
@@ -75,11 +74,10 @@ public:
     {
         const QDateTime now = QDateTime::currentDateTime();
         QList<QNetworkCookie> cookies = allCookies();
-        for (const QNetworkCookie &cookie : asConst(allCookies()))
+        cookies.erase(std::remove_if(cookies.begin(), cookies.end(), [&now](const QNetworkCookie &cookie)
         {
-            if (cookie.isSessionCookie() || (cookie.expirationDate() <= now))
-                cookies.removeAll(cookie);
-        }
+            return cookie.isSessionCookie() || (cookie.expirationDate() <= now);
+        }), cookies.end());
 
         Preferences::instance()->setNetworkCookies(cookies);
     }
@@ -91,11 +89,10 @@ public:
     {
         const QDateTime now = QDateTime::currentDateTime();
         QList<QNetworkCookie> cookies = QNetworkCookieJar::cookiesForUrl(url);
-        for (const QNetworkCookie &cookie : asConst(QNetworkCookieJar::cookiesForUrl(url)))
+        cookies.erase(std::remove_if(cookies.begin(), cookies.end(), [&now](const QNetworkCookie &cookie)
         {
-            if (!cookie.isSessionCookie() && (cookie.expirationDate() <= now))
-                cookies.removeAll(cookie);
-        }
+            return !cookie.isSessionCookie() && (cookie.expirationDate() <= now);
+        }), cookies.end());
 
         return cookies;
     }
@@ -104,11 +101,10 @@ public:
     {
         const QDateTime now = QDateTime::currentDateTime();
         QList<QNetworkCookie> cookies = cookieList;
-        for (const QNetworkCookie &cookie : cookieList)
+        cookies.erase(std::remove_if(cookies.begin(), cookies.end(), [&now](const QNetworkCookie &cookie)
         {
-            if (!cookie.isSessionCookie() && (cookie.expirationDate() <= now))
-                cookies.removeAll(cookie);
-        }
+            return !cookie.isSessionCookie() && (cookie.expirationDate() <= now);
+        }), cookies.end());
 
         return QNetworkCookieJar::setCookiesFromUrl(cookies, url);
     }
@@ -231,36 +227,36 @@ void Net::DownloadManager::applyProxySettings()
 
     m_proxy = QNetworkProxy(QNetworkProxy::NoProxy);
 
-    if (proxyConfig.type != ProxyType::SOCKS4)
+    if ((proxyConfig.type == Net::ProxyType::None) || (proxyConfig.type == ProxyType::SOCKS4))
+        return;
+
+    // Proxy enabled
+    if (proxyConfig.type == ProxyType::SOCKS5)
     {
-        // Proxy enabled
-        if (proxyConfig.type == ProxyType::SOCKS5)
-        {
-            qDebug() << Q_FUNC_INFO << "using SOCKS proxy";
-            m_proxy.setType(QNetworkProxy::Socks5Proxy);
-        }
-        else
-        {
-            qDebug() << Q_FUNC_INFO << "using HTTP proxy";
-            m_proxy.setType(QNetworkProxy::HttpProxy);
-        }
-
-        m_proxy.setHostName(proxyConfig.ip);
-        m_proxy.setPort(proxyConfig.port);
-
-        // Authentication?
-        if (proxyConfig.authEnabled)
-        {
-            qDebug("Proxy requires authentication, authenticating...");
-            m_proxy.setUser(proxyConfig.username);
-            m_proxy.setPassword(proxyConfig.password);
-        }
-
-        if (proxyConfig.hostnameLookupEnabled)
-            m_proxy.setCapabilities(m_proxy.capabilities() | QNetworkProxy::HostNameLookupCapability);
-        else
-            m_proxy.setCapabilities(m_proxy.capabilities() & ~QNetworkProxy::HostNameLookupCapability);
+        qDebug() << Q_FUNC_INFO << "using SOCKS proxy";
+        m_proxy.setType(QNetworkProxy::Socks5Proxy);
     }
+    else
+    {
+        qDebug() << Q_FUNC_INFO << "using HTTP proxy";
+        m_proxy.setType(QNetworkProxy::HttpProxy);
+    }
+
+    m_proxy.setHostName(proxyConfig.ip);
+    m_proxy.setPort(proxyConfig.port);
+
+    // Authentication?
+    if (proxyConfig.authEnabled)
+    {
+        qDebug("Proxy requires authentication, authenticating...");
+        m_proxy.setUser(proxyConfig.username);
+        m_proxy.setPassword(proxyConfig.password);
+    }
+
+    if (proxyConfig.hostnameLookupEnabled)
+        m_proxy.setCapabilities(m_proxy.capabilities() | QNetworkProxy::HostNameLookupCapability);
+    else
+        m_proxy.setCapabilities(m_proxy.capabilities() & ~QNetworkProxy::HostNameLookupCapability);
 }
 
 void Net::DownloadManager::handleDownloadFinished(DownloadHandlerImpl *finishedHandler)
