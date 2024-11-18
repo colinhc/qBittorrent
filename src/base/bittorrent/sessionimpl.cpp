@@ -5954,7 +5954,7 @@ void SessionImpl::handleExternalIPAlert(const lt::external_ip_alert *p)
 }
 
 QString SessionImpl::externalIpv4() const {
-    return m_lastExternalIp;
+    return m_lastExternalIP;
 }
 
 void SessionImpl::handleSessionErrorAlert(const lt::session_error_alert *p) const
