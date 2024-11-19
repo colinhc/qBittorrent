@@ -2567,10 +2567,6 @@ void SessionImpl::bottomTorrentsQueuePos(const QVector<TorrentID> &ids)
     m_torrentsQueueChanged = true;
 }
 
-QString SessionImpl::externalIp() const {
-    return m_lastExternalIP;
-}
-
 void SessionImpl::handleTorrentNeedSaveResumeData(const TorrentImpl *torrent)
 {
     if (m_needSaveResumeDataTorrents.empty())
