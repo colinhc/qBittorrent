@@ -454,8 +454,6 @@ namespace BitTorrent
         virtual void bottomTorrentsQueuePos(const QVector<TorrentID> &ids) = 0;
         virtual QString externalIpv4() const = 0;
 
-        virtual QString externalIp() const = 0;
-
     signals:
         void startupProgressUpdated(int progress);
         void allTorrentsFinished();
