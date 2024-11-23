@@ -4,10 +4,11 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update \
-    && apt install -y build-essential pkg-config automake cmake git libtool zlib1g-dev libssl-dev libgeoip-dev \
+    && apt install -y build-essential pkg-config automake cmake git libtool \
+        zlib1g-dev libssl-dev libgeoip-dev \
         libboost-dev libboost-system-dev libboost-random-dev \
-    && apt install -y python3 \
-    && apt install -y qtbase5-dev qtbase5-private-dev qttools5-dev libqt5svg5-dev
+        python3 \
+        qtbase5-dev qtbase5-private-dev qttools5-dev libqt5svg5-dev
 
 RUN apt install -y curl tree vim \
     && apt clean && rm -rf /var/lib/opt/lists/* /tmp/* /var/tmp/*
