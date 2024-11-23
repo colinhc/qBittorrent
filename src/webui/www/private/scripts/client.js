@@ -882,7 +882,15 @@ window.addEvent('load', function() {
                 break;
         }
 
-        $('myPublicIpv4').set('html', serverState.my_public_ip);
+        $('myPublicIpv4').set('html', serverState.public_ip);
+        if (serverState.connection_status == 'connected') {
+            $('connectionStatus').src = 'images/flags/'
+                + serverState.public_ip_country_code + '.svg';
+            $('connectionStatus').alt = 'QBT_TR(%1)QBT_TR[CONTEXT=MainWindow]'
+                .replace("%1", serverState.public_ip_country_code);
+            $('connectionStatus').title = 'QBT_TR(%1)QBT_TR[CONTEXT=MainWindow]'
+                .replace("%1", serverState.public_ip_country_code);
+        }
 
         if (queueing_enabled != serverState.queueing) {
             queueing_enabled = serverState.queueing;
