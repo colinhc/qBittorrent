@@ -887,9 +887,9 @@ window.addEvent('load', function() {
             $('connectionStatus').src = 'images/flags/'
                 + serverState.public_ip_country_code + '.svg';
             $('connectionStatus').alt = 'QBT_TR(%1)QBT_TR[CONTEXT=MainWindow]'
-                .replace("%1", serverState.public_ip_country_code);
+                .replace("%1", serverState.public_ip_country);
             $('connectionStatus').title = 'QBT_TR(%1)QBT_TR[CONTEXT=MainWindow]'
-                .replace("%1", serverState.public_ip_country_code);
+                .replace("%1", serverState.public_ip_country);
         }
 
         if (queueing_enabled != serverState.queueing) {
