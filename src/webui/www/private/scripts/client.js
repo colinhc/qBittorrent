@@ -882,15 +882,18 @@ window.addEvent('load', function() {
                 break;
         }
 
-        $('myPublicIpv4').set('html', serverState.public_ip);
-        if (serverState.connection_status == 'connected') {
-            $('connectionStatus').src = 'images/flags/'
-                + serverState.public_ip_country_code + '.svg';
-            $('connectionStatus').alt = 'QBT_TR(%1)QBT_TR[CONTEXT=MainWindow]'
-                .replace("%1", serverState.public_ip_country);
-            $('connectionStatus').title = 'QBT_TR(%1)QBT_TR[CONTEXT=MainWindow]'
-                .replace("%1", serverState.public_ip_country);
-        }
+        $('myPublicIpFlag').src = 'images/flags/'
+            + serverState.public_ip_country_code + '.svg';
+        $('myPublicIpFlag').alt = 'QBT_TR(%1 [%2])QBT_TR[CONTEXT=MainWindow]'
+            .replace("%1", serverState.public_ip)
+            .replace("%2", serverState.public_ip_country);
+        $('myPublicIpFlag').title = 'QBT_TR(%1 [%2])QBT_TR[CONTEXT=MainWindow]'
+            .replace("%1", serverState.public_ip)
+            .replace("%2", serverState.public_ip_country);
+
+        $('myPublicIpFlag').addEvent('click', function() {
+            window.open("https://ifconfig.co/?ip=" + serverState.public_ip);
+        });
 
         if (queueing_enabled != serverState.queueing) {
             queueing_enabled = serverState.queueing;
