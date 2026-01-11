@@ -36,11 +36,12 @@
 #include <QRegularExpression>
 #include <QSharedPointer>
 
+#include "base/applicationcomponent.h"
+#include "base/bittorrent/addtorrenterror.h"
 #include "base/exceptions.h"
 #include "base/settingvalue.h"
 #include "base/utils/thread.h"
 
-class QThread;
 class QTimer;
 
 class Application;
@@ -61,14 +62,14 @@ namespace RSS
         using RuntimeError::RuntimeError;
     };
 
-    class AutoDownloader final : public QObject
+    class AutoDownloader final : public ApplicationComponent<QObject>
     {
         Q_OBJECT
         Q_DISABLE_COPY_MOVE(AutoDownloader)
 
         friend class ::Application;
 
-        AutoDownloader();
+        explicit AutoDownloader(IApplication *app);
         ~AutoDownloader() override;
 
     public:
@@ -110,8 +111,8 @@ namespace RSS
 
     private slots:
         void process();
-        void handleTorrentDownloadFinished(const QString &url);
-        void handleTorrentDownloadFailed(const QString &url);
+        void handleTorrentAdded(const QString &source);
+        void handleAddTorrentFailed(const QString &url, const BitTorrent::AddTorrentError &error);
         void handleNewArticle(const Article *article);
         void handleFeedURLChanged(Feed *feed, const QString &oldURL);
 

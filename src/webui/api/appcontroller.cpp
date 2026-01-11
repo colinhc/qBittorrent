@@ -1,5 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
+ * Copyright (C) 2024  Jonathan Ketchker
  * Copyright (C) 2018  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2006-2012  Christophe Dumez <chris@qbittorrent.org>
  * Copyright (C) 2006-2012  Ishan Arora <ishan@qbittorrent.org>
@@ -35,9 +36,12 @@
 
 #include <QCoreApplication>
 #include <QDebug>
+#include <QDir>
+#include <QDirIterator>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QNetworkCookie>
 #include <QNetworkInterface>
 #include <QRegularExpression>
 #include <QStringList>
@@ -47,6 +51,7 @@
 #include "base/bittorrent/session.h"
 #include "base/global.h"
 #include "base/interfaces/iapplication.h"
+#include "base/net/downloadmanager.h"
 #include "base/net/portforwarder.h"
 #include "base/net/proxyconfigurationmanager.h"
 #include "base/path.h"
@@ -55,15 +60,23 @@
 #include "base/rss/rss_session.h"
 #include "base/torrentfileguard.h"
 #include "base/torrentfileswatcher.h"
+#include "base/utils/datetime.h"
 #include "base/utils/fs.h"
 #include "base/utils/misc.h"
 #include "base/utils/net.h"
 #include "base/utils/password.h"
 #include "base/utils/string.h"
 #include "base/version.h"
+#include "apierror.h"
 #include "../webapplication.h"
 
 using namespace std::chrono_literals;
+
+const QString KEY_COOKIE_NAME = u"name"_s;
+const QString KEY_COOKIE_DOMAIN = u"domain"_s;
+const QString KEY_COOKIE_PATH = u"path"_s;
+const QString KEY_COOKIE_VALUE = u"value"_s;
+const QString KEY_COOKIE_EXPIRATION_DATE = u"expirationDate"_s;
 
 void AppController::webapiVersionAction()
 {
@@ -77,6 +90,17 @@ void AppController::versionAction()
 
 void AppController::buildInfoAction()
 {
+    const QString platformName =
+#ifdef Q_OS_LINUX
+        u"linux"_s;
+#elif defined(Q_OS_MACOS)
+        u"macos"_s;
+#elif defined(Q_OS_WIN)
+        u"windows"_s;
+#else
+        u"unknown"_s;
+#endif
+
     const QJsonObject versions =
     {
         {u"qt"_s, QStringLiteral(QT_VERSION_STR)},
@@ -84,7 +108,8 @@ void AppController::buildInfoAction()
         {u"boost"_s, Utils::Misc::boostVersionString()},
         {u"openssl"_s, Utils::Misc::opensslVersionString()},
         {u"zlib"_s, Utils::Misc::zlibVersionString()},
-        {u"bitness"_s, (QT_POINTER_SIZE * 8)}
+        {u"bitness"_s, (QT_POINTER_SIZE * 8)},
+        {u"platform"_s, platformName}
     };
     setResult(versions);
 }
@@ -111,6 +136,9 @@ void AppController::preferencesAction()
     // Language
     data[u"locale"_s] = pref->getLocale();
     data[u"performance_warning"_s] = session->isPerformanceWarningEnabled();
+    data[u"status_bar_external_ip"_s] = pref->isStatusbarExternalIPDisplayed();
+    // Transfer List
+    data[u"confirm_torrent_deletion"_s] = pref->confirmTorrentDeletion();
     // Log file
     data[u"file_log_enabled"_s] = app()->isFileLoggerEnabled();
     data[u"file_log_path"_s] = app()->fileLoggerPath().toString();
@@ -119,17 +147,20 @@ void AppController::preferencesAction()
     data[u"file_log_delete_old"_s] = app()->isFileLoggerDeleteOld();
     data[u"file_log_age"_s] = app()->fileLoggerAge();
     data[u"file_log_age_type"_s] = app()->fileLoggerAgeType();
+    // Delete torrent contents files on torrent removal
+    data[u"delete_torrent_content_files"_s] = pref->removeTorrentContent();
 
     // Downloads
     // When adding a torrent
     data[u"torrent_content_layout"_s] = Utils::String::fromEnum(session->torrentContentLayout());
     data[u"add_to_top_of_queue"_s] = session->isAddTorrentToQueueTop();
-    data[u"start_paused_enabled"_s] = session->isAddTorrentPaused();
+    data[u"add_stopped_enabled"_s] = session->isAddTorrentStopped();
     data[u"torrent_stop_condition"_s] = Utils::String::fromEnum(session->torrentStopCondition());
     data[u"merge_trackers"_s] = session->isMergeTrackersEnabled();
     data[u"auto_delete_mode"_s] = static_cast<int>(TorrentFileGuard::autoDeleteMode());
     data[u"preallocate_all"_s] = session->isPreallocationEnabled();
     data[u"incomplete_files_ext"_s] = session->isAppendExtensionEnabled();
+    data[u"use_unwanted_folder"_s] = session->isUnwantedFolderEnabled();
     // Saving Management
     data[u"auto_tmm_enabled"_s] = !session->isAutoTMMDisabledByDefault();
     data[u"torrent_changed_tmm_enabled"_s] = !session->isDisableAutoTMMWhenCategoryChanged();
@@ -185,6 +216,8 @@ void AppController::preferencesAction()
     // Connection
     // Listening Port
     data[u"listen_port"_s] = session->port();
+    data[u"ssl_enabled"_s] = session->isSSLEnabled();
+    data[u"ssl_listen_port"_s] = session->sslPort();
     data[u"random_port"_s] = (session->port() == 0);  // deprecated
     data[u"upnp"_s] = Net::PortForwarder::instance()->isEnabled();
     // Connections Limits
@@ -270,10 +303,13 @@ void AppController::preferencesAction()
     data[u"max_seeding_time"_s] = session->globalMaxSeedingMinutes();
     data[u"max_inactive_seeding_time_enabled"_s] = (session->globalMaxInactiveSeedingMinutes() >= 0.);
     data[u"max_inactive_seeding_time"_s] = session->globalMaxInactiveSeedingMinutes();
-    data[u"max_ratio_act"_s] = session->maxRatioAction();
+    data[u"max_ratio_act"_s] = static_cast<int>(session->shareLimitAction());
     // Add trackers
     data[u"add_trackers_enabled"_s] = session->isAddTrackersEnabled();
     data[u"add_trackers"_s] = session->additionalTrackers();
+    data[u"add_trackers_from_url_enabled"_s] = session->isAddTrackersFromURLEnabled();
+    data[u"add_trackers_url"_s] = session->additionalTrackersURL();
+    data[u"add_trackers_url_list"_s] = session->additionalTrackersFromURL();
 
     // WebUI
     // HTTP Server
@@ -318,6 +354,7 @@ void AppController::preferencesAction()
 
     // RSS settings
     data[u"rss_refresh_interval"_s] = RSS::Session::instance()->refreshInterval();
+    data[u"rss_fetch_delay"_s] = static_cast<qlonglong>(RSS::Session::instance()->fetchDelay().count());
     data[u"rss_max_articles_per_feed"_s] = RSS::Session::instance()->maxArticlesPerFeed();
     data[u"rss_processing_enabled"_s] = RSS::Session::instance()->isProcessingEnabled();
     data[u"rss_auto_downloading_enabled"_s] = RSS::AutoDownloader::instance()->isProcessingEnabled();
@@ -328,6 +365,8 @@ void AppController::preferencesAction()
     // qBitorrent preferences
     // Resume data storage type
     data[u"resume_data_storage_type"_s] = Utils::String::fromEnum(session->resumeDataStorageType());
+    // Torrent content removing mode
+    data[u"torrent_content_remove_option"_s] = Utils::String::fromEnum(session->torrentContentRemoveOption());
     // Physical memory (RAM) usage limit
     data[u"memory_working_set_limit"_s] = app()->memoryWorkingSetLimit();
     // Current network interface
@@ -338,16 +377,32 @@ void AppController::preferencesAction()
     data[u"current_interface_address"_s] = session->networkInterfaceAddress();
     // Save resume data interval
     data[u"save_resume_data_interval"_s] = session->saveResumeDataInterval();
+    // Save statistics interval
+    data[u"save_statistics_interval"_s] = static_cast<int>(session->saveStatisticsInterval().count());
     // .torrent file size limit
     data[u"torrent_file_size_limit"_s] = pref->getTorrentFileSizeLimit();
+    // Confirm torrent recheck
+    data[u"confirm_torrent_recheck"_s] = pref->confirmTorrentRecheck();
     // Recheck completed torrents
     data[u"recheck_completed_torrents"_s] = pref->recheckTorrentsOnCompletion();
+    // Customize application instance name
+    data[u"app_instance_name"_s] = app()->instanceName();
     // Refresh interval
     data[u"refresh_interval"_s] = session->refreshInterval();
     // Resolve peer countries
     data[u"resolve_peer_countries"_s] = pref->resolvePeerCountries();
     // Reannounce to all trackers when ip/port changed
     data[u"reannounce_when_address_changed"_s] = session->isReannounceWhenAddressChangedEnabled();
+    // Embedded tracker
+    data[u"enable_embedded_tracker"_s] = session->isTrackerEnabled();
+    data[u"embedded_tracker_port"_s] = pref->getTrackerPort();
+    data[u"embedded_tracker_port_forwarding"_s] = pref->isTrackerPortForwardingEnabled();
+    // Mark-of-the-Web
+    data[u"mark_of_the_web"_s] = pref->isMarkOfTheWebEnabled();
+    // Ignore SSL errors
+    data[u"ignore_ssl_errors"_s] = pref->isIgnoreSSLErrors();
+    // Python executable path
+    data[u"python_executable_path"_s] = pref->getPythonExecutablePath().toString();
 
     // libtorrent preferences
     // Bdecode depth limit
@@ -410,10 +465,6 @@ void AppController::preferencesAction()
     data[u"ssrf_mitigation"_s] = session->isSSRFMitigationEnabled();
     // Disallow connection to peers on privileged ports
     data[u"block_peers_on_privileged_ports"_s] = session->blockPeersOnPrivilegedPorts();
-    // Embedded tracker
-    data[u"enable_embedded_tracker"_s] = session->isTrackerEnabled();
-    data[u"embedded_tracker_port"_s] = pref->getTrackerPort();
-    data[u"embedded_tracker_port_forwarding"_s] = pref->isTrackerPortForwardingEnabled();
     // Choking algorithm
     data[u"upload_slots_behavior"_s] = static_cast<int>(session->chokingAlgorithm());
     // Seed choking algorithm
@@ -422,6 +473,7 @@ void AppController::preferencesAction()
     data[u"announce_to_all_trackers"_s] = session->announceToAllTrackers();
     data[u"announce_to_all_tiers"_s] = session->announceToAllTiers();
     data[u"announce_ip"_s] = session->announceIP();
+    data[u"announce_port"_s] = session->announcePort();
     data[u"max_concurrent_http_announces"_s] = session->maxConcurrentHTTPAnnounces();
     data[u"stop_tracker_timeout"_s] = session->stopTrackerTimeout();
     // Peer Turnover
@@ -430,6 +482,8 @@ void AppController::preferencesAction()
     data[u"peer_turnover_interval"_s] = session->peerTurnoverInterval();
     // Maximum outstanding requests to a single peer
     data[u"request_queue_size"_s] = session->requestQueueSize();
+    // DHT bootstrap nodes
+    data[u"dht_bootstrap_nodes"_s] = session->getDHTBootstrapNodes();
 
     setResult(data);
 }
@@ -470,8 +524,13 @@ void AppController::setPreferencesAction()
             pref->setLocale(locale);
         }
     }
+    if (hasKey(u"status_bar_external_ip"_s))
+        pref->setStatusbarExternalIPDisplayed(it.value().toBool());
     if (hasKey(u"performance_warning"_s))
         session->setPerformanceWarningEnabled(it.value().toBool());
+    // Transfer List
+    if (hasKey(u"confirm_torrent_deletion"_s))
+        pref->setConfirmTorrentDeletion(it.value().toBool());
     // Log file
     if (hasKey(u"file_log_enabled"_s))
         app()->setFileLoggerEnabled(it.value().toBool());
@@ -487,6 +546,9 @@ void AppController::setPreferencesAction()
         app()->setFileLoggerAge(it.value().toInt());
     if (hasKey(u"file_log_age_type"_s))
         app()->setFileLoggerAgeType(it.value().toInt());
+    // Delete torrent content files on torrent removal
+    if (hasKey(u"delete_torrent_content_files"_s))
+        pref->setRemoveTorrentContent(it.value().toBool());
 
     // Downloads
     // When adding a torrent
@@ -494,8 +556,8 @@ void AppController::setPreferencesAction()
         session->setTorrentContentLayout(Utils::String::toEnum(it.value().toString(), BitTorrent::TorrentContentLayout::Original));
     if (hasKey(u"add_to_top_of_queue"_s))
         session->setAddTorrentToQueueTop(it.value().toBool());
-    if (hasKey(u"start_paused_enabled"_s))
-        session->setAddTorrentPaused(it.value().toBool());
+    if (hasKey(u"add_stopped_enabled"_s))
+        session->setAddTorrentStopped(it.value().toBool());
     if (hasKey(u"torrent_stop_condition"_s))
         session->setTorrentStopCondition(Utils::String::toEnum(it.value().toString(), BitTorrent::Torrent::StopCondition::None));
     if (hasKey(u"merge_trackers"_s))
@@ -507,6 +569,8 @@ void AppController::setPreferencesAction()
         session->setPreallocationEnabled(it.value().toBool());
     if (hasKey(u"incomplete_files_ext"_s))
         session->setAppendExtensionEnabled(it.value().toBool());
+    if (hasKey(u"use_unwanted_folder"_s))
+        session->setUnwantedFolderEnabled(it.value().toBool());
 
     // Saving Management
     if (hasKey(u"auto_tmm_enabled"_s))
@@ -609,12 +673,12 @@ void AppController::setPreferencesAction()
     if (hasKey(u"autorun_on_torrent_added_enabled"_s))
         pref->setAutoRunOnTorrentAddedEnabled(it.value().toBool());
     if (hasKey(u"autorun_on_torrent_added_program"_s))
-        pref->setAutoRunOnTorrentAddedProgram(it.value().toString());
+        pref->setAutoRunOnTorrentAddedProgram(it.value().toString().trimmed());
     // Run an external program on torrent finished
     if (hasKey(u"autorun_enabled"_s))
         pref->setAutoRunOnTorrentFinishedEnabled(it.value().toBool());
     if (hasKey(u"autorun_program"_s))
-        pref->setAutoRunOnTorrentFinishedProgram(it.value().toString());
+        pref->setAutoRunOnTorrentFinishedProgram(it.value().toString().trimmed());
 
     // Connection
     // Listening Port
@@ -626,6 +690,11 @@ void AppController::setPreferencesAction()
     {
         session->setPort(it.value().toInt());
     }
+    // SSL Torrents
+    if (hasKey(u"ssl_enabled"_s))
+        session->setSSLEnabled(it.value().toBool());
+    if (hasKey(u"ssl_listen_port"_s))
+        session->setSSLPort(it.value().toInt());
     if (hasKey(u"upnp"_s))
         Net::PortForwarder::instance()->setEnabled(it.value().toBool());
     // Connections Limits
@@ -775,12 +844,33 @@ void AppController::setPreferencesAction()
             ? m[u"max_inactive_seeding_time"_s].toInt() : -1);
     }
     if (hasKey(u"max_ratio_act"_s))
-        session->setMaxRatioAction(static_cast<MaxRatioAction>(it.value().toInt()));
+    {
+        switch (it.value().toInt())
+        {
+        default:
+        case 0:
+            session->setShareLimitAction(BitTorrent::ShareLimitAction::Stop);
+            break;
+        case 1:
+            session->setShareLimitAction(BitTorrent::ShareLimitAction::Remove);
+            break;
+        case 2:
+            session->setShareLimitAction(BitTorrent::ShareLimitAction::EnableSuperSeeding);
+            break;
+        case 3:
+            session->setShareLimitAction(BitTorrent::ShareLimitAction::RemoveWithContent);
+            break;
+        }
+    }
     // Add trackers
     if (hasKey(u"add_trackers_enabled"_s))
         session->setAddTrackersEnabled(it.value().toBool());
     if (hasKey(u"add_trackers"_s))
         session->setAdditionalTrackers(it.value().toString());
+    if (hasKey(u"add_trackers_from_url_enabled"_s))
+        session->setAddTrackersFromURLEnabled(it.value().toBool());
+    if (hasKey(u"add_trackers_url"_s))
+        session->setAdditionalTrackersURL(it.value().toString());
 
     // WebUI
     // HTTP Server
@@ -856,6 +946,8 @@ void AppController::setPreferencesAction()
 
     if (hasKey(u"rss_refresh_interval"_s))
         RSS::Session::instance()->setRefreshInterval(it.value().toInt());
+    if (hasKey(u"rss_fetch_delay"_s))
+        RSS::Session::instance()->setFetchDelay(std::chrono::seconds(it.value().toLongLong()));
     if (hasKey(u"rss_max_articles_per_feed"_s))
         RSS::Session::instance()->setMaxArticlesPerFeed(it.value().toInt());
     if (hasKey(u"rss_processing_enabled"_s))
@@ -872,6 +964,9 @@ void AppController::setPreferencesAction()
     // Resume data storage type
     if (hasKey(u"resume_data_storage_type"_s))
         session->setResumeDataStorageType(Utils::String::toEnum(it.value().toString(), BitTorrent::ResumeDataStorageType::Legacy));
+    // Torrent content removing mode
+    if (hasKey(u"torrent_content_remove_option"_s))
+        session->setTorrentContentRemoveOption(Utils::String::toEnum(it.value().toString(), BitTorrent::TorrentContentRemoveOption::MoveToTrash));
     // Physical memory (RAM) usage limit
     if (hasKey(u"memory_working_set_limit"_s))
         app()->setMemoryWorkingSetLimit(it.value().toInt());
@@ -900,12 +995,21 @@ void AppController::setPreferencesAction()
     // Save resume data interval
     if (hasKey(u"save_resume_data_interval"_s))
         session->setSaveResumeDataInterval(it.value().toInt());
+    // Save statistics interval
+    if (hasKey(u"save_statistics_interval"_s))
+        session->setSaveStatisticsInterval(std::chrono::minutes(it.value().toInt()));
     // .torrent file size limit
     if (hasKey(u"torrent_file_size_limit"_s))
         pref->setTorrentFileSizeLimit(it.value().toLongLong());
+    // Confirm torrent recheck
+    if (hasKey(u"confirm_torrent_recheck"_s))
+        pref->setConfirmTorrentRecheck(it.value().toBool());
     // Recheck completed torrents
     if (hasKey(u"recheck_completed_torrents"_s))
         pref->recheckTorrentsOnCompletion(it.value().toBool());
+    // Customize application instance name
+    if (hasKey(u"app_instance_name"_s))
+        app()->setInstanceName(it.value().toString());
     // Refresh interval
     if (hasKey(u"refresh_interval"_s))
         session->setRefreshInterval(it.value().toInt());
@@ -915,6 +1019,22 @@ void AppController::setPreferencesAction()
     // Reannounce to all trackers when ip/port changed
     if (hasKey(u"reannounce_when_address_changed"_s))
         session->setReannounceWhenAddressChangedEnabled(it.value().toBool());
+    // Embedded tracker
+    if (hasKey(u"embedded_tracker_port"_s))
+        pref->setTrackerPort(it.value().toInt());
+    if (hasKey(u"embedded_tracker_port_forwarding"_s))
+        pref->setTrackerPortForwardingEnabled(it.value().toBool());
+    if (hasKey(u"enable_embedded_tracker"_s))
+        session->setTrackerEnabled(it.value().toBool());
+    // Mark-of-the-Web
+    if (hasKey(u"mark_of_the_web"_s))
+        pref->setMarkOfTheWebEnabled(it.value().toBool());
+    // Ignore SLL errors
+    if (hasKey(u"ignore_ssl_errors"_s))
+        pref->setIgnoreSSLErrors(it.value().toBool());
+    // Python executable path
+    if (hasKey(u"python_executable_path"_s))
+        pref->setPythonExecutablePath(Path(it.value().toString()));
 
     // libtorrent preferences
     // Bdecode depth limit
@@ -1009,13 +1129,6 @@ void AppController::setPreferencesAction()
     // Disallow connection to peers on privileged ports
     if (hasKey(u"block_peers_on_privileged_ports"_s))
         session->setBlockPeersOnPrivilegedPorts(it.value().toBool());
-    // Embedded tracker
-    if (hasKey(u"embedded_tracker_port"_s))
-        pref->setTrackerPort(it.value().toInt());
-    if (hasKey(u"embedded_tracker_port_forwarding"_s))
-        pref->setTrackerPortForwardingEnabled(it.value().toBool());
-    if (hasKey(u"enable_embedded_tracker"_s))
-        session->setTrackerEnabled(it.value().toBool());
     // Choking algorithm
     if (hasKey(u"upload_slots_behavior"_s))
         session->setChokingAlgorithm(static_cast<BitTorrent::ChokingAlgorithm>(it.value().toInt()));
@@ -1032,6 +1145,8 @@ void AppController::setPreferencesAction()
         const QHostAddress announceAddr {it.value().toString().trimmed()};
         session->setAnnounceIP(announceAddr.isNull() ? QString {} : announceAddr.toString());
     }
+    if (hasKey(u"announce_port"_s))
+        session->setAnnouncePort(it.value().toInt());
     if (hasKey(u"max_concurrent_http_announces"_s))
         session->setMaxConcurrentHTTPAnnounces(it.value().toInt());
     if (hasKey(u"stop_tracker_timeout"_s))
@@ -1046,6 +1161,9 @@ void AppController::setPreferencesAction()
     // Maximum outstanding requests to a single peer
     if (hasKey(u"request_queue_size"_s))
         session->setRequestQueueSize(it.value().toInt());
+    // DHT bootstrap nodes
+    if (hasKey(u"dht_bootstrap_nodes"_s))
+        session->setDHTBootstrapNodes(it.value().toString());
 
     // Save preferences
     pref->apply();
@@ -1054,6 +1172,103 @@ void AppController::setPreferencesAction()
 void AppController::defaultSavePathAction()
 {
     setResult(BitTorrent::Session::instance()->savePath().toString());
+}
+
+void AppController::sendTestEmailAction()
+{
+    app()->sendTestEmail();
+}
+
+
+void AppController::getDirectoryContentAction()
+{
+    requireParams({u"dirPath"_s});
+
+    const QString dirPath = params().value(u"dirPath"_s);
+    if (dirPath.isEmpty() || dirPath.startsWith(u':'))
+        throw APIError(APIErrorType::BadParams, tr("Invalid directory path"));
+
+    const QDir dir {dirPath};
+    if (!dir.isAbsolute())
+        throw APIError(APIErrorType::BadParams, tr("Invalid directory path"));
+    if (!dir.exists())
+        throw APIError(APIErrorType::NotFound, tr("Directory does not exist"));
+
+    const QString visibility = params().value(u"mode"_s, u"all"_s);
+
+    const auto parseDirectoryContentMode = [](const QString &visibility) -> QDir::Filters
+    {
+        if (visibility == u"dirs")
+            return QDir::Dirs;
+        if (visibility == u"files")
+            return QDir::Files;
+        if (visibility == u"all")
+            return (QDir::Dirs | QDir::Files);
+        throw APIError(APIErrorType::BadParams, tr("Invalid mode, allowed values: %1").arg(u"all, dirs, files"_s));
+    };
+
+    QJsonArray ret;
+    QDirIterator it {dirPath, (QDir::NoDotAndDotDot | parseDirectoryContentMode(visibility))};
+    while (it.hasNext())
+        ret.append(Path(it.next()).toString());
+    setResult(ret);
+}
+
+void AppController::cookiesAction()
+{
+    const QList<QNetworkCookie> cookies = Net::DownloadManager::instance()->allCookies();
+    QJsonArray ret;
+    for (const QNetworkCookie &cookie : cookies)
+    {
+        ret << QJsonObject {
+            {KEY_COOKIE_NAME, QString::fromLatin1(cookie.name())},
+            {KEY_COOKIE_DOMAIN, cookie.domain()},
+            {KEY_COOKIE_PATH, cookie.path()},
+            {KEY_COOKIE_VALUE, QString::fromLatin1(cookie.value())},
+            {KEY_COOKIE_EXPIRATION_DATE, Utils::DateTime::toSecsSinceEpoch(cookie.expirationDate())},
+        };
+    }
+
+    setResult(ret);
+}
+
+void AppController::setCookiesAction()
+{
+    requireParams({u"cookies"_s});
+    const QString cookiesParam {params()[u"cookies"_s].trimmed()};
+
+    QJsonParseError jsonError;
+    const auto cookiesJsonDocument = QJsonDocument::fromJson(cookiesParam.toUtf8(), &jsonError);
+    if (jsonError.error != QJsonParseError::NoError)
+        throw APIError(APIErrorType::BadParams, jsonError.errorString());
+    if (!cookiesJsonDocument.isArray())
+        throw APIError(APIErrorType::BadParams, tr("cookies must be array"));
+
+    const QJsonArray cookiesJsonArr = cookiesJsonDocument.array();
+    QList<QNetworkCookie> cookies;
+    cookies.reserve(cookiesJsonArr.size());
+    for (const QJsonValue &jsonVal : cookiesJsonArr)
+    {
+        if (!jsonVal.isObject())
+            throw APIError(APIErrorType::BadParams);
+
+        QNetworkCookie cookie;
+        const QJsonObject jsonObj = jsonVal.toObject();
+        if (jsonObj.contains(KEY_COOKIE_NAME))
+            cookie.setName(jsonObj.value(KEY_COOKIE_NAME).toString().toLatin1());
+        if (jsonObj.contains(KEY_COOKIE_DOMAIN))
+            cookie.setDomain(jsonObj.value(KEY_COOKIE_DOMAIN).toString());
+        if (jsonObj.contains(KEY_COOKIE_PATH))
+            cookie.setPath(jsonObj.value(KEY_COOKIE_PATH).toString());
+        if (jsonObj.contains(KEY_COOKIE_VALUE))
+            cookie.setValue(jsonObj.value(KEY_COOKIE_VALUE).toString().toUtf8());
+        if (jsonObj.contains(KEY_COOKIE_EXPIRATION_DATE))
+            cookie.setExpirationDate(QDateTime::fromSecsSinceEpoch(jsonObj.value(KEY_COOKIE_EXPIRATION_DATE).toInteger()));
+
+        cookies << cookie;
+    }
+
+    Net::DownloadManager::instance()->setAllCookies(cookies);
 }
 
 void AppController::networkInterfaceListAction()

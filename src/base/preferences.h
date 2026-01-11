@@ -30,7 +30,7 @@
 #pragma once
 
 #include <QtContainerFwd>
-#include <QtGlobal>
+#include <QtSystemDetection>
 #include <QObject>
 
 #include "base/pathfwd.h"
@@ -105,8 +105,8 @@ public:
     void setUseCustomUITheme(bool use);
     Path customUIThemePath() const;
     void setCustomUIThemePath(const Path &path);
-    bool deleteTorrentFilesAsDefault() const;
-    void setDeleteTorrentFilesAsDefault(bool del);
+    bool removeTorrentContent() const;
+    void setRemoveTorrentContent(bool remove);
     bool confirmOnExit() const;
     void setConfirmOnExit(bool confirm);
     bool speedInTitleBar() const;
@@ -119,6 +119,8 @@ public:
     void setHideZeroComboValues(int n);
     bool isStatusbarDisplayed() const;
     void setStatusbarDisplayed(bool displayed);
+    bool isStatusbarExternalIPDisplayed() const;
+    void setStatusbarExternalIPDisplayed(bool displayed);
     bool isToolbarDisplayed() const;
     void setToolbarDisplayed(bool displayed);
     bool isSplashScreenDisabled() const;
@@ -130,6 +132,8 @@ public:
 #ifdef Q_OS_WIN
     bool WinStartup() const;
     void setWinStartup(bool b);
+    QString getStyle() const;
+    void setStyle(const QString &styleName);
 #endif
 
     // Downloads
@@ -168,6 +172,14 @@ public:
     bool isSearchEnabled() const;
     void setSearchEnabled(bool enabled);
 
+    // Search UI
+    int searchHistoryLength() const;
+    void setSearchHistoryLength(int length);
+    bool storeOpenedSearchTabs() const;
+    void setStoreOpenedSearchTabs(bool enabled);
+    bool storeOpenedSearchTabResults() const;
+    void setStoreOpenedSearchTabResults(bool enabled);
+
     // HTTP Server
     bool isWebUIEnabled() const;
     void setWebUIEnabled(bool enabled);
@@ -185,7 +197,7 @@ public:
     void setWebUILocalAuthEnabled(bool enabled);
     bool isWebUIAuthSubnetWhitelistEnabled() const;
     void setWebUIAuthSubnetWhitelistEnabled(bool enabled);
-    QVector<Utils::Net::Subnet> getWebUIAuthSubnetWhitelist() const;
+    QList<Utils::Net::Subnet> getWebUIAuthSubnetWhitelist() const;
     void setWebUIAuthSubnetWhitelist(QStringList subnets);
     QString getWebUIUsername() const;
     void setWebUIUsername(const QString &username);
@@ -287,15 +299,16 @@ public:
 #endif
     bool isRecursiveDownloadEnabled() const;
     void setRecursiveDownloadEnabled(bool enable);
-#ifdef Q_OS_WIN
-    bool neverCheckFileAssoc() const;
-    void setNeverCheckFileAssoc(bool check = true);
-#endif
-
     int getTrackerPort() const;
     void setTrackerPort(int port);
     bool isTrackerPortForwardingEnabled() const;
     void setTrackerPortForwardingEnabled(bool enabled);
+    bool isMarkOfTheWebEnabled() const;
+    void setMarkOfTheWebEnabled(bool enabled);
+    bool isIgnoreSSLErrors() const;
+    void setIgnoreSSLErrors(bool enabled);
+    Path getPythonExecutablePath() const;
+    void setPythonExecutablePath(const Path &path);
 #if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
     bool isUpdateCheckEnabled() const;
     void setUpdateCheckEnabled(bool enabled);
@@ -306,10 +319,10 @@ public:
     void setConfirmTorrentRecheck(bool enabled);
     bool confirmRemoveAllTags() const;
     void setConfirmRemoveAllTags(bool enabled);
-    bool confirmPauseAndResumeAll() const;
-    void setConfirmPauseAndResumeAll(bool enabled);
     bool confirmMergeTrackers() const;
     void setConfirmMergeTrackers(bool enabled);
+    bool confirmRemoveTrackerFromAllTorrents() const;
+    void setConfirmRemoveTrackerFromAllTorrents(bool enabled);
 #ifndef Q_OS_MACOS
     bool systemTrayEnabled() const;
     void setSystemTrayEnabled(bool enabled);
@@ -339,8 +352,6 @@ public:
     void setDNSLastUpd(const QDateTime &date);
     QString getDNSLastIP() const;
     void setDNSLastIP(const QString &ip);
-    bool getAcceptedLegal() const;
-    void setAcceptedLegal(bool accepted);
     QByteArray getMainGeometry() const;
     void setMainGeometry(const QByteArray &geometry);
     bool isFiltersSidebarVisible() const;
@@ -359,8 +370,8 @@ public:
     void setPropCurTab(int tab);
     bool getPropVisible() const;
     void setPropVisible(bool visible);
-    QByteArray getPropTrackerListState() const;
-    void setPropTrackerListState(const QByteArray &state);
+    QByteArray getTrackerListState() const;
+    void setTrackerListState(const QByteArray &state);
     QStringList getRssOpenFolders() const;
     void setRssOpenFolders(const QStringList &folders);
     QByteArray getRssSideSplitterState() const;
@@ -414,6 +425,16 @@ public:
     void setSpeedWidgetPeriod(int period);
     bool getSpeedWidgetGraphEnable(int id) const;
     void setSpeedWidgetGraphEnable(int id, bool enable);
+
+    // AddNewTorrentDialog
+    bool isAddNewTorrentDialogEnabled() const;
+    void setAddNewTorrentDialogEnabled(bool value);
+    bool isAddNewTorrentDialogTopLevel() const;
+    void setAddNewTorrentDialogTopLevel(bool value);
+    int addNewTorrentDialogSavePathHistoryLength() const;
+    void setAddNewTorrentDialogSavePathHistoryLength(int value);
+    bool isAddNewTorrentDialogAttached() const;
+    void setAddNewTorrentDialogAttached(bool attached);
 
 public slots:
     void setStatusFilterState(bool checked);

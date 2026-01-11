@@ -70,6 +70,22 @@
         <source>Add to top of queue</source>
         <translation>إضافة لأعلى القائمة</translation>
     </message>
+    <message>
+        <source>One link per line (HTTP links, Magnet links and info-hashes are supported)</source>
+        <translation>رابط واحد لكل سطر (روابط HTTP ، والروابط الممغنطة ومعلومات التجزئة مدعومة)</translation>
+    </message>
+    <message>
+        <source>Add torrent links</source>
+        <translation>إضافة روابط تورنت</translation>
+    </message>
+    <message>
+        <source>Select .torrent files</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Torrent options</source>
+        <translation>خيارات التورنت</translation>
+    </message>
 </context>
 <context>
     <name>CategoryFilterModel</name>
@@ -97,14 +113,6 @@
         <translation>إزالة التصنيفات غير المُستخدمة</translation>
     </message>
     <message>
-        <source>Resume torrents</source>
-        <translation>استئناف التورنتات</translation>
-    </message>
-    <message>
-        <source>Pause torrents</source>
-        <translation>إلباث التورنتات</translation>
-    </message>
-    <message>
         <source>New Category</source>
         <translation>تصنيف جديد</translation>
     </message>
@@ -120,16 +128,20 @@
         <source>Add subcategory...</source>
         <translation>إضافة تصنيف فرعي...</translation>
     </message>
+    <message>
+        <source>Start torrents</source>
+        <translation>ابدأ تورنتات</translation>
+    </message>
+    <message>
+        <source>Stop torrents</source>
+        <translation>أوقف تورنتات</translation>
+    </message>
 </context>
 <context>
     <name>HttpServer</name>
     <message>
         <source>Exit qBittorrent</source>
         <translation>إغلاق كيوبت‎تورنت</translation>
-    </message>
-    <message>
-        <source>Only one link per line</source>
-        <translation>رابط واحد لكل سطر</translation>
     </message>
     <message>
         <source>Global upload rate limit must be greater than 0 or disabled.</source>
@@ -180,38 +192,6 @@
         <translation>غير معروف</translation>
     </message>
     <message>
-        <source>Share ratio limit must be between 0 and 9998.</source>
-        <translation>يجب أن يكون حد نسبة المشاركة بين 0 و9998.</translation>
-    </message>
-    <message>
-        <source>Seeding time limit must be between 0 and 525600 minutes.</source>
-        <translation>يجب أن يكون الحد الزمني للبذر بين 0 و525600 دقيقة.</translation>
-    </message>
-    <message>
-        <source>The port used for the Web UI must be between 1 and 65535.</source>
-        <translation>يجب أن يكون المنفذ المستخدم لواجهة الوِب الرسومية بين 1 و65535.</translation>
-    </message>
-    <message>
-        <source>Unable to log in, qBittorrent is probably unreachable.</source>
-        <translation>لا يمكن الولوج، والسبب على الأرجح هو عدم إمكانية الوصول إلى كيوبت‎تورنت.</translation>
-    </message>
-    <message>
-        <source>Invalid Username or Password.</source>
-        <translation>اسم المستخدم أو كلمة السر غير صالحة.</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>اسم المستخدم</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>كلمة السر</translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation>ولوج</translation>
-    </message>
-    <message>
         <source>Apply</source>
         <translation>تطبيق</translation>
     </message>
@@ -227,10 +207,6 @@
     <message>
         <source>Save files to location:</source>
         <translation>حفظ الملفات إلى المجلد:</translation>
-    </message>
-    <message>
-        <source>Cookie:</source>
-        <translation>ملف تعريف الارتباط:</translation>
     </message>
     <message>
         <source>More information</source>
@@ -296,10 +272,6 @@
         <translation>خروج</translation>
     </message>
     <message>
-        <source>Download Torrents from their URLs or Magnet links</source>
-        <translation>تنزيل التورنتات من روابطها أو من الروابط المغناطيسية</translation>
-    </message>
-    <message>
         <source>Upload local torrent</source>
         <translation>رفع تورنت محلي</translation>
     </message>
@@ -318,10 +290,6 @@
     <message>
         <source>Invalid category name:\nPlease do not use any special characters in the category name.</source>
         <translation>اسم التصنيف غير صالح:\nالرجاء عدم استخدام أي أحرف خاصة في اسم التصنيف.</translation>
-    </message>
-    <message>
-        <source>Unable to create category</source>
-        <translation>تعذّر إنشاء التصنيف</translation>
     </message>
     <message>
         <source>Upload rate threshold must be greater than 0.</source>
@@ -348,10 +316,6 @@
         <translation>يجب أن يكون حد معدل التنزيل أكبر من 0.</translation>
     </message>
     <message>
-        <source>qBittorrent has been shutdown</source>
-        <translation>أُغلِق كيوبت‎تورنت</translation>
-    </message>
-    <message>
         <source>Open documentation</source>
         <translation>فتح التعليمات</translation>
     </message>
@@ -362,10 +326,6 @@
     <message>
         <source>Unable to add peers. Please ensure you are adhering to the IP:port format.</source>
         <translation>غير قادر على إضافة القرناء. يرجى التأكد من أنك تلتزم بالآي بي: تنسيق المنفذ.</translation>
-    </message>
-    <message>
-        <source>JavaScript Required! You must enable JavaScript for the Web UI to work properly</source>
-        <translation>جافا سكريبت مطلوب! يجب تمكين جافا سكريبت لواجهة الوِب الرسومية لتعمل بشكل صحيح</translation>
     </message>
     <message>
         <source>Name cannot be empty</source>
@@ -392,8 +352,96 @@
         <translation>المؤلف الأصلي</translation>
     </message>
     <message>
-        <source>Are you sure you want to remove the selected torrents from the transfer list?</source>
-        <translation>هل أنت متأكد من رغبتك بإزالة ملفات التورنت المحدَّدة من قائمة النقل؟</translation>
+        <source>The port used for the WebUI must be between 1 and 65535.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>%1 has been shutdown</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>JavaScript Required! You must enable JavaScript for the WebUI to work properly</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>External IP: N/A</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Reverse proxy setup examples</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Could not contact qBittorrent</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Remember choice</source>
+        <translation>تذكر الاختيار</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these %1 torrents from the transfer list?</source>
+        <translation>هل أنت متأكد من رغبتك في إزالة ملفات التورنت %1 هذه من قائمة النقل؟</translation>
+    </message>
+    <message>
+        <source>Unable to delete torrents.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>الرابط</translation>
+    </message>
+    <message>
+        <source>External IP: %1%2</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Edit web seed</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Are you sure you want to remove %1 from the transfer list?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unable to set Auto Torrent Management for the selected torrents.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unable to stop torrents.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unable to download file</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>External IPs: %1, %2</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unable to recheck torrents.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>List of web seeds to add (one per line):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unable to start torrents.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Add web seeds</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Share ratio limit must not have a negative value.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Seeding time limit must not have a negative value.</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -423,10 +471,6 @@
         <translation>خيارات...</translation>
     </message>
     <message>
-        <source>Resume</source>
-        <translation>استئناف</translation>
-    </message>
-    <message>
         <source>Top Toolbar</source>
         <translation>شريط الأدوات العلوي</translation>
     </message>
@@ -443,24 +487,12 @@
         <translation>تبرع!</translation>
     </message>
     <message>
-        <source>Resume All</source>
-        <translation>استئناف الكل</translation>
-    </message>
-    <message>
         <source>Statistics</source>
         <translation>الإحصاءات</translation>
     </message>
     <message>
         <source>About</source>
         <translation>عن</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation>إلباث</translation>
-    </message>
-    <message>
-        <source>Pause All</source>
-        <translation>إلباث الكل</translation>
     </message>
     <message>
         <source>Add Torrent File...</source>
@@ -493,11 +525,6 @@
     <message>
         <source>Are you sure you want to quit qBittorrent?</source>
         <translation>هل أنت متأكد من رغبتك في إغلاق كيوبت‎تورنت؟</translation>
-    </message>
-    <message>
-        <source>[D: %1, U: %2] qBittorrent %3</source>
-        <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
-        <translation>[تنزيل: %1, رفع: %2] كيوبت‎تورنت %3</translation>
     </message>
     <message>
         <source>Alternative speed limits</source>
@@ -608,20 +635,64 @@
         <translation>إزالة</translation>
     </message>
     <message>
-        <source>Would you like to resume all torrents?</source>
-        <translation>هل ترغب في استئناف جميع ملفات التورنت؟</translation>
-    </message>
-    <message>
-        <source>Would you like to pause all torrents?</source>
-        <translation>هل ترغب في إيقاف جميع ملفات التورنت مؤقتًا؟</translation>
-    </message>
-    <message>
         <source>Execution Log</source>
         <translation>السجل</translation>
     </message>
     <message>
         <source>Log</source>
         <translation>السجل</translation>
+    </message>
+    <message>
+        <source>[D: %1, U: %2]</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Filter by:</source>
+        <translation>صنف بواسطة:</translation>
+    </message>
+    <message>
+        <source>Save Path</source>
+        <translation>حفظ المسار</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>أوقف</translation>
+    </message>
+    <message>
+        <source>Use regular expression</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Would you like to start all torrents?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Start</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Manage Cookies...</source>
+        <translation>إدارة الكعكات...</translation>
+    </message>
+    <message>
+        <source>Unable to export torrent file</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>الاسم</translation>
+    </message>
+    <message>
+        <source>Would you like to stop all torrents?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Start All</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Stop All</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -647,16 +718,8 @@
         <translation>بت تورنت</translation>
     </message>
     <message>
-        <source>Web UI</source>
-        <translation>واجهة الوِب الرسومية</translation>
-    </message>
-    <message>
         <source>Language</source>
         <translation>اللغة</translation>
-    </message>
-    <message>
-        <source>User Interface Language:</source>
-        <translation>لغة واجهة المستخدم:</translation>
     </message>
     <message>
         <source>Email notification upon download completion</source>
@@ -673,10 +736,6 @@
     <message>
         <source>Torrent Queueing</source>
         <translation>انتظار التورنت</translation>
-    </message>
-    <message>
-        <source>Automatically add these trackers to new downloads:</source>
-        <translation>إضافة هذه المتتبعات تلقائيًا إلى التنزيلات الجديدة:</translation>
     </message>
     <message>
         <source>Web User Interface (Remote control)</source>
@@ -997,14 +1056,6 @@
         <translation>نصيحة: غلف المعلمات بعلامات اقتباس لتجنب قطع النص عند مسافة بيضاء (على سبيل المثال، "%N")</translation>
     </message>
     <message>
-        <source>The Web UI username must be at least 3 characters long.</source>
-        <translation>اسم المستخدم في واجهة الوِب الرسومية يجب أن يحتوي على 3 أحرف على الأقل.</translation>
-    </message>
-    <message>
-        <source>The Web UI password must be at least 6 characters long.</source>
-        <translation>كلمة السر في واجهة الوِب الرسومية يجب أن تحتوي على 6 أحرف على الأقل.</translation>
-    </message>
-    <message>
         <source>minutes</source>
         <translation>دقائق</translation>
     </message>
@@ -1041,16 +1092,8 @@
         <translation>تلقائي</translation>
     </message>
     <message>
-        <source>Use alternative Web UI</source>
-        <translation>استخدم واجهة وِب رسومية بديلة</translation>
-    </message>
-    <message>
         <source>Default Save Path:</source>
         <translation>مسار الحفظ الافتراضي:</translation>
-    </message>
-    <message>
-        <source>The alternative Web UI files location cannot be blank.</source>
-        <translation>لا يمكن ترك موقع ملفات واجهة الوِب الرسومية البديلة فارغًا.</translation>
     </message>
     <message>
         <source>Do not start the download automatically</source>
@@ -1189,10 +1232,6 @@
         <translation>أسرع رفع</translation>
     </message>
     <message>
-        <source>Pause torrent</source>
-        <translation>إلباث التورنت</translation>
-    </message>
-    <message>
         <source>Remove torrent and its files</source>
         <translation>إزالة التورنت وملفاته</translation>
     </message>
@@ -1307,10 +1346,6 @@
     <message>
         <source>Ban client after consecutive failures:</source>
         <translation>حظر العميل بعد إخفاقات متتالية:</translation>
-    </message>
-    <message>
-        <source>Enable cookie Secure flag (requires HTTPS)</source>
-        <translation>تمكين علامة تأمين ملفات تعريف الارتباط (يتطلب HTTPS)</translation>
     </message>
     <message>
         <source>Header: value pairs, one per line</source>
@@ -1541,10 +1576,6 @@
         <translation type="unfinished" />
     </message>
     <message>
-        <source>Run external program on torrent finished</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Whitelist for filtering HTTP Host header values.
 In order to defend against DNS rebinding attack,
 you should put in domain names used by WebUI server.
@@ -1555,10 +1586,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
 يجب عليك إدخال أسماء المجالات التي يستخدمها خادم واجهة الوِب الرسومية.
 
 استعمال ';' لتقسيم عدة إدخالات. يمكن استخدام حرف البدل '*'.</translation>
-    </message>
-    <message>
-        <source>Run external program on torrent added</source>
-        <translation type="unfinished" />
     </message>
     <message>
         <source>HTTPS certificate should not be empty</source>
@@ -1625,10 +1652,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>أيام</translation>
     </message>
     <message>
-        <source>Log file</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Behavior</source>
         <translation>السلوك</translation>
     </message>
@@ -1665,23 +1688,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>استخدم الوكيل لأغراض RSS</translation>
     </message>
     <message>
-        <source>Disk cache expiry interval (requires libtorrent &amp;lt; 2.0):</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Physical memory (RAM) usage limit (applied if libtorrent &amp;gt;= 2.0):</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Disk cache (requires libtorrent &amp;lt; 2.0):</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Socket send buffer size [0: system default]:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Coalesce reads &amp;amp; writes (requires libtorrent &amp;lt; 2.0):</source>
         <translation type="unfinished" />
     </message>
     <message>
@@ -1697,16 +1704,8 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>استخدام تصنيفات فرعية</translation>
     </message>
     <message>
-        <source>Disk IO type (libtorrent &amp;gt;= 2.0; requires restart):</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Add to top of queue</source>
         <translation>إضافة لأعلى القائمة</translation>
-    </message>
-    <message>
-        <source>Write-through (requires libtorrent &amp;gt;= 2.0.6)</source>
-        <translation type="unfinished" />
     </message>
     <message>
         <source>Stop tracker timeout [0: disabled]:</source>
@@ -1717,11 +1716,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>Hashing threads (requires libtorrent &amp;gt;= 2.0):</source>
+        <source>UPnP lease duration [0: permanent lease]:</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>UPnP lease duration [0: permanent lease]:</source>
+        <source>Bdecode depth limit:</source>
         <translation type="unfinished" />
     </message>
     <message>
@@ -1729,55 +1728,319 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>When inactive seeding time reaches</source>
-        <translation>عندما يصل وقت البذر غير النشط</translation>
+        <source>When total seeding time reaches</source>
+        <translation>عندما يصل وقت البذر الكلي</translation>
     </message>
     <message>
         <source>(None)</source>
         <translation>(لا شيء)</translation>
     </message>
     <message>
-        <source>Bdecode depth limit:</source>
+        <source>Python executable path (may require restart):</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>.torrent file size limit:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>When total seeding time reaches</source>
-        <translation>عندما يصل وقت البذر الكلي</translation>
+        <source>Resets to default if empty</source>
+        <translation>يعيد التعيين إلى الوضع الافتراضي إذا كان فارغًا</translation>
     </message>
     <message>
         <source>Perform hostname lookup via proxy</source>
         <translation>إجراء بحث عن اسم المضيف عبر الوكيل</translation>
     </message>
     <message>
-        <source>Mixed mode</source>
-        <translation>وضع مختلط</translation>
-    </message>
-    <message>
         <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <source>DHT bootstrap nodes:</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
+        <source>When inactive seeding time reaches</source>
+        <translation>عندما يصل وقت البذر غير النشط</translation>
+    </message>
+    <message>
+        <source>Mixed mode</source>
+        <translation>وضع مختلط</translation>
+    </message>
+    <message>
+        <source>.torrent file size limit:</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
+        <source>(Auto detect if empty)</source>
+        <translation>(الكشف التلقائي إذا كان فارغًا)</translation>
+    </message>
+    <message>
+        <source>Keep unselected files in ".unwanted" folder</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <source>Enable Mark-of-the-Web (MOTW) for downloaded files (require macOS or Windows):</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
+        <source> sec</source>
+        <translation>ث</translation>
+    </message>
+    <message>
+        <source>I2P outbound quantity:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P inbound quantity:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Hashing threads:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Physical memory (RAM) usage limit:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Use alternative WebUI</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Disk cache expiry interval:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P outbound length:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P (Experimental)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Disk IO type (requires restart):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>The alternative WebUI files location cannot be blank.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Disk cache:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Write-through</source>
+        <translation>الكتابة من خلال</translation>
+    </message>
+    <message>
+        <source>WebUI</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>The WebUI password must be at least 6 characters long.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Coalesce reads &amp;amp; writes:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P inbound length:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>It appends the text to the window title to help distinguish qBittorent instances</source>
+        <translation>يقوم بإلحاق النص بعنوان النافذة للمساعدة في التمييز بين مثيلات qBittorent</translation>
+    </message>
+    <message>
+        <source>The WebUI username must be at least 3 characters long.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Same host request delay:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Customize application instance name:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Color scheme:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Show external IP in status bar</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Fetched trackers</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Confirm when deleting torrents</source>
+        <translation>التأكيد عند حذف التورنتات</translation>
+    </message>
+    <message>
+        <source>Ignore SSL errors:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Dark</source>
+        <translation>داكن</translation>
+    </message>
+    <message>
+        <source>Delete files permanently</source>
+        <translation>حذف الملفات نهائيا</translation>
+    </message>
+    <message>
+        <source>Auto</source>
+        <translation>تلقائي</translation>
+    </message>
+    <message>
+        <source>Use alternating row colors</source>
+        <translation>استخدام ألوان متضادة للأسطر</translation>
+    </message>
+    <message>
+        <source>Display full announce URL in the Tracker column</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>URL:</source>
+        <translation>الرابط:</translation>
+    </message>
+    <message>
+        <source>Transfer list</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>The announce port must be between 0 and 65535.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Light</source>
+        <translation>فاتح</translation>
+    </message>
+    <message>
+        <source>Automatically append these trackers to new downloads:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Downloading torrents:</source>
+        <translation>أثناء تنزيل التورنتات:</translation>
+    </message>
+    <message>
+        <source>Start / stop torrent</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Send test email</source>
+        <translation>أرسل بريد تجريبي</translation>
+    </message>
+    <message>
+        <source>Completed torrents:</source>
+        <translation>التورنتات المكتملة:</translation>
+    </message>
+    <message>
+        <source>Enable cookie Secure flag (requires HTTPS or localhost connection)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>When duplicate torrent is being added</source>
+        <translation>عندما يتم إضافة تورنت مكررة</translation>
+    </message>
+    <message>
+        <source>Action on double-click</source>
+        <translation>الإجراء عند النقر المزدوج</translation>
+    </message>
+    <message>
+        <source>Save statistics interval:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Shows a confirmation dialog upon torrent deletion</source>
+        <translation>عرض مربع حوار لتأكيد حذف التورنت</translation>
+    </message>
+    <message>
+        <source>Run on torrent finished:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Attempted to send email. Check your inbox to confirm success</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Automatically append trackers from URL to new downloads:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Torrent content removing mode:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Move files to trash (if possible)</source>
+        <translation>نقل الملفات إلى سلة المهملات (إذا كان ذلك ممكنا)</translation>
+    </message>
+    <message>
+        <source>Stop torrent</source>
+        <translation>أوقف التورنت</translation>
+    </message>
+    <message>
+        <source>Use Category paths in Manual Mode</source>
+        <translation>استخدم مسارات الفئات في الوضع اليدوي</translation>
+    </message>
+    <message>
+        <source>List of alternative WebUI</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Run on torrent added:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Port reported to trackers (requires restart) [0: listening port]:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>User interface language:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Merge trackers to existing torrent</source>
+        <translation>دمج المتتبعات في التورنت الموجودة</translation>
+    </message>
+    <message>
+        <source>Confirm torrent recheck:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Custom WebUI settings</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Following settings are WebUI only</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Simple pread/pwrite</source>
+        <translation> pread/pwrite بسيطة</translation>
+    </message>
+    <message>
+        <source>Resolve relative Save Path against appropriate Category path instead of Default one</source>
+        <translation>حل مسار الحفظ النسبي مقابل مسار الفئة المناسب بدلاً من المسار الافتراضي</translation>
+    </message>
+    <message>
+        <source>No action</source>
+        <translation>دون إجراء</translation>
+    </message>
+    <message>
+        <source>Auto hide zero status filters</source>
+        <translation>إخفاء مرشحات الحالة الصفرية تلقائيًا</translation>
+    </message>
+    <message>
+        <source>Interface</source>
+        <translation>الواجهة</translation>
+    </message>
+    <message>
+        <source>Log Files</source>
         <translation type="unfinished" />
     </message>
 </context>
@@ -2144,6 +2407,58 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>Match all occurrences</source>
         <translation type="unfinished" />
     </message>
+    <message>
+        <source>Copy web seed URL</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Replace option</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Edit web seed URL...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Web seed URL:</source>
+        <translation>رابط القرين عبر الويب:</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>نعم</translation>
+    </message>
+    <message>
+        <source>Ratio / Time Active (in months), indicates how popular the torrent is</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Popularity:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Apply to which filename part</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>No</source>
+        <translation>لا</translation>
+    </message>
+    <message>
+        <source>Remove web seed</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Web seed editing</source>
+        <translation>تعديل القرين عبر الويب</translation>
+    </message>
+    <message>
+        <source>Add web seeds...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Private:</source>
+        <translation>خاص:</translation>
+    </message>
 </context>
 <context>
     <name>ScanFoldersModel</name>
@@ -2273,14 +2588,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>مُكتمل (0)</translation>
     </message>
     <message>
-        <source>Resumed (0)</source>
-        <translation>مُستأنف (0)</translation>
-    </message>
-    <message>
-        <source>Paused (0)</source>
-        <translation>مُلبث (0)</translation>
-    </message>
-    <message>
         <source>Active (0)</source>
         <translation>نشط (0)</translation>
     </message>
@@ -2307,14 +2614,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Completed (%1)</source>
         <translation>مكتمل (%1)</translation>
-    </message>
-    <message>
-        <source>Paused (%1)</source>
-        <translation>مُلبث (%1)</translation>
-    </message>
-    <message>
-        <source>Resumed (%1)</source>
-        <translation>مُستأنف (%1)</translation>
     </message>
     <message>
         <source>Active (%1)</source>
@@ -2360,6 +2659,42 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>Checking (0)</source>
         <translation>يفحص (0)</translation>
     </message>
+    <message>
+        <source>Moving (%1)</source>
+        <translation>نقل (%1)</translation>
+    </message>
+    <message>
+        <source>Moving (0)</source>
+        <translation>نقل (0)</translation>
+    </message>
+    <message>
+        <source>Running (0)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Stopped (0)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Stopped (%1)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Running (%1)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>إزالة التورنت</translation>
+    </message>
+    <message>
+        <source>Start torrents</source>
+        <translation>ابدأ تورنتات</translation>
+    </message>
+    <message>
+        <source>Stop torrents</source>
+        <translation>أوقف تورنتات</translation>
+    </message>
 </context>
 <context>
     <name>TorrentContentModel</name>
@@ -2375,11 +2710,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>Size</source>
         <comment>i.e: torrent size</comment>
         <translation>الحجم</translation>
-    </message>
-    <message>
-        <source>Done</source>
-        <comment>% Done</comment>
-        <translation>اكتمل</translation>
     </message>
     <message>
         <source>Status</source>
@@ -2511,6 +2841,38 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Availability</source>
         <translation>التوافر</translation>
+    </message>
+    <message>
+        <source>Reannounce In</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Private</source>
+        <translation>خاص</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation>التقدّم</translation>
+    </message>
+    <message>
+        <source>Info Hash v2</source>
+        <translation>تجزئة المعلومات v2</translation>
+    </message>
+    <message>
+        <source>Info Hash v1</source>
+        <translation>تجزئة المعلومات v1</translation>
+    </message>
+    <message>
+        <source>Incomplete Save Path</source>
+        <translation>مسار الحفظ غير مكتمل</translation>
+    </message>
+    <message>
+        <source>Popularity</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Status Icon</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -2647,10 +3009,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>قبل %1</translation>
     </message>
     <message>
-        <source>Paused</source>
-        <translation>مُلبث</translation>
-    </message>
-    <message>
         <source>Completed</source>
         <translation>مكتمل</translation>
     </message>
@@ -2714,6 +3072,14 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>[F] Downloading metadata</source>
         <translation>[إجباري] يُنزّل البيانات الوصفية</translation>
     </message>
+    <message>
+        <source>Stopped</source>
+        <translation>متوقف</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>لا يوجد</translation>
+    </message>
 </context>
 <context>
     <name>TransferListFiltersWidget</name>
@@ -2737,6 +3103,10 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>Collapse/expand</source>
         <translation type="unfinished" />
     </message>
+    <message>
+        <source>Collapse/expand category</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>TransferListWidget</name>
@@ -2751,21 +3121,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Rename</source>
         <translation>تغيير التسمية</translation>
-    </message>
-    <message>
-        <source>Resume</source>
-        <comment>Resume/start the torrent</comment>
-        <translation>استئناف</translation>
-    </message>
-    <message>
-        <source>Force Resume</source>
-        <comment>Force Resume/start the torrent</comment>
-        <translation>إجبار الاستئناف</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <comment>Pause the torrent</comment>
-        <translation>إلباث</translation>
     </message>
     <message>
         <source>Limit share ratio...</source>
@@ -2846,14 +3201,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>تصنيف جديد</translation>
     </message>
     <message>
-        <source>Location</source>
-        <translation>المكان</translation>
-    </message>
-    <message>
-        <source>New name</source>
-        <translation>اسم جديد</translation>
-    </message>
-    <message>
         <source>Set location</source>
         <translation>تحديد المكان</translation>
     </message>
@@ -2866,16 +3213,8 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>تعديل التصنيف</translation>
     </message>
     <message>
-        <source>Save path</source>
-        <translation>مسار الحفظ</translation>
-    </message>
-    <message>
         <source>Comma-separated tags:</source>
         <translation>وسوم مفصولة بفواصل:</translation>
-    </message>
-    <message>
-        <source>Add Tags</source>
-        <translation>إضافة وسوم</translation>
     </message>
     <message>
         <source>Tags</source>
@@ -2933,6 +3272,46 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>Renaming</source>
         <translation>إعادة التسمية</translation>
     </message>
+    <message>
+        <source>Comment</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Force Start</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Save path:</source>
+        <translation>مسار الحفظ:</translation>
+    </message>
+    <message>
+        <source>Location:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>أوقف</translation>
+    </message>
+    <message>
+        <source>Automatic mode means that various torrent properties(eg save path) will be decided by the associated category</source>
+        <translation>الوضع التلقائي يعني أن العديد من خصائص التورنت (مسار الحفظ مثلاً) سيتم تحديده عن طريق التصنيف المرتبط به</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>New name:</source>
+        <translation>الاسم الجديد:</translation>
+    </message>
+    <message>
+        <source>Add tags</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>الفئة:</translation>
+    </message>
 </context>
 <context>
     <name>UpDownRatioDialog</name>
@@ -2971,12 +3350,16 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
 <context>
     <name>confirmDeletionDlg</name>
     <message>
-        <source>Also permanently delete the files</source>
-        <translation>أيضًا احذف الملفات نهائيًا</translation>
-    </message>
-    <message>
         <source>Remove torrent(s)</source>
         <translation>إزالة التورنت (الملفات)</translation>
+    </message>
+    <message>
+        <source>Also remove the content files</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Remove tracker</source>
+        <translation>إزالة المتتبع</translation>
     </message>
 </context>
 <context>
@@ -3178,6 +3561,26 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>There aren't any search plugins installed.</source>
         <translation type="unfinished" />
     </message>
+    <message>
+        <source>Select category</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Min size prefix</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Start a search above.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Max size prefix</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Select plugins</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>PluginSelectDlg</name>
@@ -3233,12 +3636,20 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>المحمِّلون</translation>
     </message>
     <message>
-        <source>Search engine</source>
-        <translation>محرّك البحث</translation>
-    </message>
-    <message>
         <source>Seeders</source>
         <translation>الباذرون</translation>
+    </message>
+    <message>
+        <source>Published On</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Engine URL</source>
+        <translation>رابط المحرك</translation>
+    </message>
+    <message>
+        <source>Engine</source>
+        <translation>المحرك</translation>
     </message>
 </context>
 <context>
@@ -3306,14 +3717,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>الوسم:</translation>
     </message>
     <message>
-        <source>Pause torrents</source>
-        <translation>إلباث التورنتات</translation>
-    </message>
-    <message>
-        <source>Resume torrents</source>
-        <translation>استئناف التورنتات</translation>
-    </message>
-    <message>
         <source>Remove unused tags</source>
         <translation>إزالة الوسوم غير المستخدمة</translation>
     </message>
@@ -3328,6 +3731,14 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Remove torrents</source>
         <translation>إزالة التورنت</translation>
+    </message>
+    <message>
+        <source>Start torrents</source>
+        <translation>ابدأ تورنتات</translation>
+    </message>
+    <message>
+        <source>Stop torrents</source>
+        <translation>أوقف تورنتات</translation>
     </message>
 </context>
 <context>
@@ -3469,6 +3880,30 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>Download link</source>
         <translation>تنزيل الرابط</translation>
     </message>
+    <message>
+        <source>Search has finished</source>
+        <translation>انتهى البحث</translation>
+    </message>
+    <message>
+        <source>An error occurred during search...</source>
+        <translation>حدث خطأ أثناء البحث...</translation>
+    </message>
+    <message>
+        <source>Close tab</source>
+        <translation>إغلاق علامة التبويب</translation>
+    </message>
+    <message>
+        <source>Searching...</source>
+        <translation>يبحث...</translation>
+    </message>
+    <message>
+        <source>Search aborted</source>
+        <translation>تم إلغاء البحث</translation>
+    </message>
+    <message>
+        <source>Close all tabs</source>
+        <translation>أغلق كل علامات التبويب</translation>
+    </message>
 </context>
 <context>
     <name>TorrentContentTreeView</name>
@@ -3578,6 +4013,22 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Download torrent</source>
         <translation>تنزيل التورنت</translation>
+    </message>
+    <message>
+        <source>Edit feed URL...</source>
+        <translation>تحرير رابط الموجز...</translation>
+    </message>
+    <message>
+        <source>Unable to update URL</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>URL is unchanged</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>URL cannot be empty</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -3767,10 +4218,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>إذا كان ترتيب الكلمات مهمًا ، استخدم * بدلاً من المسافات البيضاء.</translation>
     </message>
     <message>
-        <source>Add Paused:</source>
-        <translation>إضافة المُلبث:</translation>
-    </message>
-    <message>
         <source>Please type the name of the new download rule.</source>
         <translation>الرجاء كتابة اسم قاعدة التنزيل الجديدة.</translation>
     </message>
@@ -3828,28 +4275,44 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
         <source>Add Tags:</source>
         <translation type="unfinished" />
     </message>
+    <message>
+        <source>Remove rule</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Add rule</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Add Stopped:</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>TrackerFiltersList</name>
     <message>
-        <source>Resume torrents</source>
-        <translation>استئناف التورنتات</translation>
-    </message>
-    <message>
-        <source>All (%1)</source>
-        <translation>الكل (%1)</translation>
-    </message>
-    <message>
-        <source>Trackerless (%1)</source>
-        <translation>بدون متتبعات (%1)</translation>
-    </message>
-    <message>
-        <source>Pause torrents</source>
-        <translation>إلباث التورنتات</translation>
-    </message>
-    <message>
         <source>Remove torrents</source>
         <translation>إزالة التورنت</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>الكل</translation>
+    </message>
+    <message>
+        <source>Trackerless</source>
+        <translation>بدون تتبع</translation>
+    </message>
+    <message>
+        <source>Start torrents</source>
+        <translation>ابدأ تورنتات</translation>
+    </message>
+    <message>
+        <source>Remove tracker</source>
+        <translation>إزالة المتتبع</translation>
+    </message>
+    <message>
+        <source>Stop torrents</source>
+        <translation>أوقف تورنتات</translation>
     </message>
 </context>
 <context>
@@ -3996,6 +4459,131 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     <message>
         <source>Choose a log level...</source>
         <translation type="unfinished" />
+    </message>
+</context>
+<context>
+    <name>TrackersFilterWidget</name>
+    <message>
+        <source>Are you sure you want to remove tracker %1 from all torrents?</source>
+        <translation type="unfinished" />
+    </message>
+</context>
+<context>
+    <name>Category</name>
+    <message>
+        <source>Unable to edit category</source>
+        <translation>تعذّر تعديل الفئة</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>حسنًا</translation>
+    </message>
+    <message>
+        <source>Unable to create category</source>
+        <translation>تعذّر إنشاء الفئة</translation>
+    </message>
+    <message>
+        <source>Unable to set category</source>
+        <translation type="unfinished" />
+    </message>
+</context>
+<context>
+    <name>CookiesDialog</name>
+    <message>
+        <source>Domain</source>
+        <translation>النطاق</translation>
+    </message>
+    <message>
+        <source>Manage Cookies</source>
+        <translation>إدارة الكعكات</translation>
+    </message>
+    <message>
+        <source>Add Cookie</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>إزالة</translation>
+    </message>
+    <message>
+        <source>Expiration Date</source>
+        <translation>تاريخ الانتهاء</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>القيمة</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>الاسم</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation>المسار</translation>
+    </message>
+</context>
+<context>
+    <name>confirmAutoTMMDialog</name>
+    <message>
+        <source>Enable automatic torrent management</source>
+        <translation>تفعيل الإدارة التلقائية للتورنت</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to enable Automatic Torrent Management for the selected torrent(s)? They may be relocated.</source>
+        <translation>هل أنت متأكد من أنك تريد تفعيل الإدارة التلقائية للتورنت المحدد؟ قد يتم نقلهم.</translation>
+    </message>
+</context>
+<context>
+    <name>confirmRecheckDialog</name>
+    <message>
+        <source>Are you sure you want to recheck the selected torrent(s)?</source>
+        <translation>هل أنت متأكد من رغبتك في اعادة التأكد من الملفات المختارة؟</translation>
+    </message>
+    <message>
+        <source>Recheck confirmation</source>
+        <translation>اعادة التأكد</translation>
+    </message>
+</context>
+<context>
+    <name>SearchWidget</name>
+    <message>
+        <source>Close tab</source>
+        <translation>إغلاق علامة التبويب</translation>
+    </message>
+</context>
+<context>
+    <name>Login</name>
+    <message>
+        <source>qBittorrent WebUI</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>كلمة السر</translation>
+    </message>
+    <message>
+        <source>JavaScript Required! You must enable JavaScript for the WebUI to work properly</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>ولوج</translation>
+    </message>
+    <message>
+        <source>Server response:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unable to log in, server is probably unreachable.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>اسم المستخدم</translation>
+    </message>
+    <message>
+        <source>Invalid Username or Password.</source>
+        <translation>اسم المستخدم أو كلمة السر غير صالحة.</translation>
     </message>
 </context>
 </TS>

@@ -44,6 +44,8 @@
 
 #include "base/global.h"
 #include "base/logger.h"
+#include "base/path.h"
+#include "base/preferences.h"
 #include "base/utils/bytearray.h"
 
 using namespace Utils::ForeignApps;
@@ -52,6 +54,8 @@ namespace
 {
     bool testPythonInstallation(const QString &exeName, PythonInfo &info)
     {
+        info = {};
+
         QProcess proc;
         proc.start(exeName, {u"--version"_s}, QIODevice::ReadOnly);
         if (proc.waitForFinished() && (proc.exitCode() == QProcess::NormalExit))
@@ -64,7 +68,7 @@ namespace
             // Software 'Anaconda' installs its own python interpreter
             // and `python --version` returns a string like this:
             // "Python 3.4.3 :: Anaconda 2.3.0 (64-bit)"
-            const QVector<QByteArray> outputSplit = Utils::ByteArray::splitToViews(procOutput, " ", Qt::SkipEmptyParts);
+            const QList<QByteArrayView> outputSplit = Utils::ByteArray::splitToViews(procOutput, " ", Qt::SkipEmptyParts);
             if (outputSplit.size() <= 1)
                 return false;
 
@@ -77,7 +81,7 @@ namespace
                 return false;
 
             info = {exeName, version};
-            LogMsg(QCoreApplication::translate("Utils::ForeignApps", "Python detected, executable name: '%1', version: %2")
+            LogMsg(QCoreApplication::translate("Utils::ForeignApps", "Found Python executable. Name: \"%1\". Version: \"%2\"")
                 .arg(info.executableName, info.version.toString()), Log::INFO);
             return true;
         }
@@ -248,26 +252,49 @@ bool Utils::ForeignApps::PythonInfo::isValid() const
 
 bool Utils::ForeignApps::PythonInfo::isSupportedVersion() const
 {
-    return (version >= Version {3, 7, 0});
+    return (version >= Version {3, 9, 0});
 }
 
 PythonInfo Utils::ForeignApps::pythonInfo()
 {
     static PythonInfo pyInfo;
-    if (!pyInfo.isValid())
-    {
-        if (testPythonInstallation(u"python3"_s, pyInfo))
-            return pyInfo;
 
-        if (testPythonInstallation(u"python"_s, pyInfo))
+    const QString preferredPythonPath = Preferences::instance()->getPythonExecutablePath().toString();
+    if (pyInfo.isValid() && (preferredPythonPath == pyInfo.executableName))
+        return pyInfo;
+
+    if (!preferredPythonPath.isEmpty())
+    {
+        if (testPythonInstallation(preferredPythonPath, pyInfo))
             return pyInfo;
+        LogMsg(QCoreApplication::translate("Utils::ForeignApps", "Failed to find Python executable. Path: \"%1\".")
+            .arg(preferredPythonPath), Log::WARNING);
+    }
+    else
+    {
+        // auto detect only when there are no preferred python path
+
+        if (!pyInfo.isValid())
+        {
+            if (testPythonInstallation(u"python3"_s, pyInfo))
+                return pyInfo;
+            LogMsg(QCoreApplication::translate("Utils::ForeignApps", "Failed to find `python3` executable in PATH environment variable. PATH: \"%1\"")
+                .arg(qEnvironmentVariable("PATH")), Log::INFO);
+
+            if (testPythonInstallation(u"python"_s, pyInfo))
+                return pyInfo;
+            LogMsg(QCoreApplication::translate("Utils::ForeignApps", "Failed to find `python` executable in PATH environment variable. PATH: \"%1\"")
+                .arg(qEnvironmentVariable("PATH")), Log::INFO);
 
 #if defined(Q_OS_WIN)
-        if (testPythonInstallation(findPythonPath(), pyInfo))
-            return pyInfo;
+            if (testPythonInstallation(findPythonPath(), pyInfo))
+                return pyInfo;
+            LogMsg(QCoreApplication::translate("Utils::ForeignApps", "Failed to find `python` executable in Windows Registry."), Log::INFO);
 #endif
 
-        LogMsg(QCoreApplication::translate("Utils::ForeignApps", "Python not detected"), Log::INFO);
+            LogMsg(QCoreApplication::translate("Utils::ForeignApps", "Failed to find Python executable"), Log::WARNING);
+
+        }
     }
 
     return pyInfo;

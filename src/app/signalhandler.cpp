@@ -30,11 +30,10 @@
 
 #include "signalhandler.h"
 
-#include <QtGlobal>
+#include <QtSystemDetection>
 
 #include <algorithm>
 #include <csignal>
-#include <tuple>
 
 #ifdef Q_OS_UNIX
 #include <unistd.h>

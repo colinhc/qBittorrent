@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2023  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2023-2024  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -64,20 +64,23 @@ namespace
     }
 }
 
-class ColorWidget final : public QFrame
+class ColorWidget final : public QLabel
 {
     Q_DISABLE_COPY_MOVE(ColorWidget)
+    Q_DECLARE_TR_FUNCTIONS(ColorWidget)
 
 public:
     explicit ColorWidget(const QColor &currentColor, const QColor &defaultColor, QWidget *parent = nullptr)
-        : QFrame(parent)
+        : QLabel(parent)
         , m_defaultColor {defaultColor}
+        , m_currentColor {currentColor}
     {
-        setObjectName(u"colorWidget"_s);
+        setObjectName("colorWidget");
         setFrameShape(QFrame::Box);
         setFrameShadow(QFrame::Plain);
+        setAlignment(Qt::AlignCenter);
 
-        setCurrentColor(currentColor);
+        applyColor(currentColor);
     }
 
     QColor currentColor() const
@@ -118,7 +121,16 @@ private:
 
     void applyColor(const QColor &color)
     {
-        setStyleSheet(u"#colorWidget { background-color: %1; }"_s.arg(color.name()));
+        if (color.isValid())
+        {
+            setStyleSheet(u"#colorWidget { background-color: %1; }"_s.arg(color.name()));
+            setText({});
+        }
+        else
+        {
+            setStyleSheet({});
+            setText(tr("System"));
+        }
     }
 
     void showColorDialog()
@@ -140,13 +152,14 @@ private:
 class IconWidget final : public QLabel
 {
     Q_DISABLE_COPY_MOVE(IconWidget)
+    Q_DECLARE_TR_FUNCTIONS(IconWidget)
 
 public:
     explicit IconWidget(const Path &currentPath, const Path &defaultPath, QWidget *parent = nullptr)
         : QLabel(parent)
         , m_defaultPath {defaultPath}
     {
-        setObjectName(u"iconWidget"_s);
+        setObjectName("iconWidget");
         setAlignment(Qt::AlignCenter);
 
         setCurrentPath(currentPath);

@@ -1,5 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
+ * Copyright (C) 2024  Jonathan Ketchker
  * Copyright (C) 2015-2022  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2010  Christophe Dumez <chris@qbittorrent.org>
  * Copyright (C) 2010  Arnaud Demaiziere <arnaud@qbittorrent.org>
@@ -38,8 +39,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QList>
 #include <QUrl>
-#include <QVector>
 
 #include "base/asyncfilestorage.h"
 #include "base/global.h"
@@ -98,7 +99,7 @@ Feed::Feed(const QUuid &uid, const QString &url, const QString &path, Session *s
     else
         connect(m_session, &Session::processingStateChanged, this, &Feed::handleSessionProcessingEnabledChanged);
 
-    Net::DownloadManager::instance()->registerSequentialService(Net::ServiceID::fromURL(m_url));
+    Net::DownloadManager::instance()->registerSequentialService(Net::ServiceID::fromURL(m_url), m_session->fetchDelay());
 
     load();
 }
@@ -157,6 +158,12 @@ void Feed::refresh()
 
     m_isLoading = true;
     emit stateChanged(this);
+}
+
+void Feed::updateFetchDelay()
+{
+    // Update delay values for registered sequential services
+    Net::DownloadManager::instance()->registerSequentialService(Net::ServiceID::fromURL(m_url), m_session->fetchDelay());
 }
 
 QUuid Feed::uid() const
@@ -294,7 +301,7 @@ void Feed::store()
     m_dirty = false;
     m_savingTimer.stop();
 
-    QVector<QVariantHash> articlesData;
+    QList<QVariantHash> articlesData;
     articlesData.reserve(m_articles.size());
 
     for (Article *article :asConst(m_articles))
@@ -388,7 +395,7 @@ int Feed::updateArticles(const QList<QVariantHash> &loadedArticles)
         return 0;
 
     QDateTime dummyPubDate {QDateTime::currentDateTime()};
-    QVector<QVariantHash> newArticles;
+    QList<QVariantHash> newArticles;
     newArticles.reserve(loadedArticles.size());
     for (QVariantHash article : loadedArticles)
     {
@@ -509,7 +516,7 @@ void Feed::handleArticleRead(Article *article)
     storeDeferred();
 }
 
-void Feed::handleArticleLoadFinished(QVector<QVariantHash> articles)
+void Feed::handleArticleLoadFinished(QList<QVariantHash> articles)
 {
     Q_ASSERT(m_articles.isEmpty());
     Q_ASSERT(m_unreadCount == 0);
@@ -524,8 +531,7 @@ void Feed::handleArticleLoadFinished(QVector<QVariantHash> articles)
     for (const QVariantHash &articleData : articles)
     {
         const auto articleID = articleData.value(Article::KeyId).toString();
-        // TODO: use [[unlikely]] in C++20
-        if (Q_UNLIKELY(m_articles.contains(articleID)))
+        if (m_articles.contains(articleID)) [[unlikely]]
             continue;
 
         auto *article = new Article(this, articleData);
@@ -561,8 +567,7 @@ void Feed::cleanup()
     Utils::Fs::removeFile(m_iconPath);
 }
 
-void Feed::timerEvent(QTimerEvent *event)
+void Feed::timerEvent([[maybe_unused]] QTimerEvent *event)
 {
-    Q_UNUSED(event);
     store();
 }

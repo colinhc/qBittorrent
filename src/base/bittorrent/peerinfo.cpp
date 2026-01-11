@@ -198,7 +198,12 @@ QString PeerInfo::I2PAddress() const
 
 QString PeerInfo::client() const
 {
-    return QString::fromStdString(m_nativeInfo.client);
+    auto client = QString::fromStdString(m_nativeInfo.client).simplified();
+
+    // remove non-printable characters
+    erase_if(client, [](const QChar &c) { return !c.isPrint(); });
+
+    return client;
 }
 
 QString PeerInfo::peerIdClient() const
@@ -361,6 +366,10 @@ void PeerInfo::determineFlags()
     // P = Peer is using uTorrent uTP
     if (useUTPSocket())
         updateFlags(u'P', C_UTP);
+
+    // h = Peer is using NAT hole punching
+    if (isHolepunched())
+        updateFlags(u'h', tr("Peer is using NAT hole punching"));
 
     m_flags.chop(1);
     m_flagsDescription.chop(1);

@@ -29,6 +29,7 @@
 
 #include "preferences.h"
 
+#include <algorithm>
 #include <chrono>
 
 #include <QCoreApplication>
@@ -133,17 +134,17 @@ void Preferences::setCustomUIThemePath(const Path &path)
     setValue(u"Preferences/General/CustomUIThemePath"_s, path);
 }
 
-bool Preferences::deleteTorrentFilesAsDefault() const
+bool Preferences::removeTorrentContent() const
 {
     return value(u"Preferences/General/DeleteTorrentsFilesAsDefault"_s, false);
 }
 
-void Preferences::setDeleteTorrentFilesAsDefault(const bool del)
+void Preferences::setRemoveTorrentContent(const bool remove)
 {
-    if (del == deleteTorrentFilesAsDefault())
+    if (remove == removeTorrentContent())
         return;
 
-    setValue(u"Preferences/General/DeleteTorrentsFilesAsDefault"_s, del);
+    setValue(u"Preferences/General/DeleteTorrentsFilesAsDefault"_s, remove);
 }
 
 bool Preferences::confirmOnExit() const
@@ -358,6 +359,19 @@ void Preferences::setStatusbarDisplayed(const bool displayed)
     setValue(u"Preferences/General/StatusbarDisplayed"_s, displayed);
 }
 
+bool Preferences::isStatusbarExternalIPDisplayed() const
+{
+    return value(u"Preferences/General/StatusbarExternalIPDisplayed"_s, false);
+}
+
+void Preferences::setStatusbarExternalIPDisplayed(const bool displayed)
+{
+    if (displayed == isStatusbarExternalIPDisplayed())
+        return;
+
+    setValue(u"Preferences/General/StatusbarExternalIPDisplayed"_s, displayed);
+}
+
 bool Preferences::isSplashScreenDisabled() const
 {
     return value(u"Preferences/General/NoSplashScreen"_s, true);
@@ -427,6 +441,19 @@ void Preferences::setWinStartup(const bool b)
     {
         settings.remove(profileID);
     }
+}
+
+QString Preferences::getStyle() const
+{
+    return value<QString>(u"Appearance/Style"_s);
+}
+
+void Preferences::setStyle(const QString &styleName)
+{
+    if (styleName == getStyle())
+        return;
+
+    setValue(u"Appearance/Style"_s, styleName);
 }
 #endif // Q_OS_WIN
 
@@ -628,6 +655,47 @@ void Preferences::setSearchEnabled(const bool enabled)
     setValue(u"Preferences/Search/SearchEnabled"_s, enabled);
 }
 
+int Preferences::searchHistoryLength() const
+{
+    const int val = value(u"Search/HistoryLength"_s, 50);
+    return std::clamp(val, 0, 99);
+}
+
+void Preferences::setSearchHistoryLength(const int length)
+{
+    const int clampedLength = std::clamp(length, 0, 99);
+    if (clampedLength == searchHistoryLength())
+        return;
+
+    setValue(u"Search/HistoryLength"_s, clampedLength);
+}
+
+bool Preferences::storeOpenedSearchTabs() const
+{
+    return value(u"Search/StoreOpenedSearchTabs"_s, false);
+}
+
+void Preferences::setStoreOpenedSearchTabs(const bool enabled)
+{
+    if (enabled == storeOpenedSearchTabs())
+        return;
+
+    setValue(u"Search/StoreOpenedSearchTabs"_s, enabled);
+}
+
+bool Preferences::storeOpenedSearchTabResults() const
+{
+    return value(u"Search/StoreOpenedSearchTabResults"_s, false);
+}
+
+void Preferences::setStoreOpenedSearchTabResults(const bool enabled)
+{
+    if (enabled == storeOpenedSearchTabResults())
+        return;
+
+    setValue(u"Search/StoreOpenedSearchTabResults"_s, enabled);
+}
+
 bool Preferences::isWebUIEnabled() const
 {
 #ifdef DISABLE_GUI
@@ -672,11 +740,11 @@ void Preferences::setWebUIAuthSubnetWhitelistEnabled(const bool enabled)
     setValue(u"Preferences/WebUI/AuthSubnetWhitelistEnabled"_s, enabled);
 }
 
-QVector<Utils::Net::Subnet> Preferences::getWebUIAuthSubnetWhitelist() const
+QList<Utils::Net::Subnet> Preferences::getWebUIAuthSubnetWhitelist() const
 {
     const auto subnets = value<QStringList>(u"Preferences/WebUI/AuthSubnetWhitelist"_s);
 
-    QVector<Utils::Net::Subnet> ret;
+    QList<Utils::Net::Subnet> ret;
     ret.reserve(subnets.size());
 
     for (const QString &rawSubnet : subnets)
@@ -691,7 +759,7 @@ QVector<Utils::Net::Subnet> Preferences::getWebUIAuthSubnetWhitelist() const
 
 void Preferences::setWebUIAuthSubnetWhitelist(QStringList subnets)
 {
-    Algorithm::removeIf(subnets, [](const QString &subnet)
+    subnets.removeIf([](const QString &subnet)
     {
         return !Utils::Net::parseSubnet(subnet.trimmed()).has_value();
     });
@@ -1290,21 +1358,6 @@ void Preferences::setRecursiveDownloadEnabled(const bool enable)
     setValue(u"Preferences/Advanced/DisableRecursiveDownload"_s, !enable);
 }
 
-#ifdef Q_OS_WIN
-bool Preferences::neverCheckFileAssoc() const
-{
-    return value(u"Preferences/Win32/NeverCheckFileAssocation"_s, false);
-}
-
-void Preferences::setNeverCheckFileAssoc(const bool check)
-{
-    if (check == neverCheckFileAssoc())
-        return;
-
-    setValue(u"Preferences/Win32/NeverCheckFileAssocation"_s, check);
-}
-#endif // Q_OS_WIN
-
 int Preferences::getTrackerPort() const
 {
     return value<int>(u"Preferences/Advanced/trackerPort"_s, 9000);
@@ -1329,6 +1382,45 @@ void Preferences::setTrackerPortForwardingEnabled(const bool enabled)
         return;
 
     setValue(u"Preferences/Advanced/trackerPortForwarding"_s, enabled);
+}
+
+bool Preferences::isMarkOfTheWebEnabled() const
+{
+    return value(u"Preferences/Advanced/markOfTheWeb"_s, true);
+}
+
+void Preferences::setMarkOfTheWebEnabled(const bool enabled)
+{
+    if (enabled == isMarkOfTheWebEnabled())
+        return;
+
+    setValue(u"Preferences/Advanced/markOfTheWeb"_s, enabled);
+}
+
+bool Preferences::isIgnoreSSLErrors() const
+{
+    return value(u"Preferences/Advanced/IgnoreSSLErrors"_s, false);
+}
+
+void Preferences::setIgnoreSSLErrors(const bool enabled)
+{
+    if (enabled == isIgnoreSSLErrors())
+        return;
+
+    setValue(u"Preferences/Advanced/IgnoreSSLErrors"_s, enabled);
+}
+
+Path Preferences::getPythonExecutablePath() const
+{
+    return value(u"Preferences/Search/pythonExecutablePath"_s, Path());
+}
+
+void Preferences::setPythonExecutablePath(const Path &path)
+{
+    if (path == getPythonExecutablePath())
+        return;
+
+    setValue(u"Preferences/Search/pythonExecutablePath"_s, path);
 }
 
 #if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
@@ -1385,19 +1477,6 @@ void Preferences::setConfirmRemoveAllTags(const bool enabled)
     setValue(u"Preferences/Advanced/confirmRemoveAllTags"_s, enabled);
 }
 
-bool Preferences::confirmPauseAndResumeAll() const
-{
-    return value(u"GUI/ConfirmActions/PauseAndResumeAllTorrents"_s, true);
-}
-
-void Preferences::setConfirmPauseAndResumeAll(const bool enabled)
-{
-    if (enabled == confirmPauseAndResumeAll())
-        return;
-
-    setValue(u"GUI/ConfirmActions/PauseAndResumeAllTorrents"_s, enabled);
-}
-
 bool Preferences::confirmMergeTrackers() const
 {
     return value(u"GUI/ConfirmActions/MergeTrackers"_s, true);
@@ -1409,6 +1488,19 @@ void Preferences::setConfirmMergeTrackers(const bool enabled)
         return;
 
     setValue(u"GUI/ConfirmActions/MergeTrackers"_s, enabled);
+}
+
+bool Preferences::confirmRemoveTrackerFromAllTorrents() const
+{
+    return value(u"GUI/ConfirmActions/RemoveTrackerFromAllTorrents"_s, true);
+}
+
+void Preferences::setConfirmRemoveTrackerFromAllTorrents(const bool enabled)
+{
+    if (enabled == confirmRemoveTrackerFromAllTorrents())
+        return;
+
+    setValue(u"GUI/ConfirmActions/RemoveTrackerFromAllTorrents"_s, enabled);
 }
 
 #ifndef Q_OS_MACOS
@@ -1453,19 +1545,6 @@ void Preferences::setDNSLastIP(const QString &ip)
         return;
 
     setValue(u"DNSUpdater/lastIP"_s, ip);
-}
-
-bool Preferences::getAcceptedLegal() const
-{
-    return value(u"LegalNotice/Accepted"_s, false);
-}
-
-void Preferences::setAcceptedLegal(const bool accepted)
-{
-    if (accepted == getAcceptedLegal())
-        return;
-
-    setValue(u"LegalNotice/Accepted"_s, accepted);
 }
 
 QByteArray Preferences::getMainGeometry() const
@@ -1522,11 +1601,7 @@ void Preferences::setMainLastDir(const Path &path)
 
 QByteArray Preferences::getPeerListState() const
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     return value<QByteArray>(u"GUI/Qt6/TorrentProperties/PeerListState"_s);
-#else
-    return value<QByteArray>(u"TorrentProperties/Peers/qt5/PeerListState"_s);
-#endif
 }
 
 void Preferences::setPeerListState(const QByteArray &state)
@@ -1534,11 +1609,7 @@ void Preferences::setPeerListState(const QByteArray &state)
     if (state == getPeerListState())
         return;
 
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     setValue(u"GUI/Qt6/TorrentProperties/PeerListState"_s, state);
-#else
-    setValue(u"TorrentProperties/Peers/qt5/PeerListState"_s, state);
-#endif
 }
 
 QString Preferences::getPropSplitterSizes() const
@@ -1556,11 +1627,7 @@ void Preferences::setPropSplitterSizes(const QString &sizes)
 
 QByteArray Preferences::getPropFileListState() const
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     return value<QByteArray>(u"GUI/Qt6/TorrentProperties/FilesListState"_s);
-#else
-    return value<QByteArray>(u"TorrentProperties/qt5/FilesListState"_s);
-#endif
 }
 
 void Preferences::setPropFileListState(const QByteArray &state)
@@ -1568,11 +1635,7 @@ void Preferences::setPropFileListState(const QByteArray &state)
     if (state == getPropFileListState())
         return;
 
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     setValue(u"GUI/Qt6/TorrentProperties/FilesListState"_s, state);
-#else
-    setValue(u"TorrentProperties/qt5/FilesListState"_s, state);
-#endif
 }
 
 int Preferences::getPropCurTab() const
@@ -1601,25 +1664,17 @@ void Preferences::setPropVisible(const bool visible)
     setValue(u"TorrentProperties/Visible"_s, visible);
 }
 
-QByteArray Preferences::getPropTrackerListState() const
+QByteArray Preferences::getTrackerListState() const
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     return value<QByteArray>(u"GUI/Qt6/TorrentProperties/TrackerListState"_s);
-#else
-    return value<QByteArray>(u"TorrentProperties/Trackers/qt5/TrackerListState"_s);
-#endif
 }
 
-void Preferences::setPropTrackerListState(const QByteArray &state)
+void Preferences::setTrackerListState(const QByteArray &state)
 {
-    if (state == getPropTrackerListState())
+    if (state == getTrackerListState())
         return;
 
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     setValue(u"GUI/Qt6/TorrentProperties/TrackerListState"_s, state);
-#else
-    setValue(u"TorrentProperties/Trackers/qt5/TrackerListState"_s, state);
-#endif
 }
 
 QStringList Preferences::getRssOpenFolders() const
@@ -1637,11 +1692,7 @@ void Preferences::setRssOpenFolders(const QStringList &folders)
 
 QByteArray Preferences::getRssSideSplitterState() const
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     return value<QByteArray>(u"GUI/Qt6/RSSWidget/SideSplitterState"_s);
-#else
-    return value<QByteArray>(u"GUI/RSSWidget/qt5/splitter_h"_s);
-#endif
 }
 
 void Preferences::setRssSideSplitterState(const QByteArray &state)
@@ -1649,20 +1700,12 @@ void Preferences::setRssSideSplitterState(const QByteArray &state)
     if (state == getRssSideSplitterState())
         return;
 
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     setValue(u"GUI/Qt6/RSSWidget/SideSplitterState"_s, state);
-#else
-    setValue(u"GUI/RSSWidget/qt5/splitter_h"_s, state);
-#endif
 }
 
 QByteArray Preferences::getRssMainSplitterState() const
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     return value<QByteArray>(u"GUI/Qt6/RSSWidget/MainSplitterState"_s);
-#else
-    return value<QByteArray>(u"GUI/RSSWidget/qt5/splitterMain"_s);
-#endif
 }
 
 void Preferences::setRssMainSplitterState(const QByteArray &state)
@@ -1670,20 +1713,12 @@ void Preferences::setRssMainSplitterState(const QByteArray &state)
     if (state == getRssMainSplitterState())
         return;
 
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     setValue(u"GUI/Qt6/RSSWidget/MainSplitterState"_s, state);
-#else
-    setValue(u"GUI/RSSWidget/qt5/splitterMain"_s, state);
-#endif
 }
 
 QByteArray Preferences::getSearchTabHeaderState() const
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     return value<QByteArray>(u"GUI/Qt6/SearchTab/HeaderState"_s);
-#else
-    return value<QByteArray>(u"SearchTab/qt5/HeaderState"_s);
-#endif
 }
 
 void Preferences::setSearchTabHeaderState(const QByteArray &state)
@@ -1691,11 +1726,7 @@ void Preferences::setSearchTabHeaderState(const QByteArray &state)
     if (state == getSearchTabHeaderState())
         return;
 
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     setValue(u"GUI/Qt6/SearchTab/HeaderState"_s, state);
-#else
-    setValue(u"SearchTab/qt5/HeaderState"_s, state);
-#endif
 }
 
 bool Preferences::getRegexAsFilteringPatternForSearchJob() const
@@ -1830,11 +1861,7 @@ void Preferences::setHideZeroStatusFilters(const bool hide)
 
 QByteArray Preferences::getTransHeaderState() const
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     return value<QByteArray>(u"GUI/Qt6/TransferList/HeaderState"_s);
-#else
-    return value<QByteArray>(u"TransferList/qt5/HeaderState"_s);
-#endif
 }
 
 void Preferences::setTransHeaderState(const QByteArray &state)
@@ -1842,11 +1869,7 @@ void Preferences::setTransHeaderState(const QByteArray &state)
     if (state == getTransHeaderState())
         return;
 
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     setValue(u"GUI/Qt6/TransferList/HeaderState"_s, state);
-#else
-    setValue(u"TransferList/qt5/HeaderState"_s, state);
-#endif
 }
 
 bool Preferences::getRegexAsFilteringPatternForTransferList() const
@@ -1985,6 +2008,63 @@ void Preferences::setSpeedWidgetGraphEnable(const int id, const bool enable)
         return;
 
     setValue(u"SpeedWidget/graph_enable_%1"_s.arg(id), enable);
+}
+
+bool Preferences::isAddNewTorrentDialogEnabled() const
+{
+    return value(u"AddNewTorrentDialog/Enabled"_s, true);
+}
+
+void Preferences::setAddNewTorrentDialogEnabled(const bool value)
+{
+    if (value == isAddNewTorrentDialogEnabled())
+        return;
+
+    setValue(u"AddNewTorrentDialog/Enabled"_s, value);
+}
+
+bool Preferences::isAddNewTorrentDialogTopLevel() const
+{
+    return value(u"AddNewTorrentDialog/TopLevel"_s, true);
+}
+
+void Preferences::setAddNewTorrentDialogTopLevel(const bool value)
+{
+    if (value == isAddNewTorrentDialogTopLevel())
+        return;
+
+    setValue(u"AddNewTorrentDialog/TopLevel"_s, value);
+}
+
+int Preferences::addNewTorrentDialogSavePathHistoryLength() const
+{
+    const int defaultHistoryLength = 8;
+
+    const int val = value(u"AddNewTorrentDialog/SavePathHistoryLength"_s, defaultHistoryLength);
+    return std::clamp(val, 0, 99);
+}
+
+void Preferences::setAddNewTorrentDialogSavePathHistoryLength(const int value)
+{
+    const int clampedValue = std::clamp(value, 0, 99);
+    const int oldValue = addNewTorrentDialogSavePathHistoryLength();
+    if (clampedValue == oldValue)
+        return;
+
+    setValue(u"AddNewTorrentDialog/SavePathHistoryLength"_s, clampedValue);
+}
+
+bool Preferences::isAddNewTorrentDialogAttached() const
+{
+    return value(u"AddNewTorrentDialog/Attached"_s, false);
+}
+
+void Preferences::setAddNewTorrentDialogAttached(const bool attached)
+{
+    if (attached == isAddNewTorrentDialogAttached())
+        return;
+
+    setValue(u"AddNewTorrentDialog/Attached"_s, attached);
 }
 
 void Preferences::apply()

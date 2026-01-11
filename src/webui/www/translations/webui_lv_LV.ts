@@ -70,6 +70,22 @@
         <source>Add to top of queue</source>
         <translation>Novietot saraksta augšā</translation>
     </message>
+    <message>
+        <source>One link per line (HTTP links, Magnet links and info-hashes are supported)</source>
+        <translation>Katrā rindā pa vienai saitei (Ir atbalstītas HTTP saites, Magnētsaites un Jaucējkodi)</translation>
+    </message>
+    <message>
+        <source>Add torrent links</source>
+        <translation>Pievienot torrentu saites</translation>
+    </message>
+    <message>
+        <source>Select .torrent files</source>
+        <translation>Atlasiet .torrent failus</translation>
+    </message>
+    <message>
+        <source>Torrent options</source>
+        <translation>Torrenta iestatījumi</translation>
+    </message>
 </context>
 <context>
     <name>CategoryFilterModel</name>
@@ -97,14 +113,6 @@
         <translation>Dzēst nelietotās kategorijas</translation>
     </message>
     <message>
-        <source>Resume torrents</source>
-        <translation>Atsākt torrentus</translation>
-    </message>
-    <message>
-        <source>Pause torrents</source>
-        <translation>Apturēt torrentus</translation>
-    </message>
-    <message>
         <source>New Category</source>
         <translation>Jauna kategorija</translation>
     </message>
@@ -120,16 +128,20 @@
         <source>Add subcategory...</source>
         <translation>Pievienot apakškategoriju...</translation>
     </message>
+    <message>
+        <source>Start torrents</source>
+        <translation>Palaistie torrenti</translation>
+    </message>
+    <message>
+        <source>Stop torrents</source>
+        <translation>Apstādinātie torrenti</translation>
+    </message>
 </context>
 <context>
     <name>HttpServer</name>
     <message>
         <source>Exit qBittorrent</source>
         <translation>Aizvērt qBittorrent</translation>
-    </message>
-    <message>
-        <source>Only one link per line</source>
-        <translation>Katrā rindiņā pa vienai saitei</translation>
     </message>
     <message>
         <source>Global upload rate limit must be greater than 0 or disabled.</source>
@@ -180,38 +192,6 @@
         <translation>Nezināms</translation>
     </message>
     <message>
-        <source>Share ratio limit must be between 0 and 9998.</source>
-        <translation>Koplietošanas reitinga limitam jābūt starp 0 un 9998.</translation>
-    </message>
-    <message>
-        <source>Seeding time limit must be between 0 and 525600 minutes.</source>
-        <translation>Augšupielādes ilguma limitam jābūt starp 0 un 525600 minūtēm.</translation>
-    </message>
-    <message>
-        <source>The port used for the Web UI must be between 1 and 65535.</source>
-        <translation>Tālvadības kontroles paneļa portam ir jābūt starp 1 un 65535.</translation>
-    </message>
-    <message>
-        <source>Unable to log in, qBittorrent is probably unreachable.</source>
-        <translation>Neizdevās pierakstīties, qBittorrent droši vien nav sasniedzams.</translation>
-    </message>
-    <message>
-        <source>Invalid Username or Password.</source>
-        <translation>Nederīgs lietotājvārds vai parole.</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Lietotājvārds</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Parole</translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation>Pierakstīties</translation>
-    </message>
-    <message>
         <source>Apply</source>
         <translation>Apstiprināt</translation>
     </message>
@@ -227,10 +207,6 @@
     <message>
         <source>Save files to location:</source>
         <translation>Saglabāt failus šeit:</translation>
-    </message>
-    <message>
-        <source>Cookie:</source>
-        <translation>Sīkdatne:</translation>
     </message>
     <message>
         <source>More information</source>
@@ -296,10 +272,6 @@
         <translation>Iziet</translation>
     </message>
     <message>
-        <source>Download Torrents from their URLs or Magnet links</source>
-        <translation>Lejupielādēt torrentus no to URL vai magnētsaitēm</translation>
-    </message>
-    <message>
         <source>Upload local torrent</source>
         <translation>Augšupielādēt torrentu</translation>
     </message>
@@ -318,10 +290,6 @@
     <message>
         <source>Invalid category name:\nPlease do not use any special characters in the category name.</source>
         <translation>Nederīgs kategorijas nosaukums:\nLūdzu nelietojiet nekādus īpašos simbolus kategorijas nosaukumā.</translation>
-    </message>
-    <message>
-        <source>Unable to create category</source>
-        <translation>Neizdevās izveidot kategoriju</translation>
     </message>
     <message>
         <source>Upload rate threshold must be greater than 0.</source>
@@ -348,10 +316,6 @@
         <translation>Lejupielādes ātruma slieksnim ir jābūt lielākam par 0</translation>
     </message>
     <message>
-        <source>qBittorrent has been shutdown</source>
-        <translation>qBittorrent klients ir izslēgts.</translation>
-    </message>
-    <message>
         <source>Open documentation</source>
         <translation>Atvērt dokumentāciju</translation>
     </message>
@@ -362,10 +326,6 @@
     <message>
         <source>Unable to add peers. Please ensure you are adhering to the IP:port format.</source>
         <translation>Neizdevās pievienot Koplietotājus. Pārliecinieties, ka izmantojāt pareizu IP:ports formātu.</translation>
-    </message>
-    <message>
-        <source>JavaScript Required! You must enable JavaScript for the Web UI to work properly</source>
-        <translation>Nepieciešams JavaScript! Jums ir jāieslēdz JavaScript, lai Web UI darbotos pareizi.</translation>
     </message>
     <message>
         <source>Name cannot be empty</source>
@@ -392,8 +352,96 @@
         <translation>Programmas radītājs</translation>
     </message>
     <message>
-        <source>Are you sure you want to remove the selected torrents from the transfer list?</source>
-        <translation>Vai esat pārliecināts, ka vēlaties izdzēst atlasītos torrentus no Torrentu saraksta?</translation>
+        <source>The port used for the WebUI must be between 1 and 65535.</source>
+        <translation>Tālvadības kontroles paneļa portam ir jābūt starp 1 un 65535.</translation>
+    </message>
+    <message>
+        <source>%1 has been shutdown</source>
+        <translation>%1 ir ticis izslēgts</translation>
+    </message>
+    <message>
+        <source>JavaScript Required! You must enable JavaScript for the WebUI to work properly</source>
+        <translation>Nepieciešams JavaScript! Jums ir jāieslēdz JavaScript, lai Tālvadības panelis strādātu pareizi</translation>
+    </message>
+    <message>
+        <source>External IP: N/A</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Reverse proxy setup examples</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Could not contact qBittorrent</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Remember choice</source>
+        <translation>Atcerēties izvēli</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these %1 torrents from the transfer list?</source>
+        <translation>Vai esat pārliecināts, ka vēlaties izdzēst šos %1 torrentus no Torrentu saraksta? </translation>
+    </message>
+    <message>
+        <source>Unable to delete torrents.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>Adrese</translation>
+    </message>
+    <message>
+        <source>External IP: %1%2</source>
+        <translation>Publiskā IP: %1%2</translation>
+    </message>
+    <message>
+        <source>Edit web seed</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Are you sure you want to remove %1 from the transfer list?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unable to set Auto Torrent Management for the selected torrents.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unable to stop torrents.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unable to download file</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>External IPs: %1, %2</source>
+        <translation>Publiskās IP adreses: %1, %2</translation>
+    </message>
+    <message>
+        <source>Unable to recheck torrents.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>List of web seeds to add (one per line):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unable to start torrents.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Add web seeds</source>
+        <translation>Pievienot tīmekļa devējus</translation>
+    </message>
+    <message>
+        <source>Share ratio limit must not have a negative value.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Seeding time limit must not have a negative value.</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -423,10 +471,6 @@
         <translation>Iestatījumi...</translation>
     </message>
     <message>
-        <source>Resume</source>
-        <translation>Atsākt</translation>
-    </message>
-    <message>
         <source>Top Toolbar</source>
         <translation>Augšējā rīkjosla</translation>
     </message>
@@ -443,24 +487,12 @@
         <translation>Ziedot!</translation>
     </message>
     <message>
-        <source>Resume All</source>
-        <translation>Atsākt visus</translation>
-    </message>
-    <message>
         <source>Statistics</source>
         <translation>Statistika</translation>
     </message>
     <message>
         <source>About</source>
         <translation>Par BitTorrent</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation>Apturēt</translation>
-    </message>
-    <message>
-        <source>Pause All</source>
-        <translation>Apturēt visus</translation>
     </message>
     <message>
         <source>Add Torrent File...</source>
@@ -493,11 +525,6 @@
     <message>
         <source>Are you sure you want to quit qBittorrent?</source>
         <translation>Vai esat pārliecināts, ka vēlaties aizvērt qBittorrent?</translation>
-    </message>
-    <message>
-        <source>[D: %1, U: %2] qBittorrent %3</source>
-        <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
-        <translation>[L: %1, A: %2] qBittorrent %3</translation>
     </message>
     <message>
         <source>Alternative speed limits</source>
@@ -608,20 +635,64 @@
         <translation>Dzēst</translation>
     </message>
     <message>
-        <source>Would you like to resume all torrents?</source>
-        <translation>Vai vēlies atsākt visus torrentus?</translation>
-    </message>
-    <message>
-        <source>Would you like to pause all torrents?</source>
-        <translation>Vai vēlies apturēt visus torrentus?</translation>
-    </message>
-    <message>
         <source>Execution Log</source>
         <translation>Reģistrs</translation>
     </message>
     <message>
         <source>Log</source>
         <translation>Reģistrs</translation>
+    </message>
+    <message>
+        <source>[D: %1, U: %2]</source>
+        <translation>[L: %1, A: %2]</translation>
+    </message>
+    <message>
+        <source>Filter by:</source>
+        <translation>Meklēt pēc:</translation>
+    </message>
+    <message>
+        <source>Save Path</source>
+        <translation>Saglabāšanas vieta</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>Pārtraukt</translation>
+    </message>
+    <message>
+        <source>Use regular expression</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Would you like to start all torrents?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Palaist</translation>
+    </message>
+    <message>
+        <source>Manage Cookies...</source>
+        <translation>Sīkfailu pārvaldība...</translation>
+    </message>
+    <message>
+        <source>Unable to export torrent file</source>
+        <translation>Neizdevās izgūt .torrent datni</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nosaukumu</translation>
+    </message>
+    <message>
+        <source>Would you like to stop all torrents?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Start All</source>
+        <translation>Palaist visus</translation>
+    </message>
+    <message>
+        <source>Stop All</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -647,16 +718,8 @@
         <translation>BitTorrent</translation>
     </message>
     <message>
-        <source>Web UI</source>
-        <translation>Tālvadība</translation>
-    </message>
-    <message>
         <source>Language</source>
         <translation>Valoda</translation>
-    </message>
-    <message>
-        <source>User Interface Language:</source>
-        <translation>Saskarnes valoda: </translation>
     </message>
     <message>
         <source>Email notification upon download completion</source>
@@ -673,10 +736,6 @@
     <message>
         <source>Torrent Queueing</source>
         <translation>Torrentu saraksts</translation>
-    </message>
-    <message>
-        <source>Automatically add these trackers to new downloads:</source>
-        <translation>Automātiski pievienot šos trakerus jaunajiem torrentiem:</translation>
     </message>
     <message>
         <source>Web User Interface (Remote control)</source>
@@ -997,14 +1056,6 @@
         <translation>Padoms: Lai izvairītos no teksta sadalīšanās, ja lietojat atstarpes, ievietojiet parametru pēdiņās (piemēram, "%N")</translation>
     </message>
     <message>
-        <source>The Web UI username must be at least 3 characters long.</source>
-        <translation>Tālvadības paneļa lietotājvārdam jāsatur vismaz 3 rakstzīmes.</translation>
-    </message>
-    <message>
-        <source>The Web UI password must be at least 6 characters long.</source>
-        <translation>Tālvadības paneļa parolei jāsatur vismaz 6 rakstzīmes.</translation>
-    </message>
-    <message>
         <source>minutes</source>
         <translation>minūtes</translation>
     </message>
@@ -1041,16 +1092,8 @@
         <translation>Automātiski</translation>
     </message>
     <message>
-        <source>Use alternative Web UI</source>
-        <translation>Lietot citu Tālvadības paneļa saskarni</translation>
-    </message>
-    <message>
         <source>Default Save Path:</source>
         <translation>Noklusētā saglabāšanas vieta:</translation>
-    </message>
-    <message>
-        <source>The alternative Web UI files location cannot be blank.</source>
-        <translation>Saskarnes failu atrašanās vieta nevar tikt atstāta tukša.</translation>
     </message>
     <message>
         <source>Do not start the download automatically</source>
@@ -1189,10 +1232,6 @@
         <translation>Ātrākā augšupielāde</translation>
     </message>
     <message>
-        <source>Pause torrent</source>
-        <translation>Apturēt torrentu</translation>
-    </message>
-    <message>
         <source>Remove torrent and its files</source>
         <translation>Izdzēst torrentu un failus</translation>
     </message>
@@ -1307,10 +1346,6 @@
     <message>
         <source>Ban client after consecutive failures:</source>
         <translation>Liegt piekļuvi pēc atkārtotiem mēģinājumiem:</translation>
-    </message>
-    <message>
-        <source>Enable cookie Secure flag (requires HTTPS)</source>
-        <translation>Ieslēgt sīkdatņu Secure Flag (nepieciešams HTTPS)</translation>
     </message>
     <message>
         <source>Header: value pairs, one per line</source>
@@ -1498,7 +1533,7 @@
     </message>
     <message>
         <source>It controls the internal state update interval which in turn will affect UI updates</source>
-        <translation type="unfinished" />
+        <translation>Tas kontrolē iekšējā stāvokļa atjaunināšanas intervālu, kas savukārt ietekmēs lietotāja saskarnes atjauninājumus</translation>
     </message>
     <message>
         <source>Disk IO read mode:</source>
@@ -1541,10 +1576,6 @@
         <translation>Atbalsts starptautisko domēnu vārdiem (IDN):</translation>
     </message>
     <message>
-        <source>Run external program on torrent finished</source>
-        <translation>Pēc torrenta lejupielādes beigšanas palaist programmu</translation>
-    </message>
-    <message>
         <source>Whitelist for filtering HTTP Host header values.
 In order to defend against DNS rebinding attack,
 you should put in domain names used by WebUI server.
@@ -1555,10 +1586,6 @@ Lai aizsargātu pret DNS atkārtotas atsaukšanas uzbrukumiem,
 šeit jāievada domēnu vārdi, kurus izmanto WebUI serveris.
 
 Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</translation>
-    </message>
-    <message>
-        <source>Run external program on torrent added</source>
-        <translation>Pēc torrenta pievienošanas palaist programmu</translation>
     </message>
     <message>
         <source>HTTPS certificate should not be empty</source>
@@ -1625,10 +1652,6 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>dienām</translation>
     </message>
     <message>
-        <source>Log file</source>
-        <translation>Reģistra fails</translation>
-    </message>
-    <message>
         <source>Behavior</source>
         <translation>Uzvedība</translation>
     </message>
@@ -1638,7 +1661,7 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     </message>
     <message>
         <source>Use proxy for BitTorrent purposes</source>
-        <translation>Izmantot starpniekserveri tikai BiTtorrent vajadzībām</translation>
+        <translation>Izmantot starpniekserveri tikai BiTtorrent savienojumiem</translation>
     </message>
     <message>
         <source>years</source>
@@ -1665,24 +1688,8 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>Izmantot starpniekserveri RSS kanāliem</translation>
     </message>
     <message>
-        <source>Disk cache expiry interval (requires libtorrent &amp;lt; 2.0):</source>
-        <translation>Diska kešatmiņas derīguma intervāls (nepieciešams libtorrent &lt; 2.0):</translation>
-    </message>
-    <message>
-        <source>Physical memory (RAM) usage limit (applied if libtorrent &amp;gt;= 2.0):</source>
-        <translation>Fiziskās atmiņas (RAM) izmantošanas robeža (pielāgota, ja libtorrent &gt;= 2.0):</translation>
-    </message>
-    <message>
-        <source>Disk cache (requires libtorrent &amp;lt; 2.0):</source>
-        <translation>Diska kešatmiņa (nepieciešams libtorrent &lt; 2.0):</translation>
-    </message>
-    <message>
         <source>Socket send buffer size [0: system default]:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Coalesce reads &amp;amp; writes (requires libtorrent &amp;lt; 2.0):</source>
-        <translation>Apvienot lasīšanas un rakstīšanas darbības (nepieciešams libtorrent &lt; 2.0):</translation>
+        <translation>Soketa sūtīšanas bufera izmērs [0: sistēmas noklusējums]:</translation>
     </message>
     <message>
         <source>Outgoing ports (Max) [0: disabled]:</source>
@@ -1690,23 +1697,15 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     </message>
     <message>
         <source>Socket receive buffer size [0: system default]:</source>
-        <translation type="unfinished" />
+        <translation>Soketa saņemšanas bufera izmērs [0: sistēmas noklusējums]:</translation>
     </message>
     <message>
         <source>Use Subcategories</source>
         <translation>Lietot apakškategorijas</translation>
     </message>
     <message>
-        <source>Disk IO type (libtorrent &amp;gt;= 2.0; requires restart):</source>
-        <translation>Diska Ievades/Izvades tips (libtorrent &gt;= 2.0; nepieciešama pārstartēšana):</translation>
-    </message>
-    <message>
         <source>Add to top of queue</source>
         <translation>Novietot saraksta augšā</translation>
-    </message>
-    <message>
-        <source>Write-through (requires libtorrent &amp;gt;= 2.0.6)</source>
-        <translation>Pārrakstīšana (nepieciešams libtorrent &gt;= 2.0.6)</translation>
     </message>
     <message>
         <source>Stop tracker timeout [0: disabled]:</source>
@@ -1717,15 +1716,43 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>Izejošie porti (Min) [0: Atslēgts]:</translation>
     </message>
     <message>
-        <source>Hashing threads (requires libtorrent &amp;gt;= 2.0):</source>
-        <translation>Plūsmu jaukšana (nepieciešams libtorrent &gt;= 2.0):</translation>
-    </message>
-    <message>
         <source>UPnP lease duration [0: permanent lease]:</source>
         <translation>UPnP nomas ilgums [0: neierobežots]:</translation>
     </message>
     <message>
+        <source>Bdecode depth limit:</source>
+        <translation>Bdekodēšanas dziļuma ierobežojums:</translation>
+    </message>
+    <message>
         <source>Bdecode token limit:</source>
+        <translation>Bdekodēšanas tokenu ierobežojums:</translation>
+    </message>
+    <message>
+        <source>When total seeding time reaches</source>
+        <translation>Kad kopējais augšupielādes laiks sasniedz</translation>
+    </message>
+    <message>
+        <source>(None)</source>
+        <translation>(Nevienu)</translation>
+    </message>
+    <message>
+        <source>Python executable path (may require restart):</source>
+        <translation>Python izpildāmā programma (var būt nepieciešama pārstartēšana):</translation>
+    </message>
+    <message>
+        <source>Resets to default if empty</source>
+        <translation>Atiestata uz noklusēto, ja atstāts tukšs</translation>
+    </message>
+    <message>
+        <source>Perform hostname lookup via proxy</source>
+        <translation>Izmantot starpniekserveri datoru nosaukumu noteikšanai</translation>
+    </message>
+    <message>
+        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
+        <translation>Ja ir ieslēgts "Jauktais režīms", I2P torrentiem ir atļauts iegūt koplietotājus ne tikai caur trakeru saitēm, bet arī no citiem avotiem, nenodrošinot anonimitāti. Tas var būt noderīgi, ja lietotājam anonimitāte nav svarīgāka par nepieciešamību pēc vairāk I2P koplietotājiem.</translation>
+    </message>
+    <message>
+        <source>DHT bootstrap nodes:</source>
         <translation type="unfinished" />
     </message>
     <message>
@@ -1733,52 +1760,288 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>Kad neaktīvais augšupielādes laiks sasniedz</translation>
     </message>
     <message>
-        <source>(None)</source>
-        <translation>(Nevienu)</translation>
-    </message>
-    <message>
-        <source>Bdecode depth limit:</source>
-        <translation type="unfinished" />
+        <source>Mixed mode</source>
+        <translation>Jauktais režīms</translation>
     </message>
     <message>
         <source>.torrent file size limit:</source>
         <translation>.torrent faila atļautais izmērs:</translation>
     </message>
     <message>
-        <source>When total seeding time reaches</source>
-        <translation>Kad kopējais augšupielādes laiks sasniedz</translation>
+        <source>(Auto detect if empty)</source>
+        <translation>(Automātiski, ja tukšs)</translation>
     </message>
     <message>
-        <source>Perform hostname lookup via proxy</source>
-        <translation>Izmantot starpniekserveri datoru nosaukumu noteikšanai</translation>
+        <source>Keep unselected files in ".unwanted" folder</source>
+        <translation>Uzglabāt neizvēlētos failus ".unwanted" mapē</translation>
     </message>
     <message>
-        <source>Mixed mode</source>
-        <translation>Jauktais režīms</translation>
+        <source>Enable Mark-of-the-Web (MOTW) for downloaded files (require macOS or Windows):</source>
+        <translation type="unfinished" />
     </message>
     <message>
-        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
-        <translation>Ja ir ieslēgts "Jauktais režīms", I2P torrentiem ir atļauts iegūt koplietotājus ne tikai caur trakeru saitēm, bet arī no citiem avotiem, nenodrošinot anonimitāti. Tas var būt noderīgi, ja lietotājam anonimitāte nav svarīgāka par nepieciešamību pēc vairāk I2P koplietotājiem.</translation>
+        <source> sec</source>
+        <translation>sek</translation>
     </message>
     <message>
-        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
-        <translation>I2P ienākošais daudzums (nepieciešams libtorrent %gt;= 2.0):</translation>
+        <source>I2P outbound quantity:</source>
+        <translation>I2P izejošais daudzums:</translation>
     </message>
     <message>
-        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
-        <translation>I2P (eksperimentālais) (nepieciešams libtorrent %gt;= 2.0):</translation>
+        <source>I2P inbound quantity:</source>
+        <translation>I2P ienākošais daudzums:</translation>
     </message>
     <message>
-        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
-        <translation>I2P izejošais daudzums (nepieciešams libtorrent %gt;= 2.0):</translation>
+        <source>Hashing threads:</source>
+        <translation>Plūsmu jaukšana</translation>
     </message>
     <message>
-        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
-        <translation>I2P izejošais garums (nepieciešams libtorrent %gt;= 2.0):</translation>
+        <source>Physical memory (RAM) usage limit:</source>
+        <translation>Operētājatmiņas (RAM) patēriņa robeža:</translation>
     </message>
     <message>
-        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
-        <translation>I2P ienākošais garums (nepieciešams libtorrent %gt;= 2.0):</translation>
+        <source>Use alternative WebUI</source>
+        <translation>Lietot citu Tālvadības paneļa saskarni</translation>
+    </message>
+    <message>
+        <source>Disk cache expiry interval:</source>
+        <translation>Diska kešatmiņas derīguma intervāls</translation>
+    </message>
+    <message>
+        <source>I2P outbound length:</source>
+        <translation>I2P izejošais garums:</translation>
+    </message>
+    <message>
+        <source>I2P (Experimental)</source>
+        <translation>l2P (eksperimentāls)</translation>
+    </message>
+    <message>
+        <source>Disk IO type (requires restart):</source>
+        <translation>Diska Ievades/Izvades tips (nepieciešama pārstartēšana):</translation>
+    </message>
+    <message>
+        <source>The alternative WebUI files location cannot be blank.</source>
+        <translation>Saskarnes failu atrašanās vieta nevar tikt atstāta tukša.</translation>
+    </message>
+    <message>
+        <source>Disk cache:</source>
+        <translation>Diska kešatmiņa:</translation>
+    </message>
+    <message>
+        <source>Write-through</source>
+        <translation>Pārrakstīšana</translation>
+    </message>
+    <message>
+        <source>WebUI</source>
+        <translation>Tālvadības panelis</translation>
+    </message>
+    <message>
+        <source>The WebUI password must be at least 6 characters long.</source>
+        <translation>Tālvadības paneļa parolei jāsatur vismaz 6 rakstzīmes.</translation>
+    </message>
+    <message>
+        <source>Coalesce reads &amp;amp; writes:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>I2P inbound length:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>It appends the text to the window title to help distinguish qBittorent instances</source>
+        <translation>Tas pievieno vārdu loga nosaukumam, lai palīdzētu atšķirt vienlaicīgas qBitorrent instances. </translation>
+    </message>
+    <message>
+        <source>The WebUI username must be at least 3 characters long.</source>
+        <translation>Tālvadības paneļa lietotājvārdam jāsatur vismaz 3 rakstzīmes.</translation>
+    </message>
+    <message>
+        <source>Same host request delay:</source>
+        <translation>Tā paša resursdatora pieprasījuma aizkave:</translation>
+    </message>
+    <message>
+        <source>Customize application instance name:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Color scheme:</source>
+        <translation>Krāsu shēma:</translation>
+    </message>
+    <message>
+        <source>Show external IP in status bar</source>
+        <translation>Rādīt publisko IP adresi statusa joslā</translation>
+    </message>
+    <message>
+        <source>Fetched trackers</source>
+        <translation>Iegūtie trakeri</translation>
+    </message>
+    <message>
+        <source>Confirm when deleting torrents</source>
+        <translation>Apstiprināt Torrentu dzēšanu</translation>
+    </message>
+    <message>
+        <source>Ignore SSL errors:</source>
+        <translation>Neņemt vērā SSL kļūdas:</translation>
+    </message>
+    <message>
+        <source>Dark</source>
+        <translation>Tumšs</translation>
+    </message>
+    <message>
+        <source>Delete files permanently</source>
+        <translation>Neatgriezeniski dzēst failus</translation>
+    </message>
+    <message>
+        <source>Auto</source>
+        <translation>Automātiski</translation>
+    </message>
+    <message>
+        <source>Use alternating row colors</source>
+        <translation>Iekrāsot katru otro rindiņu</translation>
+    </message>
+    <message>
+        <source>Display full announce URL in the Tracker column</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>URL:</source>
+        <translation>Adrese:</translation>
+    </message>
+    <message>
+        <source>Transfer list</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>The announce port must be between 0 and 65535.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Light</source>
+        <translation>Gaišs</translation>
+    </message>
+    <message>
+        <source>Automatically append these trackers to new downloads:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Downloading torrents:</source>
+        <translation>Lejupielādējot torrentus:</translation>
+    </message>
+    <message>
+        <source>Start / stop torrent</source>
+        <translation>Palaist / apstādināt torrentu</translation>
+    </message>
+    <message>
+        <source>Send test email</source>
+        <translation>Nosūtīt testa e-pastu</translation>
+    </message>
+    <message>
+        <source>Completed torrents:</source>
+        <translation>Pabeigtajiem torentiem:</translation>
+    </message>
+    <message>
+        <source>Enable cookie Secure flag (requires HTTPS or localhost connection)</source>
+        <translation>Iespējot sīkdatņu Secure parametru (nepieciešams HTTPS vai localhost savienojums)</translation>
+    </message>
+    <message>
+        <source>When duplicate torrent is being added</source>
+        <translation>Pievienojot torrenta duplikātu</translation>
+    </message>
+    <message>
+        <source>Action on double-click</source>
+        <translation>Dubultklikšķa darbība</translation>
+    </message>
+    <message>
+        <source>Save statistics interval:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Shows a confirmation dialog upon torrent deletion</source>
+        <translation>Dzēšot torrentu, tiks parādīts apstiprinājuma logs</translation>
+    </message>
+    <message>
+        <source>Run on torrent finished:</source>
+        <translation>Palaist, kad torrents pabeigts:</translation>
+    </message>
+    <message>
+        <source>Attempted to send email. Check your inbox to confirm success</source>
+        <translation>Mēģināja nosūtīt e-pastu. Pārbaudiet savu iesūtni, lai pārliecināties, ka viss noritēja veiksmīgi</translation>
+    </message>
+    <message>
+        <source>Automatically append trackers from URL to new downloads:</source>
+        <translation>Automātiski pievienot trakerus no URL jauniem lejupielādēm:</translation>
+    </message>
+    <message>
+        <source>Torrent content removing mode:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Move files to trash (if possible)</source>
+        <translation>Pārvietot failus uz atkritni (ja iespējams)</translation>
+    </message>
+    <message>
+        <source>Stop torrent</source>
+        <translation>Apstādināt torrentu</translation>
+    </message>
+    <message>
+        <source>Use Category paths in Manual Mode</source>
+        <translation>Izmantot Kategoriju vietas manuālajā režīmā</translation>
+    </message>
+    <message>
+        <source>List of alternative WebUI</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Run on torrent added:</source>
+        <translation>Palaist, kad torrents pievienots:</translation>
+    </message>
+    <message>
+        <source>Port reported to trackers (requires restart) [0: listening port]:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>User interface language:</source>
+        <translation>Saskarnes valoda:</translation>
+    </message>
+    <message>
+        <source>Merge trackers to existing torrent</source>
+        <translation>Apvienot torrentu trakeru saites</translation>
+    </message>
+    <message>
+        <source>Confirm torrent recheck:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Custom WebUI settings</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Following settings are WebUI only</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Simple pread/pwrite</source>
+        <translation>Vienkāršs pread/pwrite</translation>
+    </message>
+    <message>
+        <source>Resolve relative Save Path against appropriate Category path instead of Default one</source>
+        <translation>Noklusētās saglabāšanas vietas vietā izmantot attiecīgās Kategorijas saglabāšanas vietu</translation>
+    </message>
+    <message>
+        <source>No action</source>
+        <translation>Nedarīt neko</translation>
+    </message>
+    <message>
+        <source>Auto hide zero status filters</source>
+        <translation>Automātiski slēpt nulles statusa filtrus</translation>
+    </message>
+    <message>
+        <source>Interface</source>
+        <translation>Saskarne</translation>
+    </message>
+    <message>
+        <source>Log Files</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -2118,7 +2381,7 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     </message>
     <message>
         <source>Extension</source>
-        <translation type="unfinished" />
+        <translation>Paplašinājums</translation>
     </message>
     <message>
         <source>Replace All</source>
@@ -2143,6 +2406,58 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     <message>
         <source>Match all occurrences</source>
         <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Copy web seed URL</source>
+        <translation>Kopēt tīmekļa devēja adresi</translation>
+    </message>
+    <message>
+        <source>Replace option</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Edit web seed URL...</source>
+        <translation>Rediģēt tīmekļa sēklas URL...</translation>
+    </message>
+    <message>
+        <source>Web seed URL:</source>
+        <translation>Tīmekļa devēja adrese:</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Jā</translation>
+    </message>
+    <message>
+        <source>Ratio / Time Active (in months), indicates how popular the torrent is</source>
+        <translation>Attiecība / Aktīvais laiks (mēnešos), norāda, cik populārs ir torrents</translation>
+    </message>
+    <message>
+        <source>Popularity:</source>
+        <translation>Popularitāte:</translation>
+    </message>
+    <message>
+        <source>Apply to which filename part</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nē</translation>
+    </message>
+    <message>
+        <source>Remove web seed</source>
+        <translation>Noņemt tīmekļa devēju</translation>
+    </message>
+    <message>
+        <source>Web seed editing</source>
+        <translation>Tīmekļa devēja labošana</translation>
+    </message>
+    <message>
+        <source>Add web seeds...</source>
+        <translation>Pievienot tīmekļa devējus…</translation>
+    </message>
+    <message>
+        <source>Private:</source>
+        <translation>Privāts:</translation>
     </message>
 </context>
 <context>
@@ -2273,14 +2588,6 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>Pabeigti (0)</translation>
     </message>
     <message>
-        <source>Resumed (0)</source>
-        <translation>Atsākti (0)</translation>
-    </message>
-    <message>
-        <source>Paused (0)</source>
-        <translation>Apturēti (0)</translation>
-    </message>
-    <message>
         <source>Active (0)</source>
         <translation>Aktīvi (0)</translation>
     </message>
@@ -2307,14 +2614,6 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     <message>
         <source>Completed (%1)</source>
         <translation>Pabeigti (%1)</translation>
-    </message>
-    <message>
-        <source>Paused (%1)</source>
-        <translation>Apturēti (%1)</translation>
-    </message>
-    <message>
-        <source>Resumed (%1)</source>
-        <translation>Atsākti (%1)</translation>
     </message>
     <message>
         <source>Active (%1)</source>
@@ -2360,6 +2659,42 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <source>Checking (0)</source>
         <translation>Pārbauda (0)</translation>
     </message>
+    <message>
+        <source>Moving (%1)</source>
+        <translation>Pārvieto (%1)</translation>
+    </message>
+    <message>
+        <source>Moving (0)</source>
+        <translation>Pārvieto (0)</translation>
+    </message>
+    <message>
+        <source>Running (0)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Stopped (0)</source>
+        <translation>Apstādināti (0)</translation>
+    </message>
+    <message>
+        <source>Stopped (%1)</source>
+        <translation>Apstādināti (%1)</translation>
+    </message>
+    <message>
+        <source>Running (%1)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>Dzēst torrentus</translation>
+    </message>
+    <message>
+        <source>Start torrents</source>
+        <translation>Palaistie torrenti</translation>
+    </message>
+    <message>
+        <source>Stop torrents</source>
+        <translation>Apstādinātie torrenti</translation>
+    </message>
 </context>
 <context>
     <name>TorrentContentModel</name>
@@ -2375,11 +2710,6 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <source>Size</source>
         <comment>i.e: torrent size</comment>
         <translation>Izmērs</translation>
-    </message>
-    <message>
-        <source>Done</source>
-        <comment>% Done</comment>
-        <translation>Pabeigti</translation>
     </message>
     <message>
         <source>Status</source>
@@ -2511,6 +2841,38 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     <message>
         <source>Availability</source>
         <translation>Pieejamība</translation>
+    </message>
+    <message>
+        <source>Reannounce In</source>
+        <translation>Kontakts ar trakeri pēc</translation>
+    </message>
+    <message>
+        <source>Private</source>
+        <translation>Privāts</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation>Pabeigti</translation>
+    </message>
+    <message>
+        <source>Info Hash v2</source>
+        <translation>Jaucējkods v2</translation>
+    </message>
+    <message>
+        <source>Info Hash v1</source>
+        <translation>Jaucējkods v1</translation>
+    </message>
+    <message>
+        <source>Incomplete Save Path</source>
+        <translation>Saglabāšanas vieta nepabeigtajam</translation>
+    </message>
+    <message>
+        <source>Popularity</source>
+        <translation>Popularitāte</translation>
+    </message>
+    <message>
+        <source>Status Icon</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -2647,10 +3009,6 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>pirms %1</translation>
     </message>
     <message>
-        <source>Paused</source>
-        <translation>Apturēts</translation>
-    </message>
-    <message>
         <source>Completed</source>
         <translation>Pabeigts</translation>
     </message>
@@ -2714,6 +3072,14 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <source>[F] Downloading metadata</source>
         <translation>[P] Lejupielādē metadatus</translation>
     </message>
+    <message>
+        <source>Stopped</source>
+        <translation>pabeigts</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>Nav zināms</translation>
+    </message>
 </context>
 <context>
     <name>TransferListFiltersWidget</name>
@@ -2735,7 +3101,11 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     </message>
     <message>
         <source>Collapse/expand</source>
-        <translation>Samazināt/Paplašināt</translation>
+        <translation>Sakļaut/izvērst</translation>
+    </message>
+    <message>
+        <source>Collapse/expand category</source>
+        <translation>Sakļaut/izvērst kategoriju</translation>
     </message>
 </context>
 <context>
@@ -2751,21 +3121,6 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     <message>
         <source>Rename</source>
         <translation>Pārdēvēt</translation>
-    </message>
-    <message>
-        <source>Resume</source>
-        <comment>Resume/start the torrent</comment>
-        <translation>Atsākt</translation>
-    </message>
-    <message>
-        <source>Force Resume</source>
-        <comment>Force Resume/start the torrent</comment>
-        <translation>Piespiedu atsākšana</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <comment>Pause the torrent</comment>
-        <translation>Apturēt</translation>
     </message>
     <message>
         <source>Limit share ratio...</source>
@@ -2846,14 +3201,6 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>Jauna kategorija</translation>
     </message>
     <message>
-        <source>Location</source>
-        <translation>Atrašanās vieta</translation>
-    </message>
-    <message>
-        <source>New name</source>
-        <translation>Jaunais nosaukums</translation>
-    </message>
-    <message>
         <source>Set location</source>
         <translation>Nomainīt saglabāšanas vietu</translation>
     </message>
@@ -2866,16 +3213,8 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>Labot kategoriju</translation>
     </message>
     <message>
-        <source>Save path</source>
-        <translation>Saglabāšanas vieta</translation>
-    </message>
-    <message>
         <source>Comma-separated tags:</source>
         <translation>Atdalīt atzīmes ar komatu:</translation>
-    </message>
-    <message>
-        <source>Add Tags</source>
-        <translation>Pievienot atzīmes</translation>
     </message>
     <message>
         <source>Tags</source>
@@ -2919,7 +3258,7 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     </message>
     <message>
         <source>Export .torrent</source>
-        <translation>Eksportēt .torentu</translation>
+        <translation>Izgūt .torentu</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -2932,6 +3271,46 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     <message>
         <source>Renaming</source>
         <translation>Pārdēvēšana</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation>Komentārs</translation>
+    </message>
+    <message>
+        <source>Force Start</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Save path:</source>
+        <translation>Saglabāšanas vieta:</translation>
+    </message>
+    <message>
+        <source>Location:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>Pārtraukt</translation>
+    </message>
+    <message>
+        <source>Automatic mode means that various torrent properties(eg save path) will be decided by the associated category</source>
+        <translation>Automātiskais režīms nozīmē, ka torrenta īpašības (piem. saglabāšanas vieta), tiks piešķirta atbilstoši izvēlētajai kategorijai. </translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Palaist</translation>
+    </message>
+    <message>
+        <source>New name:</source>
+        <translation>Jaunais nosaukums:</translation>
+    </message>
+    <message>
+        <source>Add tags</source>
+        <translation>Pievienot birkas</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Kategorija:</translation>
     </message>
 </context>
 <context>
@@ -2971,12 +3350,16 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
 <context>
     <name>confirmDeletionDlg</name>
     <message>
-        <source>Also permanently delete the files</source>
-        <translation>Tāpat neatgriezeniski izdzēst failus</translation>
-    </message>
-    <message>
         <source>Remove torrent(s)</source>
         <translation>Dzēst torrentu(s)</translation>
+    </message>
+    <message>
+        <source>Also remove the content files</source>
+        <translation>Arī noņemt satura failus</translation>
+    </message>
+    <message>
+        <source>Remove tracker</source>
+        <translation>Noņemt trakeri</translation>
     </message>
 </context>
 <context>
@@ -3178,6 +3561,26 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <source>There aren't any search plugins installed.</source>
         <translation>Nav instalēts neviens meklēšanas spraudnis.</translation>
     </message>
+    <message>
+        <source>Select category</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Min size prefix</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Start a search above.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Max size prefix</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Select plugins</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>PluginSelectDlg</name>
@@ -3233,12 +3636,20 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>Ņēmēji</translation>
     </message>
     <message>
-        <source>Search engine</source>
-        <translation>Meklētājs</translation>
-    </message>
-    <message>
         <source>Seeders</source>
         <translation>Devēji</translation>
+    </message>
+    <message>
+        <source>Published On</source>
+        <translation>Publicēts</translation>
+    </message>
+    <message>
+        <source>Engine URL</source>
+        <translation>Dzinēja URL</translation>
+    </message>
+    <message>
+        <source>Engine</source>
+        <translation>Dzinējs</translation>
     </message>
 </context>
 <context>
@@ -3306,14 +3717,6 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>Atzīme:</translation>
     </message>
     <message>
-        <source>Pause torrents</source>
-        <translation>Apturēt torrentus</translation>
-    </message>
-    <message>
-        <source>Resume torrents</source>
-        <translation>Atsākt torrentus</translation>
-    </message>
-    <message>
         <source>Remove unused tags</source>
         <translation>Dzēst neizmantotās atzīmes</translation>
     </message>
@@ -3328,6 +3731,14 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     <message>
         <source>Remove torrents</source>
         <translation>Dzēst torrentus</translation>
+    </message>
+    <message>
+        <source>Start torrents</source>
+        <translation>Palaistie torrenti</translation>
+    </message>
+    <message>
+        <source>Stop torrents</source>
+        <translation>Apstādinātie torrenti</translation>
     </message>
 </context>
 <context>
@@ -3469,6 +3880,30 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <source>Download link</source>
         <translation>Lejupielādes adresi</translation>
     </message>
+    <message>
+        <source>Search has finished</source>
+        <translation>Meklēšana pabeigta.</translation>
+    </message>
+    <message>
+        <source>An error occurred during search...</source>
+        <translation>Meklēšanas laikā radās kļūda...</translation>
+    </message>
+    <message>
+        <source>Close tab</source>
+        <translation>Aizvērt cilni</translation>
+    </message>
+    <message>
+        <source>Searching...</source>
+        <translation>Meklē...</translation>
+    </message>
+    <message>
+        <source>Search aborted</source>
+        <translation>Meklēšana pārtraukta</translation>
+    </message>
+    <message>
+        <source>Close all tabs</source>
+        <translation>Aizvērt visas cilnes</translation>
+    </message>
 </context>
 <context>
     <name>TorrentContentTreeView</name>
@@ -3578,6 +4013,22 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     <message>
         <source>Download torrent</source>
         <translation>Lejupielādēt torrentu</translation>
+    </message>
+    <message>
+        <source>Edit feed URL...</source>
+        <translation>Rediģēt kanāla adresi...</translation>
+    </message>
+    <message>
+        <source>Unable to update URL</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>URL is unchanged</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>URL cannot be empty</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -3767,10 +4218,6 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
         <translation>Ja vārdu secība ir svarīga, lietojiet * simbolu.</translation>
     </message>
     <message>
-        <source>Add Paused:</source>
-        <translation>Pievienot apstādinātu:</translation>
-    </message>
-    <message>
         <source>Please type the name of the new download rule.</source>
         <translation>Lūdzu ievadiet jaunā filtra nosaukumu.</translation>
     </message>
@@ -3828,28 +4275,44 @@ Atbalsta formātus: S01E01, 1x1, 2017.12.31 un 31.12.2017 (Datumu formātos kā 
         <source>Add Tags:</source>
         <translation>Pievienot atzīmes:</translation>
     </message>
+    <message>
+        <source>Remove rule</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Add rule</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Add Stopped:</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>TrackerFiltersList</name>
     <message>
-        <source>Resume torrents</source>
-        <translation>Atsākt torrentus</translation>
-    </message>
-    <message>
-        <source>All (%1)</source>
-        <translation>Visi (%1)</translation>
-    </message>
-    <message>
-        <source>Trackerless (%1)</source>
-        <translation>Bez trakeriem (%1)</translation>
-    </message>
-    <message>
-        <source>Pause torrents</source>
-        <translation>Apturēt torrentus</translation>
-    </message>
-    <message>
         <source>Remove torrents</source>
         <translation>Dzēst torrentus</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Visi</translation>
+    </message>
+    <message>
+        <source>Trackerless</source>
+        <translation>Bez trakeriem</translation>
+    </message>
+    <message>
+        <source>Start torrents</source>
+        <translation>Palaist torrentus</translation>
+    </message>
+    <message>
+        <source>Remove tracker</source>
+        <translation>Noņemt trakeri</translation>
+    </message>
+    <message>
+        <source>Stop torrents</source>
+        <translation>Apstādināt torrentus</translation>
     </message>
 </context>
 <context>
@@ -3951,11 +4414,11 @@ Atbalsta formātus: S01E01, 1x1, 2017.12.31 un 31.12.2017 (Datumu formātos kā 
     </message>
     <message>
         <source>Reason</source>
-        <translation type="unfinished" />
+        <translation>Iemesls</translation>
     </message>
     <message>
         <source>item</source>
-        <translation type="unfinished" />
+        <translation>vienums</translation>
     </message>
     <message>
         <source>IP</source>
@@ -3971,7 +4434,7 @@ Atbalsta formātus: S01E01, 1x1, 2017.12.31 un 31.12.2017 (Datumu formātos kā 
     </message>
     <message>
         <source>Critical</source>
-        <translation type="unfinished" />
+        <translation>Kritisks</translation>
     </message>
     <message>
         <source>Critical Messages</source>
@@ -3983,7 +4446,7 @@ Atbalsta formātus: S01E01, 1x1, 2017.12.31 un 31.12.2017 (Datumu formātos kā 
     </message>
     <message>
         <source>items</source>
-        <translation type="unfinished" />
+        <translation>vienumi</translation>
     </message>
     <message>
         <source>Results</source>
@@ -3991,11 +4454,136 @@ Atbalsta formātus: S01E01, 1x1, 2017.12.31 un 31.12.2017 (Datumu formātos kā 
     </message>
     <message>
         <source>Info</source>
-        <translation type="unfinished" />
+        <translation>Informācija</translation>
     </message>
     <message>
         <source>Choose a log level...</source>
+        <translation>Atlasiet žurnāla uzskaites detalizētību…</translation>
+    </message>
+</context>
+<context>
+    <name>TrackersFilterWidget</name>
+    <message>
+        <source>Are you sure you want to remove tracker %1 from all torrents?</source>
         <translation type="unfinished" />
+    </message>
+</context>
+<context>
+    <name>Category</name>
+    <message>
+        <source>Unable to edit category</source>
+        <translation>Neizdevās labot kategoriju</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>Labi</translation>
+    </message>
+    <message>
+        <source>Unable to create category</source>
+        <translation>Neizdevās izveidot kategoriju</translation>
+    </message>
+    <message>
+        <source>Unable to set category</source>
+        <translation type="unfinished" />
+    </message>
+</context>
+<context>
+    <name>CookiesDialog</name>
+    <message>
+        <source>Domain</source>
+        <translation>Domēns</translation>
+    </message>
+    <message>
+        <source>Manage Cookies</source>
+        <translation>Pārvaldīt Sīkfailus</translation>
+    </message>
+    <message>
+        <source>Add Cookie</source>
+        <translation>Pievienot sīkdatni</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Dzēst</translation>
+    </message>
+    <message>
+        <source>Expiration Date</source>
+        <translation>Derīguma termiņš</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Vērtība</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nosaukumu</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation>Ceļš</translation>
+    </message>
+</context>
+<context>
+    <name>confirmAutoTMMDialog</name>
+    <message>
+        <source>Enable automatic torrent management</source>
+        <translation>Ieslēgt Automātisko torrentu pārvaldību</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to enable Automatic Torrent Management for the selected torrent(s)? They may be relocated.</source>
+        <translation>Vai esat drošs, ka vēlaties ieslēgt Automātisko torrentu pārvaldību priekš atlasītājiem torrentiem? Attiecīgi Auto uzstādījumiem, to saturs var tikt pārvietots. </translation>
+    </message>
+</context>
+<context>
+    <name>confirmRecheckDialog</name>
+    <message>
+        <source>Are you sure you want to recheck the selected torrent(s)?</source>
+        <translation>Vai esat pārliecināts, ka vēlāties pārbaudīt izvēlētos torrentus?()</translation>
+    </message>
+    <message>
+        <source>Recheck confirmation</source>
+        <translation>Pārbaudes apstiprināšana</translation>
+    </message>
+</context>
+<context>
+    <name>SearchWidget</name>
+    <message>
+        <source>Close tab</source>
+        <translation>Aizvērt cilni</translation>
+    </message>
+</context>
+<context>
+    <name>Login</name>
+    <message>
+        <source>qBittorrent WebUI</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Parole</translation>
+    </message>
+    <message>
+        <source>JavaScript Required! You must enable JavaScript for the WebUI to work properly</source>
+        <translation>Nepieciešams JavaScript! Jums ir jāieslēdz JavaScript, lai Tālvadības panelis strādātu pareizi</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Pierakstīties</translation>
+    </message>
+    <message>
+        <source>Server response:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unable to log in, server is probably unreachable.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Lietotājvārds</translation>
+    </message>
+    <message>
+        <source>Invalid Username or Password.</source>
+        <translation>Nederīgs lietotājvārds vai parole.</translation>
     </message>
 </context>
 </TS>

@@ -29,6 +29,7 @@
 #include "io.h"
 
 #include <limits>
+#include <utility>
 
 #include <libtorrent/bencode.hpp>
 #include <libtorrent/entry.hpp>
@@ -39,6 +40,7 @@
 #include <QFileDevice>
 #include <QSaveFile>
 #include <QString>
+#include <QTemporaryFile>
 
 #include "base/path.h"
 #include "base/utils/fs.h"
@@ -90,21 +92,14 @@ nonstd::expected<QByteArray, Utils::IO::ReadError> Utils::IO::readFile(const Pat
             .arg(file.fileName(), QString::number(fileSize), QString::number(maxSize));
         return nonstd::make_unexpected(ReadError {ReadError::ExceedSize, message});
     }
-
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
-    using ByteArraySizeType = qsizetype;
-#else
-    using ByteArraySizeType = int;
-#endif
-    if ((fileSize < std::numeric_limits<ByteArraySizeType>::min())
-        || (fileSize > std::numeric_limits<ByteArraySizeType>::max()))
+    if (!std::in_range<qsizetype>(fileSize))
     {
         const QString message = QCoreApplication::translate("Utils::IO", "File size exceeds data size limit. File: \"%1\". File size: %2. Array limit: %3")
-            .arg(file.fileName(), QString::number(fileSize), QString::number(std::numeric_limits<ByteArraySizeType>::max()));
+            .arg(file.fileName(), QString::number(fileSize), QString::number(std::numeric_limits<qsizetype>::max()));
         return nonstd::make_unexpected(ReadError {ReadError::ExceedSize, message});
     }
 
-    QByteArray ret {static_cast<ByteArraySizeType>(fileSize), Qt::Uninitialized};
+    QByteArray ret {static_cast<qsizetype>(fileSize), Qt::Uninitialized};
     const qint64 actualSize = file.read(ret.data(), fileSize);
 
     if (actualSize < 0)
@@ -154,4 +149,28 @@ nonstd::expected<void, QString> Utils::IO::saveToFile(const Path &path, const lt
         return nonstd::make_unexpected(file.errorString());
 
     return {};
+}
+
+nonstd::expected<Path, QString> Utils::IO::saveToTempFile(const QByteArray &data)
+{
+    QTemporaryFile file {(Utils::Fs::tempPath() / Path(u"file_"_s)).data()};
+    if (!file.open() || (file.write(data) != data.length()) || !file.flush())
+        return nonstd::make_unexpected(file.errorString());
+
+    file.setAutoRemove(false);
+    return Path(file.fileName());
+}
+
+nonstd::expected<Path, QString> Utils::IO::saveToTempFile(const lt::entry &data)
+{
+    QTemporaryFile file {(Utils::Fs::tempPath() / Path(u"file_"_s)).data()};
+    if (!file.open())
+        return nonstd::make_unexpected(file.errorString());
+
+    const int bencodedDataSize = lt::bencode(Utils::IO::FileDeviceOutputIterator {file}, data);
+    if ((file.size() != bencodedDataSize) || !file.flush())
+        return nonstd::make_unexpected(file.errorString());
+
+    file.setAutoRemove(false);
+    return Path(file.fileName());
 }

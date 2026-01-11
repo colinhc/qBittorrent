@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2022  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2022-2024  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2014  Ivan Sorokin <vanyacpp@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
@@ -37,7 +37,6 @@
 #include <QMessageBox>
 #include <QModelIndexList>
 #include <QShortcut>
-#include <QThread>
 #include <QWheelEvent>
 
 #include "base/bittorrent/torrentcontenthandler.h"
@@ -63,7 +62,7 @@ namespace
         QList<QPersistentModelIndex> persistentIndexes;
         persistentIndexes.reserve(indexes.size());
         for (const QModelIndex &index : indexes)
-            persistentIndexes.append(index);
+            persistentIndexes.emplaceBack(index);
 
         return persistentIndexes;
     }
@@ -72,6 +71,8 @@ namespace
 TorrentContentWidget::TorrentContentWidget(QWidget *parent)
     : QTreeView(parent)
 {
+    setDragEnabled(true);
+    setDragDropMode(QAbstractItemView::DragOnly);
     setExpandsOnDoubleClick(false);
     setSortingEnabled(true);
     setUniformRowHeights(true);
@@ -186,10 +187,20 @@ Path TorrentContentWidget::getItemPath(const QModelIndex &index) const
     return path;
 }
 
-void TorrentContentWidget::setFilterPattern(const QString &patternText)
+void TorrentContentWidget::setFilterPattern(const QString &patternText, const FilterPatternFormat format)
 {
-    const QString pattern = Utils::String::wildcardToRegexPattern(patternText);
-    m_filterModel->setFilterRegularExpression(QRegularExpression(pattern, QRegularExpression::CaseInsensitiveOption));
+    if (format == FilterPatternFormat::PlainText)
+    {
+        m_filterModel->setFilterFixedString(patternText);
+        m_filterModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    }
+    else
+    {
+        const QString pattern = ((format == FilterPatternFormat::Regex)
+                ? patternText : Utils::String::wildcardToRegexPattern(patternText));
+        m_filterModel->setFilterRegularExpression(QRegularExpression(pattern, QRegularExpression::CaseInsensitiveOption));
+    }
+
     if (patternText.isEmpty())
     {
         collapseAll();
@@ -489,7 +500,7 @@ void TorrentContentWidget::onItemDoubleClicked(const QModelIndex &index)
     const auto *contentHandler = m_model->contentHandler();
     Q_ASSERT(contentHandler && contentHandler->hasMetadata());
 
-    if (Q_UNLIKELY(!contentHandler || !contentHandler->hasMetadata()))
+    if (!contentHandler || !contentHandler->hasMetadata()) [[unlikely]]
         return;
 
     if (m_doubleClickAction == DoubleClickAction::Rename)
