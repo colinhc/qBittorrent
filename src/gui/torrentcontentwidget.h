@@ -37,6 +37,8 @@
 
 class QShortcut;
 
+class QShortcut;
+
 namespace BitTorrent
 {
     class Torrent;
