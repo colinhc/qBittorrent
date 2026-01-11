@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2018  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2018-2023  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -54,6 +54,7 @@ inline const QString KEY_TORRENT_NUM_COMPLETE = u"num_complete"_s;
 inline const QString KEY_TORRENT_LEECHS = u"num_leechs"_s;
 inline const QString KEY_TORRENT_NUM_INCOMPLETE = u"num_incomplete"_s;
 inline const QString KEY_TORRENT_RATIO = u"ratio"_s;
+inline const QString KEY_TORRENT_POPULARITY = u"popularity"_s;
 inline const QString KEY_TORRENT_ETA = u"eta"_s;
 inline const QString KEY_TORRENT_STATE = u"state"_s;
 inline const QString KEY_TORRENT_SEQUENTIAL_DOWNLOAD = u"seq_dl"_s;
@@ -65,6 +66,7 @@ inline const QString KEY_TORRENT_FORCE_START = u"force_start"_s;
 inline const QString KEY_TORRENT_SAVE_PATH = u"save_path"_s;
 inline const QString KEY_TORRENT_DOWNLOAD_PATH = u"download_path"_s;
 inline const QString KEY_TORRENT_CONTENT_PATH = u"content_path"_s;
+inline const QString KEY_TORRENT_ROOT_PATH = u"root_path"_s;
 inline const QString KEY_TORRENT_ADDED_ON = u"added_on"_s;
 inline const QString KEY_TORRENT_COMPLETION_ON = u"completion_on"_s;
 inline const QString KEY_TORRENT_TRACKER = u"tracker"_s;
@@ -90,5 +92,9 @@ inline const QString KEY_TORRENT_AUTO_TORRENT_MANAGEMENT = u"auto_tmm"_s;
 inline const QString KEY_TORRENT_TIME_ACTIVE = u"time_active"_s;
 inline const QString KEY_TORRENT_SEEDING_TIME = u"seeding_time"_s;
 inline const QString KEY_TORRENT_AVAILABILITY = u"availability"_s;
+inline const QString KEY_TORRENT_REANNOUNCE = u"reannounce"_s;
+inline const QString KEY_TORRENT_COMMENT = u"comment"_s;
+inline const QString KEY_TORRENT_PRIVATE = u"private"_s;
+inline const QString KEY_TORRENT_HAS_METADATA = u"has_metadata"_s;
 
 QVariantMap serialize(const BitTorrent::Torrent &torrent);

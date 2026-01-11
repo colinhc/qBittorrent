@@ -1,6 +1,7 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2014, 2022-2023  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2014-2024  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2024  Radu Carpa <radu.carpa@cern.ch>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -46,6 +47,7 @@
 #include <QUrl>
 
 #include "base/algorithm.h"
+#include "base/bittorrent/torrentcreationmanager.h"
 #include "base/http/httperror.h"
 #include "base/logger.h"
 #include "base/preferences.h"
@@ -62,6 +64,7 @@
 #include "api/rsscontroller.h"
 #include "api/searchcontroller.h"
 #include "api/synccontroller.h"
+#include "api/torrentcreatorcontroller.h"
 #include "api/torrentscontroller.h"
 #include "api/transfercontroller.h"
 #include "freediskspacechecker.h"
@@ -112,8 +115,7 @@ namespace
         if (contentType.startsWith(u"image/"))
             return u"private, max-age=604800"_s;  // 1 week
 
-        if ((contentType == Http::CONTENT_TYPE_CSS)
-            || (contentType == Http::CONTENT_TYPE_JS))
+        if ((contentType == Http::CONTENT_TYPE_CSS) || (contentType == Http::CONTENT_TYPE_JS))
         {
             // short interval in case of program update
             return u"private, max-age=43200"_s;  // 12 hrs
@@ -125,14 +127,18 @@ namespace
     QString createLanguagesOptionsHtml()
     {
         // List language files
-        const QDir langDir {u":/www/translations"_s};
-        const QStringList langFiles = langDir.entryList(QStringList(u"webui_*.qm"_s), QDir::Files);
+        const QStringList langFiles = QDir(u":/www/translations"_s)
+            .entryList({u"webui_*.qm"_s}, QDir::Files, QDir::Name);
+
         QStringList languages;
+        languages.reserve(langFiles.size());
+
         for (const QString &langFile : langFiles)
         {
-            const QString localeStr = langFile.section(u"_"_s, 1, -1).section(u"."_s, 0, 0); // remove "webui_" and ".qm"
-            languages << u"<option value=\"%1\">%2</option>"_s.arg(localeStr, Utils::Misc::languageToLocalizedString(localeStr));
-            qDebug() << "Supported locale:" << localeStr;
+            const auto langCode = QStringView(langFile).sliced(6).chopped(3); // remove "webui_" and ".qm"
+            const QString entry = u"<option value=\"%1\">%2</option>"_s
+                .arg(langCode, Utils::Misc::languageToLocalizedString(langCode));
+            languages.append(entry);
         }
 
         return languages.join(u'\n');
@@ -152,13 +158,13 @@ namespace
 }
 
 WebApplication::WebApplication(IApplication *app, QObject *parent)
-    : QObject(parent)
-    , ApplicationComponent(app)
+    : ApplicationComponent(app, parent)
     , m_cacheID {QString::number(Utils::Random::rand(), 36)}
     , m_authController {new AuthController(this, app, this)}
     , m_workerThread {new QThread}
     , m_freeDiskSpaceChecker {new FreeDiskSpaceChecker}
     , m_freeDiskSpaceCheckingTimer {new QTimer(this)}
+    , m_torrentCreationManager {new BitTorrent::TorrentCreationManager(app, this)}
 {
     declarePublicAPI(u"auth/login"_s);
 
@@ -178,6 +184,7 @@ WebApplication::WebApplication(IApplication *app, QObject *parent)
 
     m_freeDiskSpaceChecker->moveToThread(m_workerThread.get());
     connect(m_workerThread.get(), &QThread::finished, m_freeDiskSpaceChecker, &QObject::deleteLater);
+    m_workerThread->setObjectName("WebApplication m_workerThread");
     m_workerThread->start();
 
     m_freeDiskSpaceCheckingTimer->setInterval(FREEDISKSPACE_CHECK_TIMEOUT);
@@ -259,9 +266,11 @@ void WebApplication::translateDocument(QString &data) const
             // it should fallback to `sourceText`
             QString translation = loadedText.isEmpty() ? sourceText : loadedText;
 
-            // Use HTML code for quotes to prevent issues with JS
-            translation.replace(u'\'', u"&#39;"_s);
-            translation.replace(u'\"', u"&#34;"_s);
+            // Escape quotes to workaround issues with HTML attributes
+            // FIXME: this is a dirty workaround to deal with broken translation strings:
+            // 1. Translation strings is the culprit of the issue, they should be fixed instead
+            // 2. The escaped quote/string is wrong for JS. JS use backslash to escape the quote: "\""
+            translation.replace(u'"', u"&#34;"_s);
 
             data.replace(i, regexMatch.capturedLength(), translation);
             i += translation.length();
@@ -349,18 +358,25 @@ void WebApplication::doProcessRequest()
 
     try
     {
-        const QVariant result = controller->run(action, m_params, data);
-        switch (result.userType())
+        const APIResult result = controller->run(action, m_params, data);
+        switch (result.data.userType())
         {
         case QMetaType::QJsonDocument:
-            print(result.toJsonDocument().toJson(QJsonDocument::Compact), Http::CONTENT_TYPE_JSON);
+            print(result.data.toJsonDocument().toJson(QJsonDocument::Compact), Http::CONTENT_TYPE_JSON);
             break;
         case QMetaType::QByteArray:
-            print(result.toByteArray(), Http::CONTENT_TYPE_TXT);
+            {
+                const auto resultData = result.data.toByteArray();
+                print(resultData, (!result.mimeType.isEmpty() ? result.mimeType : Http::CONTENT_TYPE_TXT));
+                if (!result.filename.isEmpty())
+                {
+                    setHeader({u"Content-Disposition"_s, u"attachment; filename=\"%1\""_s.arg(result.filename)});
+                }
+            }
             break;
         case QMetaType::QString:
         default:
-            print(result.toString(), Http::CONTENT_TYPE_TXT);
+            print(result.data.toString(), Http::CONTENT_TYPE_TXT);
             break;
         }
     }
@@ -380,7 +396,8 @@ void WebApplication::doProcessRequest()
         case APIErrorType::NotFound:
             throw NotFoundHTTPError(error.message());
         default:
-            Q_ASSERT(false);
+            Q_UNREACHABLE();
+            break;
         }
     }
 }
@@ -450,7 +467,7 @@ void WebApplication::configure()
     const QString contentSecurityPolicy =
         (m_isAltUIUsed
             ? QString()
-            : u"default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; object-src 'none'; form-action 'self';"_s)
+            : u"default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; object-src 'none'; form-action 'self'; frame-src 'self' blob:;"_s)
         + (isClickjackingProtectionEnabled ? u" frame-ancestors 'self';"_s : QString())
         + (m_isHttpsEnabled ? u" upgrade-insecure-requests;"_s : QString());
     if (!contentSecurityPolicy.isEmpty())
@@ -680,7 +697,7 @@ QString WebApplication::generateSid() const
 
 bool WebApplication::isAuthNeeded()
 {
-    if (!m_isLocalAuthEnabled && Utils::Net::isLoopbackAddress(m_clientAddress))
+    if (!m_isLocalAuthEnabled && m_clientAddress.isLoopback())
         return false;
     if (m_isAuthSubnetWhitelistEnabled && Utils::Net::isIPInSubnets(m_clientAddress, m_authSubnetWhitelist))
         return false;
@@ -711,27 +728,28 @@ void WebApplication::sessionStart()
     m_currentSession = new WebSession(generateSid(), app());
     m_sessions[m_currentSession->id()] = m_currentSession;
 
-    m_currentSession->registerAPIController<AppController>(u"app"_s);
-    m_currentSession->registerAPIController<LogController>(u"log"_s);
-    m_currentSession->registerAPIController<RSSController>(u"rss"_s);
-    m_currentSession->registerAPIController<SearchController>(u"search"_s);
-    m_currentSession->registerAPIController<TorrentsController>(u"torrents"_s);
-    m_currentSession->registerAPIController<TransferController>(u"transfer"_s);
+    m_currentSession->registerAPIController(u"app"_s, new AppController(app(), m_currentSession));
+    m_currentSession->registerAPIController(u"log"_s, new LogController(app(), m_currentSession));
+    m_currentSession->registerAPIController(u"torrentcreator"_s, new TorrentCreatorController(m_torrentCreationManager, app(), m_currentSession));
+    m_currentSession->registerAPIController(u"rss"_s, new RSSController(app(), m_currentSession));
+    m_currentSession->registerAPIController(u"search"_s, new SearchController(app(), m_currentSession));
+    m_currentSession->registerAPIController(u"torrents"_s, new TorrentsController(app(), m_currentSession));
+    m_currentSession->registerAPIController(u"transfer"_s, new TransferController(app(), m_currentSession));
 
-    auto *syncController = m_currentSession->registerAPIController<SyncController>(u"sync"_s);
+    auto *syncController = new SyncController(app(), m_currentSession);
     syncController->updateFreeDiskSpace(m_freeDiskSpaceChecker->lastResult());
     connect(m_freeDiskSpaceChecker, &FreeDiskSpaceChecker::checked, syncController, &SyncController::updateFreeDiskSpace);
+    m_currentSession->registerAPIController(u"sync"_s, syncController);
 
-    QNetworkCookie cookie {m_sessionCookieName.toLatin1(), m_currentSession->id().toUtf8()};
+    QNetworkCookie cookie {m_sessionCookieName.toLatin1(), m_currentSession->id().toLatin1()};
     cookie.setHttpOnly(true);
-    cookie.setSecure(m_isSecureCookieEnabled && m_isHttpsEnabled);
+    cookie.setSecure(m_isSecureCookieEnabled && isOriginTrustworthy());  // [rfc6265] 4.1.2.5. The Secure Attribute
     cookie.setPath(u"/"_s);
-    QByteArray cookieRawForm = cookie.toRawForm();
     if (m_isCSRFProtectionEnabled)
-        cookieRawForm.append("; SameSite=Strict");
+        cookie.setSameSitePolicy(QNetworkCookie::SameSite::Strict);
     else if (cookie.isSecure())
-        cookieRawForm.append("; SameSite=None");
-    setHeader({Http::HEADER_SET_COOKIE, QString::fromLatin1(cookieRawForm)});
+        cookie.setSameSitePolicy(QNetworkCookie::SameSite::None);
+    setHeader({Http::HEADER_SET_COOKIE, QString::fromLatin1(cookie.toRawForm())});
 }
 
 void WebApplication::sessionEnd()
@@ -746,6 +764,23 @@ void WebApplication::sessionEnd()
     m_currentSession = nullptr;
 
     setHeader({Http::HEADER_SET_COOKIE, QString::fromLatin1(cookie.toRawForm())});
+}
+
+bool WebApplication::isOriginTrustworthy() const
+{
+    // https://w3c.github.io/webappsec-secure-contexts/#is-origin-trustworthy
+
+    if (m_isReverseProxySupportEnabled)
+    {
+        const QString forwardedProto = request().headers.value(Http::HEADER_X_FORWARDED_PROTO);
+        if (forwardedProto.compare(u"https", Qt::CaseInsensitive) == 0)
+            return true;
+    }
+
+    if (m_isHttpsEnabled)
+        return true;
+
+    return false;
 }
 
 bool WebApplication::isCrossSiteRequest(const Http::Request &request) const
@@ -893,6 +928,12 @@ bool WebSession::hasExpired(const qint64 seconds) const
 void WebSession::updateTimestamp()
 {
     m_timer.start();
+}
+
+void WebSession::registerAPIController(const QString &scope, APIController *controller)
+{
+    Q_ASSERT(controller);
+    m_apiControllers[scope] = controller;
 }
 
 APIController *WebSession::getAPIController(const QString &scope) const

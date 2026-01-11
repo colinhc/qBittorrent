@@ -169,9 +169,9 @@ void PluginSelectDialog::togglePluginState(QTreeWidgetItem *item, int)
 
 void PluginSelectDialog::displayContextMenu()
 {
-    // Enable/disable pause/start action given the DL state
     const QList<QTreeWidgetItem *> items = m_ui->pluginsTree->selectedItems();
-    if (items.isEmpty()) return;
+    if (items.isEmpty())
+        return;
 
     QMenu *myContextMenu = new QMenu(this);
     myContextMenu->setAttribute(Qt::WA_DeleteOnClose);
@@ -249,9 +249,9 @@ void PluginSelectDialog::setRowColor(const int row, const QString &color)
     }
 }
 
-QVector<QTreeWidgetItem*> PluginSelectDialog::findItemsWithUrl(const QString &url)
+QList<QTreeWidgetItem*> PluginSelectDialog::findItemsWithUrl(const QString &url)
 {
-    QVector<QTreeWidgetItem*> res;
+    QList<QTreeWidgetItem*> res;
     res.reserve(m_ui->pluginsTree->topLevelItemCount());
 
     for (int i = 0; i < m_ui->pluginsTree->topLevelItemCount(); ++i)

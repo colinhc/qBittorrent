@@ -28,8 +28,9 @@
 
 #include <algorithm>
 
+#include <QList>
+#include <QObject>
 #include <QTest>
-#include <QVector>
 
 #include "base/bittorrent/trackerentry.h"
 #include "base/global.h"
@@ -45,7 +46,7 @@ public:
 private slots:
     void testParseTrackerEntries() const
     {
-        using Entries = QVector<BitTorrent::TrackerEntry>;
+        using Entries = QList<BitTorrent::TrackerEntry>;
 
         const auto isEqual = [](const Entries &left, const Entries &right) -> bool
         {

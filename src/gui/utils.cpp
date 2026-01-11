@@ -29,17 +29,16 @@
 
 #include "utils.h"
 
-#include <QtGlobal>
+#include <QtSystemDetection>
 
 #ifdef Q_OS_WIN
-#include <Objbase.h>
-#include <Shlobj.h>
-#include <Shellapi.h>
+#include <objbase.h>
+#include <shlobj.h>
+#include <shellapi.h>
 #endif
 
 #include <QApplication>
 #include <QDesktopServices>
-#include <QIcon>
 #include <QPixmap>
 #include <QPixmapCache>
 #include <QPoint>
@@ -55,20 +54,12 @@
 
 #include "base/global.h"
 #include "base/path.h"
+#include "base/tag.h"
 #include "base/utils/fs.h"
 #include "base/utils/version.h"
 
-QPixmap Utils::Gui::scaledPixmap(const QIcon &icon, const QWidget *widget, const int height)
+QPixmap Utils::Gui::scaledPixmap(const Path &path, const int height)
 {
-    Q_UNUSED(widget);  // TODO: remove it
-    Q_ASSERT(height > 0);
-
-    return icon.pixmap(height);
-}
-
-QPixmap Utils::Gui::scaledPixmap(const Path &path, const QWidget *widget, const int height)
-{
-    Q_UNUSED(widget);
     Q_ASSERT(height >= 0);
 
     const QPixmap pixmap {path.data()};
@@ -143,6 +134,7 @@ void Utils::Gui::openPath(const Path &path)
             ::CoUninitialize();
         }
     });
+    thread->setObjectName("Utils::Gui::openPath thread");
     QObject::connect(thread, &QThread::finished, thread, &QObject::deleteLater);
     thread->start();
 #else
@@ -177,6 +169,7 @@ void Utils::Gui::openFolderSelect(const Path &path)
             ::CoUninitialize();
         }
     });
+    thread->setObjectName("Utils::Gui::openFolderSelect thread");
     QObject::connect(thread, &QThread::finished, thread, &QObject::deleteLater);
     thread->start();
 #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
@@ -210,6 +203,10 @@ void Utils::Gui::openFolderSelect(const Path &path)
     {
         proc.startDetached(u"konqueror"_s, {u"--select"_s, path.toString()});
     }
+    else if (output == u"thunar.desktop")
+    {
+        proc.startDetached(u"thunar"_s, {path.toString()});
+    }
     else
     {
         // "caja" manager can't pinpoint the file, see: https://github.com/qbittorrent/qBittorrent/issues/5003
@@ -220,12 +217,12 @@ void Utils::Gui::openFolderSelect(const Path &path)
 #endif
 }
 
-QString Utils::Gui::tagToWidgetText(const QString &tag)
+QString Utils::Gui::tagToWidgetText(const Tag &tag)
 {
-    return QString(tag).replace(u'&', u"&&"_s);
+    return tag.toString().replace(u'&', u"&&"_s);
 }
 
-QString Utils::Gui::widgetTextToTag(const QString &text)
+Tag Utils::Gui::widgetTextToTag(const QString &text)
 {
     // replace pairs of '&' with single '&' and remove non-paired occurrences of '&'
     QString cleanedText;
@@ -243,5 +240,5 @@ QString Utils::Gui::widgetTextToTag(const QString &text)
         cleanedText.append(c);
     }
 
-    return cleanedText;
+    return Tag(cleanedText);
 }

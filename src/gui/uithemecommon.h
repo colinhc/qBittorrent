@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2023  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2023-2024  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,8 +29,6 @@
 
 #pragma once
 
-#include <QtGlobal>
-#include <QApplication>
 #include <QColor>
 #include <QHash>
 #include <QPalette>
@@ -54,17 +52,16 @@ struct UIThemeColor
 
 inline QHash<QString, UIThemeColor> defaultUIThemeColors()
 {
-    const QPalette palette = QApplication::palette();
     return {
         {u"Log.TimeStamp"_s, {Color::Primer::Light::fgSubtle, Color::Primer::Dark::fgSubtle}},
-        {u"Log.Normal"_s, {palette.color(QPalette::Active, QPalette::WindowText), palette.color(QPalette::Active, QPalette::WindowText)}},
+        {u"Log.Normal"_s, {{}, {}}},
         {u"Log.Info"_s, {Color::Primer::Light::accentFg, Color::Primer::Dark::accentFg}},
         {u"Log.Warning"_s, {Color::Primer::Light::severeFg, Color::Primer::Dark::severeFg}},
         {u"Log.Critical"_s, {Color::Primer::Light::dangerFg, Color::Primer::Dark::dangerFg}},
         {u"Log.BannedPeer"_s, {Color::Primer::Light::dangerFg, Color::Primer::Dark::dangerFg}},
 
-        {u"RSS.ReadArticle"_s, {palette.color(QPalette::Inactive, QPalette::WindowText), palette.color(QPalette::Inactive, QPalette::WindowText)}},
-        {u"RSS.UnreadArticle"_s, {palette.color(QPalette::Active, QPalette::Link), palette.color(QPalette::Active, QPalette::Link)}},
+        {u"RSS.ReadArticle"_s, {{}, {}}},
+        {u"RSS.UnreadArticle"_s, {{}, {}}},
 
         {u"TransferList.Downloading"_s, {Color::Primer::Light::successFg, Color::Primer::Dark::successFg}},
         {u"TransferList.StalledDownloading"_s, {Color::Primer::Light::successEmphasis, Color::Primer::Dark::successEmphasis}},
@@ -79,11 +76,43 @@ inline QHash<QString, UIThemeColor> defaultUIThemeColors()
         {u"TransferList.CheckingDownloading"_s, {Color::Primer::Light::successFg, Color::Primer::Dark::successFg}},
         {u"TransferList.CheckingUploading"_s, {Color::Primer::Light::successFg, Color::Primer::Dark::successFg}},
         {u"TransferList.CheckingResumeData"_s, {Color::Primer::Light::successFg, Color::Primer::Dark::successFg}},
-        {u"TransferList.PausedDownloading"_s, {Color::Primer::Light::fgMuted, Color::Primer::Dark::fgMuted}},
-        {u"TransferList.PausedUploading"_s, {Color::Primer::Light::doneFg, Color::Primer::Dark::doneFg}},
+        {u"TransferList.StoppedDownloading"_s, {Color::Primer::Light::fgMuted, Color::Primer::Dark::fgMuted}},
+        {u"TransferList.StoppedUploading"_s, {Color::Primer::Light::doneFg, Color::Primer::Dark::doneFg}},
         {u"TransferList.Moving"_s, {Color::Primer::Light::successFg, Color::Primer::Dark::successFg}},
         {u"TransferList.MissingFiles"_s, {Color::Primer::Light::dangerFg, Color::Primer::Dark::dangerFg}},
         {u"TransferList.Error"_s, {Color::Primer::Light::dangerFg, Color::Primer::Dark::dangerFg}}
+    };
+}
+
+// Palette isn't customizable in default theme
+inline QHash<QString, UIThemeColor> defaultPaletteColors()
+{
+    return {
+        {u"Palette.Window"_s, {{}, {}}},
+        {u"Palette.WindowText"_s, {{}, {}}},
+        {u"Palette.Base"_s, {{}, {}}},
+        {u"Palette.AlternateBase"_s, {{}, {}}},
+        {u"Palette.Text"_s, {{}, {}}},
+        {u"Palette.ToolTipBase"_s, {{}, {}}},
+        {u"Palette.ToolTipText"_s, {{}, {}}},
+        {u"Palette.BrightText"_s, {{}, {}}},
+        {u"Palette.Highlight"_s, {{}, {}}},
+        {u"Palette.HighlightedText"_s, {{}, {}}},
+        {u"Palette.Button"_s, {{}, {}}},
+        {u"Palette.ButtonText"_s, {{}, {}}},
+        {u"Palette.Link"_s, {{}, {}}},
+        {u"Palette.LinkVisited"_s, {{}, {}}},
+        {u"Palette.Light"_s, {{}, {}}},
+        {u"Palette.Midlight"_s, {{}, {}}},
+        {u"Palette.Mid"_s, {{}, {}}},
+        {u"Palette.Dark"_s, {{}, {}}},
+        {u"Palette.Shadow"_s, {{}, {}}},
+        {u"Palette.WindowTextDisabled"_s, {{}, {}}},
+        {u"Palette.TextDisabled"_s, {{}, {}}},
+        {u"Palette.ToolTipTextDisabled"_s, {{}, {}}},
+        {u"Palette.BrightTextDisabled"_s, {{}, {}}},
+        {u"Palette.HighlightedTextDisabled"_s, {{}, {}}},
+        {u"Palette.ButtonTextDisabled"_s, {{}, {}}}
     };
 }
 
@@ -135,6 +164,8 @@ inline QSet<QString> defaultUIThemeIcons()
         u"network-connect"_s,
         u"network-server"_s,
         u"object-locked"_s,
+        u"pause-session"_s,
+        u"paused"_s,
         u"peers"_s,
         u"peers-add"_s,
         u"peers-remove"_s,

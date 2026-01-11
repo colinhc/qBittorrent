@@ -31,11 +31,11 @@
 
 #include <algorithm>
 
-#include <QtGlobal>
 #include <QApplication>
 #include <QClipboard>
 #include <QHeaderView>
 #include <QHostAddress>
+#include <QList>
 #include <QMenu>
 #include <QMessageBox>
 #include <QPointer>
@@ -43,7 +43,6 @@
 #include <QShortcut>
 #include <QSortFilterProxyModel>
 #include <QStandardItemModel>
-#include <QVector>
 #include <QWheelEvent>
 
 #include "base/bittorrent/peeraddress.h"
@@ -67,24 +66,14 @@ struct PeerEndpoint
 {
     BitTorrent::PeerAddress address;
     QString connectionType; // matches return type of `PeerInfo::connectionType()`
+
+    friend bool operator==(const PeerEndpoint &left, const PeerEndpoint &right) = default;
 };
 
-bool operator==(const PeerEndpoint &left, const PeerEndpoint &right)
-{
-    return (left.address == right.address) && (left.connectionType == right.connectionType);
-}
-
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
 std::size_t qHash(const PeerEndpoint &peerEndpoint, const std::size_t seed = 0)
 {
     return qHashMulti(seed, peerEndpoint.address, peerEndpoint.connectionType);
 }
-#else
-uint qHash(const PeerEndpoint &peerEndpoint, const uint seed = 0)
-{
-    return (qHash(peerEndpoint.address, seed) ^ ::qHash(peerEndpoint.connectionType));
-}
-#endif
 
 namespace
 {
@@ -301,7 +290,7 @@ void PeerListWidget::showPeerListMenu()
     QAction *addNewPeer = menu->addAction(UIThemeManager::instance()->getIcon(u"peers-add"_s), tr("Add peers...")
         , this, [this, torrent]()
     {
-        const QVector<BitTorrent::PeerAddress> peersList = PeersAdditionDialog::askForPeers(this);
+        const QList<BitTorrent::PeerAddress> peersList = PeersAdditionDialog::askForPeers(this);
         const int peerCount = std::count_if(peersList.cbegin(), peersList.cend(), [torrent](const BitTorrent::PeerAddress &peer)
         {
             return torrent->connectPeer(peer);
@@ -346,7 +335,7 @@ void PeerListWidget::banSelectedPeers()
     // Store selected rows first as selected peers may disconnect
     const QModelIndexList selectedIndexes = selectionModel()->selectedRows();
 
-    QVector<QString> selectedIPs;
+    QList<QString> selectedIPs;
     selectedIPs.reserve(selectedIndexes.size());
 
     for (const QModelIndex &index : selectedIndexes)
@@ -416,13 +405,13 @@ void PeerListWidget::loadPeers(const BitTorrent::Torrent *torrent)
         return;
 
     using TorrentPtr = QPointer<const BitTorrent::Torrent>;
-    torrent->fetchPeerInfo([this, torrent = TorrentPtr(torrent)](const QVector<BitTorrent::PeerInfo> &peers)
+    torrent->fetchPeerInfo([this, torrent = TorrentPtr(torrent)](const QList<BitTorrent::PeerInfo> &peers)
     {
         if (torrent != m_properties->getCurrentTorrent())
             return;
 
         // Remove I2P peers since they will be completely reloaded.
-        for (QStandardItem *item : asConst(m_I2PPeerItems))
+        for (const QStandardItem *item : asConst(m_I2PPeerItems))
             m_listModel->removeRow(item->row());
         m_I2PPeerItems.clear();
 
@@ -431,7 +420,8 @@ void PeerListWidget::loadPeers(const BitTorrent::Torrent *torrent)
         for (auto i = m_peerItems.cbegin(); i != m_peerItems.cend(); ++i)
             existingPeers.insert(i.key());
 
-        const bool hideZeroValues = Preferences::instance()->getHideZeroValues();
+        const Preferences *pref = Preferences::instance();
+        const bool hideZeroValues = (pref->getHideZeroValues() && (pref->getHideZeroComboValues() == 0));
         for (const BitTorrent::PeerInfo &peer : peers)
         {
             const PeerEndpoint peerEndpoint {peer.address(), peer.connectionType()};
@@ -477,10 +467,14 @@ void PeerListWidget::loadPeers(const BitTorrent::Torrent *torrent)
         {
             QStandardItem *item = m_peerItems.take(peerEndpoint);
 
-            QSet<QStandardItem *> &items = m_itemsByIP[peerEndpoint.address.ip];
-            items.remove(item);
-            if (items.isEmpty())
-                m_itemsByIP.remove(peerEndpoint.address.ip);
+            const auto items = m_itemsByIP.find(peerEndpoint.address.ip);
+            Q_ASSERT(items != m_itemsByIP.end());
+            if (items == m_itemsByIP.end()) [[unlikely]]
+                continue;
+
+            items->remove(item);
+            if (items->isEmpty())
+                m_itemsByIP.erase(items);
 
             m_listModel->removeRow(item->row());
         }

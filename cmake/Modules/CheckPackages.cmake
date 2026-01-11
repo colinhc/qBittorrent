@@ -46,22 +46,14 @@ set_property(CACHE LibtorrentRasterbar_DIR PROPERTY TYPE PATH)
 find_package(Boost ${minBoostVersion} REQUIRED)
 find_package(OpenSSL ${minOpenSSLVersion} REQUIRED)
 find_package(ZLIB ${minZlibVersion} REQUIRED)
-if (QT6)
-    find_package(Qt6 ${minQt6Version} REQUIRED COMPONENTS Core Network Sql Xml LinguistTools)
-    if (DBUS)
-        find_package(Qt6 ${minQt6Version} REQUIRED COMPONENTS DBus)
-        set_package_properties(Qt6DBus PROPERTIES
-            DESCRIPTION "Qt6 module for inter-process communication over the D-Bus protocol"
-            PURPOSE "Required by the DBUS feature"
-        )
-    endif()
-else()
-    find_package(Qt5 ${minQt5Version} REQUIRED COMPONENTS Core Network Sql Xml LinguistTools)
-    if (DBUS)
-        find_package(Qt5 ${minQt5Version} REQUIRED COMPONENTS DBus)
-        set_package_properties(Qt5DBus PROPERTIES
-            DESCRIPTION "Qt5 module for inter-process communication over the D-Bus protocol"
-            PURPOSE "Required by the DBUS feature"
-        )
-    endif()
+find_package(Qt6 ${minQt6Version} REQUIRED COMPONENTS Core Network Sql Xml LinguistTools)
+if (Qt6_FOUND AND (Qt6_VERSION VERSION_GREATER_EQUAL 6.10))
+    find_package(Qt6 ${minQt6Version} REQUIRED COMPONENTS CorePrivate)
+endif()
+if (DBUS)
+    find_package(Qt6 ${minQt6Version} REQUIRED COMPONENTS DBus)
+    set_package_properties(Qt6DBus PROPERTIES
+        DESCRIPTION "Qt6 module for inter-process communication over the D-Bus protocol"
+        PURPOSE "Required by the DBUS feature"
+    )
 endif()

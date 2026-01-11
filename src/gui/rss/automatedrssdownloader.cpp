@@ -29,7 +29,7 @@
 
 #include "automatedrssdownloader.h"
 
-#include <QtGlobal>
+#include <QtVersionChecks>
 #include <QCursor>
 #include <QFileDialog>
 #include <QMenu>
@@ -67,13 +67,8 @@ AutomatedRssDownloader::AutomatedRssDownloader(QWidget *parent)
     , m_ui {new Ui::AutomatedRssDownloader}
     , m_addTorrentParamsWidget {new AddTorrentParamsWidget}
     , m_storeDialogSize {u"RssFeedDownloader/geometrySize"_s}
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     , m_storeMainSplitterState {u"GUI/Qt6/RSSFeedDownloader/HSplitterSizes"_s}
     , m_storeRuleDefSplitterState {u"GUI/Qt6/RSSFeedDownloader/RuleDefSplitterState"_s}
-#else
-    , m_storeMainSplitterState {u"RssFeedDownloader/qt5/hsplitterSizes"_s}
-    , m_storeRuleDefSplitterState {u"RssFeedDownloader/qt5/RuleDefSplitterState"_s}
-#endif
 {
     m_ui->setupUi(this);
 
@@ -135,10 +130,17 @@ AutomatedRssDownloader::AutomatedRssDownloader(QWidget *parent)
     connect(m_ui->lineNotContains, &QLineEdit::textEdited, this, &AutomatedRssDownloader::updateMustNotLineValidity);
     connect(m_ui->lineEFilter, &QLineEdit::textEdited, this, &AutomatedRssDownloader::handleRuleDefinitionChanged);
     connect(m_ui->lineEFilter, &QLineEdit::textEdited, this, &AutomatedRssDownloader::updateEpisodeFilterValidity);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_ui->checkRegex, &QCheckBox::checkStateChanged, this, &AutomatedRssDownloader::handleRuleDefinitionChanged);
+    connect(m_ui->checkRegex, &QCheckBox::checkStateChanged, this, &AutomatedRssDownloader::updateMustLineValidity);
+    connect(m_ui->checkRegex, &QCheckBox::checkStateChanged, this, &AutomatedRssDownloader::updateMustNotLineValidity);
+    connect(m_ui->checkSmart, &QCheckBox::checkStateChanged, this, &AutomatedRssDownloader::handleRuleDefinitionChanged);
+#else
     connect(m_ui->checkRegex, &QCheckBox::stateChanged, this, &AutomatedRssDownloader::handleRuleDefinitionChanged);
     connect(m_ui->checkRegex, &QCheckBox::stateChanged, this, &AutomatedRssDownloader::updateMustLineValidity);
     connect(m_ui->checkRegex, &QCheckBox::stateChanged, this, &AutomatedRssDownloader::updateMustNotLineValidity);
     connect(m_ui->checkSmart, &QCheckBox::stateChanged, this, &AutomatedRssDownloader::handleRuleDefinitionChanged);
+#endif
     connect(m_ui->spinIgnorePeriod, qOverload<int>(&QSpinBox::valueChanged)
             , this, &AutomatedRssDownloader::handleRuleDefinitionChanged);
 

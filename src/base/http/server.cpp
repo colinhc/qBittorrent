@@ -32,17 +32,21 @@
 
 #include <algorithm>
 #include <chrono>
+#include <memory>
+#include <new>
 
+#include <QtLogging>
 #include <QNetworkProxy>
+#include <QSslCertificate>
 #include <QSslCipher>
-#include <QSslConfiguration>
+#include <QSslKey>
 #include <QSslSocket>
 #include <QStringList>
 #include <QTimer>
 
-#include "base/algorithm.h"
 #include "base/global.h"
 #include "base/utils/net.h"
+#include "base/utils/sslkey.h"
 #include "connection.h"
 
 using namespace std::chrono_literals;
@@ -97,13 +101,12 @@ using namespace Http;
 Server::Server(IRequestHandler *requestHandler, QObject *parent)
     : QTcpServer(parent)
     , m_requestHandler(requestHandler)
+    , m_sslConfig {QSslConfiguration::defaultConfiguration()}
 {
     setProxy(QNetworkProxy::NoProxy);
 
-    QSslConfiguration sslConf {QSslConfiguration::defaultConfiguration()};
-    sslConf.setProtocol(QSsl::TlsV1_2OrLater);
-    sslConf.setCiphers(safeCipherList());
-    QSslConfiguration::setDefaultConfiguration(sslConf);
+    m_sslConfig.setCiphers(safeCipherList());
+    m_sslConfig.setPeerVerifyMode(QSslSocket::VerifyNone);
 
     auto *dropConnectionTimer = new QTimer(this);
     connect(dropConnectionTimer, &QTimer::timeout, this, &Server::dropTimedOutConnection);
@@ -112,32 +115,35 @@ Server::Server(IRequestHandler *requestHandler, QObject *parent)
 
 void Server::incomingConnection(const qintptr socketDescriptor)
 {
-    if (m_connections.size() >= CONNECTIONS_LIMIT) return;
-
-    QTcpSocket *serverSocket = nullptr;
-    if (m_https)
-        serverSocket = new QSslSocket(this);
-    else
-        serverSocket = new QTcpSocket(this);
-
+    std::unique_ptr<QTcpSocket> serverSocket = isHttps() ? std::make_unique<QSslSocket>(this) : std::make_unique<QTcpSocket>(this);
     if (!serverSocket->setSocketDescriptor(socketDescriptor))
+        return;
+
+    if (m_connections.size() >= CONNECTIONS_LIMIT)
     {
-        delete serverSocket;
+        qWarning("Too many connections. Exceeded CONNECTIONS_LIMIT (%d). Connection closed.", CONNECTIONS_LIMIT);
         return;
     }
 
-    if (m_https)
+    try
     {
-        static_cast<QSslSocket *>(serverSocket)->setProtocol(QSsl::SecureProtocols);
-        static_cast<QSslSocket *>(serverSocket)->setPrivateKey(m_key);
-        static_cast<QSslSocket *>(serverSocket)->setLocalCertificateChain(m_certificates);
-        static_cast<QSslSocket *>(serverSocket)->setPeerVerifyMode(QSslSocket::VerifyNone);
-        static_cast<QSslSocket *>(serverSocket)->startServerEncryption();
-    }
+        if (isHttps())
+        {
+            auto *sslSocket = static_cast<QSslSocket *>(serverSocket.get());
+            sslSocket->setSslConfiguration(m_sslConfig);
+            sslSocket->startServerEncryption();
+        }
 
-    auto *c = new Connection(serverSocket, m_requestHandler, this);
-    m_connections.insert(c);
-    connect(serverSocket, &QAbstractSocket::disconnected, this, [c, this]() { removeConnection(c); });
+        auto *connection = new Connection(serverSocket.release(), m_requestHandler, this);
+        m_connections.insert(connection);
+        connect(connection, &Connection::closed, this, [this, connection] { removeConnection(connection); });
+    }
+    catch (const std::bad_alloc &exception)
+    {
+        // drop the connection instead of throwing exception and crash
+        qWarning("Failed to allocate memory for HTTP connection. Connection closed.");
+        return;
+    }
 }
 
 void Server::removeConnection(Connection *connection)
@@ -148,7 +154,7 @@ void Server::removeConnection(Connection *connection)
 
 void Server::dropTimedOutConnection()
 {
-    Algorithm::removeIf(m_connections, [](Connection *connection)
+    m_connections.removeIf([](Connection *connection)
     {
         if (!connection->hasExpired(KEEP_ALIVE_DURATION))
             return false;
@@ -161,7 +167,7 @@ void Server::dropTimedOutConnection()
 bool Server::setupHttps(const QByteArray &certificates, const QByteArray &privateKey)
 {
     const QList<QSslCertificate> certs {Utils::Net::loadSSLCertificate(certificates)};
-    const QSslKey key {Utils::Net::loadSSLKey(privateKey)};
+    const QSslKey key {Utils::SSLKey::load(privateKey)};
 
     if (certs.isEmpty() || key.isNull())
     {
@@ -169,15 +175,20 @@ bool Server::setupHttps(const QByteArray &certificates, const QByteArray &privat
         return false;
     }
 
-    m_key = key;
-    m_certificates = certs;
+    m_sslConfig.setLocalCertificateChain(certs);
+    m_sslConfig.setPrivateKey(key);
     m_https = true;
     return true;
 }
 
 void Server::disableHttps()
 {
+    m_sslConfig.setLocalCertificateChain({});
+    m_sslConfig.setPrivateKey({});
     m_https = false;
-    m_certificates.clear();
-    m_key.clear();
+}
+
+bool Server::isHttps() const
+{
+    return m_https;
 }

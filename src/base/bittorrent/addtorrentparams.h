@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2015-2023  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2015-2024  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,12 +30,14 @@
 
 #include <optional>
 
+#include <QList>
 #include <QMetaType>
 #include <QString>
-#include <QVector>
 
 #include "base/path.h"
 #include "base/tagset.h"
+#include "sharelimitaction.h"
+#include "sslparameters.h"
 #include "torrent.h"
 #include "torrentcontentlayout.h"
 
@@ -57,10 +59,10 @@ namespace BitTorrent
         bool firstLastPiecePriority = false;
         bool addForced = false;
         std::optional<bool> addToQueueTop;
-        std::optional<bool> addPaused;
+        std::optional<bool> addStopped;
         std::optional<Torrent::StopCondition> stopCondition;
         PathList filePaths; // used if TorrentInfo is set
-        QVector<DownloadPriority> filePriorities; // used if TorrentInfo is set
+        QList<DownloadPriority> filePriorities; // used if TorrentInfo is set
         bool skipChecking = false;
         std::optional<BitTorrent::TorrentContentLayout> contentLayout;
         std::optional<bool> useAutoTMM;
@@ -69,9 +71,11 @@ namespace BitTorrent
         int seedingTimeLimit = Torrent::USE_GLOBAL_SEEDING_TIME;
         int inactiveSeedingTimeLimit = Torrent::USE_GLOBAL_INACTIVE_SEEDING_TIME;
         qreal ratioLimit = Torrent::USE_GLOBAL_RATIO;
-    };
+        ShareLimitAction shareLimitAction = ShareLimitAction::Default;
+        SSLParameters sslParameters;
 
-    bool operator==(const AddTorrentParams &lhs, const AddTorrentParams &rhs);
+        friend bool operator==(const AddTorrentParams &lhs, const AddTorrentParams &rhs) = default;
+    };
 
     AddTorrentParams parseAddTorrentParams(const QJsonObject &jsonObj);
     QJsonObject serializeAddTorrentParams(const AddTorrentParams &params);

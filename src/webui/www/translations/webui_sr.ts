@@ -70,6 +70,22 @@
         <source>Add to top of queue</source>
         <translation>Додај на врх реда</translation>
     </message>
+    <message>
+        <source>One link per line (HTTP links, Magnet links and info-hashes are supported)</source>
+        <translation>Једна веза по реду (подржани су HTTP и Magnet линкови и инфо хешеви)</translation>
+    </message>
+    <message>
+        <source>Add torrent links</source>
+        <translation>Додај торент линкове</translation>
+    </message>
+    <message>
+        <source>Select .torrent files</source>
+        <translation>Изаберите .torrent датотеке</translation>
+    </message>
+    <message>
+        <source>Torrent options</source>
+        <translation>Опције торрента</translation>
+    </message>
 </context>
 <context>
     <name>CategoryFilterModel</name>
@@ -97,14 +113,6 @@
         <translation>Уклони неискоришћене категорије</translation>
     </message>
     <message>
-        <source>Resume torrents</source>
-        <translation>Пусти торенте</translation>
-    </message>
-    <message>
-        <source>Pause torrents</source>
-        <translation>Паузирај торенте</translation>
-    </message>
-    <message>
         <source>New Category</source>
         <translation>Нова категорија</translation>
     </message>
@@ -120,6 +128,14 @@
         <source>Add subcategory...</source>
         <translation>Додај поткатегорију...</translation>
     </message>
+    <message>
+        <source>Start torrents</source>
+        <translation>Покрени торент</translation>
+    </message>
+    <message>
+        <source>Stop torrents</source>
+        <translation>Зауставите торент</translation>
+    </message>
 </context>
 <context>
     <name>HttpServer</name>
@@ -128,36 +144,32 @@
         <translation>Изађи из qBittorrent-а</translation>
     </message>
     <message>
-        <source>Only one link per line</source>
-        <translation>Само један линк по линији</translation>
-    </message>
-    <message>
         <source>Global upload rate limit must be greater than 0 or disabled.</source>
-        <translation type="unfinished" />
+        <translation>Глобално ограничење брзине отпремања мора бити веће од 0 или онемогућено.</translation>
     </message>
     <message>
         <source>Global download rate limit must be greater than 0 or disabled.</source>
-        <translation type="unfinished" />
+        <translation>Глобално ограничење брзине преузимања мора бити веће од 0 или онемогућено.</translation>
     </message>
     <message>
         <source>Alternative upload rate limit must be greater than 0 or disabled.</source>
-        <translation type="unfinished" />
+        <translation>Алтернативно ограничење брзине отпремања мора бити веће од 0 или онемогућено.</translation>
     </message>
     <message>
         <source>Alternative download rate limit must be greater than 0 or disabled.</source>
-        <translation type="unfinished" />
+        <translation>Алтернативно ограничење брзине преузимања мора бити веће од 0 или онемогућено.</translation>
     </message>
     <message>
         <source>Maximum active downloads must be greater than -1.</source>
-        <translation type="unfinished" />
+        <translation>Максималан број активних преузимања мора бити већи од -1.</translation>
     </message>
     <message>
         <source>Maximum active uploads must be greater than -1.</source>
-        <translation type="unfinished" />
+        <translation>Максималан број активних отпремања мора бити већи од -1.</translation>
     </message>
     <message>
         <source>Maximum active torrents must be greater than -1.</source>
-        <translation type="unfinished" />
+        <translation>Максималан број активних торрента мора бити већи од -1.</translation>
     </message>
     <message>
         <source>Maximum number of connections limit must be greater than 0 or disabled.</source>
@@ -180,38 +192,6 @@
         <translation>Непознато</translation>
     </message>
     <message>
-        <source>Share ratio limit must be between 0 and 9998.</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Seeding time limit must be between 0 and 525600 minutes.</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>The port used for the Web UI must be between 1 and 65535.</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Unable to log in, qBittorrent is probably unreachable.</source>
-        <translation>Није могуће улоговати се, qBittorrent је вероватно недоступан.</translation>
-    </message>
-    <message>
-        <source>Invalid Username or Password.</source>
-        <translation>Неважеће корисничко име или шифра.</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation>Корисничко име</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation>Шифра</translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation>Логовање</translation>
-    </message>
-    <message>
         <source>Apply</source>
         <translation>Примени</translation>
     </message>
@@ -227,10 +207,6 @@
     <message>
         <source>Save files to location:</source>
         <translation>Сачувај датотеке у локацију:</translation>
-    </message>
-    <message>
-        <source>Cookie:</source>
-        <translation>Колачић:</translation>
     </message>
     <message>
         <source>More information</source>
@@ -296,10 +272,6 @@
         <translation>Излогуј се</translation>
     </message>
     <message>
-        <source>Download Torrents from their URLs or Magnet links</source>
-        <translation>Преузми торенте преко њиховог URL или Магнет везе</translation>
-    </message>
-    <message>
         <source>Upload local torrent</source>
         <translation>Отпреми локални торент</translation>
     </message>
@@ -313,19 +285,15 @@
     </message>
     <message>
         <source>Global number of upload slots limit must be greater than 0 or disabled.</source>
-        <translation type="unfinished" />
+        <translation>Глобални број слотова за отпремање мора бити већи од 0 или онемогућен.</translation>
     </message>
     <message>
         <source>Invalid category name:\nPlease do not use any special characters in the category name.</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Unable to create category</source>
-        <translation>Креирање категорије није успело</translation>
+        <translation>Неважећи назив категорије:\nМолимо вас да не користите никакве специјалне знакове у називу категорије.</translation>
     </message>
     <message>
         <source>Upload rate threshold must be greater than 0.</source>
-        <translation type="unfinished" />
+        <translation>Праг брзине отпремања мора бити већи од 0.</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -337,7 +305,7 @@
     </message>
     <message>
         <source>Torrent inactivity timer must be greater than 0.</source>
-        <translation type="unfinished" />
+        <translation>Тајмер неактивности торрента мора бити већи од 0.</translation>
     </message>
     <message>
         <source>Saving Management</source>
@@ -345,11 +313,7 @@
     </message>
     <message>
         <source>Download rate threshold must be greater than 0.</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>qBittorrent has been shutdown</source>
-        <translation>qBittorrent је искључен</translation>
+        <translation>Праг брзине преузимања мора бити већи од 0.</translation>
     </message>
     <message>
         <source>Open documentation</source>
@@ -361,11 +325,7 @@
     </message>
     <message>
         <source>Unable to add peers. Please ensure you are adhering to the IP:port format.</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>JavaScript Required! You must enable JavaScript for the Web UI to work properly</source>
-        <translation type="unfinished" />
+        <translation>Није могуће додати вршњаке. Молимо вас да се уверите да поштујете IP:порт формат.</translation>
     </message>
     <message>
         <source>Name cannot be empty</source>
@@ -385,14 +345,102 @@
     </message>
     <message>
         <source>The port used for incoming connections must be between 0 and 65535.</source>
-        <translation type="unfinished" />
+        <translation>Порт који се користи за долазне везе мора бити између 0 и 65535.</translation>
     </message>
     <message>
         <source>Original author</source>
         <translation>Оригинални аутор</translation>
     </message>
     <message>
-        <source>Are you sure you want to remove the selected torrents from the transfer list?</source>
+        <source>The port used for the WebUI must be between 1 and 65535.</source>
+        <translation>Порт који се користи за WebUI мора бити између 1 и 65535.</translation>
+    </message>
+    <message>
+        <source>%1 has been shutdown</source>
+        <translation>%1 је искључен</translation>
+    </message>
+    <message>
+        <source>JavaScript Required! You must enable JavaScript for the WebUI to work properly</source>
+        <translation>Јаваскрипт је потребан! Морате омогућити Јаваскрипт да би ВебИ интерфејс исправно радио</translation>
+    </message>
+    <message>
+        <source>External IP: N/A</source>
+        <translation>Спољна ИП адреса: Н/Д</translation>
+    </message>
+    <message>
+        <source>Reverse proxy setup examples</source>
+        <translation>Примери подешавања обрнутог проксија</translation>
+    </message>
+    <message>
+        <source>Could not contact qBittorrent</source>
+        <translation>Није могуће контактирати qBittorrent</translation>
+    </message>
+    <message>
+        <source>Remember choice</source>
+        <translation>Запамти избор</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these %1 torrents from the transfer list?</source>
+        <translation>Да ли сигурно желите да уклоните ових %1 торената са листе преноса?</translation>
+    </message>
+    <message>
+        <source>Unable to delete torrents.</source>
+        <translation>Не могу да обришем торент датотеке.</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>External IP: %1%2</source>
+        <translation>Спољна IP адреса: %1%2</translation>
+    </message>
+    <message>
+        <source>Edit web seed</source>
+        <translation>Уреди веб семе</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove %1 from the transfer list?</source>
+        <translation>Да ли сте сигурни да желите да уклоните %1 f са листе за трансфер?</translation>
+    </message>
+    <message>
+        <source>Unable to set Auto Torrent Management for the selected torrents.</source>
+        <translation>Није могуће подесити аутоматско управљање торентима за изабране торент датотеке.</translation>
+    </message>
+    <message>
+        <source>Unable to stop torrents.</source>
+        <translation>Не могу да зауставим торент.</translation>
+    </message>
+    <message>
+        <source>Unable to download file</source>
+        <translation>Није могуће преузети датотеку</translation>
+    </message>
+    <message>
+        <source>External IPs: %1, %2</source>
+        <translation>Спољне IP адресе: %1, %2</translation>
+    </message>
+    <message>
+        <source>Unable to recheck torrents.</source>
+        <translation>Није могуће поново проверити торент.</translation>
+    </message>
+    <message>
+        <source>List of web seeds to add (one per line):</source>
+        <translation>Листа веб семена које треба додати (по једно по реду):</translation>
+    </message>
+    <message>
+        <source>Unable to start torrents.</source>
+        <translation>Не могу да покренем торент.</translation>
+    </message>
+    <message>
+        <source>Add web seeds</source>
+        <translation>Додајте веб семена</translation>
+    </message>
+    <message>
+        <source>Share ratio limit must not have a negative value.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Seeding time limit must not have a negative value.</source>
         <translation type="unfinished" />
     </message>
 </context>
@@ -423,10 +471,6 @@
         <translation>Опције...</translation>
     </message>
     <message>
-        <source>Resume</source>
-        <translation>Настави</translation>
-    </message>
-    <message>
         <source>Top Toolbar</source>
         <translation>Горња трака са алатима</translation>
     </message>
@@ -443,24 +487,12 @@
         <translation>Донирајте!</translation>
     </message>
     <message>
-        <source>Resume All</source>
-        <translation>Настави Све</translation>
-    </message>
-    <message>
         <source>Statistics</source>
         <translation>Статистика</translation>
     </message>
     <message>
         <source>About</source>
         <translation>О програму</translation>
-    </message>
-    <message>
-        <source>Pause</source>
-        <translation>Пауза</translation>
-    </message>
-    <message>
-        <source>Pause All</source>
-        <translation>Паузирај све</translation>
     </message>
     <message>
         <source>Add Torrent File...</source>
@@ -493,11 +525,6 @@
     <message>
         <source>Are you sure you want to quit qBittorrent?</source>
         <translation>Да ли сте сигурни да желите да изађете из qBittorrent-а?</translation>
-    </message>
-    <message>
-        <source>[D: %1, U: %2] qBittorrent %3</source>
-        <comment>D = Download; U = Upload; %3 is qBittorrent version</comment>
-        <translation>[Преуз: %1, Отпр: %2] qBittorrent %3</translation>
     </message>
     <message>
         <source>Alternative speed limits</source>
@@ -608,20 +635,64 @@
         <translation>Уклони</translation>
     </message>
     <message>
-        <source>Would you like to resume all torrents?</source>
-        <translation>Желите ли да наставите све торенте?</translation>
-    </message>
-    <message>
-        <source>Would you like to pause all torrents?</source>
-        <translation>Желите ли да паузирате све торенте?</translation>
-    </message>
-    <message>
         <source>Execution Log</source>
         <translation>Дневник догађаја</translation>
     </message>
     <message>
         <source>Log</source>
-        <translation type="unfinished" />
+        <translation>Записке</translation>
+    </message>
+    <message>
+        <source>[D: %1, U: %2]</source>
+        <translation>[Д: %1, У: %2]</translation>
+    </message>
+    <message>
+        <source>Filter by:</source>
+        <translation>Филтрирај према:</translation>
+    </message>
+    <message>
+        <source>Save Path</source>
+        <translation>Путања чувања</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>Заустави</translation>
+    </message>
+    <message>
+        <source>Use regular expression</source>
+        <translation>Користите регуларни израз</translation>
+    </message>
+    <message>
+        <source>Would you like to start all torrents?</source>
+        <translation>Да ли желите да покренете све торент системе?</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Започни</translation>
+    </message>
+    <message>
+        <source>Manage Cookies...</source>
+        <translation>Управљај колачићима...</translation>
+    </message>
+    <message>
+        <source>Unable to export torrent file</source>
+        <translation>Није могуће експортовати торент датотеку</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Име</translation>
+    </message>
+    <message>
+        <source>Would you like to stop all torrents?</source>
+        <translation>Да ли желите да зауставите све торент снимке?</translation>
+    </message>
+    <message>
+        <source>Start All</source>
+        <translation>Покрени све</translation>
+    </message>
+    <message>
+        <source>Stop All</source>
+        <translation>Заустави све</translation>
     </message>
 </context>
 <context>
@@ -647,16 +718,8 @@
         <translation>BitTorrent</translation>
     </message>
     <message>
-        <source>Web UI</source>
-        <translation>Web UI</translation>
-    </message>
-    <message>
         <source>Language</source>
         <translation>Језик</translation>
-    </message>
-    <message>
-        <source>User Interface Language:</source>
-        <translation>Језик корисничког интерфејса</translation>
     </message>
     <message>
         <source>Email notification upon download completion</source>
@@ -673,10 +736,6 @@
     <message>
         <source>Torrent Queueing</source>
         <translation>Опслуживање Торета</translation>
-    </message>
-    <message>
-        <source>Automatically add these trackers to new downloads:</source>
-        <translation>Аутоматски додај ове трекере новим преузимањима</translation>
     </message>
     <message>
         <source>Web User Interface (Remote control)</source>
@@ -974,11 +1033,11 @@
     </message>
     <message>
         <source>%R: Root path (first torrent subdirectory path)</source>
-        <translation type="unfinished" />
+        <translation>%R: Путања коренског директоријума (путања првог поддиректоријума торент директоријума)</translation>
     </message>
     <message>
         <source>%D: Save path</source>
-        <translation type="unfinished" />
+        <translation>%D: Сачувај путању</translation>
     </message>
     <message>
         <source>%C: Number of files</source>
@@ -990,19 +1049,11 @@
     </message>
     <message>
         <source>%T: Current tracker</source>
-        <translation type="unfinished" />
+        <translation>%T: Тренутни праћење</translation>
     </message>
     <message>
         <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., "%N")</source>
         <translation>Савет: окружите параметар знацима навода, да се текст не би одсецао због размака (нпр. "%N")</translation>
-    </message>
-    <message>
-        <source>The Web UI username must be at least 3 characters long.</source>
-        <translation>Веб UI име корисника мора имати најмање 3 карактера.</translation>
-    </message>
-    <message>
-        <source>The Web UI password must be at least 6 characters long.</source>
-        <translation>Веб UI шифра корисника мора имати најмање 6 карактера.</translation>
     </message>
     <message>
         <source>minutes</source>
@@ -1014,15 +1065,15 @@
     </message>
     <message>
         <source>Enable clickjacking protection</source>
-        <translation type="unfinished" />
+        <translation>Омогући заштиту од кликџека</translation>
     </message>
     <message>
         <source>Enable Cross-Site Request Forgery (CSRF) protection</source>
-        <translation type="unfinished" />
+        <translation>Омогући заштиту од фалсификовања захтева на више локација (CSRF)</translation>
     </message>
     <message>
         <source>Delete .torrent files afterwards</source>
-        <translation type="unfinished" />
+        <translation>Обришите .torrent датотеке након тога</translation>
     </message>
     <message>
         <source>Download rate threshold:</source>
@@ -1041,16 +1092,8 @@
         <translation>Аутоматски</translation>
     </message>
     <message>
-        <source>Use alternative Web UI</source>
-        <translation>Користи алтернативни веб интерфејс</translation>
-    </message>
-    <message>
         <source>Default Save Path:</source>
         <translation>Подразумевана путања чувања:</translation>
-    </message>
-    <message>
-        <source>The alternative Web UI files location cannot be blank.</source>
-        <translation>Локација фајлова алтернативног веб интерфејса не може бити празна.</translation>
     </message>
     <message>
         <source>Do not start the download automatically</source>
@@ -1062,7 +1105,7 @@
     </message>
     <message>
         <source>When Torrent Category changed:</source>
-        <translation type="unfinished" />
+        <translation>Када се променила категорија торрента:</translation>
     </message>
     <message>
         <source>Relocate affected torrents</source>
@@ -1070,11 +1113,11 @@
     </message>
     <message>
         <source>Apply rate limit to peers on LAN</source>
-        <translation type="unfinished" />
+        <translation>Примени ограничење брзине на вршњаке на локалној мрежи</translation>
     </message>
     <message>
         <source>0 means unlimited</source>
-        <translation type="unfinished" />
+        <translation>0 значи неограничено</translation>
     </message>
     <message>
         <source>Relocate torrent</source>
@@ -1082,11 +1125,11 @@
     </message>
     <message>
         <source>When Default Save Path changed:</source>
-        <translation type="unfinished" />
+        <translation>Када се подразумевана путања чувања промени:</translation>
     </message>
     <message>
         <source>Enable Host header validation</source>
-        <translation type="unfinished" />
+        <translation>Омогући валидацију заглавља хоста</translation>
     </message>
     <message>
         <source>Security</source>
@@ -1094,7 +1137,7 @@
     </message>
     <message>
         <source>When Category Save Path changed:</source>
-        <translation type="unfinished" />
+        <translation>Када се путања чувања категорије променила:</translation>
     </message>
     <message>
         <source>seconds</source>
@@ -1130,23 +1173,23 @@
     </message>
     <message>
         <source>μTP-TCP mixed mode algorithm:</source>
-        <translation type="unfinished" />
+        <translation>μTP-TCP алгоритам мешовитог режима:</translation>
     </message>
     <message>
         <source>Upload rate based</source>
-        <translation type="unfinished" />
+        <translation>Стопа отпремања на основу</translation>
     </message>
     <message>
         <source>%G: Tags (separated by comma)</source>
-        <translation type="unfinished" />
+        <translation>%G: Ознаке (одвојене зарезом)</translation>
     </message>
     <message>
         <source>Socket backlog size:</source>
-        <translation type="unfinished" />
+        <translation>Величина заостатка у сокету:</translation>
     </message>
     <message>
         <source>Enable super seeding for torrent</source>
-        <translation type="unfinished" />
+        <translation>Омогући супер сидинг за торент</translation>
     </message>
     <message>
         <source>Prefer TCP</source>
@@ -1154,11 +1197,11 @@
     </message>
     <message>
         <source>Outstanding memory when checking torrents:</source>
-        <translation type="unfinished" />
+        <translation>Одлична меморија при провери торрента:</translation>
     </message>
     <message>
         <source>Anti-leech</source>
-        <translation type="unfinished" />
+        <translation>Против пијавица</translation>
     </message>
     <message>
         <source>When ratio reaches</source>
@@ -1166,11 +1209,11 @@
     </message>
     <message>
         <source>Allow multiple connections from the same IP address:</source>
-        <translation type="unfinished" />
+        <translation>Дозволи вишеструке везе са исте IP адресе:</translation>
     </message>
     <message>
         <source>File pool size:</source>
-        <translation type="unfinished" />
+        <translation>Величина базе датотека:</translation>
     </message>
     <message>
         <source>Any interface</source>
@@ -1178,19 +1221,15 @@
     </message>
     <message>
         <source>Always announce to all tiers:</source>
-        <translation type="unfinished" />
+        <translation>Увек објавите свим нивоима:</translation>
     </message>
     <message>
         <source>Embedded tracker port:</source>
-        <translation type="unfinished" />
+        <translation>Уграђени порт за праћење:</translation>
     </message>
     <message>
         <source>Fastest upload</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Pause torrent</source>
-        <translation>Паузирај торент</translation>
+        <translation>Најбрже отпремање</translation>
     </message>
     <message>
         <source>Remove torrent and its files</source>
@@ -1202,7 +1241,7 @@
     </message>
     <message>
         <source>Send buffer watermark factor:</source>
-        <translation type="unfinished" />
+        <translation>Фактор воденог жига за слање у баферу:</translation>
     </message>
     <message>
         <source>libtorrent Section</source>
@@ -1210,7 +1249,7 @@
     </message>
     <message>
         <source>Recheck torrents on completion:</source>
-        <translation type="unfinished" />
+        <translation>Поново провери торент након завршетка:</translation>
     </message>
     <message>
         <source>Allow encryption</source>
@@ -1218,7 +1257,7 @@
     </message>
     <message>
         <source>Send upload piece suggestions:</source>
-        <translation type="unfinished" />
+        <translation>Пошаљите предлоге за отпремање делова:</translation>
     </message>
     <message>
         <source>Enable embedded tracker:</source>
@@ -1230,7 +1269,7 @@
     </message>
     <message>
         <source>Asynchronous I/O threads:</source>
-        <translation type="unfinished" />
+        <translation>Асинхрони улазно/излазни нити:</translation>
     </message>
     <message>
         <source>s</source>
@@ -1238,15 +1277,15 @@
     </message>
     <message>
         <source>Send buffer watermark:</source>
-        <translation type="unfinished" />
+        <translation>Пошаљи водени жиг бафера:</translation>
     </message>
     <message>
         <source>Peer proportional (throttles TCP)</source>
-        <translation type="unfinished" />
+        <translation>Пропорционално вршњачко (успорава TCP)</translation>
     </message>
     <message>
         <source>Fixed slots</source>
-        <translation type="unfinished" />
+        <translation>Фиксни слотови</translation>
     </message>
     <message>
         <source>Advanced</source>
@@ -1254,11 +1293,11 @@
     </message>
     <message>
         <source>min</source>
-        <translation type="unfinished" />
+        <translation>мин</translation>
     </message>
     <message>
         <source>Upload choking algorithm:</source>
-        <translation type="unfinished" />
+        <translation>Алгоритам за гушење отпремања:</translation>
     </message>
     <message>
         <source>Seeding Limits</source>
@@ -1274,7 +1313,7 @@
     </message>
     <message>
         <source>Upload slots behavior:</source>
-        <translation type="unfinished" />
+        <translation>Понашање слотова за отпремање:</translation>
     </message>
     <message>
         <source>MiB</source>
@@ -1282,15 +1321,15 @@
     </message>
     <message>
         <source>Send buffer low watermark:</source>
-        <translation type="unfinished" />
+        <translation>Водени жиг за низак ниво бафера слања:</translation>
     </message>
     <message>
         <source>Save resume data interval:</source>
-        <translation type="unfinished" />
+        <translation>Интервал података за чување резимеа:</translation>
     </message>
     <message>
         <source>Always announce to all trackers in a tier:</source>
-        <translation type="unfinished" />
+        <translation>Увек објави свим трагачима у нивоу:</translation>
     </message>
     <message>
         <source>Session timeout:</source>
@@ -1298,7 +1337,7 @@
     </message>
     <message>
         <source>Resolve peer countries:</source>
-        <translation type="unfinished" />
+        <translation>Реши проблеме са земљама вршњацима:</translation>
     </message>
     <message>
         <source>ban for:</source>
@@ -1307,10 +1346,6 @@
     <message>
         <source>Ban client after consecutive failures:</source>
         <translation>Бануј клијента након узастопних неуспеха:</translation>
-    </message>
-    <message>
-        <source>Enable cookie Secure flag (requires HTTPS)</source>
-        <translation>Омогући Secure заставицу колачића (захтева HTTPS)</translation>
     </message>
     <message>
         <source>Header: value pairs, one per line</source>
@@ -1326,15 +1361,15 @@
     </message>
     <message>
         <source>Enable fetching RSS feeds</source>
-        <translation type="unfinished" />
+        <translation>Омогући преузимање RSS фидова</translation>
     </message>
     <message>
         <source>Peer turnover threshold percentage:</source>
-        <translation type="unfinished" />
+        <translation>Проценат прага флуктуације вршњака:</translation>
     </message>
     <message>
         <source>RSS Torrent Auto Downloader</source>
-        <translation type="unfinished" />
+        <translation>Аутоматско преузимање RSS торрента</translation>
     </message>
     <message>
         <source>RSS</source>
@@ -1350,11 +1385,11 @@
     </message>
     <message>
         <source>Edit auto downloading rules...</source>
-        <translation type="unfinished" />
+        <translation>Измени правила аутоматског преузимања...</translation>
     </message>
     <message>
         <source>Download REPACK/PROPER episodes</source>
-        <translation type="unfinished" />
+        <translation>Преузмите REPACK/PROPER епизоде</translation>
     </message>
     <message>
         <source>Feeds refresh interval:</source>
@@ -1362,7 +1397,7 @@
     </message>
     <message>
         <source>Peer turnover disconnect percentage:</source>
-        <translation type="unfinished" />
+        <translation>Проценат прекида везе са вршњацима:</translation>
     </message>
     <message>
         <source>Maximum number of articles per feed:</source>
@@ -1374,27 +1409,27 @@
     </message>
     <message>
         <source>Peer turnover disconnect interval:</source>
-        <translation type="unfinished" />
+        <translation>Интервал прекида везе са вршњацима:</translation>
     </message>
     <message>
         <source>Optional IP address to bind to:</source>
-        <translation type="unfinished" />
+        <translation>Опционална IP адреса за повезивање:</translation>
     </message>
     <message>
         <source>Disallow connection to peers on privileged ports:</source>
-        <translation type="unfinished" />
+        <translation>Забраните повезивање са вршњацима на привилегованим портовима:</translation>
     </message>
     <message>
         <source>Enable auto downloading of RSS torrents</source>
-        <translation type="unfinished" />
+        <translation>Омогући аутоматско преузимање RSS торент датотека</translation>
     </message>
     <message>
         <source>RSS Smart Episode Filter</source>
-        <translation type="unfinished" />
+        <translation>RSS паметни филтер епизода</translation>
     </message>
     <message>
         <source>Validate HTTPS tracker certificate:</source>
-        <translation type="unfinished" />
+        <translation>Валидирајте HTTPS сертификат за праћење:</translation>
     </message>
     <message>
         <source>Peer connection protocol:</source>
@@ -1418,11 +1453,11 @@
     </message>
     <message>
         <source>Type of service (ToS) for connections to peers</source>
-        <translation type="unfinished" />
+        <translation>Врста услуге (ToS) за повезивање са вршњацима</translation>
     </message>
     <message>
         <source>Outgoing connections per second:</source>
-        <translation type="unfinished" />
+        <translation>Одлазне везе у секунди:</translation>
     </message>
     <message>
         <source>Random</source>
@@ -1434,7 +1469,7 @@
     </message>
     <message>
         <source>Reannounce to all trackers when IP or port changed:</source>
-        <translation type="unfinished" />
+        <translation>Поново обавести све тракере када се промени ИП адреса или порт:</translation>
     </message>
     <message>
         <source>Trusted proxies list:</source>
@@ -1442,19 +1477,19 @@
     </message>
     <message>
         <source>Enable reverse proxy support</source>
-        <translation type="unfinished" />
+        <translation>Омогући подршку за обрнути прокси</translation>
     </message>
     <message>
         <source>%J: Info hash v2</source>
-        <translation type="unfinished" />
+        <translation>%J: Инфо хеш v2</translation>
     </message>
     <message>
         <source>%I: Info hash v1</source>
-        <translation type="unfinished" />
+        <translation>%I: Инфо хеш v1</translation>
     </message>
     <message>
         <source>IP address reported to trackers (requires restart):</source>
-        <translation type="unfinished" />
+        <translation>ИП адреса пријављена пратиоцима (захтева поновно покретање):</translation>
     </message>
     <message>
         <source>Set to 0 to let your system pick an unused port</source>
@@ -1462,23 +1497,23 @@
     </message>
     <message>
         <source>Server-side request forgery (SSRF) mitigation:</source>
-        <translation type="unfinished" />
+        <translation>Ублажавање фалсификовања захтева на страни сервера (SSRF):</translation>
     </message>
     <message>
         <source>Disk queue size:</source>
-        <translation type="unfinished" />
+        <translation>Величина реда за попуњавање диска:</translation>
     </message>
     <message>
         <source>Log performance warnings</source>
-        <translation type="unfinished" />
+        <translation>Упозорења о перформансама евидентирања</translation>
     </message>
     <message>
         <source>Maximum outstanding requests to a single peer:</source>
-        <translation type="unfinished" />
+        <translation>Максималан број неизвршених захтева ка једном peer-у:</translation>
     </message>
     <message>
         <source>Max active checking torrents:</source>
-        <translation type="unfinished" />
+        <translation>Максималан број активних торрента који се проверавају:</translation>
     </message>
     <message>
         <source>Memory mapped files</source>
@@ -1498,11 +1533,11 @@
     </message>
     <message>
         <source>It controls the internal state update interval which in turn will affect UI updates</source>
-        <translation type="unfinished" />
+        <translation>Контролише интервал ажурирања интерног стања, што ће заузврат утицати на ажурирања корисничког интерфејса</translation>
     </message>
     <message>
         <source>Disk IO read mode:</source>
-        <translation type="unfinished" />
+        <translation>Режим читања диска у/излаз:</translation>
     </message>
     <message>
         <source>Disable OS cache</source>
@@ -1510,15 +1545,15 @@
     </message>
     <message>
         <source>Disk IO write mode:</source>
-        <translation type="unfinished" />
+        <translation>Режим писања на диск у/излаз:</translation>
     </message>
     <message>
         <source>Use piece extent affinity:</source>
-        <translation type="unfinished" />
+        <translation>Користи афинитет опсега дела:</translation>
     </message>
     <message>
         <source>Max concurrent HTTP announces:</source>
-        <translation type="unfinished" />
+        <translation>Максимални број истовремених HTTP обавештења:</translation>
     </message>
     <message>
         <source>Enable OS cache</source>
@@ -1526,11 +1561,11 @@
     </message>
     <message>
         <source>Refresh interval:</source>
-        <translation type="unfinished" />
+        <translation>Интервал освежавања:</translation>
     </message>
     <message>
         <source>ms</source>
-        <translation type="unfinished" />
+        <translation>мс</translation>
     </message>
     <message>
         <source>Excluded file names</source>
@@ -1538,11 +1573,7 @@
     </message>
     <message>
         <source>Support internationalized domain name (IDN):</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Run external program on torrent finished</source>
-        <translation type="unfinished" />
+        <translation>Подршка за интернационализована имена домена (IDN):</translation>
     </message>
     <message>
         <source>Whitelist for filtering HTTP Host header values.
@@ -1550,23 +1581,23 @@ In order to defend against DNS rebinding attack,
 you should put in domain names used by WebUI server.
 
 Use ';' to split multiple entries. Can use wildcard '*'.</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Run external program on torrent added</source>
-        <translation type="unfinished" />
+        <translation>Бела листа за филтрирање вредности заглавља HTTP хоста.
+Да бисте се одбранили од напада поновног повезивања DNS-а,
+требало би да унесете имена домена које користи WebUI сервер.
+
+Користите ';' да бисте раздвојили више уноса. Можете користити џокер '*'.</translation>
     </message>
     <message>
         <source>HTTPS certificate should not be empty</source>
-        <translation type="unfinished" />
+        <translation>HTTPS сертификат не сме бити празан</translation>
     </message>
     <message>
         <source>Specify reverse proxy IPs (or subnets, e.g. 0.0.0.0/24) in order to use forwarded client address (X-Forwarded-For header). Use ';' to split multiple entries.</source>
-        <translation type="unfinished" />
+        <translation>Наведите обрнуте прокси IP адресе (или подмреже, нпр. 0.0.0.0/24) да бисте користили прослеђену адресу клијента (заглавље X-Forwarded-For). Користите ';' да бисте поделили више уноса.</translation>
     </message>
     <message>
         <source>HTTPS key should not be empty</source>
-        <translation type="unfinished" />
+        <translation>HTTPS кључ не сме бити празан</translation>
     </message>
     <message>
         <source>Run external program</source>
@@ -1578,7 +1609,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Enable port forwarding for embedded tracker:</source>
-        <translation type="unfinished" />
+        <translation>Омогућите прослеђивање портова за уграђени трагач:</translation>
     </message>
     <message>
         <source>If checked, hostname lookups are done via the proxy.</source>
@@ -1606,23 +1637,19 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Resume data storage type (requires restart):</source>
-        <translation type="unfinished" />
+        <translation>Тип складиштења података за наставак (захтева поновно покретање):</translation>
     </message>
     <message>
         <source>Fastresume files</source>
-        <translation type="unfinished" />
+        <translation>Фастресуме датотеке</translation>
     </message>
     <message>
         <source>Backup the log file after:</source>
-        <translation type="unfinished" />
+        <translation>Направите резервну копију лог датотеке након:</translation>
     </message>
     <message>
         <source>days</source>
         <translation>дани</translation>
-    </message>
-    <message>
-        <source>Log file</source>
-        <translation type="unfinished" />
     </message>
     <message>
         <source>Behavior</source>
@@ -1630,11 +1657,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Delete backup logs older than:</source>
-        <translation type="unfinished" />
+        <translation>Обриши евиденције резервних копија старије од:</translation>
     </message>
     <message>
         <source>Use proxy for BitTorrent purposes</source>
-        <translation type="unfinished" />
+        <translation>Користите прокси за потребе БитТоррента</translation>
     </message>
     <message>
         <source>years</source>
@@ -1650,131 +1677,371 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Remember Multi-Rename settings</source>
-        <translation type="unfinished" />
+        <translation>Запамти подешавања вишеструког преименовања</translation>
     </message>
     <message>
         <source>Use proxy for general purposes</source>
-        <translation type="unfinished" />
+        <translation>Користите прокси за опште сврхе</translation>
     </message>
     <message>
         <source>Use proxy for RSS purposes</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Disk cache expiry interval (requires libtorrent &amp;lt; 2.0):</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Physical memory (RAM) usage limit (applied if libtorrent &amp;gt;= 2.0):</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Disk cache (requires libtorrent &amp;lt; 2.0):</source>
-        <translation type="unfinished" />
+        <translation>Користите прокси за потребе RSS-а</translation>
     </message>
     <message>
         <source>Socket send buffer size [0: system default]:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Coalesce reads &amp;amp; writes (requires libtorrent &amp;lt; 2.0):</source>
-        <translation type="unfinished" />
+        <translation>Величина бафера за слање сокета [0: системска подразумевана вредност]:</translation>
     </message>
     <message>
         <source>Outgoing ports (Max) [0: disabled]:</source>
-        <translation type="unfinished" />
+        <translation>Одлазни портови (макс.) [0: онемогућено]:</translation>
     </message>
     <message>
         <source>Socket receive buffer size [0: system default]:</source>
-        <translation type="unfinished" />
+        <translation>Величина пријемног бафера сокета [0: системска подразумевана вредност]:</translation>
     </message>
     <message>
         <source>Use Subcategories</source>
         <translation>Користи поткатегорије</translation>
     </message>
     <message>
-        <source>Disk IO type (libtorrent &amp;gt;= 2.0; requires restart):</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Add to top of queue</source>
         <translation>Додај на врх реда</translation>
     </message>
     <message>
-        <source>Write-through (requires libtorrent &amp;gt;= 2.0.6)</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Stop tracker timeout [0: disabled]:</source>
-        <translation type="unfinished" />
+        <translation>Време чекања за заустављање праћења [0: онемогућено]:</translation>
     </message>
     <message>
         <source>Outgoing ports (Min) [0: disabled]:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Hashing threads (requires libtorrent &amp;gt;= 2.0):</source>
-        <translation type="unfinished" />
+        <translation>Одлазни портови (мин.) [0: онемогућено]:</translation>
     </message>
     <message>
         <source>UPnP lease duration [0: permanent lease]:</source>
-        <translation type="unfinished" />
+        <translation>Трајање UPnP закупа [0: стални закуп]:</translation>
+    </message>
+    <message>
+        <source>Bdecode depth limit:</source>
+        <translation>Ограничење дубине Bdecode-а:</translation>
     </message>
     <message>
         <source>Bdecode token limit:</source>
-        <translation type="unfinished" />
+        <translation>Ограничење Bdecode токена:</translation>
     </message>
     <message>
-        <source>When inactive seeding time reaches</source>
-        <translation type="unfinished" />
+        <source>When total seeding time reaches</source>
+        <translation>Када укупно време сетве достигне</translation>
     </message>
     <message>
         <source>(None)</source>
         <translation>(Нема)</translation>
     </message>
     <message>
-        <source>Bdecode depth limit:</source>
-        <translation type="unfinished" />
+        <source>Python executable path (may require restart):</source>
+        <translation>Путања за извршни програм у Пајтону (можда ће бити потребно поновно покретање):</translation>
     </message>
     <message>
-        <source>.torrent file size limit:</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>When total seeding time reaches</source>
-        <translation type="unfinished" />
+        <source>Resets to default if empty</source>
+        <translation>Ресетује се на подразумеване вредности ако је празно</translation>
     </message>
     <message>
         <source>Perform hostname lookup via proxy</source>
-        <translation type="unfinished" />
+        <translation>Извршите претрагу имена хоста преко проксија</translation>
+    </message>
+    <message>
+        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
+        <translation>Ако је омогућен „мешани режим“, I2P торентима је дозвољено да добијају вршњаке и из других извора осим тракера и да се повезују са редовним IP адресама, без пружања анонимизације. Ово може бити корисно ако корисник није заинтересован за анонимизацију I2P-а, али и даље жели да буде у могућности да се повеже са I2P вршњацима.</translation>
+    </message>
+    <message>
+        <source>DHT bootstrap nodes:</source>
+        <translation>DHT бутстреп чворови:</translation>
+    </message>
+    <message>
+        <source>When inactive seeding time reaches</source>
+        <translation>Када достигне време неактивне сетве</translation>
     </message>
     <message>
         <source>Mixed mode</source>
         <translation>Мешовити режим</translation>
     </message>
     <message>
-        <source>If &amp;quot;mixed mode&amp;quot; is enabled, I2P torrents are allowed to also get peers from other sources than the tracker, and connect to regular IPs, not providing any anonymization. This may be useful if the user is not interested in the anonymization of I2P, but still wants to be able to connect to I2P peers.</source>
-        <translation type="unfinished" />
+        <source>.torrent file size limit:</source>
+        <translation>Ограничење величине .torrent датотеке:</translation>
     </message>
     <message>
-        <source>I2P inbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
-        <translation type="unfinished" />
+        <source>(Auto detect if empty)</source>
+        <translation>(Аутоматски детектује ако је празно)</translation>
     </message>
     <message>
-        <source>I2P (Experimental) (requires libtorrent &amp;gt;= 2.0)</source>
-        <translation type="unfinished" />
+        <source>Keep unselected files in ".unwanted" folder</source>
+        <translation>Неизабране датотеке чувајте у фолдеру „.unwanted“</translation>
     </message>
     <message>
-        <source>I2P outbound quantity (requires libtorrent &amp;gt;= 2.0):</source>
-        <translation type="unfinished" />
+        <source>Enable Mark-of-the-Web (MOTW) for downloaded files (require macOS or Windows):</source>
+        <translation>Омогућите Mark-of-the-Web (MOTW) за преузете датотеке (потребан је macOS или Windows):</translation>
     </message>
     <message>
-        <source>I2P outbound length (requires libtorrent &amp;gt;= 2.0):</source>
-        <translation type="unfinished" />
+        <source> sec</source>
+        <translation>сек</translation>
     </message>
     <message>
-        <source>I2P inbound length (requires libtorrent &amp;gt;= 2.0):</source>
-        <translation type="unfinished" />
+        <source>I2P outbound quantity:</source>
+        <translation>I2P одлазни број:</translation>
+    </message>
+    <message>
+        <source>I2P inbound quantity:</source>
+        <translation>Количина долазних I2P позива:</translation>
+    </message>
+    <message>
+        <source>Hashing threads:</source>
+        <translation>Хеширање нити:</translation>
+    </message>
+    <message>
+        <source>Physical memory (RAM) usage limit:</source>
+        <translation>Ограничење коришћења физичке меморије (RAM):</translation>
+    </message>
+    <message>
+        <source>Use alternative WebUI</source>
+        <translation>Користите алтернативни WebUI</translation>
+    </message>
+    <message>
+        <source>Disk cache expiry interval:</source>
+        <translation>Интервал истека кеш меморије диска:</translation>
+    </message>
+    <message>
+        <source>I2P outbound length:</source>
+        <translation>Дужина одлазног I2P-а:</translation>
+    </message>
+    <message>
+        <source>I2P (Experimental)</source>
+        <translation>I2P (експериментално)</translation>
+    </message>
+    <message>
+        <source>Disk IO type (requires restart):</source>
+        <translation>Тип диска у/излаз (захтева поновно покретање):</translation>
+    </message>
+    <message>
+        <source>The alternative WebUI files location cannot be blank.</source>
+        <translation>Локација алтернативних WebUI датотека не може бити празна.</translation>
+    </message>
+    <message>
+        <source>Disk cache:</source>
+        <translation>Кеш меморија диска:</translation>
+    </message>
+    <message>
+        <source>Write-through</source>
+        <translation>Писање кроз</translation>
+    </message>
+    <message>
+        <source>WebUI</source>
+        <translation>Веб кориснички интерфејс</translation>
+    </message>
+    <message>
+        <source>The WebUI password must be at least 6 characters long.</source>
+        <translation>Лозинка за WebUI мора бити дугачка најмање 6 знакова.</translation>
+    </message>
+    <message>
+        <source>Coalesce reads &amp;amp; writes:</source>
+        <translation>Coalesce чита и пише:</translation>
+    </message>
+    <message>
+        <source>I2P inbound length:</source>
+        <translation>Дужина долазног I2P-а:</translation>
+    </message>
+    <message>
+        <source>It appends the text to the window title to help distinguish qBittorent instances</source>
+        <translation>Додаје текст наслову прозора како би помогао у разликовању инстанци qBittorent-а</translation>
+    </message>
+    <message>
+        <source>The WebUI username must be at least 3 characters long.</source>
+        <translation>Корисничко име за WebUI мора бити дуго најмање 3 карактера.</translation>
+    </message>
+    <message>
+        <source>Same host request delay:</source>
+        <translation>Кашњење захтева истог хоста:</translation>
+    </message>
+    <message>
+        <source>Customize application instance name:</source>
+        <translation>Прилагоди назив инстанце апликације:</translation>
+    </message>
+    <message>
+        <source>Color scheme:</source>
+        <translation>Шема боја:</translation>
+    </message>
+    <message>
+        <source>Show external IP in status bar</source>
+        <translation>Прикажи спољну ИП адресу у статусној траци</translation>
+    </message>
+    <message>
+        <source>Fetched trackers</source>
+        <translation>Преузети трагачи</translation>
+    </message>
+    <message>
+        <source>Confirm when deleting torrents</source>
+        <translation>Потврда при брисању торената</translation>
+    </message>
+    <message>
+        <source>Ignore SSL errors:</source>
+        <translation>Игноришите SSL грешке:</translation>
+    </message>
+    <message>
+        <source>Dark</source>
+        <translation>Тамно</translation>
+    </message>
+    <message>
+        <source>Delete files permanently</source>
+        <translation>Трајно обришите датотеке</translation>
+    </message>
+    <message>
+        <source>Auto</source>
+        <translation>Аутоматски</translation>
+    </message>
+    <message>
+        <source>Use alternating row colors</source>
+        <translation>Користи различите боје за приказ редова</translation>
+    </message>
+    <message>
+        <source>Display full announce URL in the Tracker column</source>
+        <translation>Прикажите пуну URL адресу објаве у колони за праћење</translation>
+    </message>
+    <message>
+        <source>URL:</source>
+        <translation>URL:</translation>
+    </message>
+    <message>
+        <source>Transfer list</source>
+        <translation>Листа трансфера</translation>
+    </message>
+    <message>
+        <source>The announce port must be between 0 and 65535.</source>
+        <translation>Порт за најаву мора бити између 0 и 65535.</translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation>Светло</translation>
+    </message>
+    <message>
+        <source>Automatically append these trackers to new downloads:</source>
+        <translation>Аутоматски додајте ове пратиоце новим преузимањима:</translation>
+    </message>
+    <message>
+        <source>Downloading torrents:</source>
+        <translation>Преузимање торента:</translation>
+    </message>
+    <message>
+        <source>Start / stop torrent</source>
+        <translation>Покрени/заустави торент</translation>
+    </message>
+    <message>
+        <source>Send test email</source>
+        <translation>Пошаљи пробну е-пошту</translation>
+    </message>
+    <message>
+        <source>Completed torrents:</source>
+        <translation>Завршени торенти:</translation>
+    </message>
+    <message>
+        <source>Enable cookie Secure flag (requires HTTPS or localhost connection)</source>
+        <translation>Омогући заставицу за безбедност колачића (захтева HTTPS или локалну везу)</translation>
+    </message>
+    <message>
+        <source>When duplicate torrent is being added</source>
+        <translation>Када се додаје дупликат торент торентa</translation>
+    </message>
+    <message>
+        <source>Action on double-click</source>
+        <translation>Дејство при двоструком клику</translation>
+    </message>
+    <message>
+        <source>Save statistics interval:</source>
+        <translation>Интервал чувања статистике:</translation>
+    </message>
+    <message>
+        <source>Shows a confirmation dialog upon torrent deletion</source>
+        <translation>Приказује дијалог за потврду при брисању торената</translation>
+    </message>
+    <message>
+        <source>Run on torrent finished:</source>
+        <translation>Покретање на торенту завршено:</translation>
+    </message>
+    <message>
+        <source>Attempted to send email. Check your inbox to confirm success</source>
+        <translation>Покушано је слање имејла. Проверите пријемно сандуче да бисте потврдили успех</translation>
+    </message>
+    <message>
+        <source>Automatically append trackers from URL to new downloads:</source>
+        <translation>Аутоматски додајте праћење из URL-а новим преузимањима:</translation>
+    </message>
+    <message>
+        <source>Torrent content removing mode:</source>
+        <translation>Режим уклањања торент садржаја:</translation>
+    </message>
+    <message>
+        <source>Move files to trash (if possible)</source>
+        <translation>Преместите датотеке у смеће (ако је могуће)</translation>
+    </message>
+    <message>
+        <source>Stop torrent</source>
+        <translation>Заустави торент</translation>
+    </message>
+    <message>
+        <source>Use Category paths in Manual Mode</source>
+        <translation>Користите путање категорија у ручном режиму</translation>
+    </message>
+    <message>
+        <source>List of alternative WebUI</source>
+        <translation>Листа алтернативних WebUI-ја</translation>
+    </message>
+    <message>
+        <source>Run on torrent added:</source>
+        <translation>Додато покретање преко торента:</translation>
+    </message>
+    <message>
+        <source>Port reported to trackers (requires restart) [0: listening port]:</source>
+        <translation>Порт пријављен трагачима (захтева поновно покретање) [0: порт за слушање]:</translation>
+    </message>
+    <message>
+        <source>User interface language:</source>
+        <translation>Језик корисничког интерфејса:</translation>
+    </message>
+    <message>
+        <source>Merge trackers to existing torrent</source>
+        <translation>Споји тракере са постојећим торентом</translation>
+    </message>
+    <message>
+        <source>Confirm torrent recheck:</source>
+        <translation>Потврдите поновну проверу торрента:</translation>
+    </message>
+    <message>
+        <source>Custom WebUI settings</source>
+        <translation>Прилагођена подешавања WebUI-ја</translation>
+    </message>
+    <message>
+        <source>Following settings are WebUI only</source>
+        <translation>Следећа подешавања су само за WebUI</translation>
+    </message>
+    <message>
+        <source>Simple pread/pwrite</source>
+        <translation>Једноставно претход/писање</translation>
+    </message>
+    <message>
+        <source>Resolve relative Save Path against appropriate Category path instead of Default one</source>
+        <translation>Разреши релативну путању чувања у односу на одговарајућу путању категорије уместо подразумеване</translation>
+    </message>
+    <message>
+        <source>No action</source>
+        <translation>Без дејства</translation>
+    </message>
+    <message>
+        <source>Auto hide zero status filters</source>
+        <translation>Аутоматски сакриј филтере за нулти статус</translation>
+    </message>
+    <message>
+        <source>Interface</source>
+        <translation>Интерфејс</translation>
+    </message>
+    <message>
+        <source>Log Files</source>
+        <translation>Датотеке дневника</translation>
     </message>
 </context>
 <context>
@@ -1857,7 +2124,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Peer ID Client</source>
-        <translation type="unfinished" />
+        <translation>Клијент за идентификацију вршњака</translation>
     </message>
 </context>
 <context>
@@ -2086,86 +2353,138 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Filename</source>
-        <translation type="unfinished" />
+        <translation>Име датотеке</translation>
     </message>
     <message>
         <source>Filename + Extension</source>
-        <translation type="unfinished" />
+        <translation>Име датотеке + екстензија</translation>
     </message>
     <message>
         <source>Enumerate Files</source>
-        <translation type="unfinished" />
+        <translation>Наброј датотеке</translation>
     </message>
     <message>
         <source>Rename failed: file or folder already exists</source>
-        <translation type="unfinished" />
+        <translation>Преименовање није успело: датотека или фасцикла већ постоји</translation>
     </message>
     <message>
         <source>Toggle Selection</source>
-        <translation type="unfinished" />
+        <translation>Укључи/искључи избор</translation>
     </message>
     <message>
         <source>Replacement Input</source>
-        <translation type="unfinished" />
+        <translation>Заменски улаз</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation type="unfinished" />
+        <translation>Заменити</translation>
     </message>
     <message>
         <source>Extension</source>
-        <translation type="unfinished" />
+        <translation>Продужетак</translation>
     </message>
     <message>
         <source>Replace All</source>
-        <translation type="unfinished" />
+        <translation>Замени све</translation>
     </message>
     <message>
         <source>Include files</source>
-        <translation type="unfinished" />
+        <translation>Укључи датотеке</translation>
     </message>
     <message>
         <source>Include folders</source>
-        <translation type="unfinished" />
+        <translation>Укључи фасцикле</translation>
     </message>
     <message>
         <source>Search Files</source>
-        <translation type="unfinished" />
+        <translation>Претражи датотеке</translation>
     </message>
     <message>
         <source>Case sensitive</source>
-        <translation type="unfinished" />
+        <translation>Разликује велика и мала слова</translation>
     </message>
     <message>
         <source>Match all occurrences</source>
-        <translation type="unfinished" />
+        <translation>Пронађи све појављивања</translation>
+    </message>
+    <message>
+        <source>Copy web seed URL</source>
+        <translation>Копирај URL адресу веб семена</translation>
+    </message>
+    <message>
+        <source>Replace option</source>
+        <translation>Замени опцију</translation>
+    </message>
+    <message>
+        <source>Edit web seed URL...</source>
+        <translation>Измени URL веб семена...</translation>
+    </message>
+    <message>
+        <source>Web seed URL:</source>
+        <translation>URL веб семена:</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Да</translation>
+    </message>
+    <message>
+        <source>Ratio / Time Active (in months), indicates how popular the torrent is</source>
+        <translation>Однос / Време активности (у месецима), показује колико је торент популаран</translation>
+    </message>
+    <message>
+        <source>Popularity:</source>
+        <translation>Популарност:</translation>
+    </message>
+    <message>
+        <source>Apply to which filename part</source>
+        <translation>Примени на који део имена датотеке</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Не</translation>
+    </message>
+    <message>
+        <source>Remove web seed</source>
+        <translation>Уклоните веб семе</translation>
+    </message>
+    <message>
+        <source>Web seed editing</source>
+        <translation>Уређивање веб семена</translation>
+    </message>
+    <message>
+        <source>Add web seeds...</source>
+        <translation>Додај веб семе...</translation>
+    </message>
+    <message>
+        <source>Private:</source>
+        <translation>Приватно:</translation>
     </message>
 </context>
 <context>
     <name>ScanFoldersModel</name>
     <message>
         <source>Monitored Folder</source>
-        <translation type="unfinished" />
+        <translation>Праћена фасцикла</translation>
     </message>
     <message>
         <source>Override Save Location</source>
-        <translation type="unfinished" />
+        <translation>Замени сачувану локацију</translation>
     </message>
     <message>
         <source>Monitored folder</source>
-        <translation type="unfinished" />
+        <translation>Праћена фасцикла</translation>
     </message>
     <message>
         <source>Default save location</source>
-        <translation type="unfinished" />
+        <translation>Подразумевана локација за чување</translation>
     </message>
     <message>
         <source>Other...</source>
-        <translation type="unfinished" />
+        <translation>Друго...</translation>
     </message>
     <message>
         <source>Type folder here</source>
-        <translation type="unfinished" />
+        <translation>Овде унесите фасциклу</translation>
     </message>
 </context>
 <context>
@@ -2191,7 +2510,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Read cache hits:</source>
-        <translation type="unfinished" />
+        <translation>Читање погодака из кеша:</translation>
     </message>
     <message>
         <source>Average time in queue:</source>
@@ -2211,7 +2530,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Session waste:</source>
-        <translation type="unfinished" />
+        <translation>Отпад од сесије:</translation>
     </message>
     <message>
         <source>All-time upload:</source>
@@ -2227,19 +2546,19 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Queued I/O jobs:</source>
-        <translation type="unfinished" />
+        <translation>Улазно/излазни послови у реду чекања:</translation>
     </message>
     <message>
         <source>Write cache overload:</source>
-        <translation type="unfinished" />
+        <translation>Преоптерећење кеша за писање:</translation>
     </message>
     <message>
         <source>Read cache overload:</source>
-        <translation type="unfinished" />
+        <translation>Преоптерећење кеша за читање:</translation>
     </message>
     <message>
         <source>Total queued size:</source>
-        <translation type="unfinished" />
+        <translation>Укупна величина у реду чекања:</translation>
     </message>
 </context>
 <context>
@@ -2269,14 +2588,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>Завршено (0)</translation>
     </message>
     <message>
-        <source>Resumed (0)</source>
-        <translation>Настављено (0)</translation>
-    </message>
-    <message>
-        <source>Paused (0)</source>
-        <translation>Паузирано (0)</translation>
-    </message>
-    <message>
         <source>Active (0)</source>
         <translation>Активно (0)</translation>
     </message>
@@ -2303,14 +2614,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Completed (%1)</source>
         <translation>Завршено (%1)</translation>
-    </message>
-    <message>
-        <source>Paused (%1)</source>
-        <translation>Паузирано (%1)</translation>
-    </message>
-    <message>
-        <source>Resumed (%1)</source>
-        <translation>Настављено (%1)</translation>
     </message>
     <message>
         <source>Active (%1)</source>
@@ -2356,6 +2659,42 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>Checking (0)</source>
         <translation>Проверава се (0)</translation>
     </message>
+    <message>
+        <source>Moving (%1)</source>
+        <translation>Премештање (%1)</translation>
+    </message>
+    <message>
+        <source>Moving (0)</source>
+        <translation>Премештање (0)</translation>
+    </message>
+    <message>
+        <source>Running (0)</source>
+        <translation>Трчање (0)</translation>
+    </message>
+    <message>
+        <source>Stopped (0)</source>
+        <translation>Заустављено (0)</translation>
+    </message>
+    <message>
+        <source>Stopped (%1)</source>
+        <translation>Заустављено (%1)</translation>
+    </message>
+    <message>
+        <source>Running (%1)</source>
+        <translation>Покреће се (%1)</translation>
+    </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>Уклони торенте</translation>
+    </message>
+    <message>
+        <source>Start torrents</source>
+        <translation>Покрени торент</translation>
+    </message>
+    <message>
+        <source>Stop torrents</source>
+        <translation>Зауставите торент</translation>
+    </message>
 </context>
 <context>
     <name>TorrentContentModel</name>
@@ -2371,11 +2710,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>Size</source>
         <comment>i.e: torrent size</comment>
         <translation>Величина</translation>
-    </message>
-    <message>
-        <source>Done</source>
-        <comment>% Done</comment>
-        <translation>Урађено</translation>
     </message>
     <message>
         <source>Status</source>
@@ -2477,7 +2811,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Save path</source>
         <comment>Torrent save path</comment>
-        <translation type="unfinished" />
+        <translation>Сачувај путању</translation>
     </message>
     <message>
         <source>Completed</source>
@@ -2507,6 +2841,38 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Availability</source>
         <translation>Доступност</translation>
+    </message>
+    <message>
+        <source>Reannounce In</source>
+        <translation>Поново објави</translation>
+    </message>
+    <message>
+        <source>Private</source>
+        <translation>Приватни</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation>Напредак</translation>
+    </message>
+    <message>
+        <source>Info Hash v2</source>
+        <translation>Инфо хеш v2</translation>
+    </message>
+    <message>
+        <source>Info Hash v1</source>
+        <translation>Инфо хеш v1</translation>
+    </message>
+    <message>
+        <source>Incomplete Save Path</source>
+        <translation>Непотпуна путања чувања</translation>
+    </message>
+    <message>
+        <source>Popularity</source>
+        <translation>Популарност</translation>
+    </message>
+    <message>
+        <source>Status Icon</source>
+        <translation>Икона статуса</translation>
     </message>
 </context>
 <context>
@@ -2573,7 +2939,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Leeches</source>
-        <translation type="unfinished" />
+        <translation>Пијавице</translation>
     </message>
     <message>
         <source>Remove tracker</source>
@@ -2617,7 +2983,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Renamed</source>
-        <translation type="unfinished" />
+        <translation>Преименовано</translation>
     </message>
     <message>
         <source>Original</source>
@@ -2641,10 +3007,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>%1 ago</source>
         <comment>e.g.: 1h 20m ago</comment>
         <translation>Пре %1</translation>
-    </message>
-    <message>
-        <source>Paused</source>
-        <translation>Паузиран</translation>
     </message>
     <message>
         <source>Completed</source>
@@ -2688,7 +3050,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Queued for checking</source>
-        <translation type="unfinished" />
+        <translation>У реду за проверу</translation>
     </message>
     <message>
         <source>Downloading</source>
@@ -2709,6 +3071,14 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>[F] Downloading metadata</source>
         <translation>[F] Преузимање метаподатака</translation>
+    </message>
+    <message>
+        <source>Stopped</source>
+        <translation>Стопиран</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>Недоступно</translation>
     </message>
 </context>
 <context>
@@ -2731,7 +3101,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Collapse/expand</source>
-        <translation type="unfinished" />
+        <translation>Скупи/прошири</translation>
+    </message>
+    <message>
+        <source>Collapse/expand category</source>
+        <translation>Сакриј/прошири категорију</translation>
     </message>
 </context>
 <context>
@@ -2747,21 +3121,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Rename</source>
         <translation>Преименуј</translation>
-    </message>
-    <message>
-        <source>Resume</source>
-        <comment>Resume/start the torrent</comment>
-        <translation>Настави</translation>
-    </message>
-    <message>
-        <source>Force Resume</source>
-        <comment>Force Resume/start the torrent</comment>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Pause</source>
-        <comment>Pause the torrent</comment>
-        <translation>Пауза</translation>
     </message>
     <message>
         <source>Limit share ratio...</source>
@@ -2842,36 +3201,20 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>Нова категорија</translation>
     </message>
     <message>
-        <source>Location</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>New name</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Set location</source>
         <translation>Подеси локацију</translation>
     </message>
     <message>
         <source>Force reannounce</source>
-        <translation type="unfinished" />
+        <translation>Присилно поновно објављивање</translation>
     </message>
     <message>
         <source>Edit Category</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Save path</source>
-        <translation type="unfinished" />
+        <translation>Измена категорије</translation>
     </message>
     <message>
         <source>Comma-separated tags:</source>
         <translation>Ознаке одвојене зарезима:</translation>
-    </message>
-    <message>
-        <source>Add Tags</source>
-        <translation>Додај ознаке</translation>
     </message>
     <message>
         <source>Tags</source>
@@ -2883,7 +3226,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Remove All</source>
-        <translation type="unfinished" />
+        <translation>Уклони све</translation>
     </message>
     <message>
         <source>Name</source>
@@ -2903,11 +3246,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Info hash v1</source>
-        <translation type="unfinished" />
+        <translation>Инфо хеш верзија 1</translation>
     </message>
     <message>
         <source>Info hash v2</source>
-        <translation type="unfinished" />
+        <translation>Инфо хеш верзије 2</translation>
     </message>
     <message>
         <source>Torrent ID</source>
@@ -2915,7 +3258,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Export .torrent</source>
-        <translation type="unfinished" />
+        <translation>Извоз .torrent датотеке</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -2923,11 +3266,51 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Rename Files...</source>
-        <translation type="unfinished" />
+        <translation>Преименуј датотеке...</translation>
     </message>
     <message>
         <source>Renaming</source>
         <translation>Преименовање</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation>Коментар</translation>
+    </message>
+    <message>
+        <source>Force Start</source>
+        <translation>Присилно покретање</translation>
+    </message>
+    <message>
+        <source>Save path:</source>
+        <translation>Путања за чување:</translation>
+    </message>
+    <message>
+        <source>Location:</source>
+        <translation>Локација:</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>Заустави</translation>
+    </message>
+    <message>
+        <source>Automatic mode means that various torrent properties(eg save path) will be decided by the associated category</source>
+        <translation>Аутоматски режим значи да ће о разним својствима торента (нпр. путањи спремања) одлучивати придружена категорија</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Започни</translation>
+    </message>
+    <message>
+        <source>New name:</source>
+        <translation>Ново име:</translation>
+    </message>
+    <message>
+        <source>Add tags</source>
+        <translation>Додај датотеке</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Категорија:</translation>
     </message>
 </context>
 <context>
@@ -2954,11 +3337,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>total minutes</source>
-        <translation type="unfinished" />
+        <translation>укупно минута</translation>
     </message>
     <message>
         <source>inactive minutes</source>
-        <translation type="unfinished" />
+        <translation>неактивни минути</translation>
     </message>
 </context>
 <context>
@@ -2967,12 +3350,16 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
 <context>
     <name>confirmDeletionDlg</name>
     <message>
-        <source>Also permanently delete the files</source>
-        <translation>Такође перманентно обриши фајлове</translation>
-    </message>
-    <message>
         <source>Remove torrent(s)</source>
         <translation>Уклони торент(е)</translation>
+    </message>
+    <message>
+        <source>Also remove the content files</source>
+        <translation>Такође уклоните датотеке садржаја</translation>
+    </message>
+    <message>
+        <source>Remove tracker</source>
+        <translation>Уклони пратилац</translation>
     </message>
 </context>
 <context>
@@ -2987,7 +3374,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Add Torrent Links</source>
-        <translation type="unfinished" />
+        <translation>Додај торент линкове</translation>
     </message>
 </context>
 <context>
@@ -3066,7 +3453,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <name>TorrentsController</name>
     <message>
         <source>Save path is empty</source>
-        <translation type="unfinished" />
+        <translation>Путања за чување је празна</translation>
     </message>
 </context>
 <context>
@@ -3077,19 +3464,19 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Plugin path:</source>
-        <translation type="unfinished" />
+        <translation>Путања додатка:</translation>
     </message>
     <message>
         <source>URL or local directory</source>
-        <translation type="unfinished" />
+        <translation>URL или локални директоријум</translation>
     </message>
     <message>
         <source>Install plugin</source>
-        <translation type="unfinished" />
+        <translation>Инсталирај додатак</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished" />
+        <translation>У реду</translation>
     </message>
 </context>
 <context>
@@ -3128,7 +3515,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Filter</source>
-        <translation type="unfinished" />
+        <translation>Филтер</translation>
     </message>
     <message>
         <source>Torrent names only</source>
@@ -3140,7 +3527,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>out of</source>
-        <translation type="unfinished" />
+        <translation>из</translation>
     </message>
     <message>
         <source>Everywhere</source>
@@ -3152,7 +3539,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Increase window width to display additional filters</source>
-        <translation type="unfinished" />
+        <translation>Повећајте ширину прозора да бисте приказали додатне филтере</translation>
     </message>
     <message>
         <source>to</source>
@@ -3164,15 +3551,35 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>showing</source>
-        <translation type="unfinished" />
+        <translation>приказивање</translation>
     </message>
     <message>
         <source>Click the "Search plugins..." button at the bottom right of the window to install some.</source>
-        <translation type="unfinished" />
+        <translation>Кликните на дугме „Претражи додатке...“ у доњем десном углу прозора да бисте их инсталирали.</translation>
     </message>
     <message>
         <source>There aren't any search plugins installed.</source>
-        <translation type="unfinished" />
+        <translation>Нема инсталираних додатака за претрагу.</translation>
+    </message>
+    <message>
+        <source>Select category</source>
+        <translation>Изабери категорију</translation>
+    </message>
+    <message>
+        <source>Min size prefix</source>
+        <translation>Префикс минималне величине</translation>
+    </message>
+    <message>
+        <source>Start a search above.</source>
+        <translation>Покрените претрагу изнад.</translation>
+    </message>
+    <message>
+        <source>Max size prefix</source>
+        <translation>Префикс максималне величине</translation>
+    </message>
+    <message>
+        <source>Select plugins</source>
+        <translation>Изаберите додатке</translation>
     </message>
 </context>
 <context>
@@ -3183,11 +3590,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Install new plugin</source>
-        <translation type="unfinished" />
+        <translation>Инсталирајте нови додатак</translation>
     </message>
     <message>
         <source>You can get new search engine plugins here:</source>
-        <translation type="unfinished" />
+        <translation>Овде можете пронаћи нове додатке за претраживаче:</translation>
     </message>
     <message>
         <source>Close</source>
@@ -3229,12 +3636,20 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>Трагачи</translation>
     </message>
     <message>
-        <source>Search engine</source>
-        <translation>Претраживачки модул</translation>
-    </message>
-    <message>
         <source>Seeders</source>
         <translation>Донори</translation>
+    </message>
+    <message>
+        <source>Published On</source>
+        <translation>Објављено</translation>
+    </message>
+    <message>
+        <source>Engine URL</source>
+        <translation>URL претраживача</translation>
+    </message>
+    <message>
+        <source>Engine</source>
+        <translation>Мотор</translation>
     </message>
 </context>
 <context>
@@ -3280,7 +3695,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished" />
+        <translation>У реду</translation>
     </message>
     <message>
         <source>Format: IPv4:port / [IPv6]:port</source>
@@ -3302,14 +3717,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <translation>Ознака:</translation>
     </message>
     <message>
-        <source>Pause torrents</source>
-        <translation>Паузирај торенте</translation>
-    </message>
-    <message>
-        <source>Resume torrents</source>
-        <translation>Настави торенте</translation>
-    </message>
-    <message>
         <source>Remove unused tags</source>
         <translation>Уклони некоришћене тагове</translation>
     </message>
@@ -3324,6 +3731,14 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Remove torrents</source>
         <translation>Уклони торенте</translation>
+    </message>
+    <message>
+        <source>Start torrents</source>
+        <translation>Покрени торент</translation>
+    </message>
+    <message>
+        <source>Stop torrents</source>
+        <translation>Зауставите торент</translation>
     </message>
 </context>
 <context>
@@ -3417,11 +3832,11 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>qBittorrent Mascot</source>
-        <translation type="unfinished" />
+        <translation>Маскота qBittorrent-а</translation>
     </message>
     <message>
         <source>qBittorrent icon</source>
-        <translation type="unfinished" />
+        <translation>Икона qBittorrent-а</translation>
     </message>
 </context>
 <context>
@@ -3464,6 +3879,30 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Download link</source>
         <translation>Веза за преузимање</translation>
+    </message>
+    <message>
+        <source>Search has finished</source>
+        <translation>Претраживање је завршено</translation>
+    </message>
+    <message>
+        <source>An error occurred during search...</source>
+        <translation>Нека грешка се догодила током претраге...</translation>
+    </message>
+    <message>
+        <source>Close tab</source>
+        <translation>Затвори картицу</translation>
+    </message>
+    <message>
+        <source>Searching...</source>
+        <translation>Претраживање...</translation>
+    </message>
+    <message>
+        <source>Search aborted</source>
+        <translation>Претраживање прекинуто</translation>
+    </message>
+    <message>
+        <source>Close all tabs</source>
+        <translation>Затвори све картице</translation>
     </message>
 </context>
 <context>
@@ -3575,6 +4014,22 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
         <source>Download torrent</source>
         <translation>Преузми Торент</translation>
     </message>
+    <message>
+        <source>Edit feed URL...</source>
+        <translation>Уреди URL фида...</translation>
+    </message>
+    <message>
+        <source>Unable to update URL</source>
+        <translation>Није могуће ажурирати URL</translation>
+    </message>
+    <message>
+        <source>URL is unchanged</source>
+        <translation>URL је непромењен</translation>
+    </message>
+    <message>
+        <source>URL cannot be empty</source>
+        <translation>URL не може бити празан</translation>
+    </message>
 </context>
 <context>
     <name>AutomatedRssDownloader</name>
@@ -3600,7 +4055,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Auto downloading of RSS torrents is disabled now! You can enable it in application settings.</source>
-        <translation type="unfinished" />
+        <translation>Аутоматско преузимање RSS торент датотека је сада онемогућено! Можете га омогућити у подешавањима апликације.</translation>
     </message>
     <message>
         <source>Rule Definition</source>
@@ -3720,7 +4175,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source> will match 2, 5, 8 through 15, 30 and onward episodes of season one</source>
-        <translation type="unfinished" />
+        <translation> ће се подударати са 2, 5, 8 до 15, 30 и надаље епизодама прве сезоне</translation>
     </message>
     <message>
         <source>Rule deletion confirmation</source>
@@ -3736,7 +4191,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Rss Downloader</source>
-        <translation type="unfinished" />
+        <translation>RSS програм за преузимање</translation>
     </message>
     <message>
         <source>Season number is a mandatory non-zero value</source>
@@ -3761,10 +4216,6 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>If word order is important use * instead of whitespace.</source>
         <translation>Ако је редослед речи битан, користите * уместо размака.</translation>
-    </message>
-    <message>
-        <source>Add Paused:</source>
-        <translation>Додај паузирано:</translation>
     </message>
     <message>
         <source>Please type the name of the new download rule.</source>
@@ -3822,30 +4273,46 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>Add Tags:</source>
-        <translation type="unfinished" />
+        <translation>Додај ознаке:</translation>
+    </message>
+    <message>
+        <source>Remove rule</source>
+        <translation>Уклони правило</translation>
+    </message>
+    <message>
+        <source>Add rule</source>
+        <translation>Додај правило</translation>
+    </message>
+    <message>
+        <source>Add Stopped:</source>
+        <translation>Додај заустављено:</translation>
     </message>
 </context>
 <context>
     <name>TrackerFiltersList</name>
     <message>
-        <source>Resume torrents</source>
-        <translation>Пусти торенте</translation>
-    </message>
-    <message>
-        <source>All (%1)</source>
-        <translation>Укупно (%1)</translation>
-    </message>
-    <message>
-        <source>Trackerless (%1)</source>
-        <translation>Bez servera (%1)</translation>
-    </message>
-    <message>
-        <source>Pause torrents</source>
-        <translation>Паузирај торенте</translation>
-    </message>
-    <message>
         <source>Remove torrents</source>
         <translation>Уклони торенте</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Све</translation>
+    </message>
+    <message>
+        <source>Trackerless</source>
+        <translation>Без трекера</translation>
+    </message>
+    <message>
+        <source>Start torrents</source>
+        <translation>Покрени торент</translation>
+    </message>
+    <message>
+        <source>Remove tracker</source>
+        <translation>Уклони пратилац</translation>
+    </message>
+    <message>
+        <source>Stop torrents</source>
+        <translation>Зауставите торент</translation>
     </message>
 </context>
 <context>
@@ -3867,7 +4334,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>Blocked</source>
-        <translation type="unfinished" />
+        <translation>Блокирано</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -3879,7 +4346,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>showing</source>
-        <translation type="unfinished" />
+        <translation>приказивање</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -3891,11 +4358,11 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>ID</source>
-        <translation type="unfinished" />
+        <translation>ИД</translation>
     </message>
     <message>
         <source>Log Type</source>
-        <translation type="unfinished" />
+        <translation>Тип дневника</translation>
     </message>
     <message>
         <source>Clear</source>
@@ -3915,7 +4382,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>Filter logs</source>
-        <translation type="unfinished" />
+        <translation>Филтрирајте логове</translation>
     </message>
     <message>
         <source>Blocked IPs</source>
@@ -3923,7 +4390,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>out of</source>
-        <translation type="unfinished" />
+        <translation>из</translation>
     </message>
     <message>
         <source>Status</source>
@@ -3931,11 +4398,11 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>Timestamp</source>
-        <translation type="unfinished" />
+        <translation>Временска ознака</translation>
     </message>
     <message>
         <source>Clear All</source>
-        <translation type="unfinished" />
+        <translation>Избриши све</translation>
     </message>
     <message>
         <source>Message</source>
@@ -3943,15 +4410,15 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>Log Levels:</source>
-        <translation type="unfinished" />
+        <translation>Нивои логова:</translation>
     </message>
     <message>
         <source>Reason</source>
-        <translation type="unfinished" />
+        <translation>Разлог</translation>
     </message>
     <message>
         <source>item</source>
-        <translation type="unfinished" />
+        <translation>ставка</translation>
     </message>
     <message>
         <source>IP</source>
@@ -3959,7 +4426,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>Banned</source>
-        <translation type="unfinished" />
+        <translation>Забрањено</translation>
     </message>
     <message>
         <source>Normal Messages</source>
@@ -3967,7 +4434,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>Critical</source>
-        <translation type="unfinished" />
+        <translation>Критично стање</translation>
     </message>
     <message>
         <source>Critical Messages</source>
@@ -3979,7 +4446,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>items</source>
-        <translation type="unfinished" />
+        <translation>ставке</translation>
     </message>
     <message>
         <source>Results</source>
@@ -3987,11 +4454,136 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     </message>
     <message>
         <source>Info</source>
-        <translation type="unfinished" />
+        <translation>Информације</translation>
     </message>
     <message>
         <source>Choose a log level...</source>
-        <translation type="unfinished" />
+        <translation>Изаберите ниво евиденције...</translation>
+    </message>
+</context>
+<context>
+    <name>TrackersFilterWidget</name>
+    <message>
+        <source>Are you sure you want to remove tracker %1 from all torrents?</source>
+        <translation>Да ли сте сигурни да желите да уклоните тракер %1 fса свих торент програма?</translation>
+    </message>
+</context>
+<context>
+    <name>Category</name>
+    <message>
+        <source>Unable to edit category</source>
+        <translation>Уређивање категорије није успело</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>У реду</translation>
+    </message>
+    <message>
+        <source>Unable to create category</source>
+        <translation>Креирање категорије није успело</translation>
+    </message>
+    <message>
+        <source>Unable to set category</source>
+        <translation>Није могуће подесити категорију</translation>
+    </message>
+</context>
+<context>
+    <name>CookiesDialog</name>
+    <message>
+        <source>Domain</source>
+        <translation>Домен</translation>
+    </message>
+    <message>
+        <source>Manage Cookies</source>
+        <translation>Управљање колачићима</translation>
+    </message>
+    <message>
+        <source>Add Cookie</source>
+        <translation>Додај колачић</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Уклони</translation>
+    </message>
+    <message>
+        <source>Expiration Date</source>
+        <translation>Датум истицања</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>Вредност</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Име</translation>
+    </message>
+    <message>
+        <source>Path</source>
+        <translation>Путања</translation>
+    </message>
+</context>
+<context>
+    <name>confirmAutoTMMDialog</name>
+    <message>
+        <source>Enable automatic torrent management</source>
+        <translation>Омогући аутоматски менаџмент торената</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to enable Automatic Torrent Management for the selected torrent(s)? They may be relocated.</source>
+        <translation>Да ли сигурно желите да омогућите аутоматски менаџмент торената за изабране торенте? Могуће је да буду премештени.</translation>
+    </message>
+</context>
+<context>
+    <name>confirmRecheckDialog</name>
+    <message>
+        <source>Are you sure you want to recheck the selected torrent(s)?</source>
+        <translation>Да ли сигурно желите да поново проверите изабране торенте?</translation>
+    </message>
+    <message>
+        <source>Recheck confirmation</source>
+        <translation>Потврда поновне провере</translation>
+    </message>
+</context>
+<context>
+    <name>SearchWidget</name>
+    <message>
+        <source>Close tab</source>
+        <translation>Затвори картицу</translation>
+    </message>
+</context>
+<context>
+    <name>Login</name>
+    <message>
+        <source>qBittorrent WebUI</source>
+        <translation>qBittorrent веб кориснички интерфејс</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>Шифра</translation>
+    </message>
+    <message>
+        <source>JavaScript Required! You must enable JavaScript for the WebUI to work properly</source>
+        <translation>Јаваскрипт је потребан! Морате омогућити Јаваскрипт да би ВебИ интерфејс исправно радио</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>Логовање</translation>
+    </message>
+    <message>
+        <source>Server response:</source>
+        <translation>Одговор сервера:</translation>
+    </message>
+    <message>
+        <source>Unable to log in, server is probably unreachable.</source>
+        <translation>Не могу се пријавити, сервер је вероватно недоступан.</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>Корисничко име</translation>
+    </message>
+    <message>
+        <source>Invalid Username or Password.</source>
+        <translation>Неважеће корисничко име или шифра.</translation>
     </message>
 </context>
 </TS>

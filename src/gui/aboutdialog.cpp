@@ -67,13 +67,13 @@ AboutDialog::AboutDialog(QWidget *parent)
         u"</p>"_s
         .arg(tr("An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent-rasterbar.")
                 .replace(u"C++"_s, u"C\u2060+\u2060+"_s) // make C++ non-breaking
-            , tr("Copyright %1 2006-2024 The qBittorrent project").arg(C_COPYRIGHT)
+            , tr("Copyright %1 2006-2025 The qBittorrent project").arg(C_COPYRIGHT)
             , tr("Home Page:")
             , tr("Forum:")
             , tr("Bug Tracker:"));
     m_ui->labelAbout->setText(aboutText);
 
-    m_ui->labelMascot->setPixmap(Utils::Gui::scaledPixmap(Path(u":/icons/mascot.png"_s), this));
+    m_ui->labelMascot->setPixmap(Utils::Gui::scaledPixmap(Path(u":/icons/mascot.png"_s)));
 
     // Thanks
     if (const auto readResult = Utils::IO::readFile(Path(u":/thanks.html"_s), -1, QIODevice::Text))

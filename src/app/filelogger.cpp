@@ -32,8 +32,8 @@
 
 #include <QDateTime>
 #include <QDir>
+#include <QList>
 #include <QTextStream>
-#include <QVector>
 
 #include "base/global.h"
 #include "base/logger.h"
@@ -127,9 +127,6 @@ void FileLogger::addLogMessage(const Log::Msg &msg)
     if (!m_logFile.isOpen()) return;
 
     QTextStream stream(&m_logFile);
-#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
-    stream.setCodec("UTF-8");
-#endif
 
     switch (msg.type)
     {

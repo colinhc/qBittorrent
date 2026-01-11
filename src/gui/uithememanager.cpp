@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2023  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2023-2024  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2019, 2021  Prince Gupta <jagannatharjun11@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
@@ -30,9 +30,12 @@
 
 #include "uithememanager.h"
 
+#include <QApplication>
 #include <QPalette>
 #include <QPixmapCache>
 #include <QResource>
+#include <QStyle>
+#include <QStyleHints>
 
 #include "base/global.h"
 #include "base/logger.h"
@@ -66,10 +69,28 @@ void UIThemeManager::initInstance()
 
 UIThemeManager::UIThemeManager()
     : m_useCustomTheme {Preferences::instance()->useCustomUITheme()}
+#ifdef QBT_HAS_COLORSCHEME_OPTION
+    , m_colorSchemeSetting {u"Appearance/ColorScheme"_s}
+#endif
 #if (defined(Q_OS_UNIX) && !defined(Q_OS_MACOS))
     , m_useSystemIcons {Preferences::instance()->useSystemIcons()}
 #endif
 {
+#ifdef Q_OS_WIN
+    if (const QString styleName = Preferences::instance()->getStyle(); styleName.compare(u"system", Qt::CaseInsensitive) != 0)
+    {
+        if (!QApplication::setStyle(styleName.isEmpty() ? u"Fusion"_s : styleName))
+            LogMsg(tr("Set app style failed. Unknown style: \"%1\"").arg(styleName), Log::WARNING);
+    }
+#endif
+
+#ifdef QBT_HAS_COLORSCHEME_OPTION
+    applyColorScheme();
+#endif
+
+    // NOTE: Qt::QueuedConnection can be omitted as soon as support for Qt 6.5 is dropped
+    connect(QApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, &UIThemeManager::onColorSchemeChanged, Qt::QueuedConnection);
+
     if (m_useCustomTheme)
     {
         const Path themePath = Preferences::instance()->customUIThemePath();
@@ -102,9 +123,49 @@ UIThemeManager *UIThemeManager::instance()
     return m_instance;
 }
 
+#ifdef QBT_HAS_COLORSCHEME_OPTION
+ColorScheme UIThemeManager::colorScheme() const
+{
+    return m_colorSchemeSetting.get(ColorScheme::System);
+}
+
+void UIThemeManager::setColorScheme(const ColorScheme value)
+{
+    if (value == colorScheme())
+        return;
+
+    m_colorSchemeSetting = value;
+}
+
+void UIThemeManager::applyColorScheme() const
+{
+    switch (colorScheme())
+    {
+    case ColorScheme::System:
+    default:
+        qApp->styleHints()->unsetColorScheme();
+        break;
+    case ColorScheme::Light:
+        qApp->styleHints()->setColorScheme(Qt::ColorScheme::Light);
+        break;
+    case ColorScheme::Dark:
+        qApp->styleHints()->setColorScheme(Qt::ColorScheme::Dark);
+        break;
+    }
+}
+#endif
+
 void UIThemeManager::applyStyleSheet() const
 {
     qApp->setStyleSheet(QString::fromUtf8(m_themeSource->readStyleSheet()));
+}
+
+void UIThemeManager::onColorSchemeChanged()
+{
+    emit themeChanged();
+
+    // workaround to refresh styled controls once color scheme is changed
+    QApplication::setStyle(QApplication::style()->name());
 }
 
 QIcon UIThemeManager::getIcon(const QString &iconId, [[maybe_unused]] const QString &fallback) const
@@ -169,8 +230,6 @@ QPixmap UIThemeManager::getScaledPixmap(const QString &iconId, const int height)
 QColor UIThemeManager::getColor(const QString &id) const
 {
     const QColor color = m_themeSource->getColor(id, (isDarkTheme() ? ColorMode::Dark : ColorMode::Light));
-    Q_ASSERT(color.isValid());
-
     return color;
 }
 

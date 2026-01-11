@@ -42,7 +42,7 @@
 
 WebUI::WebUI(IApplication *app, const QByteArray &tempPasswordHash)
     : ApplicationComponent(app)
-    , m_passwordHash {tempPasswordHash}
+    , m_tempPasswordHash {tempPasswordHash}
 {
     configure();
     connect(Preferences::instance(), &Preferences::changed, this, &WebUI::configure);
@@ -51,21 +51,27 @@ WebUI::WebUI(IApplication *app, const QByteArray &tempPasswordHash)
 void WebUI::configure()
 {
     m_isErrored = false; // clear previous error state
+    m_errorMsg.clear();
 
     const Preferences *pref = Preferences::instance();
-    const bool isEnabled = pref->isWebUIEnabled();
-    const QString username = pref->getWebUIUsername();
-    if (const QByteArray passwordHash = pref->getWebUIPassword(); !passwordHash.isEmpty())
-        m_passwordHash = passwordHash;
 
-    if (isEnabled && (username.isEmpty() || m_passwordHash.isEmpty()))
+    m_isEnabled = pref->isWebUIEnabled();
+    const QString username = pref->getWebUIUsername();
+    QByteArray passwordHash = m_tempPasswordHash;
+    if (const QByteArray prefPasswordHash = pref->getWebUIPassword(); !prefPasswordHash.isEmpty())
+    {
+        passwordHash = prefPasswordHash;
+        m_tempPasswordHash.clear();
+    }
+
+    if (m_isEnabled && (username.isEmpty() || passwordHash.isEmpty()))
     {
         setError(tr("Credentials are not set"));
     }
 
     const QString portForwardingProfile = u"webui"_s;
 
-    if (isEnabled && !m_isErrored)
+    if (m_isEnabled && !m_isErrored)
     {
         const quint16 port = pref->getWebUIPort();
 
@@ -97,7 +103,7 @@ void WebUI::configure()
         }
 
         m_webapp->setUsername(username);
-        m_webapp->setPasswordHash(m_passwordHash);
+        m_webapp->setPasswordHash(passwordHash);
 
         if (pref->isWebUIHttpsEnabled())
         {
@@ -166,7 +172,12 @@ void WebUI::setError(const QString &message)
     LogMsg(logMessage, Log::CRITICAL);
     qCritical() << logMessage;
 
-    emit fatalError();
+    emit error(m_errorMsg);
+}
+
+bool WebUI::isEnabled() const
+{
+    return m_isEnabled;
 }
 
 bool WebUI::isErrored() const
@@ -177,4 +188,22 @@ bool WebUI::isErrored() const
 QString WebUI::errorMessage() const
 {
     return m_errorMsg;
+}
+
+bool WebUI::isHttps() const
+{
+    if (!m_httpServer) return false;
+    return m_httpServer->isHttps();
+}
+
+QHostAddress WebUI::hostAddress() const
+{
+    if (!m_httpServer) return {};
+    return m_httpServer->serverAddress();
+}
+
+quint16 WebUI::port() const
+{
+    if (!m_httpServer) return 0;
+    return m_httpServer->serverPort();
 }

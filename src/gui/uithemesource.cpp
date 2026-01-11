@@ -105,6 +105,8 @@ DefaultThemeSource::DefaultThemeSource()
     , m_colors {defaultUIThemeColors()}
 {
     loadColors();
+    // Palette isn't customizable in default theme
+    m_colors.insert(defaultPaletteColors());
 }
 
 QByteArray DefaultThemeSource::readStyleSheet()
@@ -114,8 +116,13 @@ QByteArray DefaultThemeSource::readStyleSheet()
 
 QColor DefaultThemeSource::getColor(const QString &colorId, const ColorMode colorMode) const
 {
+    const auto iter = m_colors.constFind(colorId);
+    Q_ASSERT(iter != m_colors.constEnd());
+    if (iter == m_colors.constEnd()) [[unlikely]]
+        return {};
+
     return (colorMode == ColorMode::Light)
-            ? m_colors.value(colorId).light : m_colors.value(colorId).dark;
+            ? iter.value().light : iter.value().dark;
 }
 
 Path DefaultThemeSource::getIconPath(const QString &iconId, const ColorMode colorMode) const
