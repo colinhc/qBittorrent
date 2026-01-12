@@ -90,6 +90,8 @@ namespace
     const QString KEY_TRANSFER_UPDATA = u"up_info_data"_s;
     const QString KEY_TRANSFER_UPRATELIMIT = u"up_rate_limit"_s;
     const QString KEY_TRANSFER_UPSPEED = u"up_info_speed"_s;
+    const QString KEY_TRANSFER_PUBLIC_IP_COUNTRY = u"public_ip_country"_s;
+    const QString KEY_TRANSFER_PUBLIC_IP_COUNTRY_CODE = u"public_ip_country_code"_s;
 
     // Statistics keys
     const QString KEY_TRANSFER_ALLTIME_DL = u"alltime_dl"_s;
@@ -167,6 +169,11 @@ namespace
         map[KEY_TRANSFER_CONNECTION_STATUS] = session->isListening()
             ? (sessionStatus.hasIncomingConnections ? u"connected"_s : u"firewalled"_s)
             : u"disconnected"_s;
+        auto ip_country_code = Net::GeoIPManager::instance()->lookup(
+            QHostAddress(session->lastExternalIPv4Address()));
+        map[KEY_TRANSFER_PUBLIC_IP_COUNTRY_CODE] = ip_country_code.toLower();
+        map[KEY_TRANSFER_PUBLIC_IP_COUNTRY] = Net::GeoIPManager::CountryName(
+            ip_country_code);
 
         return map;
     }

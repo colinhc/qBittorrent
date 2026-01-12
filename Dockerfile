@@ -1,14 +1,15 @@
 # docker build ./ -t :nox
-FROM ubuntu:22.04
+FROM 9bkerzya/avari:base
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt update \
-    && apt install -y build-essential pkg-config automake cmake git libtool \
-        zlib1g-dev libssl-dev libgeoip-dev \
-        libboost-dev libboost-system-dev libboost-random-dev \
-        python3 \
-        qtbase5-dev qtbase5-private-dev qttools5-dev libqt5svg5-dev
+    && apt install -y build-essential cmake git ninja-build pkg-config \
+        libboost-dev libssl-dev zlib1g-dev libgl1-mesa-dev \
+        python3
+
+RUN apt install -y --no-install-recommends \
+        qt6-base-dev qt6-base-private-dev qt6-tools-dev qt6-svg-dev
 
 RUN apt install -y curl tree vim \
     && apt clean && rm -rf /var/lib/opt/lists/* /tmp/* /var/tmp/*
@@ -18,7 +19,7 @@ RUN mkdir -p /qbt
 WORKDIR /qbt
 RUN git clone --recurse-submodules https://github.com/arvidn/libtorrent.git \
     && cd /qbt/libtorrent \
-    && git checkout v1.2.19 \
+    && git checkout RC_2_0 \
     && cmake -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr/local \
     && cmake --build build \
     && cmake --install build
@@ -26,8 +27,17 @@ RUN git clone --recurse-submodules https://github.com/arvidn/libtorrent.git \
 RUN mkdir -p /qbt/github
 COPY ./ /qbt/github
 WORKDIR /qbt/github
-RUN ./configure --disable-gui --prefix=/usr
-RUN make -j$(nproc) && make install
+
+RUN cmake -G "Ninja" -B build \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -DWEBUI=ON \
+    -DGUI=OFF \
+    -DMSVC_RUNTIME_DYNAMIC=OFF
+
+RUN cmake --build build --parallel $(nproc) \
+    # Install qbittorrent-nox to /usr/local/bin
+    && cmake --install build
 
 EXPOSE 8089
 

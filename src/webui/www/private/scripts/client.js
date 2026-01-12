@@ -1047,6 +1047,18 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 break;
         }
 
+        $('myPublicIpFlag').src = 'images/flags/'
+            + serverState.public_ip_country_code + '.svg';
+        $('myPublicIpFlag').alt = 'QBT_TR(%1 [%2])QBT_TR[CONTEXT=MainWindow]'
+            .replace("%1", serverState.last_external_address_v4)
+            .replace("%2", serverState.public_ip_country);
+        $('myPublicIpFlag').title = 'QBT_TR(%1 [%2])QBT_TR[CONTEXT=MainWindow]'
+            .replace("%1", serverState.last_external_address_v4)
+            .replace("%2", serverState.public_ip_country);
+        $('myPublicIpFlag').addEvent('click', function() {
+            window.open("https://ifconfig.co/?ip=" + serverState.public_ip);
+        });
+
         if (queueing_enabled !== serverState.queueing) {
             queueing_enabled = serverState.queueing;
             torrentsTable.columns["priority"].force_hide = !queueing_enabled;
