@@ -1,0 +1,4 @@
+modified:   Dockerfile
+modified:   src/webui/api/synccontroller.cpp
+modified:   src/webui/www/private/index.html
+modified:   src/webui/www/private/scripts/client.js
