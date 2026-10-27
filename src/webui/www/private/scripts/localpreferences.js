@@ -103,6 +103,40 @@ window.qBittorrent.LocalPreferences ??= (() => {
         clear("selected_tracker");
     };
 
+    const localPreferences = new LocalPreferences();
+
+    const upgrade = () => {
+        const MIGRATION_VERSION = 1;
+        const MIGRATION_VERSION_KEY = "MigrationVersion";
+
+        // clean start
+        if (localPreferences.size() === 0) {
+            localPreferences.set(MIGRATION_VERSION_KEY, MIGRATION_VERSION);
+            return;
+        }
+
+        // already in use
+        const version = Number(localPreferences.get(MIGRATION_VERSION_KEY)); // `0` on first initialization
+        if (version !== MIGRATION_VERSION) {
+            if (version < 1)
+                resetSideFilters();
+
+            localPreferences.set(MIGRATION_VERSION_KEY, MIGRATION_VERSION);
+        }
+    };
+
+    const resetSideFilters = () => {
+        // conditionally reset the filter to default to avoid none selected
+        const clear = (key) => {
+            const value = Number(localPreferences.get(key));
+            if ((value === 1) || (value === 2)) // affected values
+                localPreferences.remove(key);
+        };
+        clear("selected_category");
+        clear("selected_tag");
+        clear("selected_tracker");
+    };
+
     return exports();
 })();
 Object.freeze(window.qBittorrent.LocalPreferences);

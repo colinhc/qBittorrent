@@ -4259,7 +4259,7 @@ Stöder formaten: S01E01, 1x1, 2017.12.31 och 31.12.2017 (datumformatet stöder 
     <message>
         <location filename="../gui/mainwindow.ui" line="391"/>
         <source>&amp;Suspend System</source>
-        <translation>&amp;Försätt systemet i vänteläge</translation>
+        <translation>Försätt s&amp;ystemet i vänteläge</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.ui" line="399"/>
@@ -13936,7 +13936,7 @@ Välj ett annat namn och försök igen.</translation>
     <message>
         <location filename="../gui/transferlistwidget.cpp" line="1057"/>
         <source>Edit trac&amp;kers...</source>
-        <translation>Redigera spå&amp;rare...</translation>
+        <translation>Redig&amp;era spårare...</translation>
     </message>
     <message>
         <location filename="../gui/transferlistwidget.cpp" line="1059"/>

@@ -3635,7 +3635,7 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     </message>
     <message>
         <source>Collapse/expand</source>
-        <translation>Samazināt/Paplašināt</translation>
+        <translation>Sakļaut/izvērst</translation>
     </message>
     <message>
         <source>Collapse/expand category</source>
@@ -3792,7 +3792,7 @@ Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</t
     </message>
     <message>
         <source>Export .torrent</source>
-        <translation>Eksportēt .torentu</translation>
+        <translation>Izgūt .torentu</translation>
     </message>
     <message>
         <source>Remove</source>

@@ -36,6 +36,7 @@
 
 #include "base/pathfwd.h"
 #include "base/tagset.h"
+#include "addtorrenterror.h"
 #include "addtorrentparams.h"
 #include "categoryoptions.h"
 #include "sharelimits.h"
@@ -504,7 +505,7 @@ namespace BitTorrent
 
     signals:
         void startupProgressUpdated(int progress);
-        void addTorrentFailed(const InfoHash &infoHash, const QString &reason);
+        void addTorrentFailed(const InfoHash &infoHash, const AddTorrentError &reason);
         void allTorrentsFinished();
         void categoryAdded(const QString &categoryName);
         void categoryRemoved(const QString &categoryName);

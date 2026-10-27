@@ -350,7 +350,7 @@
     <message>
         <location filename="../gui/addnewtorrentdialog.ui" line="155"/>
         <source>Remember last used save path</source>
-        <translation>Behalte letzten Speicherpfad</translation>
+        <translation>Letzten Speicherpfad merken</translation>
     </message>
     <message>
         <location filename="../gui/addnewtorrentdialog.ui" line="317"/>
@@ -417,7 +417,7 @@
     <message>
         <location filename="../gui/addnewtorrentdialog.cpp" line="422"/>
         <source>Retrieving metadata...</source>
-        <translation>Frage Metadaten ab ...</translation>
+        <translation>Metadaten werden abgefragt ...</translation>
     </message>
     <message>
         <location filename="../gui/addnewtorrentdialog.cpp" line="205"/>
@@ -500,7 +500,7 @@
     <message>
         <location filename="../gui/addnewtorrentdialog.cpp" line="769"/>
         <source>Parsing metadata...</source>
-        <translation>Analysiere Metadaten ...</translation>
+        <translation>Metadaten werden analysiert ...</translation>
     </message>
     <message>
         <location filename="../gui/addnewtorrentdialog.cpp" line="773"/>
@@ -847,7 +847,7 @@
     <message>
         <location filename="../gui/advancedsettings.cpp" line="579"/>
         <source>File pool size</source>
-        <translation>Größe des Datei-Pools</translation>
+        <translation>Größe des Dateipools</translation>
     </message>
     <message>
         <location filename="../gui/advancedsettings.cpp" line="593"/>
@@ -872,7 +872,7 @@
     <message>
         <location filename="../gui/advancedsettings.cpp" line="616"/>
         <source>Disk cache expiry interval</source>
-        <translation>Ablauf-Intervall für Festplatten-Cache</translation>
+        <translation>Ablaufintervall für Festplatten-Cache</translation>
     </message>
     <message>
         <location filename="../gui/advancedsettings.cpp" line="624"/>
@@ -1767,7 +1767,7 @@ Grund: „%2“</translation>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.ui" line="14"/>
         <source>RSS Downloader</source>
-        <translation>RSS Downloader</translation>
+        <translation>RSS-Downloader</translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.ui" line="58"/>
@@ -1850,7 +1850,7 @@ Er unterstützt die Formate: S01E01, 1x1, 2017.12.31 und 31.12.2017 (Datumsforma
     <message>
         <location filename="../gui/rss/automatedrssdownloader.ui" line="384"/>
         <source>Matching RSS Articles</source>
-        <translation>Übereinstimmende RSS Artikel</translation>
+        <translation>Übereinstimmende RSS-Artikel</translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.ui" line="412"/>
@@ -1886,7 +1886,7 @@ Er unterstützt die Formate: S01E01, 1x1, 2017.12.31 und 31.12.2017 (Datumsforma
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="116"/>
         <source>Season number is a mandatory non-zero value</source>
-        <translation>Staffel-Nummer ist zwingend ein Wert ungleich Null</translation>
+        <translation>Staffelnummer ist zwingend ein Wert ungleich Null</translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="118"/>
@@ -1911,7 +1911,7 @@ Er unterstützt die Formate: S01E01, 1x1, 2017.12.31 und 31.12.2017 (Datumsforma
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="117"/>
         <source>Episode number is a mandatory positive value</source>
-        <translation>Folgen-Nummer ist zwingend ein positiver Wert</translation>
+        <translation>Folgennummer ist zwingend ein positiver Wert</translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="66"/>
@@ -2138,7 +2138,7 @@ Er unterstützt die Formate: S01E01, 1x1, 2017.12.31 und 31.12.2017 (Datumsforma
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="749"/>
         <source>An expression with an empty %1 clause (e.g. %2)</source>
         <comment>We talk about regex/wildcards in the RSS filters section here. So a valid sentence would be: An expression with an empty | clause (e.g. expr|)</comment>
-        <translation>Ein Ausdruck mit einer leeren Klausel %1 (z.B. %2)</translation>
+        <translation>Ein Ausdruck mit einer leeren Klausel %1 (z.&#xa0;B. %2)</translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="753"/>
@@ -3101,7 +3101,7 @@ Er unterstützt die Formate: S01E01, 1x1, 2017.12.31 und 31.12.2017 (Datumsforma
     <message>
         <location filename="../app/cmdoptions.cpp" line="367"/>
         <source>[options] [(&lt;filename&gt; | &lt;url&gt;)...]</source>
-        <translation>[Optionen] [(&lt;filename&gt; | &lt;url&gt;)...]</translation>
+        <translation>[Optionen] [(&lt;filename&gt; | &lt;url&gt;) ...]</translation>
     </message>
     <message>
         <location filename="../app/cmdoptions.cpp" line="369"/>
@@ -3295,7 +3295,7 @@ Er unterstützt die Formate: S01E01, 1x1, 2017.12.31 und 31.12.2017 (Datumsforma
     <message>
         <location filename="../gui/transferlistfilters/categoryfilterwidget.cpp" line="132"/>
         <source>Remove unused categories</source>
-        <translation>Unbenutzte Kategorien entfernen</translation>
+        <translation>Ungenutzte Kategorien entfernen</translation>
     </message>
     <message>
         <location filename="../gui/transferlistfilters/categoryfilterwidget.cpp" line="135"/>
@@ -4342,7 +4342,7 @@ Er unterstützt die Formate: S01E01, 1x1, 2017.12.31 und 31.12.2017 (Datumsforma
         <location filename="../gui/mainwindow.cpp" line="1779"/>
         <location filename="../gui/mainwindow.cpp" line="1781"/>
         <source>Execution Log</source>
-        <translation>Ausführungs-Log</translation>
+        <translation>Ausführungsprotokoll</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="707"/>
@@ -4390,7 +4390,7 @@ Er unterstützt die Formate: S01E01, 1x1, 2017.12.31 und 31.12.2017 (Datumsforma
     <message>
         <location filename="../gui/mainwindow.cpp" line="605"/>
         <source>Icons Only</source>
-        <translation>Nur Icons</translation>
+        <translation>Nur Symbole</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="606"/>
@@ -4453,7 +4453,7 @@ Er unterstützt die Formate: S01E01, 1x1, 2017.12.31 und 31.12.2017 (Datumsforma
     <message>
         <location filename="../gui/mainwindow.cpp" line="799"/>
         <source>Search</source>
-        <translation>Suche</translation>
+        <translation>Suchen</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="824"/>
@@ -9977,7 +9977,7 @@ Diese Plugins wurden deaktiviert.</translation>
         <location filename="../gui/rss/rsswidget.ui" line="171"/>
         <location filename="../gui/rss/rsswidget.ui" line="174"/>
         <source>Mark items read</source>
-        <translation>Markiere Einträge als gelesen</translation>
+        <translation>Einträge als gelesen markieren</translation>
     </message>
     <message>
         <location filename="../gui/rss/rsswidget.ui" line="57"/>
@@ -12321,12 +12321,12 @@ Please choose a different name and try again.</source>
     <message>
         <location filename="../gui/torrentcreatordialog.cpp" line="381"/>
         <source>Reason: &quot;%1&quot;</source>
-        <translation>Grund: „%1“</translation>
+        <translation>Grund: &quot;%1“</translation>
     </message>
     <message>
         <location filename="../gui/torrentcreatordialog.cpp" line="382"/>
         <source>Add torrent failed</source>
-        <translation>Hinzufügen vom Torrent fehlgeschlagen</translation>
+        <translation>Hinzufügen des Torrents fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../gui/torrentcreatordialog.cpp" line="351"/>
@@ -14012,7 +14012,19 @@ Please choose a different name and try again.</source>
     <message>
         <location filename="../gui/transferlistwidget.cpp" line="886"/>
         <source>Errors occurred when exporting .torrent files. Check execution log for details.</source>
-        <translation>Fehler sind beim Exportieren der .torrent-Dateien aufgetreten. Bitte Ausführungs-Log für Details überprüfen.</translation>
+        <translation>Fehler sind beim Exportieren der .torrent-Dateien aufgetreten. Bitte Ausführungsprotokoll für Details überprüfen.</translation>
+    </message>
+    <message>
+        <location filename="../gui/transferlistwidget.cpp" line="959"/>
+        <source>&amp;Start</source>
+        <comment>Resume/start the torrent</comment>
+        <translation>&amp;Start</translation>
+    </message>
+    <message>
+        <location filename="../gui/transferlistwidget.cpp" line="961"/>
+        <source>Sto&amp;p</source>
+        <comment>Stop the torrent</comment>
+        <translation>Anhalten</translation>
     </message>
     <message>
         <location filename="../gui/transferlistwidget.cpp" line="1002"/>
@@ -14459,7 +14471,7 @@ Please choose a different name and try again.</source>
         <location filename="../base/utils/misc.cpp" line="63"/>
         <source>TiB</source>
         <comment>tebibytes (1024 gibibytes)</comment>
-        <translation>TB</translation>
+        <translation>TiB</translation>
     </message>
     <message>
         <location filename="../base/utils/misc.cpp" line="64"/>

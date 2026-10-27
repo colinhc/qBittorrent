@@ -203,7 +203,7 @@
     <message>
         <location filename="../gui/addnewtorrentdialog.ui" line="381"/>
         <source>Torrent information</source>
-        <translation>Torrent informacije </translation>
+        <translation>Informacije o torrentu</translation>
     </message>
     <message>
         <source>Skip hash check</source>
@@ -295,7 +295,7 @@
     <message>
         <location filename="../gui/addnewtorrentdialog.ui" line="339"/>
         <source>Original</source>
-        <translation>Original</translation>
+        <translation>Izvornik</translation>
     </message>
     <message>
         <location filename="../gui/addnewtorrentdialog.ui" line="344"/>
@@ -680,7 +680,7 @@
     <message>
         <location filename="../gui/addtorrentparamswidget.cpp" line="92"/>
         <source>Original</source>
-        <translation>Original</translation>
+        <translation>Izvornik</translation>
     </message>
     <message>
         <location filename="../gui/addtorrentparamswidget.cpp" line="93"/>
@@ -716,7 +716,7 @@
         <location filename="../gui/advancedsettings.cpp" line="592"/>
         <location filename="../gui/advancedsettings.cpp" line="736"/>
         <source> MiB</source>
-        <translation>MiB</translation>
+        <translation> MiB</translation>
     </message>
     <message>
         <location filename="../gui/advancedsettings.cpp" line="815"/>
@@ -807,7 +807,7 @@
     <message>
         <location filename="../gui/advancedsettings.cpp" line="537"/>
         <source>Normal</source>
-        <translation>Normalno</translation>
+        <translation>Uobičajen</translation>
     </message>
     <message>
         <location filename="../gui/advancedsettings.cpp" line="538"/>
@@ -1838,7 +1838,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     <message>
         <location filename="../gui/rss/automatedrssdownloader.ui" line="289"/>
         <source> days</source>
-        <translation>dani</translation>
+        <translation> dani</translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.ui" line="364"/>
@@ -1868,18 +1868,18 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="114"/>
         <source>Example: </source>
-        <translation>Primjer:</translation>
+        <translation>Primjer: </translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="115"/>
         <source> will match 2, 5, 8 through 15, 30 and onward episodes of season one</source>
         <comment>example X will match</comment>
-        <translation>epizode 2, 5, 8 odgovaraju epizodama 15, 30 i sljedećim epizodama prve sezone</translation>
+        <translation> odgovarat će 2, 5, 8 do 15, 30 i nadalje epizodama prve sezone</translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="116"/>
         <source>Episode filter rules: </source>
-        <translation>Pravila za filtriranje epizoda:</translation>
+        <translation>Pravila filtriranja epizoda: </translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="116"/>
@@ -1894,7 +1894,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="119"/>
         <source>Three range types for episodes are supported: </source>
-        <translation>Podržane su tri vrste poretka epizoda:</translation>
+        <translation>Podržane su tri vrste raspona za epizode: </translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="120"/>
@@ -4769,7 +4769,7 @@ Minimum requirement: %2.</source>
     <message>
         <location filename="../base/net/dnsupdater.cpp" line="265"/>
         <source>Dynamic DNS error: supplied username is too short.</source>
-        <translation>Greška dinamičnog DNS-a: isporučeno korisničko ime je prekratko. </translation>
+        <translation>Pogreška dinamičkog DNS-a: navedeno korisničko ime je prekratko.</translation>
     </message>
     <message>
         <location filename="../base/net/dnsupdater.cpp" line="278"/>
@@ -6142,7 +6142,7 @@ Minimum requirement: %2.</source>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="392"/>
         <source>Virgin Islands, U.S.</source>
-        <translation>Djevičanski otoci, Američki</translation>
+        <translation>Djevičanski otoci, S.A.D.</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="394"/>
@@ -7146,7 +7146,7 @@ Koristite &apos;;&apos; za razdvajanje više unosa. Možete koristiti zamjenski 
         <location filename="../gui/optionsdialog.ui" line="636"/>
         <location filename="../gui/optionsdialog.cpp" line="322"/>
         <source>Normal</source>
-        <translation>Normalno</translation>
+        <translation>Uobičajen</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="667"/>
@@ -10925,7 +10925,7 @@ Pritisnite gumb &quot;Traži dodatke...&quot; u donjem desnom kutu prozora da bi
         <location filename="../gui/search/searchwidget.cpp" line="892"/>
         <location filename="../gui/search/searchwidget.cpp" line="969"/>
         <source>Please install Python to use the Search Engine.</source>
-        <translation>Molimo instalirajte Python kako bi koristili Pretraživače</translation>
+        <translation>Instalirajte Python kako biste mogli koristiti tražilicu.</translation>
     </message>
     <message>
         <location filename="../gui/search/searchwidget.cpp" line="886"/>
@@ -11843,25 +11843,25 @@ Odaberite drugo ime i pokušajte ponovno.</translation>
         <location filename="../gui/torrentcontentitemdelegate.cpp" line="80"/>
         <source>Normal</source>
         <comment>Normal (priority)</comment>
-        <translation>Normalno</translation>
+        <translation>Uobičajen</translation>
     </message>
     <message>
         <location filename="../gui/torrentcontentitemdelegate.cpp" line="81"/>
         <source>High</source>
         <comment>High (priority)</comment>
-        <translation>Visoko</translation>
+        <translation>Visok</translation>
     </message>
     <message>
         <location filename="../gui/torrentcontentitemdelegate.cpp" line="82"/>
         <source>Maximum</source>
         <comment>Maximum (priority)</comment>
-        <translation>Maksimalno</translation>
+        <translation>Najviši</translation>
     </message>
     <message>
         <location filename="../gui/torrentcontentitemdelegate.cpp" line="88"/>
         <source>Mixed</source>
         <comment>Mixed (priorities)</comment>
-        <translation>Miješano</translation>
+        <translation>Miješani</translation>
     </message>
 </context>
 <context>
@@ -11968,7 +11968,7 @@ Odaberite drugo ime i pokušajte ponovno.</translation>
         <location filename="../gui/torrentcontentmodelitem.cpp" line="109"/>
         <source>Mixed</source>
         <comment>Mixed (priorities</comment>
-        <translation>Miješan</translation>
+        <translation>Miješani</translation>
     </message>
     <message>
         <location filename="../gui/torrentcontentmodelitem.cpp" line="111"/>
@@ -12070,17 +12070,17 @@ Odaberite drugo ime i pokušajte ponovno.</translation>
     <message>
         <location filename="../gui/torrentcontentwidget.cpp" line="458"/>
         <source>Normal</source>
-        <translation>Normalno</translation>
+        <translation>Uobičajen</translation>
     </message>
     <message>
         <location filename="../gui/torrentcontentwidget.cpp" line="462"/>
         <source>High</source>
-        <translation>Visoko</translation>
+        <translation>Visok</translation>
     </message>
     <message>
         <location filename="../gui/torrentcontentwidget.cpp" line="466"/>
         <source>Maximum</source>
-        <translation>Maksimalno</translation>
+        <translation>Najviši</translation>
     </message>
     <message>
         <location filename="../gui/torrentcontentwidget.cpp" line="471"/>

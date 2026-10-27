@@ -285,7 +285,7 @@
     <message>
         <location filename="../gui/addnewtorrentdialog.ui" line="314"/>
         <source>When checked, the .torrent file will not be deleted regardless of the settings at the &quot;Download&quot; page of the Options dialog</source>
-        <translation>Indien aangevinkt zal het .torrent-bestand niet verwijderd worden, ongeacht de instellingen op de &quot;download&quot;-pagina van het opties-dialoogvenster.</translation>
+        <translation>Wanneer dit is aangevinkt, wordt het .torrent-bestand niet verwijderd, ongeacht de instellingen op de pagina &apos;Downloaden&apos; van het dialoogvenster Opties.</translation>
     </message>
     <message>
         <location filename="../gui/addnewtorrentdialog.ui" line="328"/>
@@ -335,7 +335,7 @@
     <message>
         <location filename="../gui/addnewtorrentdialog.ui" line="81"/>
         <source>Automatic mode means that various torrent properties(eg save path) will be decided by the associated category</source>
-        <translation>Automatische modus betekent dat verschillende torrent-eigenschappen (bijvoorbeeld opslagpad) bepaald zullen worden door de bijbehorende categorie.</translation>
+        <translation>Automatische modus betekent dat verschillende torrent-eigenschappen (bijvoorbeeld het opslagpad) worden bepaald door de bijbehorende categorie.</translation>
     </message>
     <message>
         <location filename="../gui/addnewtorrentdialog.ui" line="85"/>
@@ -556,7 +556,7 @@
     <message>
         <location filename="../gui/addtorrentparamswidget.ui" line="29"/>
         <source>Automatic mode means that various torrent properties(eg save path) will be decided by the associated category</source>
-        <translation>Automatische modus betekent dat verschillende torrent-eigenschappen (bijvoorbeeld opslagpad) bepaald zullen worden door de bijbehorende categorie.</translation>
+        <translation>Automatische modus betekent dat verschillende torrent-eigenschappen (bijvoorbeeld het opslagpad) worden bepaald door de bijbehorende categorie.</translation>
     </message>
     <message>
         <location filename="../gui/addtorrentparamswidget.ui" line="51"/>
@@ -716,7 +716,7 @@
         <location filename="../gui/advancedsettings.cpp" line="592"/>
         <location filename="../gui/advancedsettings.cpp" line="736"/>
         <source> MiB</source>
-        <translation>MiB</translation>
+        <translation> MiB</translation>
     </message>
     <message>
         <location filename="../gui/advancedsettings.cpp" line="815"/>
@@ -744,7 +744,7 @@
     <message>
         <location filename="../gui/advancedsettings.cpp" line="420"/>
         <source> (disabled)</source>
-        <translation>(uitgeschakeld)</translation>
+        <translation> (uitgeschakeld)</translation>
     </message>
     <message>
         <location filename="../gui/advancedsettings.cpp" line="422"/>
@@ -977,7 +977,7 @@
     <message>
         <location filename="../gui/advancedsettings.cpp" line="434"/>
         <source> (system default)</source>
-        <translation>(systeemstandaard)</translation>
+        <translation> (systeemstandaard)</translation>
     </message>
     <message>
         <location filename="../gui/advancedsettings.cpp" line="522"/>
@@ -1557,7 +1557,7 @@
     <message>
         <location filename="../app/application.cpp" line="990"/>
         <source>Couldn&apos;t add torrent &apos;%1&apos;, reason: %2.</source>
-        <translation>Kon torrent &apos;%1&apos; niet toevoegen. Reden: %2</translation>
+        <translation>Kan torrent &apos;%1&apos; niet toevoegen, reden: %2.</translation>
     </message>
     <message>
         <location filename="../app/application.cpp" line="1039"/>
@@ -1870,7 +1870,7 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="114"/>
         <source>Example: </source>
-        <translation>Voorbeeld:</translation>
+        <translation>Voorbeeld: </translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="115"/>
@@ -1881,7 +1881,7 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="116"/>
         <source>Episode filter rules: </source>
-        <translation>Afleveringsfilter-regels:</translation>
+        <translation>Afleveringsfilterregels: </translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="116"/>
@@ -2096,7 +2096,7 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="737"/>
         <source>Wildcard mode: you can use</source>
-        <translation>U kunt volgende jokertekens gebruiken:</translation>
+        <translation>Jokertekens: u kunt gebruiken</translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="490"/>
@@ -2862,7 +2862,7 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
     <message>
         <location filename="../base/bittorrent/sessionimpl.cpp" line="6746"/>
         <source>SOCKS5 proxy error. Address: %1. Message: &quot;%2&quot;.</source>
-        <translation>SOCKS5-proxyfout. Adres: %1. Bericht: &quot;%2&quot;</translation>
+        <translation>SOCKS5-proxyfout. Adres: %1. Bericht: &quot;%2&quot;.</translation>
     </message>
     <message>
         <location filename="../base/bittorrent/sessionimpl.cpp" line="6451"/>
@@ -3050,7 +3050,7 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
     <message>
         <location filename="../base/bittorrent/tracker.cpp" line="231"/>
         <source>Embedded Tracker: Now listening on IP: %1, port: %2</source>
-        <translation>Ingebedde tracker: nu luisteren naar IP: %1, poort: %2</translation>
+        <translation>Ingebedde tracker: luisteren naar IP: %1, poort: %2</translation>
     </message>
     <message>
         <location filename="../base/bittorrent/tracker.cpp" line="236"/>
@@ -3954,12 +3954,12 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
         <location filename="../app/main.cpp" line="226"/>
         <source>%1 is an unknown command line parameter.</source>
         <comment>--random-parameter is an unknown command line parameter.</comment>
-        <translation>%1 is een onbekende opdrachtregelparameter</translation>
+        <translation>%1 is een onbekende opdrachtregelparameter.</translation>
     </message>
     <message>
         <location filename="../app/main.cpp" line="94"/>
         <source>Run application with -h option to read about command line parameters.</source>
-        <translation>Voer de toepassing uit met optie -h om te lezen over opdrachtregelparameters</translation>
+        <translation>Voer de toepassing uit met de optie -h om meer te weten te komen over de opdrachtregelparameters.</translation>
     </message>
     <message>
         <location filename="../app/main.cpp" line="96"/>
@@ -3969,7 +3969,7 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
     <message>
         <location filename="../app/main.cpp" line="102"/>
         <source>Bad command line: </source>
-        <translation>Slechte opdrachtregel:</translation>
+        <translation>Ongeldige opdrachtregel: </translation>
     </message>
     <message>
         <location filename="../app/main.cpp" line="116"/>
@@ -4331,7 +4331,7 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
     <message>
         <location filename="../gui/mainwindow.ui" line="229"/>
         <source>Add Torrent &amp;Link...</source>
-        <translation>Torrent-koppeling toevoegen</translation>
+        <translation>Torrent-koppeling toevoegen...</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.ui" line="375"/>
@@ -4498,7 +4498,7 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
     <message>
         <location filename="../gui/mainwindow.cpp" line="1372"/>
         <source>Options saved.</source>
-        <translation>Opties opgeslagen</translation>
+        <translation>Instellingen opgeslagen.</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="1890"/>
@@ -6462,7 +6462,7 @@ Minimale vereiste: %2.</translation>
     <message>
         <location filename="../gui/optionsdialog.ui" line="523"/>
         <source>Start qBittorrent on Windows start up</source>
-        <translation>qBittorrent starten bij opstarten van Windows</translation>
+        <translation>qBittorrent starten bij het opstarten van Windows</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="530"/>
@@ -6942,7 +6942,7 @@ Versleuteling uitschakelen: uitsluitend verbinden met peers zonder protocolversl
         <source>IP address that the Web UI will bind to.
 Specify an IPv4 or IPv6 address. You can specify &quot;0.0.0.0&quot; for any IPv4 address,
 &quot;::&quot; for any IPv6 address, or &quot;*&quot; for both IPv4 and IPv6.</source>
-        <translation>IP-adres waarmee de Web-UI zal verbinden.
+        <translation>IP-adres waarmee de WebUI zal verbinden.
 Geef een IPv4- of IPv6-adres op. U kunt &quot;0.0.0.0&quot; opgeven voor om het even welk IPv4-adres,
 &quot;::&quot; voor om het even welk IPv6-adres of &quot;*&quot; voor IPv4 en IPv6.</translation>
     </message>
@@ -7070,7 +7070,7 @@ Gebruik &apos;;&apos; om meerdere items te splitsen. Jokerteken &apos;*&apos; ka
     <message>
         <location filename="../gui/optionsdialog.ui" line="606"/>
         <source>Minimize qBittorrent to notification area</source>
-        <translation>qBittorrent naar systeemvak minimaliseren</translation>
+        <translation>qBittorrent naar het systeemvak minimaliseren</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="77"/>
@@ -7148,7 +7148,7 @@ Gebruik &apos;;&apos; om meerdere items te splitsen. Jokerteken &apos;*&apos; ka
     <message>
         <location filename="../gui/optionsdialog.ui" line="628"/>
         <source>Tray icon style:</source>
-        <translation>Stijl systeemvakpictogram</translation>
+        <translation>Stijl systeemvakpictogram:</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="636"/>
@@ -7233,7 +7233,7 @@ Gebruik &apos;;&apos; om meerdere items te splitsen. Jokerteken &apos;*&apos; ka
     <message>
         <location filename="../gui/optionsdialog.ui" line="1208"/>
         <source>Also delete .torrent files whose addition was cancelled</source>
-        <translation>Ook .torrent-bestanden verwijderen waarvan de toevoeging geannuleerd werd.</translation>
+        <translation>Ook .torrent-bestanden verwijderen waarvan de toevoeging is geannuleerd</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="1211"/>
@@ -7369,7 +7369,7 @@ Gebruik &apos;;&apos; om meerdere items te splitsen. Jokerteken &apos;*&apos; ka
         <location filename="../gui/optionsdialog.ui" line="619"/>
         <source>Close qBittorrent to notification area</source>
         <extracomment>The systray icon will still be visible when closing the main window</extracomment>
-        <translation>qBittorrent naar systeemvak sluiten</translation>
+        <translation>Sluit qBittorrent naar het systeemvak</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="779"/>
@@ -8280,7 +8280,7 @@ readme[0-9].txt: filtert &apos;readme1.txt&apos;, &apos;readme2.txt&apos; maar n
     <message>
         <location filename="../gui/optionsdialog.cpp" line="1196"/>
         <source>A torrent will be considered slow if its download and upload rates stay below these values for &quot;Torrent inactivity timer&quot; seconds</source>
-        <translation>Een torrent zal als traag beschouwd worden als zijn download- en uploadsnelheden onder deze waarden blijven voor het aantal seconden in &quot;inactiviteitstimer van torrent&quot;.</translation>
+        <translation>Een torrent zal als traag beschouwd worden als zijn download- en uploadsnelheden onder deze waarden blijven gedurende het aantal seconden in &quot;inactiviteitstimer van torrent&quot;.</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.cpp" line="1425"/>
@@ -10145,7 +10145,7 @@ Deze plugins zijn uitgeschakeld.</translation>
     <message>
         <location filename="../gui/rss/rsswidget.cpp" line="747"/>
         <source>Feed: </source>
-        <translation>Feed:</translation>
+        <translation>Feed: </translation>
     </message>
     <message>
         <location filename="../gui/rss/rsswidget.cpp" line="749"/>
@@ -12375,7 +12375,7 @@ Kies een andere naam en probeer het opnieuw.</translation>
     <message>
         <location filename="../base/torrentfileswatcher.cpp" line="412"/>
         <source>Invalid Magnet URI. URI: %1. Reason: %2</source>
-        <translation>Ongeldige magneet-URI. URI: %1. Reden: %2</translation>
+        <translation>Ongeldige magneetkoppeling. URI: %1. Reden: %2</translation>
     </message>
     <message>
         <location filename="../base/torrentfileswatcher.cpp" line="420"/>
@@ -12408,7 +12408,7 @@ Kies een andere naam en probeer het opnieuw.</translation>
     <message>
         <location filename="../gui/torrentoptionsdialog.ui" line="35"/>
         <source>Automatic mode means that various torrent properties (e.g. save path) will be decided by the associated category</source>
-        <translation>Automatische modus betekent dat verschillende torrent-eigenschappen (bijvoorbeeld opslagpad) bepaald zullen worden door de bijbehorende categorie.</translation>
+        <translation>Automatische modus betekent dat verschillende torrent-eigenschappen (bijvoorbeeld het opslagpad) worden bepaald door de bijbehorende categorie.</translation>
     </message>
     <message>
         <location filename="../gui/torrentoptionsdialog.ui" line="38"/>
@@ -13138,12 +13138,12 @@ Kies een andere naam en probeer het opnieuw.</translation>
     <message>
         <location filename="../gui/trackerlist/trackerlistwidget.cpp" line="281"/>
         <source>The tracker URL entered is invalid.</source>
-        <translation>De ingevoerde tracker-URL is ongeldig</translation>
+        <translation>De ingevoerde tracker-URL is ongeldig.</translation>
     </message>
     <message>
         <location filename="../gui/trackerlist/trackerlistwidget.cpp" line="299"/>
         <source>The tracker URL already exists.</source>
-        <translation>De tracker-URL bestaat al</translation>
+        <translation>De tracker-URL bestaat al.</translation>
     </message>
     <message>
         <location filename="../gui/trackerlist/trackerlistwidget.cpp" line="370"/>
@@ -14049,7 +14049,7 @@ Kies een andere naam en probeer het opnieuw.</translation>
     <message>
         <location filename="../gui/transferlistwidget.cpp" line="1055"/>
         <source>Automatic mode means that various torrent properties (e.g. save path) will be decided by the associated category</source>
-        <translation>Automatische modus betekent dat verschillende torrent-eigenschappen (bijvoorbeeld opslagpad) bepaald zullen worden door de bijbehorende categorie.</translation>
+        <translation>Automatische modus betekent dat verschillende torrent-eigenschappen (bijvoorbeeld het opslagpad) worden bepaald door de bijbehorende categorie.</translation>
     </message>
     <message>
         <location filename="../gui/transferlistwidget.cpp" line="1044"/>

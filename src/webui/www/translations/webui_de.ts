@@ -820,7 +820,7 @@ The piece hash will be checked when it is requested for the first time by a peer
     </message>
     <message>
         <source>Execution Log</source>
-        <translation>Ausführungs-Log</translation>
+        <translation>Ausführungsprotokoll</translation>
     </message>
     <message>
         <source>Log</source>
@@ -1441,7 +1441,7 @@ The piece hash will be checked when it is requested for the first time by a peer
     </message>
     <message>
         <source>File pool size:</source>
-        <translation>Größe des Datei-Pools:</translation>
+        <translation>Größe des Dateipools:</translation>
     </message>
     <message>
         <source>Any interface</source>
@@ -2674,7 +2674,7 @@ Platzhalter '*' kann verwendet werden.</translation>
     <name>PropertiesWidget</name>
     <message>
         <source>Downloaded:</source>
-        <translation>Runtergeladen:</translation>
+        <translation>Heruntergeladen:</translation>
     </message>
     <message>
         <source>Transfer</source>
@@ -2743,7 +2743,7 @@ Platzhalter '*' kann verwendet werden.</translation>
     </message>
     <message>
         <source>Last Seen Complete:</source>
-        <translation>Letzter Seeder (100%) gesehen:</translation>
+        <translation>Letzter Seeder (100 %) gesehen:</translation>
     </message>
     <message>
         <source>Total Size:</source>
@@ -4552,7 +4552,7 @@ Platzhalter '*' kann verwendet werden.</translation>
     </message>
     <message>
         <source>Mark items read</source>
-        <translation>Markiere Einträge als gelesen</translation>
+        <translation>Einträge als gelesen markieren</translation>
     </message>
     <message>
         <source>Update all feeds</source>
@@ -4596,7 +4596,7 @@ Platzhalter '*' kann verwendet werden.</translation>
     </message>
     <message>
         <source>Please type a RSS feed URL</source>
-        <translation>Bitte eine RSS-Feed Adresse eingeben</translation>
+        <translation>Bitte eine RSS-Feed-Adresse eingeben</translation>
     </message>
     <message>
         <source>Fetching of RSS feeds is disabled now! You can enable it in application settings.</source>

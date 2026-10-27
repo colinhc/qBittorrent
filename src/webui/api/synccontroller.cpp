@@ -200,6 +200,11 @@ namespace
         map[KEY_TRANSFER_CONNECTION_STATUS] = session->isListening()
             ? (sessionStatus.hasIncomingConnections ? u"connected"_s : u"firewalled"_s)
             : u"disconnected"_s;
+        auto ip_country_code = Net::GeoIPManager::instance()->lookup(
+            QHostAddress(session->lastExternalIPv4Address()));
+        map[KEY_TRANSFER_PUBLIC_IP_COUNTRY_CODE] = ip_country_code.toLower();
+        map[KEY_TRANSFER_PUBLIC_IP_COUNTRY] = Net::GeoIPManager::CountryName(
+            ip_country_code);
 
         // myfork.
         auto ip_country_code = Net::GeoIPManager::instance()->lookup(

@@ -4510,7 +4510,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
         <location filename="../gui/mainwindow.cpp" line="1897"/>
         <source>[D: %1, U: %2] %3</source>
         <comment>D = Download; U = Upload; %3 is the rest of the window title</comment>
-        <translation>[С: %1, З: %2] %3</translation>
+        <translation>[С: %1, Р: %2] %3</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="1972"/>
@@ -7699,7 +7699,7 @@ readme[0-9].txt: filter &apos;readme1.txt&apos;, &apos;readme2.txt&apos; but not
     <message>
         <location filename="../gui/optionsdialog.ui" line="2389"/>
         <source>Manually banned IP addresses...</source>
-        <translation>Адрасы IP, забароненыя ўручную…</translation>
+        <translation>Спіс IP-адрасоў, забароненых уручную…</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="2396"/>

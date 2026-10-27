@@ -5,7 +5,7 @@
     <name>AboutDlg</name>
     <message>
         <source>About</source>
-        <translation type="vanished">O aplikaci</translation>
+        <translation type="vanished">O</translation>
     </message>
 </context>
 <context>
@@ -1477,7 +1477,7 @@ The piece hash will be checked when it is requested for the first time by a peer
     </message>
     <message>
         <source>Recheck torrents on completion:</source>
-        <translation>Při dokončení překontrolovat torrenty:</translation>
+        <translation>Překontrolování torrentů po dokončení:</translation>
     </message>
     <message>
         <source>Allow encryption</source>

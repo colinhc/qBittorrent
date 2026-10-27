@@ -461,7 +461,7 @@ The piece hash will be checked when it is requested for the first time by a peer
     </message>
     <message>
         <source>The port used for incoming connections must be between 0 and 65535.</source>
-        <translation>De poort gebruikt voor inkomende verbindingen moet liggen tussen 0 en 65535.</translation>
+        <translation>De poort gebruikt voor inkomende verbindingen moet tussen 0 en 65535 liggen.</translation>
     </message>
     <message>
         <source>Original author</source>
@@ -688,7 +688,7 @@ The piece hash will be checked when it is requested for the first time by a peer
     </message>
     <message>
         <source>Add Torrent Link...</source>
-        <translation>Torrent-koppeling toevoegen</translation>
+        <translation>Torrent-koppeling toevoegen...</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -768,7 +768,7 @@ The piece hash will be checked when it is requested for the first time by a peer
     </message>
     <message>
         <source>To use this feature, the WebUI needs to be accessed over HTTPS</source>
-        <translation>Om deze functie te gebruiken, moet de WebUI toegankelijk zijn via https.</translation>
+        <translation>Om deze functie te gebruiken, moet de WebUI via HTTPS worden geopend.</translation>
     </message>
     <message>
         <source>Connection status: Firewalled</source>
@@ -1401,7 +1401,7 @@ The piece hash will be checked when it is requested for the first time by a peer
     </message>
     <message>
         <source>μTP-TCP mixed mode algorithm:</source>
-        <translation>µTP-TCP gemengde modus algoritme</translation>
+        <translation>μTP-TCP gemengde modus algoritme:</translation>
     </message>
     <message>
         <source>Upload rate based</source>
@@ -1689,7 +1689,7 @@ The piece hash will be checked when it is requested for the first time by a peer
     </message>
     <message>
         <source>Reannounce to all trackers when IP or port changed:</source>
-        <translation>Alle trackers opnieuw aankondigen wanneer IP of poort wijzigt:</translation>
+        <translation>Opnieuw aankondigen bij alle trackers wanneer IP of poort wijzigt:</translation>
     </message>
     <message>
         <source>Trusted proxies list:</source>
@@ -2817,7 +2817,7 @@ Gebruik ';' om meerdere items te splitsen. Jokerteken '*' kan gebruikt worden.</
     </message>
     <message>
         <source>Info Hash v2:</source>
-        <translation>Info-hash v2</translation>
+        <translation>Info Hash v2:</translation>
     </message>
     <message>
         <source>Info Hash v1:</source>
@@ -4386,7 +4386,7 @@ Gebruik ';' om meerdere items te splitsen. Jokerteken '*' kan gebruikt worden.</
     </message>
     <message>
         <source>The free IP to Country Lite database by DB-IP is used for resolving the countries of peers. The database is licensed under the Creative Commons Attribution 4.0 International License</source>
-        <translation>De gratis IP to Country Lite database van DB-IP wordt gebruikt voor het oplossen van de landen van peers. De database is gelicenseerd onder de Creative Commons Attribution 4.0 International License.</translation>
+        <translation>De gratis IP to Country Lite-database van DB-IP wordt gebruikt om de landen van peers op te lossen. De database valt onder de Creative Commons Attribution 4.0 Internationale Licentie.</translation>
     </message>
     <message>
         <source>Authors</source>
@@ -4665,7 +4665,7 @@ Gebruik ';' om meerdere items te splitsen. Jokerteken '*' kan gebruikt worden.</
     </message>
     <message>
         <source>Episode filter rules: </source>
-        <translation>Afleveringsfilter-regels:</translation>
+        <translation>Afleveringsfilterregels: </translation>
     </message>
     <message>
         <source>Auto downloading of RSS torrents is disabled now! You can enable it in application settings.</source>
@@ -4725,7 +4725,7 @@ Gebruik ';' om meerdere items te splitsen. Jokerteken '*' kan gebruikt worden.</
     </message>
     <message>
         <source>Example: </source>
-        <translation>Voorbeeld:</translation>
+        <translation>Voorbeeld: </translation>
     </message>
     <message>
         <source>Add new rule...</source>
@@ -4757,7 +4757,7 @@ Gebruik ';' om meerdere items te splitsen. Jokerteken '*' kan gebruikt worden.</
     </message>
     <message>
         <source>Three range types for episodes are supported: </source>
-        <translation>Er worden drie bereiktypes voor afleveringen ondersteund:</translation>
+        <translation>Er worden drie bereiktypes voor afleveringen ondersteund: </translation>
     </message>
     <message>
         <source>Are you sure you want to remove the selected download rules?</source>
@@ -5068,7 +5068,7 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
     </message>
     <message>
         <source>item</source>
-        <translation>Item</translation>
+        <translation>item</translation>
     </message>
     <message>
         <source>IP</source>
@@ -5096,7 +5096,7 @@ Ondersteunt de formaten:  S01E01, 1x1, 2017.12.31 en 31.12.2017 (datumformaten o
     </message>
     <message>
         <source>items</source>
-        <translation>Items</translation>
+        <translation>items</translation>
     </message>
     <message>
         <source>Results</source>

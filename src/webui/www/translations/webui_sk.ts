@@ -623,6 +623,14 @@ The piece hash will be checked when it is requested for the first time by a peer
         <source>Unable to pause the session.</source>
         <translation type="unfinished" />
     </message>
+    <message>
+        <source>Share ratio limit must not have a negative value.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Seeding time limit must not have a negative value.</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>MainWindow</name>

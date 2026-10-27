@@ -1386,7 +1386,7 @@
     <message>
         <location filename="../gui/advancedsettings.cpp" line="968"/>
         <source>Fastest upload</source>
-        <translation>Upload mais rápido</translation>
+        <translation>Envio mais rápido</translation>
     </message>
     <message>
         <location filename="../gui/advancedsettings.cpp" line="969"/>
@@ -3017,7 +3017,7 @@ Suporta os formatos: S01E01, 1x1, 2017.12.31 e 31.12.2017 (Suporte também para 
     <message>
         <location filename="../base/bittorrent/torrentimpl.cpp" line="1382"/>
         <source>Couldn&apos;t write to file. Reason: &quot;%1&quot;. Torrent is now in &quot;upload only&quot; mode.</source>
-        <translation>Não foi possível guardar no ficheiro. Motivo: &quot;%1&quot;. O torrent agora está no modo &quot;somente upload&quot;.</translation>
+        <translation>Não foi possível guardar no ficheiro. Motivo: &quot;%1&quot;. O torrent agora está no modo &quot;apenas envio&quot;.</translation>
     </message>
     <message>
         <location filename="../base/bittorrent/torrentimpl.cpp" line="1775"/>
@@ -7658,12 +7658,12 @@ readme[0-9].txt: filtra &apos;readme1.txt&apos;, &apos;readme2.txt&apos;, mas n�
     <message>
         <location filename="../gui/optionsdialog.ui" line="2062"/>
         <source>Maximum number of upload slots per torrent:</source>
-        <translation>Número máximo de slots de upload por torrent:</translation>
+        <translation>Número máximo de slots de envio por torrent:</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="2045"/>
         <source>Global maximum number of upload slots:</source>
-        <translation>Número máximo de slots de upload por torrent:</translation>
+        <translation>Número máximo global de slots de envio:</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="2164"/>
@@ -7768,7 +7768,7 @@ readme[0-9].txt: filtra &apos;readme1.txt&apos;, &apos;readme2.txt&apos;, mas n�
         <location filename="../gui/optionsdialog.ui" line="2463"/>
         <location filename="../gui/optionsdialog.ui" line="2540"/>
         <source>Upload:</source>
-        <translation>Upload:</translation>
+        <translation>Envio:</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="2502"/>
@@ -7899,7 +7899,7 @@ readme[0-9].txt: filtra &apos;readme1.txt&apos;, &apos;readme2.txt&apos;, mas n�
     <message>
         <location filename="../gui/optionsdialog.ui" line="3021"/>
         <source>Maximum active uploads:</source>
-        <translation>Nº máximo de uploads ativos:</translation>
+        <translation>Máximo de envios ativos:</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="3041"/>
@@ -7914,7 +7914,7 @@ readme[0-9].txt: filtra &apos;readme1.txt&apos;, &apos;readme2.txt&apos;, mas n�
     <message>
         <location filename="../gui/optionsdialog.ui" line="3109"/>
         <source>Upload rate threshold:</source>
-        <translation>Limite do rácio de upload:</translation>
+        <translation>Limite da taxa de envio:</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="3073"/>
@@ -8280,7 +8280,7 @@ readme[0-9].txt: filtra &apos;readme1.txt&apos;, &apos;readme2.txt&apos;, mas n�
     <message>
         <location filename="../gui/optionsdialog.cpp" line="1196"/>
         <source>A torrent will be considered slow if its download and upload rates stay below these values for &quot;Torrent inactivity timer&quot; seconds</source>
-        <translation>Um torrent será considerado lento se os rácios de download e upload se mantiverem abaixo destes valores durante &quot;Temporizador de inatividade do torrent&quot; segundos</translation>
+        <translation>Um torrent será considerado lento se as taxas de transferência e envio ficarem abaixo destes valores pelos segundos do &quot;Temporizador de inatividade do torrent&quot;</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.cpp" line="1425"/>
@@ -9433,7 +9433,7 @@ Esses plugins foram desativados.</translation>
     <message>
         <location filename="../gui/properties/propertieswidget.ui" line="291"/>
         <source>Uploaded:</source>
-        <translation>Enviados:</translation>
+        <translation>Enviado:</translation>
     </message>
     <message>
         <location filename="../gui/properties/propertieswidget.ui" line="320"/>
@@ -9448,7 +9448,7 @@ Esses plugins foram desativados.</translation>
     <message>
         <location filename="../gui/properties/propertieswidget.ui" line="378"/>
         <source>Upload Speed:</source>
-        <translation>Vel. upload:</translation>
+        <translation>Vel. de envio:</translation>
     </message>
     <message>
         <location filename="../gui/properties/propertieswidget.ui" line="407"/>
@@ -9463,7 +9463,7 @@ Esses plugins foram desativados.</translation>
     <message>
         <location filename="../gui/properties/propertieswidget.ui" line="465"/>
         <source>Upload Limit:</source>
-        <translation>Limite de upload:</translation>
+        <translation>Limite do envio:</translation>
     </message>
     <message>
         <location filename="../gui/properties/propertieswidget.ui" line="494"/>
@@ -11109,7 +11109,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
         <location filename="../gui/speedlimitdialog.ui" line="33"/>
         <location filename="../gui/speedlimitdialog.ui" line="109"/>
         <source>Upload:</source>
-        <translation>Upload:</translation>
+        <translation>Envio:</translation>
     </message>
     <message>
         <location filename="../gui/speedlimitdialog.ui" line="47"/>
@@ -11144,7 +11144,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="172"/>
         <source>Total Upload</source>
-        <translation>Total de uploads</translation>
+        <translation>Total do envio</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="173"/>
@@ -11154,7 +11154,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="177"/>
         <source>Payload Upload</source>
-        <translation>Carga de uploads</translation>
+        <translation>Carga do envio</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="178"/>
@@ -11164,7 +11164,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="182"/>
         <source>Overhead Upload</source>
-        <translation>Overhead de uploads</translation>
+        <translation>Sobrecarga do envio</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="183"/>
@@ -11174,7 +11174,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="187"/>
         <source>DHT Upload</source>
-        <translation>DHT de upload</translation>
+        <translation>Envio DHT</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="188"/>
@@ -11184,7 +11184,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="192"/>
         <source>Tracker Upload</source>
-        <translation>Upload de tracker</translation>
+        <translation>Envio do rastreador</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="193"/>
@@ -11227,7 +11227,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="82"/>
         <source>Total Upload</source>
-        <translation>Total de uploads</translation>
+        <translation>Total do envio</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="73"/>
@@ -11252,7 +11252,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="84"/>
         <source>Payload Upload</source>
-        <translation>Envio payload</translation>
+        <translation>Carga do envio</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="85"/>
@@ -11262,7 +11262,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="86"/>
         <source>Overhead Upload</source>
-        <translation>Overhead de uploads</translation>
+        <translation>Sobrecarga do envio</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="87"/>
@@ -11272,7 +11272,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="88"/>
         <source>DHT Upload</source>
-        <translation>DHT de upload</translation>
+        <translation>Envio DHT</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="89"/>
@@ -11282,7 +11282,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="90"/>
         <source>Tracker Upload</source>
-        <translation>Upload de tracker</translation>
+        <translation>Envio do rastreador</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="91"/>
@@ -11372,7 +11372,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/statsdialog.ui" line="44"/>
         <source>All-time upload:</source>
-        <translation>Uploads globais:</translation>
+        <translation>Envios totais:</translation>
     </message>
     <message>
         <location filename="../gui/statsdialog.ui" line="137"/>
@@ -11544,7 +11544,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/transferlistfilters/statusfilterwidget.cpp" line="74"/>
         <source>Stalled Uploading (0)</source>
-        <translation>Upload parado (0)</translation>
+        <translation>Envio parado (0)</translation>
     </message>
     <message>
         <location filename="../gui/transferlistfilters/statusfilterwidget.cpp" line="77"/>
@@ -11639,7 +11639,7 @@ Para instalar alguns, clique no botão &quot;Plugins de pesquisa...&quot; locali
     <message>
         <location filename="../gui/transferlistfilters/statusfilterwidget.cpp" line="173"/>
         <source>Stalled Uploading (%1)</source>
-        <translation>Upload parado (%1)</translation>
+        <translation>Envio parado (%1)</translation>
     </message>
     <message>
         <location filename="../gui/transferlistfilters/statusfilterwidget.cpp" line="174"/>

@@ -37,6 +37,7 @@
 #include <QSharedPointer>
 
 #include "base/applicationcomponent.h"
+#include "base/bittorrent/addtorrenterror.h"
 #include "base/exceptions.h"
 #include "base/settingvalue.h"
 #include "base/utils/thread.h"

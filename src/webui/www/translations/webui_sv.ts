@@ -236,7 +236,7 @@ The piece hash will be checked when it is requested for the first time by a peer
     </message>
     <message>
         <source>Uncategorized</source>
-        <translation>Okategoriserad</translation>
+        <translation>Utan kategorier</translation>
     </message>
 </context>
 <context>
@@ -1997,11 +1997,11 @@ Använd ";" för att dela upp i flera poster. Du kan använda jokertecknet "*".<
     </message>
     <message>
         <source>I2P outbound quantity:</source>
-        <translation>I2P utgående kvantitet:</translation>
+        <translation>I2P utgående mängd:</translation>
     </message>
     <message>
         <source>I2P inbound quantity:</source>
-        <translation>I2P inkommande kvantitet:</translation>
+        <translation>I2P inkommande mängd:</translation>
     </message>
     <message>
         <source>Hashing threads:</source>

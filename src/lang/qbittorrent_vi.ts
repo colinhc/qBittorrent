@@ -2156,7 +2156,7 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
     <message>
         <location filename="../gui/banlistoptionsdialog.ui" line="14"/>
         <source>List of banned IP addresses</source>
-        <translation>Danh sách các địa chỉ IP bị cấm</translation>
+        <translation>Danh sách địa chỉ IP bị cấm</translation>
     </message>
     <message>
         <location filename="../gui/banlistoptionsdialog.ui" line="80"/>
@@ -4699,7 +4699,7 @@ Yêu cầu tối thiểu: %2.</translation>
         <location filename="../gui/mainwindow.cpp" line="1914"/>
         <source>DL speed: %1</source>
         <comment>e.g: Download speed: 10 KiB/s</comment>
-        <translation>Tốc độ TX: %1</translation>
+        <translation>Tốc độ tải xuống: %1</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="1915"/>
@@ -7731,7 +7731,7 @@ readme[0-9].txt: lọc &apos;readme1.txt&apos;, &apos;readme2.txt&apos; nhưng k
     <message>
         <location filename="../gui/optionsdialog.ui" line="2389"/>
         <source>Manually banned IP addresses...</source>
-        <translation>Các địa chỉ IP bị cấm theo cách thủ công...</translation>
+        <translation>Các địa chỉ IP bị cấm thủ công...</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="2396"/>
@@ -11377,7 +11377,7 @@ Nhấp vào nút &quot;Tìm kiếm plugin ...&quot; ở dưới cùng bên phả
     <message>
         <location filename="../gui/statsdialog.ui" line="137"/>
         <source>Total buffer size:</source>
-        <translation>Tổng kích cỡ bộ đệm:</translation>
+        <translation>Tổng kích thước bộ đệm:</translation>
     </message>
     <message>
         <location filename="../gui/statsdialog.ui" line="154"/>
@@ -11402,7 +11402,7 @@ Nhấp vào nút &quot;Tìm kiếm plugin ...&quot; ở dưới cùng bên phả
     <message>
         <location filename="../gui/statsdialog.ui" line="216"/>
         <source>Total queued size:</source>
-        <translation>Tổng kích cỡ hàng đợi:</translation>
+        <translation>Tổng kích thước hàng đợi:</translation>
     </message>
     <message>
         <source>%1 ms</source>

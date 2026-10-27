@@ -721,7 +721,7 @@
     <message>
         <location filename="../gui/advancedsettings.cpp" line="815"/>
         <source>Recheck torrents on completion</source>
-        <translation>Při dokončení překontrolovat torrenty</translation>
+        <translation>Po dokončení překontrolovat torrenty</translation>
     </message>
     <message>
         <location filename="../gui/advancedsettings.cpp" line="436"/>

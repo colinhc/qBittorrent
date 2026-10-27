@@ -1220,7 +1220,7 @@
     <message>
         <location filename="../gui/advancedsettings.cpp" line="934"/>
         <source>Enable Mark-of-the-Web (MOTW) for downloaded files</source>
-        <translation>Ставить веб-метку (MOTW) на загруженные файлы</translation>
+        <translation>Ставить веб-метку (MOTW) на файлы загрузок</translation>
     </message>
     <message>
         <location filename="../gui/advancedsettings.cpp" line="941"/>

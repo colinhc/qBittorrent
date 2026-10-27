@@ -1409,7 +1409,7 @@ The piece hash will be checked when it is requested for the first time by a peer
     </message>
     <message>
         <source>%G: Tags (separated by comma)</source>
-        <translation>%G : Étiquettes (séparés par des virgules)</translation>
+        <translation>%G : Étiquettes (séparées par une virgule)</translation>
     </message>
     <message>
         <source>Socket backlog size:</source>
@@ -4260,7 +4260,7 @@ Utiliser ';' pour diviser plusieurs entrées. Le caractère générique '*' peut
     </message>
     <message>
         <source>Format: IPv4:port / [IPv6]:port</source>
-        <translation>Format: IPv4:port / [IPv6]:port</translation>
+        <translation>Format : IPv4:port / [IPv6]:port</translation>
     </message>
 </context>
 <context>

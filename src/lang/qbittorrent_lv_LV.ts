@@ -13784,7 +13784,7 @@ Lūdzu izvēlieties citu nosaukumu.</translation>
     <message>
         <location filename="../gui/transferlistwidget.cpp" line="885"/>
         <source>Export .torrent file error</source>
-        <translation>.torrent faila eksportēšanas kļūda</translation>
+        <translation>.torrent datnes izgūšanas kļūda</translation>
     </message>
     <message>
         <location filename="../gui/transferlistwidget.cpp" line="896"/>
@@ -13972,7 +13972,7 @@ Lūdzu izvēlieties citu nosaukumu.</translation>
     <message>
         <location filename="../gui/transferlistwidget.cpp" line="1333"/>
         <source>Exported torrent is not necessarily the same as the imported</source>
-        <translation>Eksportētais torrents ne obligāti būs tāds pats kā importētais</translation>
+        <translation>Izgūtais torrents ne vienmēr ir tāds pats kā ievietotais</translation>
     </message>
     <message>
         <location filename="../gui/transferlistwidget.cpp" line="1050"/>

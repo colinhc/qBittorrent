@@ -178,7 +178,7 @@
     <message>
         <location filename="../gui/addnewtorrentdialog.ui" line="113"/>
         <source>Save at</source>
-        <translation>Sauvegarder sous</translation>
+        <translation>Enregistrer sous</translation>
     </message>
     <message>
         <location filename="../gui/addnewtorrentdialog.ui" line="568"/>
@@ -500,7 +500,7 @@
     <message>
         <location filename="../gui/addnewtorrentdialog.cpp" line="769"/>
         <source>Parsing metadata...</source>
-        <translation>Analyse syntaxique des métadonnées...</translation>
+        <translation>Analyse syntaxique des métadonnées en cours…</translation>
     </message>
     <message>
         <location filename="../gui/addnewtorrentdialog.cpp" line="773"/>
@@ -1855,12 +1855,12 @@ Les formats supportés : S01E01, 1x1, 2017.12.31 et 31.12.2017 (les formats date
     <message>
         <location filename="../gui/rss/automatedrssdownloader.ui" line="412"/>
         <source>&amp;Import...</source>
-        <translation>&amp;Importer...</translation>
+        <translation>&amp;Importer…</translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.ui" line="422"/>
         <source>&amp;Export...</source>
-        <translation>&amp;Exporter...</translation>
+        <translation>&amp;Exporter…</translation>
     </message>
     <message>
         <location filename="../gui/rss/automatedrssdownloader.cpp" line="114"/>
@@ -4008,7 +4008,7 @@ Les formats supportés : S01E01, 1x1, 2017.12.31 et 31.12.2017 (les formats date
     <message>
         <location filename="../gui/mainwindow.ui" line="43"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Édition</translation>
+        <translation>&amp;Edition</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.ui" line="69"/>
@@ -4104,7 +4104,7 @@ Les formats supportés : S01E01, 1x1, 2017.12.31 et 31.12.2017 (les formats date
     <message>
         <location filename="../gui/mainwindow.ui" line="361"/>
         <source>L&amp;ock qBittorrent</source>
-        <translation>&amp;Verrouiller qBittorrent</translation>
+        <translation>Verr&amp;ouiller qBittorrent</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.ui" line="372"/>
@@ -4184,7 +4184,7 @@ Les formats supportés : S01E01, 1x1, 2017.12.31 et 31.12.2017 (les formats date
     <message>
         <location filename="../gui/mainwindow.ui" line="105"/>
         <source>&amp;Log</source>
-        <translation>&amp;Journal</translation>
+        <translation>Journa&amp;l</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.ui" line="204"/>
@@ -4259,7 +4259,7 @@ Les formats supportés : S01E01, 1x1, 2017.12.31 et 31.12.2017 (les formats date
     <message>
         <location filename="../gui/mainwindow.ui" line="391"/>
         <source>&amp;Suspend System</source>
-        <translation>&amp;Mettre en veille le système</translation>
+        <translation>Mettre en veille le &amp;système</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.ui" line="399"/>
@@ -4352,7 +4352,7 @@ Les formats supportés : S01E01, 1x1, 2017.12.31 et 31.12.2017 (les formats date
     <message>
         <location filename="../gui/mainwindow.cpp" line="221"/>
         <source>&amp;Set Password</source>
-        <translation>&amp;Définir le mot de pass</translation>
+        <translation>Définir le mot de pa&amp;sse</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="171"/>
@@ -4362,7 +4362,7 @@ Les formats supportés : S01E01, 1x1, 2017.12.31 et 31.12.2017 (les formats date
     <message>
         <location filename="../gui/mainwindow.cpp" line="222"/>
         <source>&amp;Clear Password</source>
-        <translation>&amp;Supprimer le mot de pass</translation>
+        <translation>&amp;Supprimer le mot de passe</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="279"/>
@@ -4400,12 +4400,12 @@ Les formats supportés : S01E01, 1x1, 2017.12.31 et 31.12.2017 (les formats date
     <message>
         <location filename="../gui/mainwindow.cpp" line="607"/>
         <source>Text Alongside Icons</source>
-        <translation>Texte à côté des Icônes</translation>
+        <translation>Texte à côté des icônes</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="608"/>
         <source>Text Under Icons</source>
-        <translation>Texte sous les Icônes</translation>
+        <translation>Texte sous les icônes</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="609"/>
@@ -4416,13 +4416,13 @@ Les formats supportés : S01E01, 1x1, 2017.12.31 et 31.12.2017 (les formats date
         <location filename="../gui/mainwindow.cpp" line="690"/>
         <location filename="../gui/mainwindow.cpp" line="1060"/>
         <source>UI lock password</source>
-        <translation>Mot de passe de verrouillage</translation>
+        <translation>Mot de passe de verrouillage de l&apos;IU</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="691"/>
         <location filename="../gui/mainwindow.cpp" line="1061"/>
         <source>Please type the UI lock password:</source>
-        <translation>Veuillez entrer le mot de passe de verrouillage :</translation>
+        <translation>Veuillez entrer le mot de passe de verrouillage de l&apos;IU :</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="708"/>
@@ -4493,7 +4493,7 @@ Les formats supportés : S01E01, 1x1, 2017.12.31 et 31.12.2017 (les formats date
     <message>
         <location filename="../gui/mainwindow.cpp" line="1243"/>
         <source>&amp;Always Yes</source>
-        <translation>&amp;Oui, toujours</translation>
+        <translation>Oui, &amp;toujours</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="1372"/>
@@ -4569,13 +4569,13 @@ Veuillez l’installer manuellement.</translation>
         <location filename="../gui/mainwindow.cpp" line="1642"/>
         <source>Python is required to use the search engine but it does not seem to be installed.
 Do you want to install it now?</source>
-        <translation>Python est nécessaire afin d&apos;utiliser le moteur de recherche mais il ne semble pas être installé.
-Voulez-vous l&apos;installer maintenant&#x202f;?</translation>
+        <translation>Python est nécessaire afin d&apos;utiliser le moteur de recherche, mais il ne semble pas être installé.
+Voulez-vous l&apos;installer maintenant&#x202f; ?</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="1648"/>
         <source>Python is required to use the search engine but it does not seem to be installed.</source>
-        <translation>Python est nécessaire afin d&apos;utiliser le moteur de recherche mais il ne semble pas être installé.</translation>
+        <translation>Python est nécessaire afin d&apos;utiliser le moteur de recherche, mais il ne semble pas être installé.</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="1660"/>
@@ -4602,7 +4602,7 @@ Voulez-vous l&apos;installer maintenant&#x202f;?</translation>
         <location filename="../gui/mainwindow.cpp" line="1735"/>
         <source>No updates available.
 You are already using the latest version.</source>
-        <translation>Pas de mises à jour disponibles.
+        <translation>Aucune mise à jour disponible.
 Vous utilisez déjà la dernière version.</translation>
     </message>
     <message>
@@ -4632,7 +4632,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../gui/mainwindow.cpp" line="1931"/>
         <source>Checking for Updates...</source>
-        <translation>Vérification des mises à jour…</translation>
+        <translation>Vérification des mises à jour en cours…</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="1932"/>
@@ -4676,7 +4676,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../gui/mainwindow.cpp" line="256"/>
         <source>Filter by:</source>
-        <translation>Filtrer par:</translation>
+        <translation>Filtrer par :</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="697"/>
@@ -4693,7 +4693,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../gui/mainwindow.cpp" line="1069"/>
         <source>The password is invalid</source>
-        <translation>Le mot de passe fourni est invalide</translation>
+        <translation>Le mot de passe est invalide</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="1914"/>
@@ -4720,7 +4720,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../gui/mainwindow.cpp" line="1345"/>
         <source>Open Torrent Files</source>
-        <translation>Ouvrir fichiers torrent</translation>
+        <translation>Ouvrir des fichiers torrent</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="1346"/>
@@ -4949,7 +4949,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
         <location filename="../base/net/geoipmanager.cpp" line="403"/>
         <location filename="../base/net/geoipmanager.cpp" line="406"/>
         <source>N/A</source>
-        <translation>N/A</translation>
+        <translation>N/D</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="153"/>
@@ -4966,12 +4966,12 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
         <location filename="../base/net/geoipmanager.cpp" line="102"/>
         <location filename="../base/net/geoipmanager.cpp" line="477"/>
         <source>Couldn&apos;t load IP geolocation database. Reason: %1</source>
-        <translation>Impossible de charger la base de données de géolocalisation des IPs. Raison&#x202f;: %1</translation>
+        <translation>Impossible de charger la base de données de géolocalisation des IP. Raison&#x202f;: %1</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="154"/>
         <source>United Arab Emirates</source>
-        <translation>Émirats Arabes Unis</translation>
+        <translation>Émirats arabes unis</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="155"/>
@@ -5016,7 +5016,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="163"/>
         <source>American Samoa</source>
-        <translation>Samoa Américaines</translation>
+        <translation>Samoa américaines</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="164"/>
@@ -5041,7 +5041,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="169"/>
         <source>Bosnia and Herzegovina</source>
-        <translation>Bosnie Herzégovine</translation>
+        <translation>Bosnie-Herzégovine</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="170"/>
@@ -5136,7 +5136,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="191"/>
         <source>Cocos (Keeling) Islands</source>
-        <translation>Îles Cocos (anciennement Keeling)</translation>
+        <translation>Îles Cocos (Keeling)</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="192"/>
@@ -5146,7 +5146,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="193"/>
         <source>Central African Republic</source>
-        <translation>République d&apos;Afrique Centrale</translation>
+        <translation>Centrafrique</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="194"/>
@@ -5156,7 +5156,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="195"/>
         <source>Switzerland</source>
-        <translation>Suiss</translation>
+        <translation>Suisse</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="197"/>
@@ -5216,7 +5216,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="208"/>
         <source>Czech Republic</source>
-        <translation>République Tchèque</translation>
+        <translation>Tchéquie</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="209"/>
@@ -5251,7 +5251,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="215"/>
         <source>Ecuador</source>
-        <translation>Equateur</translation>
+        <translation>Équateur</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="216"/>
@@ -5276,7 +5276,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="220"/>
         <source>Spain</source>
-        <translation>Espagn</translation>
+        <translation>Espagne</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="221"/>
@@ -5321,7 +5321,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="229"/>
         <source>United Kingdom</source>
-        <translation>Royaume-uni</translation>
+        <translation>Royaume-Uni</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="230"/>
@@ -5336,7 +5336,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="232"/>
         <source>French Guiana</source>
-        <translation>Guinée française</translation>
+        <translation>Guyane française</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="234"/>
@@ -5401,7 +5401,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="246"/>
         <source>Guyana</source>
-        <translation>Guyane</translation>
+        <translation>Guyana</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="247"/>
@@ -5466,7 +5466,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="260"/>
         <source>Iran, Islamic Republic of</source>
-        <translation>République islamique d&apos;Iran</translation>
+        <translation>Iran</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="261"/>
@@ -5576,7 +5576,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="283"/>
         <source>Liberia</source>
-        <translation>Liberia</translation>
+        <translation>Libéria</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="284"/>
@@ -5721,7 +5721,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="316"/>
         <source>Nigeria</source>
-        <translation>Nigeria</translation>
+        <translation>Nigéria</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="317"/>
@@ -5781,7 +5781,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="328"/>
         <source>Papua New Guinea</source>
-        <translation>Papouasie - Nouvelle-Guinée</translation>
+        <translation>Papouasie-Nouvelle-Guinée</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="329"/>
@@ -5801,7 +5801,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="332"/>
         <source>Saint Pierre and Miquelon</source>
-        <translation>Saint Pierre et Miquelon</translation>
+        <translation>Saint-Pierre-et-Miquelon</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="334"/>
@@ -5816,7 +5816,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="337"/>
         <source>Palau</source>
-        <translation>Palau</translation>
+        <translation>Palaos</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="338"/>
@@ -5831,7 +5831,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="340"/>
         <source>Reunion</source>
-        <translation>Réunion</translation>
+        <translation>La Réunion</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="341"/>
@@ -5851,7 +5851,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="345"/>
         <source>Saudi Arabia</source>
-        <translation>Arabie Saoudite</translation>
+        <translation>Arabie saoudite</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="346"/>
@@ -5936,7 +5936,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="365"/>
         <source>Swaziland</source>
-        <translation>Swaziland</translation>
+        <translation>Eswatini</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="366"/>
@@ -5951,7 +5951,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="368"/>
         <source>French Southern Territories</source>
-        <translation>Terres australes françaises</translation>
+        <translation>Terres australes et antarctiques françaises</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="369"/>
@@ -6006,7 +6006,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="466"/>
         <source>Couldn&apos;t save downloaded IP geolocation database file. Reason: %1</source>
-        <translation>Impossible d&apos;enregistrer le fichier de base de données de géolocalisation IP téléchargé. Raison : %1</translation>
+        <translation>Impossible d&apos;enregistrer le fichier de base de données de géolocalisation des IPs téléchargé. Raison : %1</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="462"/>
@@ -6026,7 +6026,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="182"/>
         <source>Bonaire, Sint Eustatius and Saba</source>
-        <translation>Pays-Bas caribéens - Bonaire, St Eustatius, Saba</translation>
+        <translation>Pays-Bas caribéens</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="196"/>
@@ -6056,7 +6056,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="335"/>
         <source>Palestine, State of</source>
-        <translation>Palestine, État de</translation>
+        <translation>Palestine</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="351"/>
@@ -6091,7 +6091,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="380"/>
         <source>Taiwan</source>
-        <translation>Taiwan</translation>
+        <translation>Taïwan</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="381"/>
@@ -6141,12 +6141,12 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="391"/>
         <source>Virgin Islands, British</source>
-        <translation>Îles Vierges, Royaume-Uni</translation>
+        <translation>Îles Vierges britanniques</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="392"/>
         <source>Virgin Islands, U.S.</source>
-        <translation>Îles Vierges, États-Unis</translation>
+        <translation>Îles Vierges des États-Unis</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="394"/>
@@ -6206,7 +6206,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="233"/>
         <source>Guernsey</source>
-        <translation>Bailliage de Guernesey</translation>
+        <translation>Guernesey</translation>
     </message>
     <message>
         <location filename="../base/net/geoipmanager.cpp" line="256"/>
@@ -6462,7 +6462,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../gui/optionsdialog.ui" line="523"/>
         <source>Start qBittorrent on Windows start up</source>
-        <translation>Démarrer qBittorrent au démarrage de windows</translation>
+        <translation>Démarrer qBittorrent au démarrage de Windows</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="530"/>
@@ -6477,7 +6477,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../gui/optionsdialog.ui" line="584"/>
         <source>Confirmation on auto-exit when downloads finish</source>
-        <translation>Confirmation de l&apos;auto-extinction à la fin des téléchargements</translation>
+        <translation>Confirmation de la fermeture automatique à la fin des téléchargements</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="641"/>
@@ -6686,7 +6686,7 @@ Configuration minimale requise&#xa0;:&#xa0;%2.</translation>
     <message>
         <location filename="../gui/optionsdialog.ui" line="2605"/>
         <source>Schedule &amp;the use of alternative rate limits</source>
-        <translation>Planifier &amp;l&apos;utilisation des limites de vitesse alternatives</translation>
+        <translation>Planifier l&apos;utilisation des limites de vi&amp;tesse alternatives</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="2620"/>
@@ -6900,12 +6900,12 @@ Désactiver le chiffrement : Se connecter uniquement aux pairs sans protocole de
     <message>
         <location filename="../gui/optionsdialog.ui" line="3643"/>
         <source>RSS Torrent Auto Downloader</source>
-        <translation>Téléchargeur automatique de torrents RSS</translation>
+        <translation>Téléchargeur automatique de torrents par RSS</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="3649"/>
         <source>Enable auto downloading of RSS torrents</source>
-        <translation>Active le téléchargement automatique des torrents par RSS</translation>
+        <translation>Active le téléchargement automatique de torrents par RSS</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="3656"/>
@@ -7017,7 +7017,7 @@ Renseignez une adresse IPv4 ou IPv6. Vous pouvez renseigner « 0.0.0.0 » pour n
     <message>
         <location filename="../gui/optionsdialog.ui" line="4218"/>
         <source>Server domains:</source>
-        <translation>Domaines de serveur :</translation>
+        <translation>Domaines du serveur :</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="4225"/>
@@ -7188,17 +7188,17 @@ Utiliser &apos;;&apos; pour diviser plusieurs entrées. Le caractère génériqu
     <message>
         <location filename="../gui/optionsdialog.ui" line="816"/>
         <source>Save path:</source>
-        <translation>Chemin de sauvegarde :</translation>
+        <translation>Répertoire de destination :</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="833"/>
         <source>Backup the log file after:</source>
-        <translation>Sauvegarder le Log après :</translation>
+        <translation>Sauvegarder le fichier journal après :</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="873"/>
         <source>Delete backup logs older than:</source>
-        <translation>Supprimer les journaux antérieurs à :</translation>
+        <translation>Supprimer les journaux sauvegardés antérieurs à :</translation>
     </message>
     <message>
         <source>Show external IP in status bar</source>
@@ -7294,7 +7294,7 @@ Utiliser &apos;;&apos; pour diviser plusieurs entrées. Le caractère génériqu
     <message>
         <location filename="../gui/optionsdialog.ui" line="1469"/>
         <source>Default Save Path:</source>
-        <translation>Chemin de sauvegarde par défaut :</translation>
+        <translation>Répertoire de destination par défaut :</translation>
     </message>
     <message>
         <source>Copy .torrent files to:</source>
@@ -7474,7 +7474,7 @@ Manuel : Certaines propriétés du torrent (p. ex. le répertoire de destination
     <message>
         <location filename="../gui/optionsdialog.ui" line="542"/>
         <source>Window state on start up:</source>
-        <translation>État de la fenêtre au démarrage&#xa0;:</translation>
+        <translation>État de la fenêtre au démarrage :</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.ui" line="549"/>
@@ -8048,7 +8048,7 @@ readme[0-9].txt : filtre &apos;readme1.txt&apos; et &apos;readme2.txt&apos;, mai
     <message>
         <location filename="../gui/optionsdialog.cpp" line="635"/>
         <source>If you enable the second option (&amp;ldquo;Also when addition is cancelled&amp;rdquo;) the .torrent file &lt;strong&gt;will be deleted&lt;/strong&gt; even if you press &amp;ldquo;&lt;strong&gt;Cancel&lt;/strong&gt;&amp;rdquo; in the &amp;ldquo;Add torrent&amp;rdquo; dialog</source>
-        <translation>Si vous activez la seconde option (&amp;ldquo;également lorsque l&apos;ajout est annulé&amp;rdquo;) le fichier .torrent &lt;strong&gt;sera supprimé&lt;/strong&gt; même si vous pressez &amp;ldquo;&lt;strong&gt;Annuler&lt;/strong&gt;&amp;rdquo; dans la boîte de dialogue &amp;ldquo;Ajouter un torrent&amp;rdquo;</translation>
+        <translation>Si vous activez la seconde option (également lorsque l&apos;ajout est annulé), le fichier .torrent &lt;strong&gt;sera supprimé&lt;/strong&gt; même si vous appuyez sur «&lt;strong&gt;Annuler&lt;/strong&gt;» dans la boîte de dialogue « Ajouter un torrent »</translation>
     </message>
     <message>
         <location filename="../gui/optionsdialog.cpp" line="272"/>
@@ -8647,13 +8647,13 @@ Consultez le journal d&apos;exécution pour les erreurs.</translation>
         <location filename="../gui/properties/peerlistwidget.cpp" line="122"/>
         <source>Down Speed</source>
         <comment>i.e: Download speed</comment>
-        <translation>Vitesse DL</translation>
+        <translation>Réception</translation>
     </message>
     <message>
         <location filename="../gui/properties/peerlistwidget.cpp" line="123"/>
         <source>Up Speed</source>
         <comment>i.e: Upload speed</comment>
-        <translation>Vitesse UP</translation>
+        <translation>Envoi</translation>
     </message>
     <message>
         <location filename="../gui/properties/peerlistwidget.cpp" line="124"/>
@@ -8714,7 +8714,7 @@ Consultez le journal d&apos;exécution pour les erreurs.</translation>
     <message>
         <location filename="../gui/properties/peerlistwidget.cpp" line="305"/>
         <source>Some peers cannot be added. Check the Log for details.</source>
-        <translation>Certains pairs n&apos;ont pas pu être ajoutés. Consultez le Journal pour plus d&apos;informations.</translation>
+        <translation>Certains pairs n&apos;ont pas pu être ajoutés. Consultez le fichier journal pour plus d&apos;informations.</translation>
     </message>
     <message>
         <location filename="../gui/properties/peerlistwidget.cpp" line="307"/>
@@ -9568,7 +9568,7 @@ Ces derniers ont été désactivés.</translation>
     <message>
         <location filename="../gui/properties/propertieswidget.ui" line="930"/>
         <source>Save Path:</source>
-        <translation>Chemin de sauvegarde&#x202f;:</translation>
+        <translation>Répertoire de destination :</translation>
     </message>
     <message>
         <location filename="../gui/properties/propertieswidget.cpp" line="461"/>
@@ -9685,12 +9685,12 @@ Ces derniers ont été désactivés.</translation>
     <message>
         <location filename="../gui/properties/propertieswidget.cpp" line="662"/>
         <source>Web seed editing</source>
-        <translation>Modification de la source web</translation>
+        <translation>Modification de la source Web</translation>
     </message>
     <message>
         <location filename="../gui/properties/propertieswidget.cpp" line="663"/>
         <source>Web seed URL:</source>
-        <translation>URL de la source web :</translation>
+        <translation>URL de la source Web :</translation>
     </message>
 </context>
 <context>
@@ -9838,7 +9838,7 @@ Ces derniers ont été désactivés.</translation>
     <message>
         <location filename="../base/rss/rss_session.cpp" line="247"/>
         <source>Cannot delete root folder.</source>
-        <translation>Ne peut pas supprimer le dossier racine.</translation>
+        <translation>Impossible de supprimer le dossier racine.</translation>
     </message>
     <message>
         <location filename="../base/rss/rss_session.cpp" line="288"/>
@@ -10849,7 +10849,7 @@ Cliquez sur le bouton « Recherche de greffons… » en bas à droite de la fen�
     <message>
         <location filename="../gui/search/searchwidget.ui" line="142"/>
         <source>Search plugins...</source>
-        <translation>Greffons de recherche...</translation>
+        <translation>Greffons de recherche…</translation>
     </message>
     <message>
         <location filename="../gui/search/searchwidget.cpp" line="358"/>
@@ -11034,7 +11034,7 @@ Cliquez sur le bouton « Recherche de greffons… » en bas à droite de la fen�
     <message>
         <location filename="../gui/shutdownconfirmdialog.cpp" line="124"/>
         <source>&amp;Shutdown Now</source>
-        <translation>&amp;Eteindre maintenant</translation>
+        <translation>&amp;Éteindre maintenant</translation>
     </message>
     <message>
         <location filename="../gui/shutdownconfirmdialog.cpp" line="125"/>
@@ -11173,12 +11173,12 @@ Cliquez sur le bouton « Recherche de greffons… » en bas à droite de la fen�
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="187"/>
         <source>DHT Upload</source>
-        <translation>Envoi (DHT)</translation>
+        <translation>Envoi DHT</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="188"/>
         <source>DHT Download</source>
-        <translation>Téléchargement (DHT)</translation>
+        <translation>Téléchargement DHT</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedplotview.cpp" line="192"/>
@@ -11271,12 +11271,12 @@ Cliquez sur le bouton « Recherche de greffons… » en bas à droite de la fen�
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="88"/>
         <source>DHT Upload</source>
-        <translation>Envoi (DHT)</translation>
+        <translation>Envoi DHT</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="89"/>
         <source>DHT Download</source>
-        <translation>Téléchargement (DHT)</translation>
+        <translation>Téléchargement DHT</translation>
     </message>
     <message>
         <location filename="../gui/properties/speedwidget.cpp" line="90"/>
@@ -11419,7 +11419,7 @@ Cliquez sur le bouton « Recherche de greffons… » en bas à droite de la fen�
     <message>
         <location filename="../gui/statusbar.cpp" line="86"/>
         <source>Connection status:</source>
-        <translation>Statut de la connexion :</translation>
+        <translation>État de la connexion :</translation>
     </message>
     <message>
         <location filename="../gui/statusbar.cpp" line="87"/>
@@ -11724,7 +11724,7 @@ Cliquez sur le bouton « Recherche de greffons… » en bas à droite de la fen�
     <message>
         <location filename="../gui/transferlistfilters/tagfilterwidget.cpp" line="176"/>
         <source>Invalid tag name</source>
-        <translation>Nom de tag invalide</translation>
+        <translation>Nom d&apos;étiquette invalide</translation>
     </message>
     <message>
         <location filename="../gui/transferlistfilters/tagfilterwidget.cpp" line="177"/>
@@ -12145,7 +12145,7 @@ Veuillez en choisir un autre.</translation>
     <message>
         <location filename="../gui/torrentcreatordialog.ui" line="91"/>
         <source>[Drag and drop area]</source>
-        <translation>[zone pour glisser et déposer]</translation>
+        <translation>[Zone pour glisser et déposer]</translation>
     </message>
     <message>
         <location filename="../gui/torrentcreatordialog.ui" line="101"/>
@@ -12318,7 +12318,7 @@ Veuillez en choisir un autre.</translation>
     <message>
         <location filename="../gui/torrentcreatordialog.cpp" line="381"/>
         <source>Reason: &quot;%1&quot;</source>
-        <translation>Raison : &quot;%1&quot;</translation>
+        <translation>Raison : « %1 »</translation>
     </message>
     <message>
         <location filename="../gui/torrentcreatordialog.cpp" line="382"/>
@@ -12356,7 +12356,7 @@ Veuillez en choisir un autre.</translation>
     <message>
         <location filename="../base/torrentfileswatcher.cpp" line="257"/>
         <source>Couldn&apos;t store Watched Folders configuration to %1. Error: %2</source>
-        <translation>Impossible de stocker la configuration des dossiers surveillés dans %1. Erreur&#xa0;: %2</translation>
+        <translation>Impossible de stocker la configuration des dossiers surveillés dans %1. Erreur : %2</translation>
     </message>
     <message>
         <location filename="../base/torrentfileswatcher.cpp" line="276"/>
@@ -13337,7 +13337,7 @@ Veuillez en choisir un autre.</translation>
     <message>
         <location filename="../gui/transferlistfilters/trackersfilterwidget.cpp" line="686"/>
         <source>Are you sure you want to remove tracker &quot;%1&quot; from all torrents?</source>
-        <translation>Êtes-vous sûr de vouloir supprimer le tracker &quot;%1&quot; de tous les torrents ?</translation>
+        <translation>Êtes-vous sûr de vouloir supprimer le tracker « %1 » de tous les torrents ?</translation>
     </message>
     <message>
         <location filename="../gui/transferlistfilters/trackersfilterwidget.cpp" line="688"/>
@@ -14342,7 +14342,7 @@ Veuillez en choisir un autre.</translation>
     <message>
         <location filename="../webui/webapplication.cpp" line="655"/>
         <source>Web server error. Unknown error.</source>
-        <translation>Erreur de serveur Web. Erreur inconnue.</translation>
+        <translation>Erreur du serveur Web. Erreur inconnue.</translation>
     </message>
     <message>
         <location filename="../webui/webapplication.cpp" line="1004"/>
@@ -14527,7 +14527,7 @@ Veuillez en choisir un autre.</translation>
         <location filename="../base/utils/misc.cpp" line="237"/>
         <source>&lt; 1m</source>
         <comment>&lt; 1 minute</comment>
-        <translation>&lt; 1min</translation>
+        <translation>&lt; 1 min</translation>
     </message>
 </context>
 </TS>

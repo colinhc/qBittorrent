@@ -1806,7 +1806,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Specify reverse proxy IPs (or subnets, e.g. 0.0.0.0/24) in order to use forwarded client address (X-Forwarded-For header). Use ';' to split multiple entries.</source>
-        <translation type="unfinished" />
+        <translation>Specify reverse proxy IPs (or subnets, e.g. 0.0.0.0/24) in order to use forwarded client address (X-Forwarded-For header). Use ';' to split multiple entries.</translation>
     </message>
     <message>
         <source>HTTPS key should not be empty</source>
@@ -2552,12 +2552,12 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>Down Speed</source>
         <comment>i.e: Download speed</comment>
-        <translation>Хуткасць спампоўвання</translation>
+        <translation>🡇Хуткасць спампоўвання</translation>
     </message>
     <message>
         <source>Up Speed</source>
         <comment>i.e: Upload speed</comment>
-        <translation>Хуткасць раздачы</translation>
+        <translation>🡅Хуткасць раздачы</translation>
     </message>
     <message>
         <source>Downloaded</source>
@@ -2890,7 +2890,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Replace option</source>
-        <translation type="unfinished" />
+        <translation>Замяніць параметр</translation>
     </message>
     <message>
         <source>Edit web seed URL...</source>
@@ -3997,7 +3997,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     <message>
         <source>%1m</source>
         <comment>e.g: 10minutes</comment>
-        <translation>%1 хв</translation>
+        <translation>%1 хв</translation>
     </message>
     <message>
         <source>%1y %2d</source>
@@ -4830,7 +4830,7 @@ Use ';' to split multiple entries. Can use wildcard '*'.</source>
     </message>
     <message>
         <source>Wildcard mode: you can use</source>
-        <translation type="unfinished" />
+        <translation>Wildcard mode: you can use</translation>
     </message>
     <message>
         <source> will exclude all articles.</source>

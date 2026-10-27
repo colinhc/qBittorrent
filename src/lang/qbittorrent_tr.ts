@@ -10635,7 +10635,7 @@ Bu eklentiler etkisizleştirildi.</translation>
     <message>
         <location filename="../base/search/searchpluginmanager.cpp" line="750"/>
         <source>Search plugin &apos;%1&apos; contains invalid version string (&apos;%2&apos;)</source>
-        <translation>Aranan eklenti &apos;%1&apos; geçersiz sürüm dizgisi (&apos;%2&apos;) içeriyor</translation>
+        <translation>Arama eklentisi &apos;%1&apos; geçersiz sürüm dizgisi (&apos;%2&apos;) içeriyor</translation>
     </message>
 </context>
 <context>

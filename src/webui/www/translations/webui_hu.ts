@@ -1277,7 +1277,7 @@ The piece hash will be checked when it is requested for the first time by a peer
     </message>
     <message>
         <source>%Z: Torrent size (bytes)</source>
-        <translation>%Z: Torrent mérete (bájtok)</translation>
+        <translation>%Z: Torrent mérete (bájt)</translation>
     </message>
     <message>
         <source>%T: Current tracker</source>
@@ -1797,7 +1797,7 @@ In order to defend against DNS rebinding attack,
 you should put in domain names used by WebUI server.
 
 Use ';' to split multiple entries. Can use wildcard '*'.</source>
-        <translation>Fehérlista a HTTP Kiszolgáló fejléc értékek szűrésére.
+        <translation>Fehérlista a HTTP Szerver fejléc értékek szűrésére.
 A DNS újrakötési támadások ellen,
 írja be a WebUI szerver domain neveit.
 

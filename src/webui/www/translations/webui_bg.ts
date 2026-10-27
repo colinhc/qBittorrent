@@ -5,7 +5,7 @@
     <name>AboutDlg</name>
     <message>
         <source>About</source>
-        <translation type="vanished">Относно</translation>
+        <translation type="vanished">За</translation>
     </message>
 </context>
 <context>

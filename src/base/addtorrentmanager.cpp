@@ -171,7 +171,7 @@ void AddTorrentManager::onSessionAddTorrentFailed(const BitTorrent::InfoHash &in
 void AddTorrentManager::handleAddTorrentFailed(const QString &source, const QString &reason)
 {
     LogMsg(tr("Failed to add torrent. Source: \"%1\". Reason: \"%2\"").arg(source, reason), Log::WARNING);
-    emit addTorrentFailed(source, reason);
+    emit addTorrentFailed(source, {BitTorrent::AddTorrentError::Other, reason});
 }
 
 void AddTorrentManager::handleDuplicateTorrent(const QString &source
