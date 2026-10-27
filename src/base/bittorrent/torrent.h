@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2015-2024  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2015-2026  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
@@ -37,13 +37,16 @@
 #include "base/3rdparty/expected.hpp"
 #include "base/pathfwd.h"
 #include "base/tagset.h"
-#include "sharelimitaction.h"
+#include "sharelimits.h"
+#include "torrentannouncestatus.h"
 #include "torrentcontenthandler.h"
 
 class QBitArray;
 class QByteArray;
 class QDateTime;
 class QUrl;
+
+template <typename T> class QFuture;
 
 namespace BitTorrent
 {
@@ -122,15 +125,6 @@ namespace BitTorrent
         };
         Q_ENUM(StopCondition)
 
-        static const qreal USE_GLOBAL_RATIO;
-        static const qreal NO_RATIO_LIMIT;
-
-        static const int USE_GLOBAL_SEEDING_TIME;
-        static const int NO_SEEDING_TIME_LIMIT;
-
-        static const int USE_GLOBAL_INACTIVE_SEEDING_TIME;
-        static const int NO_INACTIVE_SEEDING_TIME_LIMIT;
-
         static const qreal MAX_RATIO;
 
         using TorrentContentHandler::TorrentContentHandler;
@@ -142,6 +136,7 @@ namespace BitTorrent
         virtual QDateTime creationDate() const = 0;
         virtual QString creator() const = 0;
         virtual QString comment() const = 0;
+        virtual void setComment(const QString &comment) = 0;
         virtual bool isPrivate() const = 0;
         virtual qlonglong totalSize() const = 0;
         virtual qlonglong wantedSize() const = 0;
@@ -208,7 +203,7 @@ namespace BitTorrent
         virtual bool hasTag(const Tag &tag) const = 0;
         virtual bool addTag(const Tag &tag) = 0;
         virtual bool removeTag(const Tag &tag) = 0;
-        virtual void removeAllTags() = 0;
+        virtual void clearTags() = 0;
 
         virtual int piecesCount() const = 0;
         virtual int piecesHave() const = 0;
@@ -224,14 +219,9 @@ namespace BitTorrent
         virtual qlonglong timeSinceActivity() const = 0;
 
         // Share limits
-        virtual qreal ratioLimit() const = 0;
-        virtual void setRatioLimit(qreal limit) = 0;
-        virtual int seedingTimeLimit() const = 0;
-        virtual void setSeedingTimeLimit(int limit) = 0;
-        virtual int inactiveSeedingTimeLimit() const = 0;
-        virtual void setInactiveSeedingTimeLimit(int limit) = 0;
-        virtual ShareLimitAction shareLimitAction() const = 0;
-        virtual void setShareLimitAction(ShareLimitAction action) = 0;
+        virtual const ShareLimits &shareLimits() const = 0;
+        virtual void setShareLimits(ShareLimits shareLimits) = 0;
+        virtual ShareLimits effectiveShareLimits() const = 0;
 
         virtual PathList filePaths() const = 0;
         virtual PathList actualFilePaths() const = 0;
@@ -273,14 +263,8 @@ namespace BitTorrent
         virtual bool isDHTDisabled() const = 0;
         virtual bool isPEXDisabled() const = 0;
         virtual bool isLSDDisabled() const = 0;
-        virtual QList<PeerInfo> peers() const = 0;
         virtual QBitArray pieces() const = 0;
-        virtual QBitArray downloadingPieces() const = 0;
-        virtual QList<int> pieceAvailability() const = 0;
         virtual qreal distributedCopies() const = 0;
-        virtual qreal maxRatio() const = 0;
-        virtual int maxSeedingTime() const = 0;
-        virtual int maxInactiveSeedingTime() const = 0;
         virtual qreal realRatio() const = 0;
         virtual qreal popularity() const = 0;
         virtual int uploadPayloadRate() const = 0;
@@ -290,6 +274,7 @@ namespace BitTorrent
         virtual int connectionsCount() const = 0;
         virtual int connectionsLimit() const = 0;
         virtual qlonglong nextAnnounce() const = 0;
+        virtual TorrentAnnounceStatus announceStatus() const = 0;
 
         virtual void setName(const QString &name) = 0;
         virtual void setSequentialDownload(bool enable) = 0;
@@ -323,10 +308,10 @@ namespace BitTorrent
         virtual nonstd::expected<QByteArray, QString> exportToBuffer() const = 0;
         virtual nonstd::expected<void, QString> exportToFile(const Path &path) const = 0;
 
-        virtual void fetchPeerInfo(std::function<void (QList<PeerInfo>)> resultHandler) const = 0;
-        virtual void fetchURLSeeds(std::function<void (QList<QUrl>)> resultHandler) const = 0;
-        virtual void fetchPieceAvailability(std::function<void (QList<int>)> resultHandler) const = 0;
-        virtual void fetchDownloadingPieces(std::function<void (QBitArray)> resultHandler) const = 0;
+        virtual QFuture<QList<PeerInfo>> fetchPeerInfo() const = 0;
+        virtual QFuture<QList<QUrl>> fetchURLSeeds() const = 0;
+        virtual QFuture<QList<int>> fetchPieceAvailability() const = 0;
+        virtual QFuture<QBitArray> fetchDownloadingPieces() const = 0;
 
         TorrentID id() const;
         bool isRunning() const;

@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2018  Mike Tzou
+ * Copyright (C) 2018-2025  Mike Tzou (Chocobo1)
  * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
@@ -32,11 +32,13 @@
 #include <QString>
 
 #include "base/global.h"
+#include "base/path.h"
 #include "base/utils/version.h"
 
 namespace Utils::ForeignApps
 {
     inline const QString PYTHON_ISOLATE_MODE_FLAG = u"-I"_s;
+    inline const QString PYTHON_UTF8_MODE_FLAG = u"-Xutf8=1"_s;
 
     struct PythonInfo
     {
@@ -45,8 +47,10 @@ namespace Utils::ForeignApps
         bool isValid() const;
         bool isSupportedVersion() const;
 
-        QString executableName;
+        Path executablePath;
         Version version;
+
+        inline static const Version MINIMUM_SUPPORTED_VERSION {3, 13, 0};
     };
 
     PythonInfo pythonInfo();

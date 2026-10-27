@@ -11,32 +11,33 @@ concurrency:
 jobs:
   ci:
     name: Check
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     permissions:
       security-events: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Setup python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "*"
 
       - name: Check files
-        uses: pre-commit/action@v3.0.1
+        uses: j178/prek-action@v2
 
       - name: Check doc
         env:
           pandoc_path: "${{ github.workspace }}/../pandoc"
+          pandoc_version: "3.9.0.2"
         run: |
           # install pandoc
           curl \
             -L \
             -o "${{ runner.temp }}/pandoc.tar.gz" \
-            "https://github.com/jgm/pandoc/releases/download/3.6/pandoc-3.6-linux-amd64.tar.gz"
+            "https://github.com/jgm/pandoc/releases/download/${{ env.pandoc_version }}/pandoc-${{ env.pandoc_version }}-linux-amd64.tar.gz"
           tar -xf "${{ runner.temp }}/pandoc.tar.gz" -C "${{ github.workspace }}/.."
           mv "${{ github.workspace }}/.."/pandoc-* "${{ env.pandoc_path }}"
           # run pandoc
@@ -51,21 +52,21 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pip install zizmor
-          IGNORE_RULEID='(.ruleId != "template-injection")
-            and (.ruleId != "unpinned-uses")'
-          IGNORE_ID='(.id != "template-injection")
-            and (.id != "unpinned-uses")'
+          pip install zizmor==1.29.0
+          IGNORE_RULEID='(.ruleId != "zizmor/template-injection")
+            and (.ruleId != "zizmor/unpinned-uses")'
+          IGNORE_ID='(.id != "zizmor/template-injection")
+            and (.id != "zizmor/unpinned-uses")'
           zizmor \
             --format sarif \
-            --pedantic \
+            --persona auditor \
             ./ \
             | jq "(.runs[].results |= map(select($IGNORE_RULEID)))
               | (.runs[].tool.driver.rules |= map(select($IGNORE_ID)))" \
             > "${{ runner.temp }}/zizmor_results.sarif"
 
       - name: Upload zizmor results
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           category: zizmor
           sarif_file: "${{ runner.temp }}/zizmor_results.sarif"

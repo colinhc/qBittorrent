@@ -33,6 +33,7 @@
 #include <QtSystemDetection>
 #include <QObject>
 
+#include "base/net/smtpencryptiontype.h"
 #include "base/pathfwd.h"
 #include "base/utils/net.h"
 
@@ -73,19 +74,6 @@ namespace DNS
     Q_ENUM_NS(Service)
 }
 
-namespace TrayIcon
-{
-    Q_NAMESPACE
-
-    enum class Style : int
-    {
-        Normal = 0,
-        MonoDark = 1,
-        MonoLight = 2
-    };
-    Q_ENUM_NS(Style)
-}
-
 class Preferences final : public QObject
 {
     Q_OBJECT
@@ -113,27 +101,35 @@ public:
     void showSpeedInTitleBar(bool show);
     bool useAlternatingRowColors() const;
     void setAlternatingRowColors(bool b);
+    bool useTorrentStatesColors() const;
+    void setUseTorrentStatesColors(bool value);
+    bool getProgressBarFollowsTextColor() const;
+    void setProgressBarFollowsTextColor(bool value);
     bool getHideZeroValues() const;
     void setHideZeroValues(bool b);
     int getHideZeroComboValues() const;
     void setHideZeroComboValues(int n);
     bool isStatusbarDisplayed() const;
     void setStatusbarDisplayed(bool displayed);
+    bool isStatusbarFreeDiskSpaceDisplayed() const;
+    void setStatusbarFreeDiskSpaceDisplayed(bool displayed);
     bool isStatusbarExternalIPDisplayed() const;
     void setStatusbarExternalIPDisplayed(bool displayed);
     bool isToolbarDisplayed() const;
     void setToolbarDisplayed(bool displayed);
+    bool isTorrentContentDragEnabled() const;
+    void setTorrentContentDragEnabled(bool enabled);
     bool isSplashScreenDisabled() const;
     void setSplashScreenDisabled(bool b);
     bool preventFromSuspendWhenDownloading() const;
     void setPreventFromSuspendWhenDownloading(bool b);
     bool preventFromSuspendWhenSeeding() const;
     void setPreventFromSuspendWhenSeeding(bool b);
+    QString getStyle() const;
+    void setStyle(const QString &styleName);
 #ifdef Q_OS_WIN
     bool WinStartup() const;
     void setWinStartup(bool b);
-    QString getStyle() const;
-    void setStyle(const QString &styleName);
 #endif
 
     // Downloads
@@ -147,8 +143,8 @@ public:
     void setMailNotificationEmail(const QString &mail);
     QString getMailNotificationSMTP() const;
     void setMailNotificationSMTP(const QString &smtpServer);
-    bool getMailNotificationSMTPSSL() const;
-    void setMailNotificationSMTPSSL(bool use);
+    Net::SMTPEncryptionType getMailNotificationSMTPEncryptionType() const;
+    void setMailNotificationSMTPEncryptionType(Net::SMTPEncryptionType mailEncryptionType);
     bool getMailNotificationSMTPAuth() const;
     void setMailNotificationSMTPAuth(bool use);
     QString getMailNotificationSMTPUsername() const;
@@ -175,10 +171,12 @@ public:
     // Search UI
     int searchHistoryLength() const;
     void setSearchHistoryLength(int length);
-    bool storeOpenedSearchTabs() const;
-    void setStoreOpenedSearchTabs(bool enabled);
-    bool storeOpenedSearchTabResults() const;
-    void setStoreOpenedSearchTabResults(bool enabled);
+    bool storeSearchJobs() const;
+    void setStoreSearchJobs(bool enabled);
+    bool storeSearchJobResults() const;
+    void setStoreSearchJobResults(bool enabled);
+    bool closeSearchTabWithMiddleClick() const;
+    void setCloseSearchTabWithMiddleClick(bool enabled);
 
     // HTTP Server
     bool isWebUIEnabled() const;
@@ -203,14 +201,16 @@ public:
     void setWebUIUsername(const QString &username);
     QByteArray getWebUIPassword() const;
     void setWebUIPassword(const QByteArray &password);
+    QString getWebUIApiKey() const;
+    void setWebUIApiKey(const QString &apiKey);
     int getWebUIMaxAuthFailCount() const;
     void setWebUIMaxAuthFailCount(int count);
     std::chrono::seconds getWebUIBanDuration() const;
     void setWebUIBanDuration(std::chrono::seconds duration);
     int getWebUISessionTimeout() const;
     void setWebUISessionTimeout(int timeout);
-    QString getWebAPISessionCookieName() const;
-    void setWebAPISessionCookieName(const QString &cookieName);
+    int getWebUISessionsCountLimit() const;
+    void setWebUISessionsCountLimit(int limit);
 
     // WebUI security
     bool isWebUIClickjackingProtectionEnabled() const;
@@ -279,6 +279,8 @@ public:
 
     bool shutdownWhenDownloadsComplete() const;
     void setShutdownWhenDownloadsComplete(bool shutdown);
+    bool rebootWhenDownloadsComplete() const;
+    void setRebootWhenDownloadsComplete(bool reboot);
     bool suspendWhenDownloadsComplete() const;
     void setSuspendWhenDownloadsComplete(bool suspend);
     bool hibernateWhenDownloadsComplete() const;
@@ -313,6 +315,12 @@ public:
     bool isUpdateCheckEnabled() const;
     void setUpdateCheckEnabled(bool enabled);
 #endif
+#ifdef Q_OS_MACOS
+    bool isSpeedInDockEnabled() const;
+    void setSpeedInDockEnabled(bool enabled);
+    bool isMacOSMenuBarIconEnabled() const;
+    void setMacOSMenuBarIconEnabled(bool enabled);
+#endif
     bool confirmTorrentDeletion() const;
     void setConfirmTorrentDeletion(bool enabled);
     bool confirmTorrentRecheck() const;
@@ -334,8 +342,6 @@ public:
     void setCloseToTray(bool b);
     bool closeToTrayNotified() const;
     void setCloseToTrayNotified(bool b);
-    TrayIcon::Style trayIconStyle() const;
-    void setTrayIconStyle(TrayIcon::Style style);
     bool iconsInMenusEnabled() const;
     void setIconsInMenusEnabled(bool enable);
 #endif // Q_OS_MACOS
@@ -374,6 +380,8 @@ public:
     void setTrackerListState(const QByteArray &state);
     QStringList getRssOpenFolders() const;
     void setRssOpenFolders(const QStringList &folders);
+    QByteArray getRssFeedListState() const;
+    void setRssFeedListState(const QByteArray &state);
     QByteArray getRssSideSplitterState() const;
     void setRssSideSplitterState(const QByteArray &state);
     QByteArray getRssMainSplitterState() const;
@@ -392,6 +400,9 @@ public:
     bool getCategoryFilterState() const;
     bool getTagFilterState() const;
     bool getTrackerFilterState() const;
+    bool getTrackerStatusFilterState() const;
+    bool useSeparateTrackerStatusFilter() const;
+    void setUseSeparateTrackerStatusFilter(bool value);
     int getTransSelFilter() const;
     void setTransSelFilter(int index);
     bool getHideZeroStatusFilters() const;
@@ -441,6 +452,7 @@ public slots:
     void setCategoryFilterState(bool checked);
     void setTagFilterState(bool checked);
     void setTrackerFilterState(bool checked);
+    void setTrackerStatusFilterState(bool checked);
 
     void apply();
 

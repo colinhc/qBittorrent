@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2022-2024  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2022-2025  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
@@ -32,6 +32,7 @@
 #include <QClipboard>
 #include <QDateTime>
 #include <QDebug>
+#include <QFuture>
 #include <QListWidgetItem>
 #include <QMenu>
 #include <QMessageBox>
@@ -56,6 +57,7 @@
 #include "gui/trackerlist/trackerlistwidget.h"
 #include "gui/uithememanager.h"
 #include "gui/utils.h"
+#include "gui/utils/keysequence.h"
 #include "downloadedpiecesbar.h"
 #include "peerlistwidget.h"
 #include "pieceavailabilitybar.h"
@@ -81,9 +83,10 @@ PropertiesWidget::PropertiesWidget(QWidget *parent)
     m_contentFilterLine->setFixedWidth(300);
     m_contentFilterLine->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_contentFilterLine, &QWidget::customContextMenuRequested, this, &PropertiesWidget::showContentFilterContextMenu);
-    connect(m_contentFilterLine, &LineEdit::textChanged, this, &PropertiesWidget::setContentFilterPattern);
+    connect(m_contentFilterLine, &LineEdit::textUpdated, this, &PropertiesWidget::setContentFilterPattern);
     m_ui->contentFilterLayout->insertWidget(3, m_contentFilterLine);
 
+    m_ui->filesList->setContentDragAllowed(true);
     m_ui->filesList->setDoubleClickAction(TorrentContentWidget::DoubleClickAction::Open);
     m_ui->filesList->setOpenByEnterKey(true);
 
@@ -93,7 +96,6 @@ PropertiesWidget::PropertiesWidget(QWidget *parent)
     connect(m_ui->listWebSeeds, &QWidget::customContextMenuRequested, this, &PropertiesWidget::displayWebSeedListMenu);
     connect(m_ui->stackedProperties, &QStackedWidget::currentChanged, this, &PropertiesWidget::loadDynamicData);
     connect(BitTorrent::Session::instance(), &BitTorrent::Session::torrentSavePathChanged, this, &PropertiesWidget::updateSavePath);
-    connect(BitTorrent::Session::instance(), &BitTorrent::Session::torrentMetadataReceived, this, &PropertiesWidget::updateTorrentInfos);
     connect(m_ui->filesList, &TorrentContentWidget::stateChanged, this, &PropertiesWidget::saveSettings);
 
     // set bar height relative to screen dpi
@@ -136,7 +138,7 @@ PropertiesWidget::PropertiesWidget(QWidget *parent)
 
     const auto *editWebSeedsHotkey = new QShortcut(Qt::Key_F2, m_ui->listWebSeeds, nullptr, nullptr, Qt::WidgetShortcut);
     connect(editWebSeedsHotkey, &QShortcut::activated, this, &PropertiesWidget::editWebSeed);
-    const auto *deleteWebSeedsHotkey = new QShortcut(QKeySequence::Delete, m_ui->listWebSeeds, nullptr, nullptr, Qt::WidgetShortcut);
+    const auto *deleteWebSeedsHotkey = new QShortcut(Utils::KeySequence::deleteItem(), m_ui->listWebSeeds, nullptr, nullptr, Qt::WidgetShortcut);
     connect(deleteWebSeedsHotkey, &QShortcut::activated, this, &PropertiesWidget::deleteSelectedUrlSeeds);
     connect(m_ui->listWebSeeds, &QListWidget::doubleClicked, this, &PropertiesWidget::editWebSeed);
 
@@ -298,12 +300,6 @@ void PropertiesWidget::showContentFilterContextMenu()
 void PropertiesWidget::setContentFilterPattern()
 {
     m_ui->filesList->setFilterPattern(m_contentFilterLine->text(), m_storeFilterPatternFormat.get(FilterPatternFormat::Wildcards));
-}
-
-void PropertiesWidget::updateTorrentInfos(BitTorrent::Torrent *const torrent)
-{
-    if (torrent == m_torrent)
-        loadTorrentInfos(m_torrent);
 }
 
 void PropertiesWidget::loadTorrentInfos(BitTorrent::Torrent *const torrent)
@@ -470,17 +466,17 @@ void PropertiesWidget::loadDynamicData()
 
             if (m_torrent->hasMetadata())
             {
-                using TorrentPtr = QPointer<BitTorrent::Torrent>;
-
                 m_ui->labelTotalPiecesVal->setText(tr("%1 x %2 (have %3)", "(torrent pieces) eg 152 x 4MB (have 25)").arg(m_torrent->piecesCount()).arg(Utils::Misc::friendlyUnit(m_torrent->pieceLength())).arg(m_torrent->piecesHave()));
 
                 if (!m_torrent->isFinished() && !m_torrent->isStopped() && !m_torrent->isQueued() && !m_torrent->isChecking())
                 {
                     // Pieces availability
                     showPiecesAvailability(true);
-                    m_torrent->fetchPieceAvailability([this, torrent = TorrentPtr(m_torrent)](const QList<int> &pieceAvailability)
+
+                    m_torrent->fetchPieceAvailability().then(this
+                            , [this, torrent = QPointer(m_torrent)](const QList<int> &pieceAvailability)
                     {
-                        if (torrent == m_torrent)
+                        if (m_torrent && (m_torrent == torrent))
                             m_piecesAvailability->setAvailability(pieceAvailability);
                     });
 
@@ -495,9 +491,10 @@ void PropertiesWidget::loadDynamicData()
                 qreal progress = m_torrent->progress() * 100.;
                 m_ui->labelProgressVal->setText(Utils::String::fromDouble(progress, 1) + u'%');
 
-                m_torrent->fetchDownloadingPieces([this, torrent = TorrentPtr(m_torrent)](const QBitArray &downloadingPieces)
+                m_torrent->fetchDownloadingPieces().then(this
+                        , [this, torrent = QPointer(m_torrent)](const QBitArray &downloadingPieces)
                 {
-                    if (torrent == m_torrent)
+                    if (m_torrent && (m_torrent == torrent))
                         m_downloadedPieces->setProgress(m_torrent->pieces(), downloadingPieces);
                 });
             }
@@ -523,10 +520,9 @@ void PropertiesWidget::loadUrlSeeds()
     if (!m_torrent)
         return;
 
-    using TorrentPtr = QPointer<BitTorrent::Torrent>;
-    m_torrent->fetchURLSeeds([this, torrent = TorrentPtr(m_torrent)](const QList<QUrl> &urlSeeds)
+    m_torrent->fetchURLSeeds().then(this, [this, torrent = QPointer(m_torrent)](const QList<QUrl> &urlSeeds)
     {
-        if (torrent != m_torrent)
+        if (!m_torrent || (m_torrent != torrent))
             return;
 
         m_ui->listWebSeeds->clear();
@@ -567,8 +563,13 @@ void PropertiesWidget::displayWebSeedListMenu()
 
 void PropertiesWidget::configure()
 {
+    const auto *preferences = Preferences::instance();
+
+    // Torrent Content Widget
+    m_ui->filesList->setContentDragEnabled(preferences->isTorrentContentDragEnabled());
+
     // Speed widget
-    if (Preferences::instance()->isSpeedWidgetEnabled())
+    if (preferences->isSpeedWidgetEnabled())
     {
         if (!qobject_cast<SpeedWidget *>(m_speedWidget))
         {
@@ -592,10 +593,11 @@ void PropertiesWidget::configure()
                 delete m_speedWidget;
             }
 
-            const auto displayText = u"<center><b>%1</b><p>%2</p></center>"_s
+            const auto displayText = u"<center><b>%1</b><p><a href=\"#\">%2</a></p></center>"_s
                 .arg(tr("Speed graphs are disabled"), tr("You can enable it in Advanced Options"));
             auto *label = new QLabel(displayText, this);
             label->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+            connect(label, &QLabel::linkActivated, this, &PropertiesWidget::openAdvancedSettingsLinkActivated);
             m_speedWidget = label;
             m_ui->speedLayout->addWidget(m_speedWidget);
         }

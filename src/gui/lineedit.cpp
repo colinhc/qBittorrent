@@ -33,6 +33,7 @@
 
 #include <QAction>
 #include <QKeyEvent>
+#include <QPalette>
 #include <QTimer>
 
 #include "base/global.h"
@@ -55,10 +56,16 @@ LineEdit::LineEdit(QWidget *parent)
     setClearButtonEnabled(true);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
+#ifdef Q_OS_MACOS
+    QPalette pal = palette();
+    pal.setBrush(QPalette::Base, Qt::transparent);
+    setPalette(pal);
+#endif
+
     m_delayedTextChangedTimer->setSingleShot(true);
     connect(m_delayedTextChangedTimer, &QTimer::timeout, this, [this]
     {
-        emit textChanged(text());
+        emit textUpdated(text());
     });
     connect(this, &QLineEdit::textChanged, this, [this]
     {

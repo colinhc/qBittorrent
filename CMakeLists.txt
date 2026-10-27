@@ -8,7 +8,7 @@ project(qBittorrent
 
 # version requirements - older versions may work, but you are on your own
 set(minBoostVersion 1.76)
-set(minQt6Version 6.5.0)
+set(minQt6Version 6.6.0)
 set(minOpenSSLVersion 3.0.2)
 set(minLibtorrent1Version 1.2.19)
 set(minLibtorrentVersion 2.0.10)
@@ -23,6 +23,7 @@ include(FeatureOptionsSetup)
 # features, list is loosely sorted by user's interests
 feature_option(GUI "Build GUI application" ON)
 feature_option(WEBUI "Enable built-in HTTP server for remote control" ON)
+feature_option(PLUGINS "Enable built-in Lua plugins engine" ON)
 feature_option(STACKTRACE "Enable stacktrace support" ON)
 feature_option(TESTING "Build internal testing suite" OFF)
 feature_option(VERBOSE_CONFIGURE "Show information about PACKAGES_FOUND and PACKAGES_NOT_FOUND in the configure output (only useful for debugging the CMake build scripts)" OFF)

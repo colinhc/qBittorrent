@@ -21,34 +21,43 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Setup nodejs
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 'lts/*'
 
       - name: Install tools
         run: |
-          npm install
+          npm install --allow-remote=root
           npm ls
+          echo "::group::npm ls --all"
           npm ls --all
+          echo "::endgroup::"
+
+      - name: Run tests
+        run: npm test
 
       - name: Lint code
+        if: ${{ !cancelled() }}
         run: npm run lint
 
       - name: Format code
+        if: ${{ !cancelled() }}
         run: |
           npm run format
           git diff --exit-code
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
+        if: ${{ !cancelled() }}
         with:
           config-file: .github/workflows/helper/codeql/js.yaml
           languages: javascript
 
       - name: Run CodeQL analysis
-        uses: github/codeql-action/analyze@v3
+        if: ${{ !cancelled() }}
+        uses: github/codeql-action/analyze@v4

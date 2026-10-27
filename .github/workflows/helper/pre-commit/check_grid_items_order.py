@@ -26,12 +26,12 @@
 # but you are not obligated to do so. If you do not wish to do so, delete this
 # exception statement from your version.
 
-from collections.abc import Callable, Sequence
-from typing import Optional
 import argparse
 import re
-import xml.etree.ElementTree as ElementTree
 import sys
+from collections.abc import Callable, Sequence
+from typing import Optional
+from xml.etree import ElementTree
 
 
 def traversePostOrder(root: ElementTree.Element, visitFunc: Callable[[ElementTree.Element], None]) -> None:
@@ -66,7 +66,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     args = parser.parse_args(argv)
 
     for filename in args.filenames:
-        with open(filename, 'r+') as f:
+        with open(filename, 'r+', encoding='utf-8') as f:
             orig = f.read()
             root = ElementTree.fromstring(orig)
             traversePostOrder(root, modifyElement)

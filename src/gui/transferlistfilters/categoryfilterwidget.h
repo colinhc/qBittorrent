@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2016  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2016-2025  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,6 +43,7 @@ public:
 signals:
     void categoryChanged(const QString &categoryName);
     void actionStartTorrentsTriggered();
+    void actionForceStartTorrentsTriggered();
     void actionStopTorrentsTriggered();
     void actionDeleteTorrentsTriggered();
 
@@ -60,6 +61,6 @@ private:
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
     void rowsInserted(const QModelIndex &parent, int start, int end) override;
-
-    int m_defaultIndentation;
+    bool hasAnySubcategory() const;
+    void adjustIndentation();
 };

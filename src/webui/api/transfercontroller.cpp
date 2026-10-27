@@ -49,6 +49,10 @@ const QString KEY_TRANSFER_LAST_EXTERNAL_ADDRESS_V4 = u"last_external_address_v4
 const QString KEY_TRANSFER_LAST_EXTERNAL_ADDRESS_V6 = u"last_external_address_v6"_s;
 const QString KEY_TRANSFER_DHT_NODES = u"dht_nodes"_s;
 const QString KEY_TRANSFER_CONNECTION_STATUS = u"connection_status"_s;
+const QString KEY_TRANSFER_UP_LIMIT = u"up_limit"_s;
+const QString KEY_TRANSFER_DL_LIMIT = u"dl_limit"_s;
+const QString KEY_TRANSFER_ALT_UP_LIMIT = u"alt_up_limit"_s;
+const QString KEY_TRANSFER_ALT_DL_LIMIT = u"alt_dl_limit"_s;
 
 // Returns the global transfer information in JSON format.
 // The return value is a JSON-formatted dictionary.
@@ -104,6 +108,8 @@ void TransferController::setUploadLimitAction()
     if (limit == 0) limit = -1;
 
     BitTorrent::Session::instance()->setUploadSpeedLimit(limit);
+
+    setResult(QString());
 }
 
 void TransferController::setDownloadLimitAction()
@@ -113,12 +119,42 @@ void TransferController::setDownloadLimitAction()
     if (limit == 0) limit = -1;
 
     BitTorrent::Session::instance()->setDownloadSpeedLimit(limit);
+
+    setResult(QString());
+}
+
+void TransferController::getSpeedLimitsAction()
+{
+    const auto *session = BitTorrent::Session::instance();
+
+    const QJsonObject dict {
+        {KEY_TRANSFER_UP_LIMIT, session->globalUploadSpeedLimit()},
+        {KEY_TRANSFER_DL_LIMIT, session->globalDownloadSpeedLimit()},
+        {KEY_TRANSFER_ALT_UP_LIMIT, session->altGlobalUploadSpeedLimit()},
+        {KEY_TRANSFER_ALT_DL_LIMIT, session->altGlobalDownloadSpeedLimit()}
+    };
+
+    setResult(dict);
+}
+
+void TransferController::setSpeedLimitsAction()
+{
+    requireParams({KEY_TRANSFER_UP_LIMIT, KEY_TRANSFER_DL_LIMIT, KEY_TRANSFER_ALT_UP_LIMIT, KEY_TRANSFER_ALT_DL_LIMIT});
+
+    BitTorrent::Session *const session = BitTorrent::Session::instance();
+
+    session->setGlobalUploadSpeedLimit(params().value(KEY_TRANSFER_UP_LIMIT).toInt());
+    session->setGlobalDownloadSpeedLimit(params().value(KEY_TRANSFER_DL_LIMIT).toInt());
+    session->setAltGlobalUploadSpeedLimit(params().value(KEY_TRANSFER_ALT_UP_LIMIT).toInt());
+    session->setAltGlobalDownloadSpeedLimit(params().value(KEY_TRANSFER_ALT_DL_LIMIT).toInt());
 }
 
 void TransferController::toggleSpeedLimitsModeAction()
 {
     BitTorrent::Session *const session = BitTorrent::Session::instance();
     session->setAltGlobalSpeedLimitEnabled(!session->isAltGlobalSpeedLimitEnabled());
+
+    setResult(QString());
 }
 
 void TransferController::speedLimitsModeAction()
@@ -136,6 +172,8 @@ void TransferController::setSpeedLimitsModeAction()
 
     // Any non-zero values are considered as alternative mode
     BitTorrent::Session::instance()->setAltGlobalSpeedLimitEnabled(mode != 0);
+
+    setResult(QString());
 }
 
 void TransferController::banPeersAction()
@@ -149,4 +187,16 @@ void TransferController::banPeersAction()
         if (!addr.ip.isNull())
             BitTorrent::Session::instance()->banIP(addr.ip.toString());
     }
+
+    setResult(QString());
+}
+
+void TransferController::pauseSessionAction()
+{
+    BitTorrent::Session::instance()->pause();
+}
+
+void TransferController::resumeSessionAction()
+{
+    BitTorrent::Session::instance()->resume();
 }

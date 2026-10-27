@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2022-2024  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2022-2026  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2014  Ivan Sorokin <vanyacpp@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
@@ -29,6 +29,8 @@
 
 #include "torrentcontentwidget.h"
 
+#include <QApplication>
+#include <QClipboard>
 #include <QDir>
 #include <QHeaderView>
 #include <QKeyEvent>
@@ -36,6 +38,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QModelIndexList>
+#include <QSet>
 #include <QShortcut>
 #include <QWheelEvent>
 
@@ -46,6 +49,7 @@
 #include "raisedmessagebox.h"
 #include "torrentcontentfiltermodel.h"
 #include "torrentcontentitemdelegate.h"
+#include "torrentcontentlayoutdialog.h"
 #include "torrentcontentmodel.h"
 #include "torrentcontentmodelitem.h"
 #include "uithememanager.h"
@@ -71,8 +75,9 @@ namespace
 TorrentContentWidget::TorrentContentWidget(QWidget *parent)
     : QTreeView(parent)
 {
-    setDragEnabled(true);
     setDragDropMode(QAbstractItemView::DragOnly);
+    setDragEnabled(false);
+    setSelectionMode(QAbstractItemView::MultiSelection);
     setExpandsOnDoubleClick(false);
     setSortingEnabled(true);
     setUniformRowHeights(true);
@@ -112,8 +117,6 @@ void TorrentContentWidget::setContentHandler(BitTorrent::TorrentContentHandler *
     m_model->setContentHandler(contentHandler);
     if (!contentHandler)
         return;
-
-    expandRecursively();
 }
 
 BitTorrent::TorrentContentHandler *TorrentContentWidget::contentHandler() const
@@ -224,6 +227,27 @@ void TorrentContentWidget::checkNone()
         model()->setData(model()->index(i, TorrentContentModelItem::COL_NAME), Qt::Unchecked, Qt::CheckStateRole);
 }
 
+void TorrentContentWidget::setContentDragAllowed(const bool allowed)
+{
+    m_contentDragAllowed = allowed;
+}
+
+void TorrentContentWidget::setContentDragEnabled(const bool enabled)
+{
+    m_contentDragEnabled = enabled;
+}
+
+void TorrentContentWidget::mousePressEvent(QMouseEvent *event)
+{
+    if (m_contentDragAllowed)
+    {
+        const bool hasAlt = event->modifiers().testFlag(Qt::AltModifier);
+        setDragEnabled(hasAlt ? !m_contentDragEnabled : m_contentDragEnabled);
+    }
+
+    QTreeView::mousePressEvent(event);
+}
+
 void TorrentContentWidget::keyPressEvent(QKeyEvent *event)
 {
     if ((event->key() != Qt::Key_Space) && (event->key() != Qt::Key_Select))
@@ -268,6 +292,19 @@ void TorrentContentWidget::renameSelectedFile()
         return;
 
     model()->setData(modelIndex, newName);
+}
+
+void TorrentContentWidget::batchRenameFiles()
+{
+    const QModelIndexList selectedRows = selectionModel()->selectedRows();
+    QSet<int> fileIndexes;
+    for (const QModelIndex &rowIndex : selectedRows)
+        fileIndexes.unite(m_filterModel->getFileIndexes(rowIndex));
+
+    auto *dialog = new TorrentContentLayoutDialog(m_model->contentHandler(), fileIndexes, this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    connect(m_model->contentHandler(), &QObject::destroyed, dialog, &QDialog::reject);
+    dialog->open();
 }
 
 void TorrentContentWidget::applyPriorities(const BitTorrent::DownloadPriority priority)
@@ -399,56 +436,39 @@ void TorrentContentWidget::displayContextMenu()
         if (!contentHandler()->actualStorageLocation().isEmpty())
         {
             menu->addAction(UIThemeManager::instance()->getIcon(u"folder-documents"_s), tr("Open")
-                            , this, [this, index]() { openItem(index); });
+                    , this, [this, index]() { openItem(index); });
             menu->addAction(UIThemeManager::instance()->getIcon(u"directory"_s), tr("Open containing folder")
-                            , this, [this, index]() { openParentFolder(index); });
+                    , this, [this, index]() { openParentFolder(index); });
+            menu->addAction(UIThemeManager::instance()->getIcon(u"edit-copy"_s), tr("Copy path")
+                    , this, [this, index]() { copyFullPath(index); });
         }
         menu->addAction(UIThemeManager::instance()->getIcon(u"edit-rename"_s), tr("Rename...")
-                        , this, &TorrentContentWidget::renameSelectedFile);
-        menu->addSeparator();
-
-        QMenu *subMenu = menu->addMenu(tr("Priority"));
-
-        subMenu->addAction(tr("Do not download"), this, [this]
-        {
-            applyPriorities(BitTorrent::DownloadPriority::Ignored);
-        });
-        subMenu->addAction(tr("Normal"), this, [this]
-        {
-            applyPriorities(BitTorrent::DownloadPriority::Normal);
-        });
-        subMenu->addAction(tr("High"), this, [this]
-        {
-            applyPriorities(BitTorrent::DownloadPriority::High);
-        });
-        subMenu->addAction(tr("Maximum"), this, [this]
-        {
-            applyPriorities(BitTorrent::DownloadPriority::Maximum);
-        });
-        subMenu->addSeparator();
-        subMenu->addAction(tr("By shown file order"), this, &TorrentContentWidget::applyPrioritiesByOrder);
+                , this, &TorrentContentWidget::renameSelectedFile);
     }
-    else
+
+    menu->addAction(UIThemeManager::instance()->getIcon(u"edit-rename"_s), tr("Batch rename...")
+            , this, &TorrentContentWidget::batchRenameFiles);
+    menu->addSeparator();
+
+    QMenu *subMenu = menu->addMenu(tr("Priority"));
+    subMenu->addAction(tr("Do not download"), this, [this]
     {
-        menu->addAction(tr("Do not download"), this, [this]
-        {
-            applyPriorities(BitTorrent::DownloadPriority::Ignored);
-        });
-        menu->addAction(tr("Normal priority"), this, [this]
-        {
-            applyPriorities(BitTorrent::DownloadPriority::Normal);
-        });
-        menu->addAction(tr("High priority"), this, [this]
-        {
-            applyPriorities(BitTorrent::DownloadPriority::High);
-        });
-        menu->addAction(tr("Maximum priority"), this, [this]
-        {
-            applyPriorities(BitTorrent::DownloadPriority::Maximum);
-        });
-        menu->addSeparator();
-        menu->addAction(tr("Priority by shown file order"), this, &TorrentContentWidget::applyPrioritiesByOrder);
-    }
+        applyPriorities(BitTorrent::DownloadPriority::Ignored);
+    });
+    subMenu->addAction(tr("Normal"), this, [this]
+    {
+        applyPriorities(BitTorrent::DownloadPriority::Normal);
+    });
+    subMenu->addAction(tr("High"), this, [this]
+    {
+        applyPriorities(BitTorrent::DownloadPriority::High);
+    });
+    subMenu->addAction(tr("Maximum"), this, [this]
+    {
+        applyPriorities(BitTorrent::DownloadPriority::Maximum);
+    });
+    subMenu->addSeparator();
+    subMenu->addAction(tr("By shown file order"), this, &TorrentContentWidget::applyPrioritiesByOrder);
 
     // The selected torrent might have disappeared during exec()
     // so we just close menu when an appropriate model is reset
@@ -470,7 +490,7 @@ void TorrentContentWidget::openItem(const QModelIndex &index) const
     Utils::Gui::openPath(getFullPath(index));
 }
 
-void TorrentContentWidget::openParentFolder(const QModelIndex &index) const
+void TorrentContentWidget::openParentFolder(const QModelIndex &index)
 {
     const Path path = getFullPath(index);
     m_model->contentHandler()->flushCache();  // Flush data
@@ -479,6 +499,12 @@ void TorrentContentWidget::openParentFolder(const QModelIndex &index) const
 #else
     Utils::Gui::openFolderSelect(path);
 #endif
+}
+
+void TorrentContentWidget::copyFullPath(const QModelIndex &index)
+{
+    const Path path = getFullPath(index);
+    QApplication::clipboard()->setText(path.toString());
 }
 
 Path TorrentContentWidget::getFullPath(const QModelIndex &index) const
@@ -533,4 +559,18 @@ void TorrentContentWidget::wheelEvent(QWheelEvent *event)
     }
 
     QTreeView::wheelEvent(event);  // event delegated to base class
+}
+
+void TorrentContentWidget::rowsInserted(const QModelIndex &parent, int start, int end)
+{
+    QTreeView::rowsInserted(parent, start, end);
+
+    // Expand all parents if the parent(s) of the node are not expanded.
+    QModelIndex p = parent;
+    while (p.isValid())
+    {
+        if (!isExpanded(p))
+            expand(p);
+        p = model()->parent(p);
+    }
 }

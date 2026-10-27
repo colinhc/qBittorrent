@@ -11,14 +11,14 @@ qBittorrent - A BitTorrent client in C++ / Qt
 
   - OpenSSL >= 3.0.2
 
-  - Qt 6.5.0 - 6.x
+  - Qt 6.6.0 - 6.x
 
   - zlib >= 1.2.11
 
   - CMake >= 3.16
       * Compile-time only
 
-  - Python >= 3.9.0
+  - Python >= 3.13.0
       * Optional, run-time only
       * Used by the bundled search engine
 

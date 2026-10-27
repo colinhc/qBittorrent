@@ -38,7 +38,7 @@
 #include <QString>
 
 #include "base/3rdparty/expected.hpp"
-#include "base/path.h"
+#include "base/pathfwd.h"
 #include "torrentinfo.h"
 
 class QByteArray;
@@ -63,18 +63,22 @@ namespace BitTorrent
         QList<QUrl> urlSeeds() const;
         const std::optional<TorrentInfo> &info() const;
 
+        QString source() const;
+
         void setTorrentInfo(TorrentInfo torrentInfo);
 
         static nonstd::expected<TorrentDescriptor, QString> load(const QByteArray &data) noexcept;
         static nonstd::expected<TorrentDescriptor, QString> loadFromFile(const Path &path) noexcept;
         static nonstd::expected<TorrentDescriptor, QString> parse(const QString &str) noexcept;
         nonstd::expected<void, QString> saveToFile(const Path &path) const;
+        nonstd::expected<QByteArray, QString> saveToBuffer() const;
 
         const lt::add_torrent_params &ltAddTorrentParams() const;
 
     private:
         explicit TorrentDescriptor(lt::add_torrent_params ltAddTorrentParams);
 
+        QString m_source;
         lt::add_torrent_params m_ltAddTorrentParams;
         std::optional<TorrentInfo> m_info;
         QDateTime m_creationDate;

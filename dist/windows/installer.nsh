@@ -51,7 +51,7 @@ Section $(inst_qbt_req) ;"qBittorrent (required)"
   WriteRegStr HKLM "Software\Classes\magnet" "Content Type" "application/x-magnet"
   WriteRegStr HKLM "Software\Classes\magnet" "URL Protocol" ""
 
-  System::Call 'Shell32::SHChangeNotify(i ${SHCNE_ASSOCCHANGED}, i ${SHCNF_IDLIST}, p 0, p 0)'
+  System::Call 'shell32::SHChangeNotify(i ${SHCNE_ASSOCCHANGED}, i ${SHCNF_IDLIST}, p 0, p 0)'
 
   ; Write the uninstall keys for Windows
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\qBittorrent" "DisplayName" "qBittorrent"
@@ -124,6 +124,14 @@ Function .onInit
 
   ${IfNot} ${RunningX64}
     MessageBox MB_OK|MB_ICONEXCLAMATION $(inst_requires_64bit) /SD IDOK
+    SetErrorLevel 1654 # WinError.h: `ERROR_INSTALL_REJECTED`
+    Abort
+  ${EndIf}
+
+  ; check installer and current system architecture
+  ${If} "${QBT_CPU_ARCH}" == "arm64"
+  ${AndIf} ${IsNativeAMD64}  ; installing arm64 binary on x64
+    MessageBox MB_OK|MB_ICONEXCLAMATION $(inst_arch_mismatch_arm64_on_x64) /SD IDOK
     SetErrorLevel 1654 # WinError.h: `ERROR_INSTALL_REJECTED`
     Abort
   ${EndIf}

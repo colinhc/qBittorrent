@@ -18,15 +18,17 @@ qt_wrap_ui(UI_HEADERS
     properties/peersadditiondialog.ui
     properties/propertieswidget.ui
     rss/automatedrssdownloader.ui
+    rss/rssfeeddialog.ui
     rss/rsswidget.ui
-    search/pluginselectdialog.ui
-    search/pluginsourcedialog.ui
     search/searchjobwidget.ui
+    search/searchpluginselectdialog.ui
+    search/searchpluginsourcedialog.ui
     search/searchwidget.ui
     shutdownconfirmdialog.ui
     speedlimitdialog.ui
     statsdialog.ui
     torrentcategorydialog.ui
+    torrentcontentlayoutdialog.ui
     torrentcreatordialog.ui
     torrentoptionsdialog.ui
     torrentsharelimitswidget.ui
@@ -69,6 +71,7 @@ add_library(qbt_gui STATIC
     log/logmodel.h
     mainwindow.h
     optionsdialog.h
+    powermanagement/inhibitor.h
     powermanagement/powermanagement.h
     previewlistdelegate.h
     previewselectdialog.h
@@ -88,10 +91,11 @@ add_library(qbt_gui STATIC
     rss/automatedrssdownloader.h
     rss/feedlistwidget.h
     rss/htmlbrowser.h
+    rss/rssfeeddialog.h
     rss/rsswidget.h
-    search/pluginselectdialog.h
-    search/pluginsourcedialog.h
     search/searchjobwidget.h
+    search/searchpluginselectdialog.h
+    search/searchpluginsourcedialog.h
     search/searchsortmodel.h
     search/searchwidget.h
     shutdownconfirmdialog.h
@@ -101,6 +105,8 @@ add_library(qbt_gui STATIC
     torrentcategorydialog.h
     torrentcontentfiltermodel.h
     torrentcontentitemdelegate.h
+    torrentcontentlayoutdialog.h
+    torrentcontentlayoutmodel.h
     torrentcontentmodel.h
     torrentcontentmodelfile.h
     torrentcontentmodelfolder.h
@@ -126,10 +132,13 @@ add_library(qbt_gui STATIC
     transferlistfilters/tagfilterproxymodel.h
     transferlistfilters/tagfilterwidget.h
     transferlistfilters/trackersfilterwidget.h
+    transferlistfilters/trackerstatusfilterwidget.h
     transferlistfilterswidget.h
+    transferlistfilterswidgetitem.h
     transferlistmodel.h
     transferlistsortmodel.h
     transferlistwidget.h
+    trayiconstyle.h
     tristateaction.h
     tristatewidget.h
     uithemecommon.h
@@ -137,6 +146,7 @@ add_library(qbt_gui STATIC
     uithememanager.h
     uithemesource.h
     utils.h
+    utils/keysequence.h
     watchedfolderoptionsdialog.h
     watchedfoldersmodel.h
     windowstate.h
@@ -167,6 +177,7 @@ add_library(qbt_gui STATIC
     log/logmodel.cpp
     mainwindow.cpp
     optionsdialog.cpp
+    powermanagement/inhibitor.cpp
     powermanagement/powermanagement.cpp
     previewlistdelegate.cpp
     previewselectdialog.cpp
@@ -186,10 +197,11 @@ add_library(qbt_gui STATIC
     rss/automatedrssdownloader.cpp
     rss/feedlistwidget.cpp
     rss/htmlbrowser.cpp
+    rss/rssfeeddialog.cpp
     rss/rsswidget.cpp
-    search/pluginselectdialog.cpp
-    search/pluginsourcedialog.cpp
     search/searchjobwidget.cpp
+    search/searchpluginselectdialog.cpp
+    search/searchpluginsourcedialog.cpp
     search/searchsortmodel.cpp
     search/searchwidget.cpp
     shutdownconfirmdialog.cpp
@@ -199,6 +211,8 @@ add_library(qbt_gui STATIC
     torrentcategorydialog.cpp
     torrentcontentfiltermodel.cpp
     torrentcontentitemdelegate.cpp
+    torrentcontentlayoutdialog.cpp
+    torrentcontentlayoutmodel.cpp
     torrentcontentmodel.cpp
     torrentcontentmodelfile.cpp
     torrentcontentmodelfolder.cpp
@@ -224,7 +238,9 @@ add_library(qbt_gui STATIC
     transferlistfilters/tagfilterproxymodel.cpp
     transferlistfilters/tagfilterwidget.cpp
     transferlistfilters/trackersfilterwidget.cpp
+    transferlistfilters/trackerstatusfilterwidget.cpp
     transferlistfilterswidget.cpp
+    transferlistfilterswidgetitem.cpp
     transferlistmodel.cpp
     transferlistsortmodel.cpp
     transferlistwidget.cpp
@@ -234,6 +250,7 @@ add_library(qbt_gui STATIC
     uithememanager.cpp
     uithemesource.cpp
     utils.cpp
+    utils/keysequence.cpp
     watchedfolderoptionsdialog.cpp
     watchedfoldersmodel.cpp
 
@@ -250,7 +267,8 @@ target_link_libraries(qbt_gui
     PRIVATE
         qbt_base
     PUBLIC
-        Qt::Gui Qt::Widgets
+        Qt::Gui
+        Qt::Widgets
 )
 
 if (DBUS)
@@ -259,8 +277,18 @@ if (DBUS)
         notifications/dbusnotifier.cpp
         notifications/dbusnotificationsinterface.h
         notifications/dbusnotificationsinterface.cpp
-        powermanagement/powermanagement_x11.h
-        powermanagement/powermanagement_x11.cpp
+        powermanagement/inhibitordbus.h
+        powermanagement/inhibitordbus.cpp
+    )
+endif()
+
+if (PLUGINS)
+    qt_wrap_ui(PLUGINS_UI_HEADERS plugins/pluginsdialog.ui)
+
+    target_sources(qbt_gui PRIVATE
+        plugins/pluginsdialog.h
+        plugins/pluginsdialog.cpp
+        ${PLUGINS_UI_HEADERS}
     )
 endif()
 
@@ -274,23 +302,36 @@ if (STACKTRACE)
     )
 endif()
 
-if ((CMAKE_SYSTEM_NAME STREQUAL "Windows") OR (CMAKE_SYSTEM_NAME STREQUAL "Darwin"))
-    target_sources(qbt_gui PRIVATE
-        programupdater.h
-        programupdater.cpp
-    )
-endif()
-
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     target_sources(qbt_gui PRIVATE
         macosdockbadge/badger.h
         macosdockbadge/badger.mm
         macosdockbadge/badgeview.h
         macosdockbadge/badgeview.mm
-        macosshiftclickhandler.h
         macosshiftclickhandler.cpp
+        macosshiftclickhandler.h
+        macosstatusitem/itemview.h
+        macosstatusitem/itemview.mm
+        macosstatusitem/statusitem.h
+        macosstatusitem/statusitem.mm
         macutilities.h
         macutilities.mm
+        powermanagement/inhibitormacos.cpp
+        powermanagement/inhibitormacos.h
+        programupdater.cpp
+        programupdater.h
     )
-    target_link_libraries(qbt_gui PRIVATE objc)
+    target_link_libraries(qbt_gui PRIVATE
+        objc
+        "-framework UserNotifications"
+    )
+endif()
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_sources(qbt_gui PRIVATE
+        powermanagement/inhibitorwindows.h
+        powermanagement/inhibitorwindows.cpp
+        programupdater.h
+        programupdater.cpp
+    )
 endif()

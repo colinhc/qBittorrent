@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2015-2023  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2015-2026  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
@@ -42,6 +42,7 @@ AddTorrentManager::AddTorrentManager(IApplication *app, BitTorrent::Session *btS
 {
     Q_ASSERT(btSession);
     connect(btSession, &BitTorrent::Session::torrentAdded, this, &AddTorrentManager::onSessionTorrentAdded);
+    connect(btSession, &BitTorrent::Session::duplicateTorrentDetected, this, &AddTorrentManager::onSessionDuplicateTorrentDetected);
     connect(btSession, &BitTorrent::Session::addTorrentFailed, this, &AddTorrentManager::onSessionAddTorrentFailed);
 }
 
@@ -59,6 +60,9 @@ bool AddTorrentManager::addTorrent(const QString &source, const BitTorrent::AddT
 
     if (Net::DownloadManager::hasSupportedScheme(source))
     {
+        if (m_downloadedTorrents.contains(source))
+            return true;
+
         LogMsg(tr("Downloading torrent... Source: \"%1\"").arg(source));
         const auto *pref = Preferences::instance();
         // Launch downloader
@@ -140,7 +144,20 @@ void AddTorrentManager::onSessionTorrentAdded(BitTorrent::Torrent *torrent)
     }
 }
 
-void AddTorrentManager::onSessionAddTorrentFailed(const BitTorrent::InfoHash &infoHash, const BitTorrent::AddTorrentError &reason)
+void AddTorrentManager::onSessionDuplicateTorrentDetected(const BitTorrent::InfoHash &infoHash
+        , BitTorrent::Torrent *torrent, const QString &message)
+{
+    const QString source = m_sourcesByInfoHash.take(infoHash);
+    if (source.isEmpty())
+        return;
+
+    std::shared_ptr<TorrentFileGuard> torrentFileGuard = m_guardedTorrentFiles.take(source);
+    if (torrentFileGuard)
+        torrentFileGuard->setAutoRemove(false);
+    emit duplicateTorrentDetected(source, torrent, message);
+}
+
+void AddTorrentManager::onSessionAddTorrentFailed(const BitTorrent::InfoHash &infoHash, const QString &reason)
 {
     if (const QString source = m_sourcesByInfoHash.take(infoHash); !source.isEmpty())
     {
@@ -185,9 +202,9 @@ void AddTorrentManager::handleDuplicateTorrent(const QString &source
         message = tr("Trackers are merged from new source");
     }
 
-    LogMsg(tr("Detected an attempt to add a duplicate torrent. Source: %1. Existing torrent: %2. Result: %3")
-            .arg(source, existingTorrent->name(), message));
-    emit addTorrentFailed(source, {BitTorrent::AddTorrentError::DuplicateTorrent, message});
+    LogMsg(tr("Detected an attempt to add a duplicate torrent. Source: %1. Existing torrent: \"%2\". Torrent infohash: %3. Result: %4")
+            .arg(source, existingTorrent->name(), existingTorrent->infoHash().toString(), message));
+    emit duplicateTorrentDetected(source, existingTorrent, message);
 }
 
 void AddTorrentManager::setTorrentFileGuard(const QString &source, std::shared_ptr<TorrentFileGuard> torrentFileGuard)

@@ -33,6 +33,7 @@
 #include <type_traits>
 
 #include <QList>
+#include <QMetaType>
 #include <QString>
 #include <QStringView>
 
@@ -140,7 +141,7 @@ namespace Utils
         static Version fromString(const QStringView string, const Version &defaultVersion = {})
         {
             const QList<QStringView> stringParts = string.split(u'.');
-            const int count = stringParts.size();
+            const qsizetype count = stringParts.size();
 
             if ((count > N) || (count < Mandatory))
                 return defaultVersion;
@@ -179,3 +180,5 @@ namespace Utils
         return !(left < right);
     }
 }
+
+Q_DECLARE_METATYPE(Utils::Version<2>)

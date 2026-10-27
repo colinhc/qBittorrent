@@ -28,9 +28,7 @@
 
 "use strict";
 
-const submitLoginForm = (event) => {
-    event.preventDefault();
-
+const submitLoginForm = () => {
     const errorMsgElement = document.getElementById("error_msg");
     errorMsgElement.textContent = ""; // clear previous error
 
@@ -45,12 +43,12 @@ const submitLoginForm = (event) => {
             })
         })
         .then(async (response) => {
-                const responseText = await response.text();
-                if (response.ok && (responseText === "Ok.")) {
+                if (response.ok) {
                     location.replace(location); // redirect
                     location.reload(true);
                 }
                 else {
+                    const responseText = await response.text();
                     errorMsgElement.textContent = `QBT_TR(Invalid Username or Password.)QBT_TR[CONTEXT=Login]\nQBT_TR(Server response:)QBT_TR[CONTEXT=Login] ${responseText}`;
                 }
             },
@@ -61,8 +59,11 @@ const submitLoginForm = (event) => {
     passwordElement.value = ""; // clear previous value
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", (_event) => {
     const loginForm = document.getElementById("loginform");
     loginForm.method = "POST";
-    loginForm.addEventListener("submit", submitLoginForm);
+    loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        submitLoginForm();
+    });
 });

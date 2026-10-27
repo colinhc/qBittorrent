@@ -78,7 +78,7 @@ void DNSUpdater::checkPublicIP()
     Q_ASSERT(m_state == OK);
 
     DownloadManager::instance()->download(
-            DownloadRequest(u"http://checkip.dyndns.org"_s).userAgent(QStringLiteral("qBittorrent/" QBT_VERSION_2))
+            DownloadRequest(u"https://checkip.dyndns.org"_s).userAgent(QStringLiteral("qBittorrent/" QBT_VERSION_2))
             , Preferences::instance()->useProxyForGeneralPurposes(), this, &DNSUpdater::ipRequestFinished);
 
     m_lastIPCheckTime = QDateTime::currentDateTime();
@@ -96,9 +96,9 @@ void DNSUpdater::ipRequestFinished(const DownloadResult &result)
     const QRegularExpressionMatch ipRegexMatch = QRegularExpression(u"Current IP Address:\\s+([^<]+)</body>"_s).match(QString::fromUtf8(result.data));
     if (ipRegexMatch.hasMatch())
     {
-        QString ipStr = ipRegexMatch.captured(1);
+        const QString ipStr = ipRegexMatch.captured(1);
         qDebug() << Q_FUNC_INFO << "Regular expression captured the following IP:" << ipStr;
-        QHostAddress newIp(ipStr);
+        const QHostAddress newIp {ipStr};
         if (!newIp.isNull())
         {
             if (m_lastIP != newIp)
@@ -133,11 +133,7 @@ void DNSUpdater::updateDNSService()
 QString DNSUpdater::getUpdateUrl() const
 {
     QUrl url;
-#ifdef QT_NO_OPENSSL
-    url.setScheme(u"http"_s);
-#else
     url.setScheme(u"https"_s);
-#endif
     url.setUserName(m_username);
     url.setPassword(m_password);
 

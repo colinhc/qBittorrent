@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2015-2025  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2015-2026  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2006  Christophe Dumez
  *
  * This program is free software; you can redistribute it and/or
@@ -44,6 +44,7 @@
 #endif
 
 #include <QByteArray>
+#include <QDateTime>
 #include <QDebug>
 #include <QLibraryInfo>
 #include <QMetaObject>
@@ -56,14 +57,17 @@
 #include <QPixmapCache>
 #include <QProgressDialog>
 #ifdef Q_OS_WIN
+#include <QAbstractNativeEventFilter>
 #include <QSessionManager>
 #endif // Q_OS_WIN
 #ifdef Q_OS_MACOS
+#include <QAccessible>
 #include <QFileOpenEvent>
 #endif // Q_OS_MACOS
 #endif
 
 #include "base/addtorrentmanager.h"
+#include "base/bittorrent/addtorrentparams.h"
 #include "base/bittorrent/infohash.h"
 #include "base/bittorrent/session.h"
 #include "base/bittorrent/torrent.h"
@@ -73,7 +77,8 @@
 #include "base/net/downloadmanager.h"
 #include "base/net/geoipmanager.h"
 #include "base/net/proxyconfigurationmanager.h"
-#include "base/net/smtp.h"
+#include "base/net/reverseresolution.h"
+#include "base/net/smtpclient.h"
 #include "base/preferences.h"
 #include "base/profile.h"
 #include "base/rss/rss_autodownloader.h"
@@ -105,6 +110,10 @@
 #endif
 #endif
 
+#ifdef ENABLE_PLUGINS
+#include "base/plugins/pluginsengine.h"
+#endif
+
 namespace
 {
 #define SETTINGS_KEY(name) u"Application/" name
@@ -129,8 +138,47 @@ namespace
     const QString PARAM_FIRSTLASTPIECEPRIORITY = u"@firstLastPiecePriority"_s;
     const QString PARAM_SAVEPATH = u"@savePath"_s;
     const QString PARAM_SEQUENTIAL = u"@sequential"_s;
-    const QString PARAM_SKIPCHECKING = u"@skipChecking"_s;
+    const QString PARAM_SEEDMODE = u"@seedMode"_s;
     const QString PARAM_SKIPDIALOG = u"@skipDialog"_s;
+
+#if !defined(DISABLE_GUI) && defined(Q_OS_WIN)
+    class NativeEventFilter final : public QObject, public QAbstractNativeEventFilter
+    {
+        Q_OBJECT
+        Q_DISABLE_COPY_MOVE(NativeEventFilter)
+
+    public:
+        explicit NativeEventFilter(UIThemeManager *uiThemeManager, QObject *parent = nullptr)
+            : QObject(parent)
+            , m_uiThemeManager {uiThemeManager}
+        {
+        }
+
+        bool nativeEventFilter(const QByteArray &eventType, void *message, [[maybe_unused]] qintptr *result) override
+        {
+            if (eventType == "windows_generic_MSG")
+            {
+                auto *msg = static_cast<const MSG *>(message);
+                if (msg->message == WM_SETTINGCHANGE)
+                {
+                    // Only refresh the theme if the user changes the personalize settings
+                    if ((msg->wParam == 0) && (msg->lParam != 0) // lParam sometimes may be 0.
+                            && (wcscmp(reinterpret_cast<LPCWSTR>(msg->lParam), L"ImmersiveColorSet") == 0))
+                    {
+                        m_uiThemeManager->updateSystemColorMode();
+                    }
+                }
+            }
+
+            // We don't want to filter the message out, i.e.
+            // stop it being handled further, so return false.
+            return false;
+        }
+
+    private:
+        UIThemeManager *m_uiThemeManager = nullptr;
+    };
+#endif
 
     QString bindParamValue(const QStringView paramName, const QStringView paramValue)
     {
@@ -165,8 +213,8 @@ namespace
         if (addTorrentParams.addStopped.has_value())
             result.append(bindParamValue(PARAM_ADDSTOPPED, (*addTorrentParams.addStopped ? u"1" : u"0")));
 
-        if (addTorrentParams.skipChecking)
-            result.append(PARAM_SKIPCHECKING);
+        if (addTorrentParams.seedMode)
+            result.append(PARAM_SEEDMODE);
 
         if (!addTorrentParams.category.isEmpty())
             result.append(bindParamValue(PARAM_CATEGORY, addTorrentParams.category));
@@ -209,9 +257,9 @@ namespace
                 continue;
             }
 
-            if (paramName == PARAM_SKIPCHECKING)
+            if (paramName == PARAM_SEEDMODE)
             {
-                addTorrentParams.skipChecking = true;
+                addTorrentParams.seedMode = true;
                 continue;
             }
 
@@ -277,6 +325,8 @@ Application::Application(int &argc, char **argv)
     setQuitLockEnabled(false);
     QPixmapCache::setCacheLimit(PIXMAP_CACHE_SIZE);
 #endif
+
+    m_launchTimeSecsSinceEpoch = QDateTime::currentSecsSinceEpoch();
 
     Logger::initInstance();
 
@@ -410,7 +460,7 @@ void Application::setMemoryWorkingSetLimit(const int size)
         return;
 
     m_storeMemoryWorkingSetLimit = size;
-#if defined(QBT_USES_LIBTORRENT2) && !defined(Q_OS_MACOS)
+#if defined(QBT_USES_LIBTORRENT2) && !defined(Q_OS_LINUX) && !defined(Q_OS_MACOS)
     applyMemoryWorkingSetLimit();
 #endif
 }
@@ -431,13 +481,13 @@ void Application::setFileLoggerEnabled(const bool value)
 
 Path Application::fileLoggerPath() const
 {
-    return m_storeFileLoggerPath.get(specialFolderLocation(SpecialFolder::Data) / Path(LOG_FOLDER));
+    return m_storeFileLoggerPath.get(Path(LOG_FOLDER));
 }
 
 void Application::setFileLoggerPath(const Path &path)
 {
     if (m_fileLogger)
-        m_fileLogger->changePath(path);
+        m_fileLogger->setPath(path);
     m_storeFileLoggerPath = path;
 }
 
@@ -506,7 +556,8 @@ void Application::processMessage(const QString &message)
 #ifndef DISABLE_GUI
     if (message.isEmpty())
     {
-        if (BitTorrent::Session::instance()->isRestored()) [[likely]]
+        if (const auto *btSession = BitTorrent::Session::instance();
+                btSession && btSession->isRestored()) [[likely]]
         {
             m_window->activate(); // show UI
         }
@@ -516,7 +567,7 @@ void Application::processMessage(const QString &message)
             m_startupProgressDialog->activateWindow();
             m_startupProgressDialog->raise();
         }
-        else
+        else if (m_desktopIntegration)
         {
             createStartupProgressDialog();
         }
@@ -543,7 +594,7 @@ void Application::runExternalProgram(const QString &programTemplate, const BitTo
 
     const auto replaceVariables = [torrent](QString str) -> QString
     {
-        for (int i = (str.length() - 2); i >= 0; --i)
+        for (qsizetype i = (str.length() - 2); i >= 0; --i)
         {
             if (str[i] != u'%')
                 continue;
@@ -574,6 +625,9 @@ void Application::runExternalProgram(const QString &programTemplate, const BitTo
                 break;
             case u'L':
                 str.replace(i, 2, torrent->category());
+                break;
+            case u'M':
+                str.replace(i, 2, torrent->comment());
                 break;
             case u'N':
                 str.replace(i, 2, torrent->name());
@@ -659,7 +713,13 @@ void Application::runExternalProgram(const QString &programTemplate, const BitTo
     {
         // strip redundant quotes
         if (arg.startsWith(u'"') && arg.endsWith(u'"'))
-            arg = arg.mid(1, (arg.size() - 2));
+        {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+            arg.slice(1, (arg.size() - 2));
+#else
+            arg.removeLast().removeFirst();
+#endif
+        }
 
         arg = replaceVariables(arg);
     }
@@ -668,6 +728,7 @@ void Application::runExternalProgram(const QString &programTemplate, const BitTo
     QProcess proc;
     proc.setProgram(command);
     proc.setArguments(args);
+    proc.setUnixProcessParameters(QProcess::UnixProcessFlag::CloseFileDescriptors);
 
     if (proc.startDetached())
     {
@@ -694,14 +755,11 @@ void Application::sendNotificationEmail(const BitTorrent::Torrent *torrent)
 
     // Send the notification email
     const Preferences *pref = Preferences::instance();
-    auto *smtp = new Net::Smtp(this);
-    smtp->sendMail(pref->getMailNotificationSender(),
-                     pref->getMailNotificationEmail(),
-                     tr("Torrent \"%1\" has finished downloading").arg(torrent->name()),
-                     content);
+    Net::SMTPClient::sendMail(pref->getMailNotificationSender(), pref->getMailNotificationEmail()
+            , tr("Torrent \"%1\" has finished downloading").arg(torrent->name()), content, this);
 }
 
-void Application::sendTestEmail() const
+void Application::sendTestEmail()
 {
     const Preferences *pref = Preferences::instance();
     if (pref->isMailNotificationEnabled())
@@ -711,11 +769,8 @@ void Application::sendTestEmail() const
             + tr("Thank you for using qBittorrent.") + u'\n';
 
         // Send the notification email
-        auto *smtp = new Net::Smtp();
-        smtp->sendMail(pref->getMailNotificationSender(),
-                        pref->getMailNotificationEmail(),
-                        tr("Test email"),
-                        content);
+        Net::SMTPClient::sendMail(pref->getMailNotificationSender(), pref->getMailNotificationEmail()
+            , tr("Test email"), content, this);
     }
 }
 
@@ -766,8 +821,9 @@ void Application::allTorrentsFinished()
     bool isShutdown = pref->shutdownWhenDownloadsComplete();
     bool isSuspend = pref->suspendWhenDownloadsComplete();
     bool isHibernate = pref->hibernateWhenDownloadsComplete();
+    bool isReboot = pref->rebootWhenDownloadsComplete();
 
-    bool haveAction = isExit || isShutdown || isSuspend || isHibernate;
+    const bool haveAction = isExit || isShutdown || isSuspend || isHibernate || isReboot;
     if (!haveAction) return;
 
     ShutdownDialogAction action = ShutdownDialogAction::Exit;
@@ -777,6 +833,8 @@ void Application::allTorrentsFinished()
         action = ShutdownDialogAction::Hibernate;
     else if (isShutdown)
         action = ShutdownDialogAction::Shutdown;
+    else if (isReboot)
+        action = ShutdownDialogAction::Reboot;
 
 #ifndef DISABLE_GUI
     // ask confirm
@@ -798,6 +856,7 @@ void Application::allTorrentsFinished()
         pref->setShutdownWhenDownloadsComplete(false);
         pref->setSuspendWhenDownloadsComplete(false);
         pref->setHibernateWhenDownloadsComplete(false);
+        pref->setRebootWhenDownloadsComplete(false);
         // Make sure preferences are synced before exiting
         m_shutdownAct = action;
     }
@@ -837,7 +896,7 @@ int Application::exec()
     printf("%s\n", qUtf8Printable(loadingStr));
 #endif
 
-#if defined(QBT_USES_LIBTORRENT2) && !defined(Q_OS_MACOS)
+#if defined(QBT_USES_LIBTORRENT2) && !defined(Q_OS_LINUX) && !defined(Q_OS_MACOS)
     applyMemoryWorkingSetLimit();
 #endif
 
@@ -850,8 +909,13 @@ int Application::exec()
     Net::DownloadManager::initInstance();
 
     BitTorrent::Session::initInstance();
+
 #ifndef DISABLE_GUI
     UIThemeManager::initInstance();
+
+#ifdef Q_OS_WIN
+    installNativeEventFilter(new NativeEventFilter(UIThemeManager::instance(), this));
+#endif
 
     m_desktopIntegration = new DesktopIntegration;
     m_desktopIntegration->setToolTip(tr("Loading torrents..."));
@@ -885,7 +949,7 @@ int Application::exec()
         connect(m_desktopIntegration, &DesktopIntegration::activationRequested, this, &Application::createStartupProgressDialog);
     }
 #endif
-    connect(BitTorrent::Session::instance(), &BitTorrent::Session::restored, this, [this]()
+    connect(BitTorrent::Session::instance(), &BitTorrent::Session::restored, this, [this]
     {
         connect(BitTorrent::Session::instance(), &BitTorrent::Session::torrentAdded, this, &Application::torrentAdded);
         connect(BitTorrent::Session::instance(), &BitTorrent::Session::torrentFinished, this, &Application::torrentFinished);
@@ -893,7 +957,12 @@ int Application::exec()
 
         m_addTorrentManager = new AddTorrentManagerImpl(this, BitTorrent::Session::instance(), this);
 
+#ifdef ENABLE_PLUGINS
+        PluginsEngine::initInstance();
+#endif
+
         Net::GeoIPManager::initInstance();
+        Net::ReverseResolution::initInstance();
         TorrentFilesWatcher::initInstance();
 
         new RSS::Session; // create RSS::Session singleton
@@ -901,7 +970,7 @@ int Application::exec()
 
 #ifndef DISABLE_GUI
         const auto *btSession = BitTorrent::Session::instance();
-        connect(btSession, &BitTorrent::Session::fullDiskError, this
+        connect(btSession, &BitTorrent::Session::torrentIOError, this
                 , [this](const BitTorrent::Torrent *torrent, const QString &msg)
         {
             m_desktopIntegration->showNotification(tr("I/O Error", "i.e: Input/Output Error")
@@ -947,7 +1016,7 @@ int Application::exec()
         const auto *pref = Preferences::instance();
 
         const QString tempPassword = pref->getWebUIPassword().isEmpty()
-                ? Utils::Password::generate() : QString();
+                ? Utils::Password::generate(9) : QString();
         m_webui = new WebUI(this, (!tempPassword.isEmpty() ? Utils::Password::PBKDF2::generate(tempPassword) : QByteArray()));
         connect(m_webui, &WebUI::error, this, [](const QString &message)
         {
@@ -986,7 +1055,7 @@ int Application::exec()
 #endif // DISABLE_WEBUI
 
         m_isProcessingParamsAllowed = true;
-        for (const QBtCommandLineParameters &params : m_paramsQueue)
+        for (const QBtCommandLineParameters &params : asConst(m_paramsQueue))
             processParams(params);
         m_paramsQueue.clear();
     });
@@ -1134,28 +1203,13 @@ bool Application::event(QEvent *ev)
 
 void Application::initializeTranslation()
 {
-    Preferences *const pref = Preferences::instance();
-    // Load translation
+    QCoreApplication::installTranslator(&m_qtTranslator);
+    QCoreApplication::installTranslator(&m_translator);
+
+    const auto *pref = Preferences::instance();
     const QString localeStr = pref->getLocale();
 
-    if (m_qtTranslator.load((u"qtbase_" + localeStr), QLibraryInfo::path(QLibraryInfo::TranslationsPath))
-        || m_qtTranslator.load((u"qt_" + localeStr), QLibraryInfo::path(QLibraryInfo::TranslationsPath)))
-    {
-        qDebug("Qt %s locale recognized, using translation.", qUtf8Printable(localeStr));
-    }
-    else
-    {
-        qDebug("Qt %s locale unrecognized, using default (en).", qUtf8Printable(localeStr));
-    }
-
-    installTranslator(&m_qtTranslator);
-
-    if (m_translator.load(u":/lang/qbittorrent_" + localeStr))
-        qDebug("%s locale recognized, using translation.", qUtf8Printable(localeStr));
-    else
-        qDebug("%s locale unrecognized, using default (en).", qUtf8Printable(localeStr));
-    installTranslator(&m_translator);
-
+    loadTranslation(localeStr);
 #ifndef DISABLE_GUI
     if (localeStr.startsWith(u"ar") || localeStr.startsWith(u"he"))
     {
@@ -1195,7 +1249,7 @@ void Application::shutdownCleanup([[maybe_unused]] QSessionManager &manager)
 }
 #endif
 
-#if defined(QBT_USES_LIBTORRENT2) && !defined(Q_OS_MACOS)
+#if defined(QBT_USES_LIBTORRENT2) && !defined(Q_OS_LINUX) && !defined(Q_OS_MACOS)
 void Application::applyMemoryWorkingSetLimit() const
 {
     const size_t MiB = 1024 * 1024;
@@ -1331,6 +1385,40 @@ void Application::adjustThreadPriority() const
 }
 #endif
 
+bool Application::loadTranslation(const QString &locale)
+{
+    // Load Qt translation
+    const QString trPath = QLibraryInfo::path(QLibraryInfo::TranslationsPath);
+    if (m_qtTranslator.load((u"qtbase_" + locale), trPath) || m_qtTranslator.load((u"qt_" + locale), trPath))
+    {
+        LogMsg(tr("Load Qt translation successful. Locale: %1.").arg(locale));
+    }
+    else
+    {
+        LogMsg(tr("Load Qt translation failed. Temporarily falling back to English. Locale not found: %1.")
+            .arg(locale), Log::WARNING);
+    }
+
+    // Load qbt translation
+    const bool success = m_translator.load(u":/lang/qbittorrent_" + locale);
+    if (success)
+    {
+        LogMsg(tr("Load qBittorrent translation successful. Locale: %1.").arg(locale));
+    }
+    else
+    {
+        LogMsg(tr("Load qBittorrent translation failed. Temporarily falling back to English. Locale not found: %1.")
+            .arg(locale), Log::WARNING);
+    }
+
+    return success;
+}
+
+qint64 Application::launchTimeSecsSinceEpoch() const
+{
+    return m_launchTimeSecsSinceEpoch;
+}
+
 void Application::cleanup()
 {
     // cleanup() can be called multiple times during shutdown. We only need it once.
@@ -1347,6 +1435,20 @@ void Application::cleanup()
         if (m_desktopIntegration->menu())
             m_desktopIntegration->menu()->setEnabled(false);
     }
+
+#ifdef Q_OS_MACOS
+    // Remove all accessibility interface factories before destroying widgets.
+    // On macOS, widget destruction triggers accessibility notifications via
+    // the native AX API, which can deadlock with the Qt event loop causing
+    // the app to freeze on quit.
+    // https://github.com/qbittorrent/qBittorrent/issues/23695
+    if (m_window)
+        QAccessible::cleanup();
+#endif
+
+    // AddTorrentManager should be deleted before cleanup MainWindow
+    // in order to properly delete currently opened AddNewTorrentDialog instances
+    delete m_addTorrentManager;
 
     if (m_window)
     {
@@ -1377,12 +1479,19 @@ void Application::cleanup()
     delete m_webui;
 #endif
 
+#ifdef ENABLE_PLUGINS
+    PluginsEngine::freeInstance();
+#endif
+
     delete RSS::AutoDownloader::instance();
     delete RSS::Session::instance();
 
     TorrentFilesWatcher::freeInstance();
+#ifdef DISABLE_GUI
     delete m_addTorrentManager;
+#endif
     BitTorrent::Session::freeInstance();
+    Net::ReverseResolution::freeInstance();
     Net::GeoIPManager::freeInstance();
     Net::DownloadManager::freeInstance();
     Net::ProxyConfigurationManager::freeInstance();
@@ -1426,4 +1535,8 @@ WebUI *Application::webUI() const
 {
     return m_webui;
 }
+#endif
+
+#if !defined(DISABLE_GUI) && defined(Q_OS_WIN)
+#include "application.moc"
 #endif

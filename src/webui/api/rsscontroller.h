@@ -42,14 +42,18 @@ private slots:
     void addFolderAction();
     void addFeedAction();
     void setFeedURLAction();
+    void setFeedRefreshIntervalAction();
     void removeItemAction();
     void moveItemAction();
     void itemsAction();
     void markAsReadAction();
     void refreshItemAction();
     void setRuleAction();
+    void exportRulesAction();
+    void importRulesAction();
     void renameRuleAction();
     void removeRuleAction();
+    void cloneRuleAction();
     void rulesAction();
     void matchingArticlesAction();
 };

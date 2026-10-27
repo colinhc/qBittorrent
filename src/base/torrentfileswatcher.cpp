@@ -413,7 +413,7 @@ void TorrentFilesWatcher::Worker::processFolder(const Path &path, const Path &wa
                     }
 
                     file.close();
-                    Utils::Fs::removeFile(filePath);
+                    std::ignore = Utils::Fs::removeFile(filePath);
                 }
                 else
                 {
@@ -430,13 +430,13 @@ void TorrentFilesWatcher::Worker::processFolder(const Path &path, const Path &wa
             if (const auto loadResult = BitTorrent::TorrentDescriptor::loadFromFile(filePath))
             {
                 emit torrentFound(loadResult.value(), addTorrentParams);
-                Utils::Fs::removeFile(filePath);
+                std::ignore = Utils::Fs::removeFile(filePath);
             }
             else
             {
-                if (!m_failedTorrents.value(path).contains(filePath))
+                if (!m_failedTorrents.value(watchedFolderPath).contains(filePath))
                 {
-                    m_failedTorrents[path][filePath] = 0;
+                    m_failedTorrents[watchedFolderPath][filePath] = 0;
                 }
             }
         }
@@ -471,7 +471,7 @@ void TorrentFilesWatcher::Worker::processFailedTorrents()
                 BitTorrent::AddTorrentParams addTorrentParams = options.addTorrentParams;
                 if (torrentPath != watchedFolderPath)
                 {
-                    const Path subdirPath = watchedFolderPath.relativePathOf(torrentPath);
+                    const Path subdirPath = watchedFolderPath.relativePathOf(torrentPath).parentPath();
                     const bool useAutoTMM = addTorrentParams.useAutoTMM.value_or(!BitTorrent::Session::instance()->isAutoTMMDisabledByDefault());
                     if (useAutoTMM)
                     {
@@ -485,7 +485,7 @@ void TorrentFilesWatcher::Worker::processFailedTorrents()
                 }
 
                 emit torrentFound(loadResult.value(), addTorrentParams);
-                Utils::Fs::removeFile(torrentPath);
+                std::ignore = Utils::Fs::removeFile(torrentPath);
 
                 return true;
             }

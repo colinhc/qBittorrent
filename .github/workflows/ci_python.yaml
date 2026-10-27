@@ -15,17 +15,17 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Setup python (auxiliary scripts)
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3'  # use default version
 
       - name: Install tools (auxiliary scripts)
-        run: pip install bandit pycodestyle pyflakes
+        run: pip install bandit mypy pycodestyle pyflakes pyright ruff
 
       - name: Gather files (auxiliary scripts)
         run: |
@@ -33,10 +33,22 @@ jobs:
           echo $PY_FILES
           echo "PY_FILES=$PY_FILES" >> "$GITHUB_ENV"
 
+      - name: Check typings (auxiliary scripts)
+        run: |
+          mypy --strict $PY_FILES
+          pyright --project src/searchengine/nova3/pyproject.toml $PY_FILES
+
       - name: Lint code (auxiliary scripts)
         run: |
-          pyflakes $PY_FILES
-          bandit --skip B101,B314,B405 $PY_FILES
+          ruff \
+            check \
+            --ignore "BLE001,UP045" \
+            $PY_FILES
+          pyflakes \
+            $PY_FILES
+          bandit \
+            --skip B101,B314,B405 \
+            $PY_FILES
 
       - name: Format code (auxiliary scripts)
         run: |
@@ -50,42 +62,30 @@ jobs:
           python -m compileall $PY_FILES
 
       - name: Setup python (search engine)
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
-          python-version: '3.9'
+          python-version: '3.13'
 
       - name: Install tools (search engine)
-        run: pip install bandit mypy pycodestyle pyflakes pyright
-
-      - name: Gather files (search engine)
+        working-directory: src/searchengine/nova3
         run: |
-          export "PY_FILES=$(find . -type f -name '*.py' -path '*searchengine*' ! -name 'socks.py' -printf '%p ')"
-          echo $PY_FILES
-          echo "PY_FILES=$PY_FILES" >> "$GITHUB_ENV"
+          pip install uv
+          uv sync
 
       - name: Check typings (search engine)
-        run: |
-          MYPYPATH="src/searchengine/nova3" \
-          mypy \
-            --follow-imports skip \
-            --strict \
-            $PY_FILES
-          pyright \
-            $PY_FILES
+        working-directory: src/searchengine/nova3
+        run: uv run just check
 
       - name: Lint code (search engine)
-        run: |
-          pyflakes $PY_FILES
-          bandit --skip B110,B310,B314,B405 $PY_FILES
+        working-directory: src/searchengine/nova3
+        run: uv run just lint
 
       - name: Format code (search engine)
+        working-directory: src/searchengine/nova3
         run: |
-          pycodestyle \
-            --ignore=E265,E402 \
-            --max-line-length=1000 \
-            --statistics \
-            $PY_FILES
+          uv run just format
+          git diff --exit-code
 
       - name: Build code (search engine)
-        run: |
-          python -m compileall $PY_FILES
+        working-directory: src/searchengine/nova3
+        run: uv run just build

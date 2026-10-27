@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2023-2024  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2023-2026  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,6 +28,7 @@
 
 #include "uithemedialog.h"
 
+#include <QtSystemDetection>
 #include <QColor>
 #include <QColorDialog>
 #include <QFileDialog>
@@ -38,7 +39,6 @@
 #include <QMessageBox>
 
 #include "base/3rdparty/expected.hpp"
-#include "base/global.h"
 #include "base/logger.h"
 #include "base/path.h"
 #include "base/profile.h"
@@ -51,16 +51,13 @@
 
 #define SETTINGS_KEY(name) u"GUI/UIThemeDialog/" name
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace
 {
     Path userConfigPath()
     {
         return specialFolderLocation(SpecialFolder::Config) / Path(u"themes/default"_s);
-    }
-
-    Path defaultIconPath(const QString &iconID, [[maybe_unused]] const ColorMode colorMode)
-    {
-        return Path(u":icons"_s) / Path(iconID + u".svg");
     }
 }
 
@@ -233,6 +230,10 @@ UIThemeDialog::UIThemeDialog(QWidget *parent)
 {
     m_ui->setupUi(this);
 
+#if (defined(Q_OS_WIN) || defined(Q_OS_MACOS))
+    m_ui->colorsWarningLabel->hide();
+#endif
+
     connect(m_ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(m_ui->buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
@@ -299,13 +300,16 @@ void UIThemeDialog::loadIcons()
     {
         m_ui->iconsLayout->addWidget(new QLabel(id), row, 0);
 
+        if (id == u"qbittorrent-tray-mono")
+            qDebug() << id;
+
         auto *lightIconWidget = new IconWidget(m_defaultThemeSource.getIconPath(id, ColorMode::Light)
-                , defaultIconPath(id, ColorMode::Light), this);
+                , m_defaultThemeSource.getDefaultIconPath(id, ColorMode::Light), this);
         m_lightIconWidgets.insert(id, lightIconWidget);
         m_ui->iconsLayout->addWidget(lightIconWidget, row, 2);
 
         auto *darkIconWidget = new IconWidget(m_defaultThemeSource.getIconPath(id, ColorMode::Dark)
-                , defaultIconPath(id, ColorMode::Dark), this);
+                , m_defaultThemeSource.getDefaultIconPath(id, ColorMode::Dark), this);
         m_darkIconWidgets.insert(id, darkIconWidget);
         m_ui->iconsLayout->addWidget(darkIconWidget, row, 4);
 

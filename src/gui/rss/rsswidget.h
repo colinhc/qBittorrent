@@ -34,6 +34,7 @@
 
 #include "gui/guiapplicationcomponent.h"
 
+class LineEdit;
 class QListWidgetItem;
 class QTreeWidgetItem;
 
@@ -61,6 +62,7 @@ public slots:
     void updateRefreshInterval(int val) const;
 
 signals:
+    void openRSSSettingsLinkActivated();
     void unreadCountUpdated(int count);
 
 private slots:
@@ -70,7 +72,7 @@ private slots:
     void displayRSSListMenu(const QPoint &pos);
     void displayItemsListMenu();
     void renameSelectedRSSItem();
-    void editSelectedRSSFeedURL();
+    void editSelectedRSSFeed();
     void refreshSelectedItems();
     void copySelectedFeedsURL();
     void handleCurrentFeedItemChanged(QTreeWidgetItem *currentItem);
@@ -79,16 +81,19 @@ private slots:
     void downloadSelectedTorrents();
     void saveSlidersPosition();
     void restoreSlidersPosition();
+    void saveFeedListState();
     void askNewFolder();
     void saveFoldersOpenState();
     void loadFoldersOpenState();
     void on_rssDownloaderBtn_clicked();
     void handleSessionProcessingStateChanged(bool enabled);
     void handleUnreadCountChanged();
+    void handleRSSFilterTextChanged(const QString &newFilter);
 
 private:
     bool eventFilter(QObject *obj, QEvent *event) override;
     void renderArticle(const RSS::Article *article) const;
 
     Ui::RSSWidget *m_ui = nullptr;
+    LineEdit *m_rssFilter = nullptr;
 };

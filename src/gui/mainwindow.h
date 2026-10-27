@@ -62,10 +62,13 @@ class TorrentCreatorDialog;
 class TransferListFiltersWidget;
 class TransferListWidget;
 
+struct PluginInfo;
+
 #ifdef Q_OS_MACOS
 namespace MacUtils
 {
     class Badger;
+    class StatusItem;
 }
 #endif
 
@@ -135,6 +138,9 @@ private slots:
 
     void addToolbarContextMenu();
     void manageCookies();
+#ifdef ENABLE_PLUGINS
+    void managePlugins();
+#endif
 
     void downloadFromURLList(const QStringList &urlList);
     void updateAltSpeedsBtn(bool alternative);
@@ -157,6 +163,7 @@ private slots:
     void on_actionAutoSuspend_toggled(bool);
     void on_actionAutoHibernate_toggled(bool);
     void on_actionAutoShutdown_toggled(bool);
+    void on_actionAutoReboot_toggled(bool);
     void on_actionAbout_triggered();
     void on_actionStatistics_triggered();
     void on_actionCreateTorrent_triggered();
@@ -204,6 +211,12 @@ private:
 #ifdef Q_OS_WIN
     void installPython();
     bool verifyPythonInstaller(const Path &installerPath) const;
+#endif
+
+#ifdef ENABLE_PLUGINS
+    void populatePluginsMenu();
+    void addPluginsMenuItem(const PluginInfo &pluginInfo);
+    void removePluginsMenuItem(const QString &pluginID);
 #endif
 
     Ui::MainWindow *m_ui = nullptr;
@@ -261,5 +274,8 @@ private:
 #endif
 #ifdef Q_OS_MACOS
     std::unique_ptr<MacUtils::Badger> m_badger;
+    std::unique_ptr<MacUtils::StatusItem> m_statusItem;
 #endif
+
+    QHash<QString, QAction *> m_pluginActions;
 };

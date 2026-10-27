@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2023-2024  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2023-2025  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
@@ -33,15 +33,14 @@
 #include <chrono>
 
 #include <boost/multi_index_container.hpp>
-#include <boost/multi_index/composite_key.hpp>
 #include <boost/multi_index/hashed_index.hpp>
 #include <boost/multi_index/indexed_by.hpp>
-#include <boost/multi_index/member.hpp>
+#include <boost/multi_index/key.hpp>
 #include <boost/multi_index/random_access_index.hpp>
 #include <boost/multi_index/tag.hpp>
 
 #include <QColor>
-#include <QDateTime>
+#include <QFuture>
 #include <QList>
 #include <QPointer>
 #include <QScopeGuard>
@@ -52,7 +51,9 @@
 #include "base/bittorrent/session.h"
 #include "base/bittorrent/torrent.h"
 #include "base/bittorrent/trackerentry.h"
+#include "base/bittorrent/trackerentrystatus.h"
 #include "base/global.h"
+#include "base/utils/hashvalue.h"
 #include "base/utils/misc.h"
 
 using namespace std::chrono_literals;
@@ -70,26 +71,6 @@ namespace
     QString prettyCount(const int val)
     {
         return (val > -1) ? QString::number(val) : TrackerListModel::tr("N/A");
-    }
-
-    QString toString(const BitTorrent::TrackerEndpointState state)
-    {
-        switch (state)
-        {
-        case BitTorrent::TrackerEndpointState::Working:
-            return TrackerListModel::tr(STR_WORKING);
-        case BitTorrent::TrackerEndpointState::Updating:
-            return TrackerListModel::tr("Updating...");
-        case BitTorrent::TrackerEndpointState::NotWorking:
-            return TrackerListModel::tr("Not working");
-        case BitTorrent::TrackerEndpointState::TrackerError:
-            return TrackerListModel::tr("Tracker error");
-        case BitTorrent::TrackerEndpointState::Unreachable:
-            return TrackerListModel::tr("Unreachable");
-        case BitTorrent::TrackerEndpointState::NotContacted:
-            return TrackerListModel::tr("Not contacted yet");
-        }
-        return TrackerListModel::tr("Invalid state!");
     }
 
     QString statusDHT(const BitTorrent::Torrent *torrent)
@@ -126,16 +107,12 @@ namespace
     }
 }
 
-std::size_t hash_value(const QString &string)
-{
-    return qHash(string);
-}
-
 struct TrackerListModel::Item final
 {
     QString name {};
     int tier = -1;
     int btVersion = -1;
+    bool isUpdating = false;
     BitTorrent::TrackerEndpointState status = BitTorrent::TrackerEndpointState::NotContacted;
     QString message {};
 
@@ -153,14 +130,10 @@ struct TrackerListModel::Item final
 
     std::weak_ptr<Item> parentItem {};
 
-    multi_index_container<std::shared_ptr<Item>, indexed_by<
-            random_access<>,
-            hashed_unique<tag<struct ByID>, composite_key<
-                    Item,
-                    member<Item, QString, &Item::name>,
-                    member<Item, int, &Item::btVersion>
-            >>
-    >> childItems {};
+    using ChildItems = multi_index_container<std::shared_ptr<Item>, indexed_by<
+        random_access<tag<struct ByIndex>>,
+        hashed_unique<tag<struct ByID>, key<&Item::name, &Item::btVersion>>>>;
+    ChildItems childItems {};
 
     Item(QStringView name, QStringView message);
     explicit Item(const BitTorrent::TrackerEntryStatus &trackerEntryStatus);
@@ -168,13 +141,15 @@ struct TrackerListModel::Item final
 
     void fillFrom(const BitTorrent::TrackerEntryStatus &trackerEntryStatus);
     void fillFrom(const BitTorrent::TrackerEndpointStatus &endpointStatus);
+
+    QString statusText() const;
 };
 
 class TrackerListModel::Items final : public multi_index_container<
-        std::shared_ptr<Item>,
-        indexed_by<
-                random_access<>,
-                hashed_unique<tag<struct ByName>, member<Item, QString, &Item::name>>>>
+    std::shared_ptr<Item>,
+    indexed_by<
+        random_access<tag<struct ByIndex>>,
+        hashed_unique<tag<struct ByName>, key<&Item::name>>>>
 {
 };
 
@@ -204,6 +179,7 @@ void TrackerListModel::Item::fillFrom(const BitTorrent::TrackerEntryStatus &trac
     Q_ASSERT(trackerEntryStatus.url == name);
 
     tier = trackerEntryStatus.tier;
+    isUpdating = trackerEntryStatus.isUpdating;
     status = trackerEntryStatus.state;
     message = trackerEntryStatus.message;
     numPeers = trackerEntryStatus.numPeers;
@@ -223,6 +199,7 @@ void TrackerListModel::Item::fillFrom(const BitTorrent::TrackerEndpointStatus &e
     Q_ASSERT(endpointStatus.name == name);
     Q_ASSERT(endpointStatus.btVersion == btVersion);
 
+    isUpdating = endpointStatus.isUpdating;
     status = endpointStatus.state;
     message = endpointStatus.message;
     numPeers = endpointStatus.numPeers;
@@ -234,6 +211,28 @@ void TrackerListModel::Item::fillFrom(const BitTorrent::TrackerEndpointStatus &e
     secsToNextAnnounce = 0;
     secsToMinAnnounce = 0;
     announceTimestamp = {};
+}
+
+QString TrackerListModel::Item::statusText() const
+{
+    if (isUpdating)
+        return TrackerListModel::tr("Updating...");
+
+    switch (status)
+    {
+    case BitTorrent::TrackerEndpointState::Working:
+        return TrackerListModel::tr(STR_WORKING);
+    case BitTorrent::TrackerEndpointState::NotWorking:
+        return TrackerListModel::tr("Not working");
+    case BitTorrent::TrackerEndpointState::TrackerError:
+        return TrackerListModel::tr("Tracker error");
+    case BitTorrent::TrackerEndpointState::Unreachable:
+        return TrackerListModel::tr("Unreachable");
+    case BitTorrent::TrackerEndpointState::NotContacted:
+        return TrackerListModel::tr("Not contacted yet");
+    }
+
+    return TrackerListModel::tr("Invalid state!");
 }
 
 TrackerListModel::TrackerListModel(BitTorrent::Session *btSession, QObject *parent)
@@ -259,7 +258,7 @@ TrackerListModel::TrackerListModel(BitTorrent::Session *btSession, QObject *pare
         if (torrent == m_torrent)
             onTrackersRemoved(deletedTrackers);
     });
-    connect(m_btSession, &BitTorrent::Session::trackersChanged, this
+    connect(m_btSession, &BitTorrent::Session::trackersReset, this
             , [this](BitTorrent::Torrent *torrent)
     {
         if (torrent == m_torrent)
@@ -300,25 +299,27 @@ void TrackerListModel::populate()
 {
     Q_ASSERT(m_torrent);
 
+    auto &itemsByPos = m_items->get<ByIndex>();
+
     const QList<BitTorrent::TrackerEntryStatus> trackers = m_torrent->trackers();
-    m_items->reserve(trackers.size() + STICKY_ROW_COUNT);
+    m_items->get<ByIndex>().reserve(trackers.size() + STICKY_ROW_COUNT);
+    m_items->get<ByName>().reserve(trackers.size() + STICKY_ROW_COUNT);
 
     const QString &privateTorrentMessage = m_torrent->isPrivate() ? tr(STR_PRIVATE_MSG) : u""_s;
-    m_items->emplace_back(std::make_shared<Item>(u"** [DHT] **", privateTorrentMessage));
-    m_items->emplace_back(std::make_shared<Item>(u"** [PeX] **", privateTorrentMessage));
-    m_items->emplace_back(std::make_shared<Item>(u"** [LSD] **", privateTorrentMessage));
+    itemsByPos.emplace_back(std::make_shared<Item>(u"** [DHT] **", privateTorrentMessage));
+    itemsByPos.emplace_back(std::make_shared<Item>(u"** [PeX] **", privateTorrentMessage));
+    itemsByPos.emplace_back(std::make_shared<Item>(u"** [LSD] **", privateTorrentMessage));
 
-    using TorrentPtr = QPointer<const BitTorrent::Torrent>;
-    m_torrent->fetchPeerInfo([this, torrent = TorrentPtr(m_torrent)](const QList<BitTorrent::PeerInfo> &peers)
+    m_torrent->fetchPeerInfo().then(this, [this, &itemsByPos, torrent = QPointer(m_torrent)](const QList<BitTorrent::PeerInfo> &peers)
     {
-       if (torrent != m_torrent)
+        if (!m_torrent || (m_torrent != torrent))
            return;
 
-       // XXX: libtorrent should provide this info...
-       // Count peers from DHT, PeX, LSD
-       uint seedsDHT = 0, seedsPeX = 0, seedsLSD = 0, peersDHT = 0, peersPeX = 0, peersLSD = 0;
-       for (const BitTorrent::PeerInfo &peer : peers)
-       {
+        // XXX: libtorrent should provide this info...
+        // Count peers from DHT, PeX, LSD
+        qsizetype seedsDHT = 0, seedsPeX = 0, seedsLSD = 0, peersDHT = 0, peersPeX = 0, peersLSD = 0;
+        for (const BitTorrent::PeerInfo &peer : peers)
+        {
             if (peer.isConnecting())
                 continue;
 
@@ -346,7 +347,6 @@ void TrackerListModel::populate()
             }
         }
 
-        auto &itemsByPos = m_items->get<0>();
         itemsByPos.modify((itemsByPos.begin() + ROW_DHT), [&seedsDHT, &peersDHT](std::shared_ptr<Item> &item)
         {
             item->numSeeds = seedsDHT;
@@ -379,15 +379,17 @@ void TrackerListModel::populate()
 std::shared_ptr<TrackerListModel::Item> TrackerListModel::createTrackerItem(const BitTorrent::TrackerEntryStatus &trackerEntryStatus)
 {
     const auto item = std::make_shared<Item>(trackerEntryStatus);
+    item->childItems.get<ByIndex>().reserve(trackerEntryStatus.endpoints.size());
+    item->childItems.get<ByID>().reserve(trackerEntryStatus.endpoints.size());
     for (const auto &[id, endpointStatus] : trackerEntryStatus.endpoints.asKeyValueRange())
-        item->childItems.emplace_back(std::make_shared<Item>(item, endpointStatus));
+        item->childItems.get<ByIndex>().emplace_back(std::make_shared<Item>(item, endpointStatus));
 
     return item;
 }
 
 void TrackerListModel::addTrackerItem(const BitTorrent::TrackerEntryStatus &trackerEntryStatus)
 {
-    [[maybe_unused]] const auto &[iter, res] = m_items->emplace_back(createTrackerItem(trackerEntryStatus));
+    [[maybe_unused]] const auto &[iter, res] = m_items->get<ByIndex>().emplace_back(createTrackerItem(trackerEntryStatus));
     Q_ASSERT(res);
 }
 
@@ -400,7 +402,7 @@ void TrackerListModel::updateTrackerItem(const std::shared_ptr<Item> &item, cons
         endpointItemIDs.insert(id);
 
         auto &itemsByID = item->childItems.get<ByID>();
-        if (const auto &iter = itemsByID.find(std::make_tuple(id.first, id.second)); iter != itemsByID.end())
+        if (const auto iter = itemsByID.find(std::make_tuple(id.first, id.second)); iter != itemsByID.end())
         {
             (*iter)->fillFrom(endpointStatus);
         }
@@ -410,12 +412,12 @@ void TrackerListModel::updateTrackerItem(const std::shared_ptr<Item> &item, cons
         }
     }
 
-    const auto &itemsByPos = m_items->get<0>();
-    const auto trackerRow = std::distance(itemsByPos.begin(), itemsByPos.iterator_to(item));
+    const auto trackerRow = std::distance(m_items->get<ByIndex>().begin(), m_items->get<ByIndex>().iterator_to(item));
     const auto trackerIndex = index(trackerRow, 0);
 
-    auto it = item->childItems.begin();
-    while (it != item->childItems.end())
+    auto &childItemsByPos = item->childItems.get<ByIndex>();
+    auto it = childItemsByPos.begin();
+    while (it != childItemsByPos.end())
     {
         if (const auto endpointItemID = std::make_pair((*it)->name, (*it)->btVersion)
                 ; endpointItemIDs.contains(endpointItemID))
@@ -424,9 +426,9 @@ void TrackerListModel::updateTrackerItem(const std::shared_ptr<Item> &item, cons
         }
         else
         {
-            const auto row = std::distance(item->childItems.begin(), it);
+            const auto row = std::distance(childItemsByPos.begin(), it);
             beginRemoveRows(trackerIndex, row, row);
-            it = item->childItems.erase(it);
+            it = childItemsByPos.erase(it);
             endRemoveRows();
         }
     }
@@ -437,8 +439,10 @@ void TrackerListModel::updateTrackerItem(const std::shared_ptr<Item> &item, cons
     if (!newEndpointItems.isEmpty())
     {
         beginInsertRows(trackerIndex, numRows, (numRows + newEndpointItems.size() - 1));
+        item->childItems.get<ByIndex>().reserve(newEndpointItems.size());
+        item->childItems.get<ByID>().reserve(newEndpointItems.size());
         for (const auto &newEndpointItem : asConst(newEndpointItems))
-            item->childItems.get<0>().push_back(newEndpointItem);
+            childItemsByPos.push_back(newEndpointItem);
         endInsertRows();
     }
 
@@ -456,7 +460,8 @@ void TrackerListModel::refreshAnnounceTimes()
     for (int i = 0; i < rowCount(); ++i)
     {
         const QModelIndex parentIndex = index(i, 0);
-        emit dataChanged(index(0, COL_NEXT_ANNOUNCE, parentIndex), index((rowCount(parentIndex) - 1), COL_MIN_ANNOUNCE, parentIndex));
+        if (const int parentRowCount = rowCount(parentIndex); parentRowCount > 0)
+            emit dataChanged(index(0, COL_NEXT_ANNOUNCE, parentIndex), index((parentRowCount - 1), COL_MIN_ANNOUNCE, parentIndex));
     }
 
     m_announceRefreshTimer->start(ANNOUNCE_TIME_REFRESH_INTERVAL);
@@ -595,14 +600,14 @@ QVariant TrackerListModel::data(const QModelIndex &index, const int role) const
             return isEndpoint ? (u'v' + QString::number(itemPtr->btVersion)) : QString();
         case COL_STATUS:
             if (isEndpoint)
-                return toString(itemPtr->status);
+                return itemPtr->statusText();
             if (index.row() == ROW_DHT)
                 return statusDHT(m_torrent);
             if (index.row() == ROW_PEX)
                 return statusPeX(m_torrent);
             if (index.row() == ROW_LSD)
                 return statusLSD(m_torrent);
-            return toString(itemPtr->status);
+            return itemPtr->statusText();
         case COL_PEERS:
             return prettyCount(itemPtr->numPeers);
         case COL_SEEDS:
@@ -631,7 +636,7 @@ QVariant TrackerListModel::data(const QModelIndex &index, const int role) const
         case COL_PROTOCOL:
             return isEndpoint ? itemPtr->btVersion : -1;
         case COL_STATUS:
-            return toString(itemPtr->status);
+            return itemPtr->statusText();
         case COL_PEERS:
             return itemPtr->numPeers;
         case COL_SEEDS:
@@ -666,8 +671,8 @@ QModelIndex TrackerListModel::index(const int row, const int column, const QMode
         return {};
 
     const std::shared_ptr<Item> item = parent.isValid()
-            ? m_items->at(static_cast<std::size_t>(parent.row()))->childItems.at(row)
-            : m_items->at(static_cast<std::size_t>(row));
+            ? m_items->get<ByIndex>().at(static_cast<std::size_t>(parent.row()))->childItems.at(row)
+            : m_items->get<ByIndex>().at(static_cast<std::size_t>(row));
     return createIndex(row, column, item.get());
 }
 
@@ -691,8 +696,8 @@ QModelIndex TrackerListModel::parent(const QModelIndex &index) const
     if (itemsByNameIter == itemsByName.end()) [[unlikely]]
         return {};
 
-    const auto &itemsByPosIter = m_items->project<0>(itemsByNameIter);
-    const auto row = std::distance(m_items->get<0>().begin(), itemsByPosIter);
+    const auto &itemsByPosIter = m_items->project<ByIndex>(itemsByNameIter);
+    const auto row = std::distance(m_items->get<ByIndex>().begin(), itemsByPosIter);
 
     // From https://doc.qt.io/qt-6/qabstractitemmodel.html#parent:
     // A common convention used in models that expose tree data structures is that only items
@@ -703,8 +708,10 @@ QModelIndex TrackerListModel::parent(const QModelIndex &index) const
 
 void TrackerListModel::onTrackersAdded(const QList<BitTorrent::TrackerEntry> &newTrackers)
 {
-    const int row = rowCount();
-    beginInsertRows({}, row, (row + newTrackers.size() - 1));
+    Q_ASSERT(!newTrackers.isEmpty());
+
+    const int rCount = rowCount();
+    beginInsertRows({}, rCount, (rCount + newTrackers.size() - 1));
     for (const BitTorrent::TrackerEntry &entry : newTrackers)
         addTrackerItem({entry.url, entry.tier});
     endInsertRows();
@@ -715,10 +722,10 @@ void TrackerListModel::onTrackersRemoved(const QStringList &deletedTrackers)
     for (const QString &trackerURL : deletedTrackers)
     {
         auto &itemsByName = m_items->get<ByName>();
-        if (auto iter = itemsByName.find(trackerURL); iter != itemsByName.end())
+        if (const auto iter = itemsByName.find(trackerURL); iter != itemsByName.end())
         {
-            const auto &iterByPos = m_items->project<0>(iter);
-            const auto row = std::distance(m_items->get<0>().begin(), iterByPos);
+            const auto &iterByPos = m_items->project<ByIndex>(iter);
+            const auto row = std::distance(m_items->get<ByIndex>().begin(), iterByPos);
             beginRemoveRows({}, row, row);
             itemsByName.erase(iter);
             endRemoveRows();
@@ -730,15 +737,15 @@ void TrackerListModel::onTrackersChanged()
 {
     QSet<QString> trackerItemIDs;
     for (int i = 0; i < STICKY_ROW_COUNT; ++i)
-        trackerItemIDs.insert(m_items->at(i)->name);
+        trackerItemIDs.insert(m_items->get<ByIndex>().at(i)->name);
 
     QList<std::shared_ptr<Item>> newTrackerItems;
-    for (const BitTorrent::TrackerEntryStatus &trackerEntryStatus : m_torrent->trackers())
+    for (const BitTorrent::TrackerEntryStatus &trackerEntryStatus : asConst(m_torrent->trackers()))
     {
         trackerItemIDs.insert(trackerEntryStatus.url);
 
         auto &itemsByName = m_items->get<ByName>();
-        if (const auto &iter = itemsByName.find(trackerEntryStatus.url); iter != itemsByName.end())
+        if (const auto iter = itemsByName.find(trackerEntryStatus.url); iter != itemsByName.end())
         {
             updateTrackerItem(*iter, trackerEntryStatus);
         }
@@ -748,8 +755,8 @@ void TrackerListModel::onTrackersChanged()
         }
     }
 
-    auto it = m_items->begin();
-    while (it != m_items->end())
+    auto it = m_items->get<ByIndex>().begin();
+    while (it != m_items->get<ByIndex>().end())
     {
         if (trackerItemIDs.contains((*it)->name))
         {
@@ -757,19 +764,23 @@ void TrackerListModel::onTrackersChanged()
         }
         else
         {
-            const auto row = std::distance(m_items->begin(), it);
+            const auto row = std::distance(m_items->get<ByIndex>().begin(), it);
             beginRemoveRows({}, row, row);
-            it = m_items->erase(it);
+            it = m_items->get<ByIndex>().erase(it);
             endRemoveRows();
         }
     }
 
     if (!newTrackerItems.isEmpty())
     {
-        const int numRows = rowCount();
-        beginInsertRows({}, numRows, (numRows + newTrackerItems.size() - 1));
+        const int row = rowCount();
+        const int total = row + newTrackerItems.size();
+
+        beginInsertRows({}, row, (total - 1));
+        m_items->get<ByIndex>().reserve(total);
+        m_items->get<ByName>().reserve(total);
         for (const auto &newTrackerItem : asConst(newTrackerItems))
-            m_items->get<0>().push_back(newTrackerItem);
+            m_items->get<ByIndex>().push_back(newTrackerItem);
         endInsertRows();
     }
 }
@@ -779,7 +790,7 @@ void TrackerListModel::onTrackersUpdated(const QHash<QString, BitTorrent::Tracke
     for (const auto &[url, tracker] : updatedTrackers.asKeyValueRange())
     {
         auto &itemsByName = m_items->get<ByName>();
-        if (const auto &iter = itemsByName.find(tracker.url); iter != itemsByName.end()) [[likely]]
+        if (const auto iter = itemsByName.find(tracker.url); iter != itemsByName.end()) [[likely]]
         {
             updateTrackerItem(*iter, tracker);
         }

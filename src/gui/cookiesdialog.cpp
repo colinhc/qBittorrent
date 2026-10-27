@@ -63,9 +63,10 @@ CookiesDialog::CookiesDialog(QWidget *parent)
 
     m_ui->treeView->setModel(m_cookiesModel);
     if (m_cookiesModel->rowCount() > 0)
-        m_ui->treeView->selectionModel()->setCurrentIndex(
-                    m_cookiesModel->index(0, 0),
-                    QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+    {
+        m_ui->treeView->selectionModel()->setCurrentIndex(m_cookiesModel->index(0, 0)
+            , (QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows));
+    }
 
     if (const QSize dialogSize = m_storeDialogSize; dialogSize.isValid())
         resize(dialogSize);
@@ -92,7 +93,7 @@ void CookiesDialog::onButtonAddClicked()
 
     m_cookiesModel->insertRow(row);
     m_ui->treeView->selectionModel()->setCurrentIndex(
-                m_cookiesModel->index(row, 0), QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+        m_cookiesModel->index(row, 0), (QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows));
 }
 
 void CookiesDialog::onButtonDeleteClicked()
@@ -100,12 +101,10 @@ void CookiesDialog::onButtonDeleteClicked()
     QModelIndexList idxs = m_ui->treeView->selectionModel()->selectedRows();
 
     // sort in descending order
-    std::sort(idxs.begin(), idxs.end(),
-        [](const QModelIndex &l, const QModelIndex &r)
-        {
-            return (l.row() > r.row());
-        }
-    );
+    std::ranges::sort(idxs, [](const QModelIndex &l, const QModelIndex &r)
+    {
+        return (l.row() > r.row());
+    });
 
     for (const QModelIndex &idx : asConst(idxs))
         m_cookiesModel->removeRow(idx.row());

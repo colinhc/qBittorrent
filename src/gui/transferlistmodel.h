@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2015-2024  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2015-2025  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2010  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
@@ -28,6 +28,11 @@
  */
 
 #pragma once
+
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/hashed_index.hpp>
+#include <boost/multi_index/random_access_index.hpp>
+#include <boost/multi_index/tag.hpp>
 
 #include <QAbstractListModel>
 #include <QColor>
@@ -87,6 +92,7 @@ public:
         TR_INFOHASH_V2,
         TR_REANNOUNCE,
         TR_PRIVATE,
+        TR_CREATE_DATE,
 
         NB_COLUMNS
     };
@@ -115,14 +121,20 @@ private slots:
     void handleTorrentsUpdated(const QList<BitTorrent::Torrent *> &torrents);
 
 private:
+    int getTorrentRow(BitTorrent::Torrent *torrent) const;
+
     void configure();
     void loadUIThemeResources();
     QString displayValue(const BitTorrent::Torrent *torrent, int column) const;
     QVariant internalValue(const BitTorrent::Torrent *torrent, int column, bool alt) const;
     QIcon getIconByState(BitTorrent::TorrentState state) const;
 
-    QList<BitTorrent::Torrent *> m_torrentList;  // maps row number to torrent handle
-    QHash<BitTorrent::Torrent *, int> m_torrentMap;  // maps torrent handle to row number
+    using TorrentList = boost::multi_index_container<
+        BitTorrent::Torrent *,
+        boost::multi_index::indexed_by<
+            boost::multi_index::random_access<boost::multi_index::tag<struct ByIndex>>,
+            boost::multi_index::hashed_unique<boost::multi_index::tag<struct ByHandle>, boost::multi_index::identity<BitTorrent::Torrent *>>>>;
+    TorrentList m_torrents;
     const QHash<BitTorrent::TorrentState, QString> m_statusStrings;
     // row text colors
     QHash<BitTorrent::TorrentState, QColor> m_stateThemeColors;
@@ -135,6 +147,7 @@ private:
     };
 
     HideZeroValuesMode m_hideZeroValuesMode = HideZeroValuesMode::Never;
+    bool m_useTorrentStatesColors = false;
 
     // cached icons
     QIcon m_checkingIcon;

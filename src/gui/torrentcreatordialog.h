@@ -31,11 +31,17 @@
 #pragma once
 
 #include <QDialog>
-#include <QThreadPool>
 
-#include "base/bittorrent/torrentcreator.h"
 #include "base/path.h"
 #include "base/settingvalue.h"
+
+class QThreadPool;
+
+namespace BitTorrent
+{
+    enum class TorrentFormat;
+    struct TorrentCreatorResult;
+}
 
 namespace Ui
 {
@@ -54,7 +60,7 @@ public:
 
 private slots:
     void updateProgressBar(int progress);
-    void updatePiecesCount();
+    void onCalculatePiecesButtonClicked();
     void onCreateButtonClicked();
     void onAddFileButtonClicked();
     void onAddFolderButtonClicked();
@@ -77,11 +83,12 @@ private:
 #endif
 
     Ui::TorrentCreatorDialog *m_ui = nullptr;
-    QThreadPool m_threadPool;
+    QThreadPool *m_threadPool = nullptr;
 
     // settings
     SettingValue<QSize> m_storeDialogSize;
     SettingValue<int> m_storePieceSize;
+    SettingValue<bool> m_storeIgnoreDotfiles;
     SettingValue<bool> m_storePrivateTorrent;
     SettingValue<bool> m_storeStartSeeding;
     SettingValue<bool> m_storeIgnoreRatio;

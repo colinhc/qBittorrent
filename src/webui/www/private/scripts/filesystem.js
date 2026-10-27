@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2019  Thomas Piccirello <thomas.piccirello@gmail.com>
+ * Copyright (C) 2019  Thomas Piccirello <thomas@piccirello.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,6 +35,7 @@ window.qBittorrent.Filesystem ??= (() => {
     const exports = () => {
         return {
             PathSeparator: PathSeparator,
+            getServerPathSeparator: getServerPathSeparator,
             fileExtension: fileExtension,
             fileName: fileName,
             folderName: folderName
@@ -42,6 +43,14 @@ window.qBittorrent.Filesystem ??= (() => {
     };
 
     const PathSeparator = "/";
+
+    /**
+     * The native path separator used on the server
+     */
+    const getServerPathSeparator = () => {
+        return (window.qBittorrent?.Cache?.buildInfo.get().platform === "windows")
+            ? "\\" : PathSeparator;
+    };
 
     /**
      * Returns the file extension part of a file name.

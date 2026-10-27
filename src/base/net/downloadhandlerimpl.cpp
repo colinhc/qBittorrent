@@ -217,14 +217,31 @@ void Net::DownloadHandlerImpl::handleRedirection(const QUrl &newUrl)
     // Resolve relative urls
     const QUrl resolvedUrl = newUrl.isRelative() ? m_reply->url().resolved(newUrl) : newUrl;
     const QString newUrlString = resolvedUrl.toString();
+    const QString scheme = resolvedUrl.scheme();
     qDebug("Redirecting from %s to %s...", qUtf8Printable(m_reply->url().toString()), qUtf8Printable(newUrlString));
 
     // Redirect to magnet workaround
-    if (newUrlString.startsWith(u"magnet:", Qt::CaseInsensitive))
+    if (scheme == u"magnet")
     {
         m_result.status = Net::DownloadStatus::RedirectedToMagnet;
         m_result.magnetURI = newUrlString;
         m_result.errorString = tr("Redirected to magnet URI");
+        finish();
+        return;
+    }
+
+    // SSRF protection: strict scheme whitelist
+    if ((scheme != u"http") && (scheme != u"https"))
+    {
+        setError(tr("Redirect to unsupported or dangerous protocol: '%1'.").arg(scheme));
+        finish();
+        return;
+    }
+
+    if (!m_downloadRequest.allowInsecureRedirect()
+        && (m_reply->url().scheme() == u"https") && (scheme != u"https"))
+    {
+        setError(tr("Redirect from a secure to an insecure protocol: '%1'.").arg(scheme));
         finish();
         return;
     }
@@ -279,13 +296,13 @@ QString Net::DownloadHandlerImpl::errorCodeToString(const QNetworkReply::Network
     case QNetworkReply::ProxyAuthenticationRequiredError:
         return tr("The proxy requires authentication in order to honor the request but did not accept any credentials offered");
     case QNetworkReply::ContentAccessDenied:
-        return tr("The access to the remote content was denied (401)");
+        return tr("The access to the remote content was denied (403)");
     case QNetworkReply::ContentOperationNotPermittedError:
         return tr("The operation requested on the remote content is not permitted");
     case QNetworkReply::ContentNotFoundError:
         return tr("The remote content was not found at the server (404)");
     case QNetworkReply::AuthenticationRequiredError:
-        return tr("The remote server requires authentication to serve the content but the credentials provided were not accepted");
+        return tr("The remote server requires authentication to serve the content but the credentials provided were not accepted (401)");
     case QNetworkReply::ProtocolUnknownError:
         return tr("The Network Access API cannot honor the request because the protocol is not known");
     case QNetworkReply::ProtocolInvalidOperationError:

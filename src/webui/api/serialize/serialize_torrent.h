@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2018-2023  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2018-2025  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -85,6 +85,8 @@ inline const QString KEY_TORRENT_MAX_INACTIVE_SEEDING_TIME = u"max_inactive_seed
 inline const QString KEY_TORRENT_RATIO_LIMIT = u"ratio_limit"_s;
 inline const QString KEY_TORRENT_SEEDING_TIME_LIMIT = u"seeding_time_limit"_s;
 inline const QString KEY_TORRENT_INACTIVE_SEEDING_TIME_LIMIT = u"inactive_seeding_time_limit"_s;
+inline const QString KEY_TORRENT_SHARE_LIMITS_MODE = u"share_limits_mode"_s;
+inline const QString KEY_TORRENT_SHARE_LIMIT_ACTION = u"share_limit_action"_s;
 inline const QString KEY_TORRENT_LAST_SEEN_COMPLETE_TIME = u"seen_complete"_s;
 inline const QString KEY_TORRENT_LAST_ACTIVITY_TIME = u"last_activity"_s;
 inline const QString KEY_TORRENT_TOTAL_SIZE = u"total_size"_s;
@@ -96,5 +98,13 @@ inline const QString KEY_TORRENT_REANNOUNCE = u"reannounce"_s;
 inline const QString KEY_TORRENT_COMMENT = u"comment"_s;
 inline const QString KEY_TORRENT_PRIVATE = u"private"_s;
 inline const QString KEY_TORRENT_HAS_METADATA = u"has_metadata"_s;
+inline const QString KEY_TORRENT_CONNECTIONS_COUNT = u"connections_count"_s;
+inline const QString KEY_TORRENT_CONNECTIONS_LIMIT = u"connections_limit"_s;
+inline const QString KEY_TORRENT_TOTAL_WASTED = u"total_wasted"_s;
+inline const QString KEY_TORRENT_PIECES_NUM = u"pieces_num"_s;
+inline const QString KEY_TORRENT_PIECE_SIZE = u"piece_size"_s;
+inline const QString KEY_TORRENT_PIECES_HAVE = u"pieces_have"_s;
+inline const QString KEY_TORRENT_CREATED_BY = u"created_by"_s;
+inline const QString KEY_TORRENT_CREATION_DATE = u"creation_date"_s;
 
 QVariantMap serialize(const BitTorrent::Torrent &torrent);

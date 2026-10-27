@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2015-2024  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2015-2025  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2012  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
@@ -452,7 +452,7 @@ namespace
         //       if (month >= 12 || dayOfWeek >= 7
         //       ||  (dayOfWeek < 0  &&  format == RFCDateDay))
         //         return QDateTime;
-        const int i = parts[nyear].size();
+        const qsizetype i = parts[nyear].size();
         if (i < 4)
         {
             // It's an obsolete year specification with less than 4 digits
@@ -503,7 +503,7 @@ namespace
                     {
                         // Check for any other alphabetic time zone
                         bool nonalpha = false;
-                        for (int i = 0, end = zone.size(); (i < end) && !nonalpha; ++i)
+                        for (qsizetype i = 0, end = zone.size(); (i < end) && !nonalpha; ++i)
                             nonalpha = !isalpha(zone[i]);
                         if (nonalpha)
                             return {};

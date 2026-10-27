@@ -63,14 +63,14 @@
 #include "base/utils/bytearray.h"
 #include "base/utils/compare.h"
 #include "base/utils/datetime.h"
-#include "base/utils/fs.h"
 #include "base/utils/foreignapps.h"
+#include "base/utils/fs.h"
 #include "base/utils/io.h"
 #include "gui/desktopintegration.h"
 #include "gui/interfaces/iguiapplication.h"
 #include "gui/uithememanager.h"
-#include "pluginselectdialog.h"
 #include "searchjobwidget.h"
+#include "searchpluginselectdialog.h"
 #include "ui_searchwidget.h"
 
 const int HISTORY_FILE_MAX_SIZE = 10 * 1024 * 1024;
@@ -138,6 +138,7 @@ namespace
         case SearchJobWidget::Status::Aborted:
             return u"task-reject"_s;
         case SearchJobWidget::Status::Error:
+            return u"error"_s;
         case SearchJobWidget::Status::NoResults:
             return u"dialog-warning"_s;
         default:
@@ -172,8 +173,10 @@ namespace
             return nonstd::make_unexpected(readResult.error().message);
         }
 
+        const QList<QByteArrayView> lines = Utils::ByteArray::splitToViews(readResult.value(), "\n");
         QStringList history;
-        for (const QByteArrayView line : asConst(Utils::ByteArray::splitToViews(readResult.value(), "\n")))
+        history.reserve(lines.size());
+        for (const QByteArrayView line : lines)
             history.append(QString::fromUtf8(line));
 
         return history;
@@ -428,9 +431,17 @@ SearchWidget::SearchWidget(IGUIApplication *app, QWidget *parent)
     const auto *focusSearchHotkeyAlternative = new QShortcut((Qt::CTRL | Qt::Key_E), this);
     connect(focusSearchHotkeyAlternative, &QShortcut::activated, this, &SearchWidget::toggleFocusBetweenLineEdits);
 
+    const auto *closeTabHotkey = new QShortcut(QKeySequence::Close, this);
+    connect(closeTabHotkey, &QShortcut::activated, this, [this]()
+    {
+        const int currentIndex = m_ui->tabWidget->currentIndex();
+        if (currentIndex >= 0)
+            closeTab(currentIndex);
+    });
+
     m_historyLength = Preferences::instance()->searchHistoryLength();
-    m_storeOpenedTabs = Preferences::instance()->storeOpenedSearchTabs();
-    m_storeOpenedTabsResults = Preferences::instance()->storeOpenedSearchTabResults();
+    m_storeOpenedTabs = Preferences::instance()->storeSearchJobs();
+    m_storeOpenedTabsResults = Preferences::instance()->storeSearchJobResults();
     connect(Preferences::instance(), &Preferences::changed, this, &SearchWidget::onPreferencesChanged);
 
     m_dataStorage->moveToThread(m_ioThread.get());
@@ -456,7 +467,9 @@ bool SearchWidget::eventFilter(QObject *object, QEvent *event)
         {
             if (mouseEvent->button() == Qt::MiddleButton)
             {
-                closeTab(tabIndex);
+                if (Preferences::instance()->closeSearchTabWithMiddleClick())
+                    closeTab(tabIndex);
+
                 return true;
             }
 
@@ -477,7 +490,7 @@ void SearchWidget::onPreferencesChanged()
 {
     const auto *pref = Preferences::instance();
 
-    const bool storeOpenedTabs = pref->storeOpenedSearchTabs();
+    const bool storeOpenedTabs = pref->storeSearchJobs();
     const bool isStoreOpenedTabsChanged = storeOpenedTabs != m_storeOpenedTabs;
     if (isStoreOpenedTabsChanged)
     {
@@ -493,7 +506,7 @@ void SearchWidget::onPreferencesChanged()
     }
 
 
-    const bool storeOpenedTabsResults = pref->storeOpenedSearchTabResults();
+    const bool storeOpenedTabsResults = pref->storeSearchJobResults();
     const bool isStoreOpenedTabsResultsChanged = storeOpenedTabsResults != m_storeOpenedTabsResults;
     if (isStoreOpenedTabsResultsChanged)
         m_storeOpenedTabsResults = storeOpenedTabsResults;
@@ -562,7 +575,7 @@ void SearchWidget::fillCatCombobox()
     const auto selectedPlugin = m_ui->selectPlugin->itemData(m_ui->selectPlugin->currentIndex()).toString();
     for (const QString &cat : asConst(SearchPluginManager::instance()->getPluginCategories(selectedPlugin)))
         tmpList << std::make_pair(SearchPluginManager::categoryFullName(cat), cat);
-    std::sort(tmpList.begin(), tmpList.end(), [](const QStrPair &l, const QStrPair &r) { return (QString::localeAwareCompare(l.first, r.first) < 0); });
+    std::ranges::sort(tmpList, [](const QStrPair &l, const QStrPair &r) { return (QString::localeAwareCompare(l.first, r.first) < 0); });
 
     for (const QStrPair &p : asConst(tmpList))
     {
@@ -585,7 +598,7 @@ void SearchWidget::fillPluginComboBox()
     QList<QStrPair> tmpList;
     for (const QString &name : asConst(SearchPluginManager::instance()->enabledPlugins()))
         tmpList << std::make_pair(SearchPluginManager::instance()->pluginFullName(name), name);
-    std::sort(tmpList.begin(), tmpList.end(), [](const QStrPair &l, const QStrPair &r) { return (l.first < r.first); } );
+    std::ranges::sort(tmpList, [](const QStrPair &l, const QStrPair &r) { return (QString::localeAwareCompare(l.first, r.first) < 0); });
 
     for (const QStrPair &p : asConst(tmpList))
         m_ui->selectPlugin->addItem(p.first, p.second);
@@ -673,7 +686,7 @@ void SearchWidget::loadHistory()
         }
 
         if (history.size() > m_historyLength)
-            history = history.mid(history.size() - m_historyLength);
+            history.remove(0, (history.size() - m_historyLength));
 
         m_searchPatternCompleterModel->setStringList(history);
     });
@@ -825,11 +838,11 @@ void SearchWidget::showTabMenu(const int index)
     if (auto *searchJobWidget = static_cast<SearchJobWidget *>(m_ui->tabWidget->widget(index));
             searchJobWidget->status() != SearchJobWidget::Status::Ongoing)
     {
-        menu->addAction(tr("Refresh"), this, [this, searchJobWidget] { refreshTab(searchJobWidget); });
+        menu->addAction(tr("Refresh tab"), this, [this, searchJobWidget] { refreshTab(searchJobWidget); });
     }
     else
     {
-        menu->addAction(tr("Stop"), this, [searchJobWidget] { searchJobWidget->cancelSearch(); });
+        menu->addAction(tr("Stop search"), this, [searchJobWidget] { searchJobWidget->cancelSearch(); });
     }
 
     menu->addSeparator();
@@ -842,7 +855,7 @@ void SearchWidget::showTabMenu(const int index)
 
 void SearchWidget::pluginsButtonClicked()
 {
-    auto *dlg = new PluginSelectDialog(SearchPluginManager::instance(), this);
+    auto *dlg = new SearchPluginSelectDialog(SearchPluginManager::instance(), this);
     dlg->setAttribute(Qt::WA_DeleteOnClose);
     dlg->show();
 }
@@ -1027,7 +1040,7 @@ void SearchWidget::DataStorage::storeSession(const SessionData &sessionData)
 
 void SearchWidget::DataStorage::removeSession()
 {
-    Utils::Fs::removeFile(makeDataFilePath(SESSION_FILE_NAME));
+    std::ignore = Utils::Fs::removeFile(makeDataFilePath(SESSION_FILE_NAME));
 }
 
 void SearchWidget::DataStorage::storeTab(const QString &tabID, const QList<SearchResult> &searchResults)
@@ -1059,7 +1072,7 @@ void SearchWidget::DataStorage::storeTab(const QString &tabID, const QList<Searc
 
 void SearchWidget::DataStorage::removeTab(const QString &tabID)
 {
-    Utils::Fs::removeFile(makeDataFilePath(tabID + u".json"));
+    std::ignore = Utils::Fs::removeFile(makeDataFilePath(tabID + u".json"));
 }
 
 void SearchWidget::DataStorage::loadHistory()
@@ -1089,7 +1102,7 @@ void SearchWidget::DataStorage::storeHistory(const QStringList &history)
 
 void SearchWidget::DataStorage::removeHistory()
 {
-    Utils::Fs::removeFile(makeDataFilePath(HISTORY_FILE_NAME));
+    std::ignore = Utils::Fs::removeFile(makeDataFilePath(HISTORY_FILE_NAME));
 }
 
 #include "searchwidget.moc"

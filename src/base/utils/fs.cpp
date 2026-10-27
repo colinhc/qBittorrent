@@ -29,6 +29,7 @@
 
 #include "fs.h"
 
+#include <algorithm>
 #include <filesystem>
 
 #if defined(Q_OS_WIN)
@@ -62,6 +63,52 @@
 
 #include "base/path.h"
 
+namespace
+{
+#ifdef Q_OS_WIN
+    bool isReservedDeviceName(const QStringView name)
+    {
+        // Set of Windows reserved device names
+        const QSet<QString> reservedDeviceNames
+        {
+            u"CON"_s, u"PRN"_s, u"AUX"_s, u"NUL"_s,
+            u"COM1"_s, u"COM2"_s, u"COM3"_s, u"COM4"_s,
+            u"COM5"_s, u"COM6"_s, u"COM7"_s, u"COM8"_s,
+            u"COM9"_s, u"COM¹"_s, u"COM²"_s, u"COM³"_s,
+            u"LPT1"_s, u"LPT2"_s, u"LPT3"_s, u"LPT4"_s,
+            u"LPT5"_s, u"LPT6"_s, u"LPT7"_s, u"LPT8"_s,
+            u"LPT9"_s, u"LPT¹"_s, u"LPT²"_s, u"LPT³"_s
+        };
+
+        // Check if name is a Windows reserved device name,
+        // including when immediately followed by an extension (e.g. CON.txt)
+        const qsizetype lastDotIndex = name.lastIndexOf(u'.');
+        const QStringView baseName = (lastDotIndex == -1) ? name : name.left(lastDotIndex);
+        return std::ranges::any_of(reservedDeviceNames, [baseName](const QString &reserved)
+        {
+            return baseName.compare(reserved, Qt::CaseInsensitive) == 0;
+        });
+    }
+#endif
+
+    // Check if a character is reserved (Control, DEL, '/', or Windows/macOS specific)
+    bool isReservedCharacter(const QChar c)
+    {
+        const ushort unicode = c.unicode();
+        if ((unicode < 32) || (unicode == 127) || (c == u'/'))
+            return true;
+
+#if defined(Q_OS_WIN)
+        if ((c == u'\\') || (c == u'<') || (c == u'>') || (c == u':') || (c == u'"') || (c == u'|') || (c == u'?') || (c == u'*'))
+            return true;
+#elif defined(Q_OS_MACOS)
+        return (c == u':');
+#endif
+
+        return false;
+    }
+}
+
 /**
  * This function will first check if there are only system cache files, e.g. `Thumbs.db`,
  * `.DS_Store` and/or only temp files that end with '~', e.g. `filename~`.
@@ -88,13 +135,12 @@ bool Utils::Fs::smartRemoveEmptyFolderTree(const Path &path)
     };
 
     // travel from the deepest folder and remove anything unwanted on the way out.
-    QStringList dirList(path.data() + u'/');  // get all sub directories paths
+    QStringList dirList(path.data() + u'/');  // get all subdirectory paths
     QDirIterator iter {path.data(), (QDir::AllDirs | QDir::NoDotAndDotDot), QDirIterator::Subdirectories};
     while (iter.hasNext())
         dirList << iter.next() + u'/';
     // sort descending by directory depth
-    std::sort(dirList.begin(), dirList.end()
-              , [](const QString &l, const QString &r) { return l.count(u'/') > r.count(u'/'); });
+    std::ranges::sort(dirList, [](const QString &l, const QString &r) { return l.count(u'/') > r.count(u'/'); });
 
     for (const QString &p : asConst(dirList))
     {
@@ -108,7 +154,7 @@ bool Utils::Fs::smartRemoveEmptyFolderTree(const Path &path)
 
         // deleteFilesList contains unwanted files, usually created by the OS
         // temp files on linux usually end with '~', e.g. `filename~`
-        const bool hasOtherFiles = std::any_of(tmpFileList.cbegin(), tmpFileList.cend(), [&deleteFilesList](const QString &f)
+        const bool hasOtherFiles = std::ranges::any_of(tmpFileList, [&deleteFilesList](const QString &f)
         {
             return (!f.endsWith(u'~') && !deleteFilesList.contains(f, Qt::CaseInsensitive));
         });
@@ -116,7 +162,7 @@ bool Utils::Fs::smartRemoveEmptyFolderTree(const Path &path)
             continue;
 
         for (const QString &f : tmpFileList)
-            removeFile(Path(p + f));
+            std::ignore = removeFile(Path(p + f));
 
         // remove directory if empty
         dir.rmdir(p);
@@ -164,7 +210,7 @@ qint64 Utils::Fs::computePathSize(const Path &path)
  * the paths refers to nothing and therefore we cannot say the files are same
  * (because there are no files!)
  */
-bool Utils::Fs::sameFiles(const Path &path1, const Path &path2)
+bool Utils::Fs::isSameFile(const Path &path1, const Path &path2)
 {
     QFile f1 {path1.data()};
     QFile f2 {path2.data()};
@@ -187,29 +233,96 @@ bool Utils::Fs::sameFiles(const Path &path1, const Path &path2)
     return true;
 }
 
-QString Utils::Fs::toValidFileName(const QString &name, const QString &pad)
+// Check if a filename is valid without sanitizing
+bool Utils::Fs::isValidFileName(const QStringView name)
 {
-    const QRegularExpression regex {u"[\\\\/:?\"*<>|]+"_s};
+    // The empty string, "." and ".." are not valid filenames
+    if (name.isEmpty() || (name == u".") || (name == u".."))
+        return false;
 
-    QString validName = name.trimmed();
-    validName.replace(regex, pad);
+#ifdef Q_OS_WIN
+    // Windows restricts file names to 255 characters
+    if (name.length() > 255)
+        return false;
 
-    return validName;
+    // Windows prohibits trailing dots or spaces for filenames
+    if (name.endsWith(u'.') || name.endsWith(u' '))
+        return false;
+
+    // Reserved device names (CON, PRN, AUX, etc.) cannot be used as file or directory names in Windows
+    if (isReservedDeviceName(name))
+        return false;
+#else
+    // Non-Windows systems limit file name lengths to 255 bytes in UTF-8 encoding
+    if (name.toUtf8().length() > 255)
+        return false;
+#endif
+
+    // Check for OS specific reserved characters
+    if (std::ranges::any_of(name, isReservedCharacter))
+        return false;
+
+    return true;
 }
 
-Path Utils::Fs::toValidPath(const QString &name, const QString &pad)
+// Sanitize filename using pad
+QString Utils::Fs::toValidFileName(QStringView name, const QString &pad)
 {
-    const QRegularExpression regex {u"[:?\"*<>|]+"_s};
+    name = name.trimmed();
 
-    QString validPathStr = name;
-    validPathStr.replace(regex, pad);
+    // The empty string, "." and ".." are not valid filenames
+    if (name.isEmpty() || (name == u".") || (name == u".."))
+        return pad;
 
-    return Path(validPathStr);
+    QString validName;
+    validName.reserve(name.size());
+
+    // Replace one or more reserved characters with a single pad
+    for (const QChar c : asConst(name))
+    {
+        if (isReservedCharacter(c))
+        {
+            if (!validName.endsWith(pad))
+                validName += pad;
+        }
+        else
+        {
+            validName += c;
+        }
+    }
+
+#ifdef Q_OS_WIN
+    // Remove trailing dots and spaces (Windows forbids filenames ending with '.' or " ")
+    while (validName.endsWith(u'.') || validName.endsWith(u' '))
+        validName.chop(1);
+
+    // Append pad+"1" to Windows reserved device names (e.g. "con.txt" → "con_1.txt")
+    if (isReservedDeviceName(validName))
+    {
+        const qsizetype lastDotIndex = validName.lastIndexOf(u'.');
+        const QString baseName = (lastDotIndex == -1) ? validName : validName.left(lastDotIndex);
+        const QString suffix = (lastDotIndex == -1) ? QString() : validName.sliced(lastDotIndex);
+
+        validName = baseName + pad + u"1" + suffix;
+    }
+#endif
+
+    return validName.trimmed();
 }
 
 qint64 Utils::Fs::freeDiskSpaceOnPath(const Path &path)
 {
-    return QStorageInfo(path.data()).bytesAvailable();
+    Path usedPath = path;
+    qint64 freeSpace = -1;
+    // For non-existent directories (which will be created on demand) `QStorageInfo::bytesAvailable()`
+    // will return invalid value so instead query its parent/ancestor paths
+    while ((freeSpace < 0) && !usedPath.isEmpty())
+    {
+        freeSpace = QStorageInfo(usedPath.data()).bytesAvailable();
+        usedPath = usedPath.parentPath();
+    }
+
+    return freeSpace;
 }
 
 Path Utils::Fs::tempPath()
@@ -301,6 +414,12 @@ bool Utils::Fs::copyFile(const Path &from, const Path &to)
 
 bool Utils::Fs::renameFile(const Path &from, const Path &to)
 {
+    if (!from.exists())
+        return false;
+
+    if (!mkpath(to.parentPath()))
+        return false;
+
     return QFile::rename(from.data(), to.data());
 }
 
@@ -343,7 +462,6 @@ nonstd::expected<void, QString> Utils::Fs::moveFileToTrash(const Path &path)
     const QString errorMessage = file.errorString();
     return nonstd::make_unexpected(!errorMessage.isEmpty() ? errorMessage : QCoreApplication::translate("fs", "Unknown error"));
 }
-
 
 bool Utils::Fs::isReadable(const Path &path)
 {

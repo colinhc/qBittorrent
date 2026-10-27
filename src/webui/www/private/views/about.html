@@ -5,7 +5,7 @@
         <h3 id="qbittorrentVersion">qBittorrent</h3>
     </div>
     <p>QBT_TR(An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent-rasterbar.)QBT_TR[CONTEXT=AboutDialog]</p>
-    <p>Copyright © 2006-2025 The qBittorrent project</p>
+    <p>Copyright © 2006-2026 The qBittorrent project</p>
     <table>
         <tbody>
             <tr>
@@ -821,27 +821,27 @@
 
 <div id="aboutSoftwareUsedContent" class="aboutTabContent invisible">
     <p>QBT_TR(qBittorrent was built with the following libraries:)QBT_TR[CONTEXT=AboutDialog]</p>
-    <table style="margin-left: 20px;">
+    <table style="margin: 0 auto;">
         <tbody>
             <tr>
-                <td>Qt:</td>
-                <td><span id="qtVersion"></span></td>
+                <td style="text-align: right;">Qt:</td>
+                <td id="qtVersion"></td>
             </tr>
             <tr>
-                <td>Libtorrent:</td>
-                <td><span id="libtorrentVersion"></span></td>
+                <td style="text-align: right;">Libtorrent:</td>
+                <td id="libtorrentVersion"></td>
             </tr>
             <tr>
-                <td>Boost:</td>
-                <td><span id="boostVersion"></span></td>
+                <td style="text-align: right;">Boost:</td>
+                <td id="boostVersion"></td>
             </tr>
             <tr>
-                <td>OpenSSL:</td>
-                <td><span id="opensslVersion"></span></td>
+                <td style="text-align: right;">OpenSSL:</td>
+                <td id="opensslVersion"></td>
             </tr>
             <tr>
-                <td>zlib:</td>
-                <td><span id="zlibVersion"></span></td>
+                <td style="text-align: right;">zlib:</td>
+                <td id="zlibVersion"></td>
             </tr>
         </tbody>
     </table>
@@ -855,12 +855,12 @@
         const qbtVersion = window.parent.qBittorrent.Cache.qbtVersion.get();
         const buildInfo = window.parent.qBittorrent.Cache.buildInfo.get();
 
-        $("qbittorrentVersion").textContent = `qBittorrent ${qbtVersion} QBT_TR(WebUI)QBT_TR[CONTEXT=OptionsDialog]`;
-        $("qtVersion").textContent = buildInfo.qt;
-        $("libtorrentVersion").textContent = buildInfo.libtorrent;
-        $("boostVersion").textContent = buildInfo.boost;
-        $("opensslVersion").textContent = buildInfo.openssl;
-        $("zlibVersion").textContent = buildInfo.zlib;
-        $("qbittorrentVersion").textContent += ` (${buildInfo.bitness}-bit)`;
+        document.getElementById("qbittorrentVersion").textContent = `qBittorrent ${qbtVersion} QBT_TR(WebUI)QBT_TR[CONTEXT=OptionsDialog]`;
+        document.getElementById("qtVersion").textContent = buildInfo.qt;
+        document.getElementById("libtorrentVersion").textContent = buildInfo.libtorrent;
+        document.getElementById("boostVersion").textContent = buildInfo.boost;
+        document.getElementById("opensslVersion").textContent = buildInfo.openssl;
+        document.getElementById("zlibVersion").textContent = buildInfo.zlib;
+        document.getElementById("qbittorrentVersion").textContent += ` (${buildInfo.bitness}-bit)`;
     })();
 </script>

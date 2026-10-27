@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2018-2023  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2018-2025  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -107,14 +107,29 @@ QVariantMap serialize(const BitTorrent::Torrent &torrent)
             : (QDateTime::currentSecsSinceEpoch() - timeSinceActivity);
     };
 
+    const bool hasMetadata = torrent.hasMetadata();
+    const BitTorrent::ShareLimits &shareLimits = torrent.shareLimits();
+    const BitTorrent::ShareLimits effectiveShareLimits = torrent.effectiveShareLimits();
+
     return {
         {KEY_TORRENT_ID, torrent.id().toString()},
         {KEY_TORRENT_INFOHASHV1, torrent.infoHash().v1().toString()},
         {KEY_TORRENT_INFOHASHV2, torrent.infoHash().v2().toString()},
         {KEY_TORRENT_NAME, torrent.name()},
+
+        {KEY_TORRENT_HAS_METADATA, hasMetadata},
+        {KEY_TORRENT_CREATED_BY, torrent.creator()},
+        {KEY_TORRENT_CREATION_DATE, Utils::DateTime::toSecsSinceEpoch(torrent.creationDate())},
+        {KEY_TORRENT_PRIVATE, (hasMetadata ? torrent.isPrivate() : QVariant())},
+        {KEY_TORRENT_TOTAL_SIZE, torrent.totalSize()},
+        {KEY_TORRENT_PIECES_NUM, torrent.piecesCount()},
+        {KEY_TORRENT_PIECE_SIZE, torrent.pieceLength()},
+
         {KEY_TORRENT_MAGNET_URI, torrent.createMagnetURI()},
         {KEY_TORRENT_SIZE, torrent.wantedSize()},
         {KEY_TORRENT_PROGRESS, torrent.progress()},
+        {KEY_TORRENT_TOTAL_WASTED, torrent.wastedSize()},
+        {KEY_TORRENT_PIECES_HAVE, torrent.piecesHave()},
         {KEY_TORRENT_DLSPEED, torrent.downloadPayloadRate()},
         {KEY_TORRENT_UPSPEED, torrent.uploadPayloadRate()},
         {KEY_TORRENT_QUEUE_POSITION, adjustQueuePosition(torrent.queuePosition())},
@@ -148,14 +163,18 @@ QVariantMap serialize(const BitTorrent::Torrent &torrent)
         {KEY_TORRENT_AMOUNT_UPLOADED_SESSION, torrent.totalPayloadUpload()},
         {KEY_TORRENT_AMOUNT_LEFT, torrent.remainingSize()},
         {KEY_TORRENT_AMOUNT_COMPLETED, torrent.completedSize()},
-        {KEY_TORRENT_MAX_RATIO, torrent.maxRatio()},
-        {KEY_TORRENT_MAX_SEEDING_TIME, torrent.maxSeedingTime()},
-        {KEY_TORRENT_MAX_INACTIVE_SEEDING_TIME, torrent.maxInactiveSeedingTime()},
+        {KEY_TORRENT_CONNECTIONS_COUNT, torrent.connectionsCount()},
+        {KEY_TORRENT_CONNECTIONS_LIMIT, torrent.connectionsLimit()},
+        {KEY_TORRENT_MAX_RATIO, effectiveShareLimits.ratioLimit},
+        {KEY_TORRENT_MAX_SEEDING_TIME, effectiveShareLimits.seedingTimeLimit},
+        {KEY_TORRENT_MAX_INACTIVE_SEEDING_TIME, effectiveShareLimits.inactiveSeedingTimeLimit},
         {KEY_TORRENT_RATIO, adjustRatio(torrent.realRatio())},
-        {KEY_TORRENT_RATIO_LIMIT, torrent.ratioLimit()},
+        {KEY_TORRENT_RATIO_LIMIT, shareLimits.ratioLimit},
         {KEY_TORRENT_POPULARITY, torrent.popularity()},
-        {KEY_TORRENT_SEEDING_TIME_LIMIT, torrent.seedingTimeLimit()},
-        {KEY_TORRENT_INACTIVE_SEEDING_TIME_LIMIT, torrent.inactiveSeedingTimeLimit()},
+        {KEY_TORRENT_SEEDING_TIME_LIMIT, shareLimits.seedingTimeLimit},
+        {KEY_TORRENT_INACTIVE_SEEDING_TIME_LIMIT, shareLimits.inactiveSeedingTimeLimit},
+        {KEY_TORRENT_SHARE_LIMITS_MODE, Utils::String::fromEnum(shareLimits.mode)},
+        {KEY_TORRENT_SHARE_LIMIT_ACTION, Utils::String::fromEnum(shareLimits.action)},
         {KEY_TORRENT_LAST_SEEN_COMPLETE_TIME, Utils::DateTime::toSecsSinceEpoch(torrent.lastSeenComplete())},
         {KEY_TORRENT_AUTO_TORRENT_MANAGEMENT, torrent.isAutoTMMEnabled()},
         {KEY_TORRENT_TIME_ACTIVE, torrent.activeTime()},
@@ -163,9 +182,6 @@ QVariantMap serialize(const BitTorrent::Torrent &torrent)
         {KEY_TORRENT_LAST_ACTIVITY_TIME, getLastActivityTime()},
         {KEY_TORRENT_AVAILABILITY, torrent.distributedCopies()},
         {KEY_TORRENT_REANNOUNCE, torrent.nextAnnounce()},
-        {KEY_TORRENT_COMMENT, torrent.comment()},
-        {KEY_TORRENT_PRIVATE, (torrent.hasMetadata() ? torrent.isPrivate() : QVariant())},
-        {KEY_TORRENT_TOTAL_SIZE, torrent.totalSize()},
-        {KEY_TORRENT_HAS_METADATA, torrent.hasMetadata()}
+        {KEY_TORRENT_COMMENT, torrent.comment()}
     };
 }

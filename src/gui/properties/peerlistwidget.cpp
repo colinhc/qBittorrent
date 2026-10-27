@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2023  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2023-2025  Vladimir Golovnev <glassez@yandex.ru>
  * Copyright (C) 2006  Christophe Dumez <chris@qbittorrent.org>
  *
  * This program is free software; you can redistribute it and/or
@@ -33,6 +33,7 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QFuture>
 #include <QHeaderView>
 #include <QHostAddress>
 #include <QList>
@@ -58,6 +59,7 @@
 #include "base/utils/misc.h"
 #include "base/utils/string.h"
 #include "gui/uithememanager.h"
+#include "gui/utils/keysequence.h"
 #include "peerlistsortmodel.h"
 #include "peersadditiondialog.h"
 #include "propertieswidget.h"
@@ -122,6 +124,7 @@ PeerListWidget::PeerListWidget(PropertiesWidget *parent)
     m_listModel->setHeaderData(PeerListColumns::TOT_DOWN, Qt::Horizontal, tr("Downloaded", "i.e: total data downloaded"));
     m_listModel->setHeaderData(PeerListColumns::TOT_UP, Qt::Horizontal, tr("Uploaded", "i.e: total data uploaded"));
     m_listModel->setHeaderData(PeerListColumns::RELEVANCE, Qt::Horizontal, tr("Relevance", "i.e: How relevant this peer is to us. How many pieces it has that we don't."));
+    m_listModel->setHeaderData(PeerListColumns::CONTRIBUTION, Qt::Horizontal, tr("Contribution", "i.e: How much of this peer's current progress was provided by us"));
     m_listModel->setHeaderData(PeerListColumns::DOWNLOADING_PIECE, Qt::Horizontal, tr("Files", "i.e. files that are being downloaded right now"));
     // Set header text alignment
     m_listModel->setHeaderData(PeerListColumns::PORT, Qt::Horizontal, QVariant(Qt::AlignRight | Qt::AlignVCenter), Qt::TextAlignmentRole);
@@ -131,6 +134,7 @@ PeerListWidget::PeerListWidget(PropertiesWidget *parent)
     m_listModel->setHeaderData(PeerListColumns::TOT_DOWN, Qt::Horizontal, QVariant(Qt::AlignRight | Qt::AlignVCenter), Qt::TextAlignmentRole);
     m_listModel->setHeaderData(PeerListColumns::TOT_UP, Qt::Horizontal, QVariant(Qt::AlignRight | Qt::AlignVCenter), Qt::TextAlignmentRole);
     m_listModel->setHeaderData(PeerListColumns::RELEVANCE, Qt::Horizontal, QVariant(Qt::AlignRight | Qt::AlignVCenter), Qt::TextAlignmentRole);
+    m_listModel->setHeaderData(PeerListColumns::CONTRIBUTION, Qt::Horizontal, QVariant(Qt::AlignRight | Qt::AlignVCenter), Qt::TextAlignmentRole);
     // Proxy model to support sorting without actually altering the underlying model
     m_proxyModel = new PeerListSortModel(this);
     m_proxyModel->setDynamicSortFilter(true);
@@ -187,7 +191,7 @@ PeerListWidget::PeerListWidget(PropertiesWidget *parent)
     handleSortColumnChanged(header()->sortIndicatorSection());
     const auto *copyHotkey = new QShortcut(QKeySequence::Copy, this, nullptr, nullptr, Qt::WidgetShortcut);
     connect(copyHotkey, &QShortcut::activated, this, &PeerListWidget::copySelectedPeers);
-    const auto *deleteHotkey = new QShortcut(QKeySequence::Delete, this, nullptr, nullptr, Qt::WidgetShortcut);
+    const auto *deleteHotkey = new QShortcut(Utils::KeySequence::deleteItem(), this, nullptr, nullptr, Qt::WidgetShortcut);
     connect(deleteHotkey, &QShortcut::activated, this, &PeerListWidget::banSelectedPeers);
 }
 
@@ -242,19 +246,21 @@ void PeerListWidget::displayColumnHeaderMenu()
 
 void PeerListWidget::updatePeerHostNameResolutionState()
 {
-    if (Preferences::instance()->resolvePeerHostNames())
+    const bool resolveHostNames = Preferences::instance()->resolvePeerHostNames();
+    if (resolveHostNames == m_resolveHostNames)
+        return;
+
+    m_resolveHostNames = resolveHostNames;
+    if (m_resolveHostNames)
     {
-        if (!m_resolver)
-        {
-            m_resolver = new Net::ReverseResolution(this);
-            connect(m_resolver, &Net::ReverseResolution::ipResolved, this, &PeerListWidget::handleResolved);
-            loadPeers(m_properties->getCurrentTorrent());
-        }
+        connect(Net::ReverseResolution::instance(), &Net::ReverseResolution::ipResolved
+                , this, &PeerListWidget::handleResolved);
+        loadPeers(m_properties->getCurrentTorrent());
     }
     else
     {
-        delete m_resolver;
-        m_resolver = nullptr;
+        disconnect(Net::ReverseResolution::instance(), &Net::ReverseResolution::ipResolved
+                , this, &PeerListWidget::handleResolved);
     }
 }
 
@@ -291,7 +297,7 @@ void PeerListWidget::showPeerListMenu()
         , this, [this, torrent]()
     {
         const QList<BitTorrent::PeerAddress> peersList = PeersAdditionDialog::askForPeers(this);
-        const int peerCount = std::count_if(peersList.cbegin(), peersList.cend(), [torrent](const BitTorrent::PeerAddress &peer)
+        const int peerCount = std::ranges::count_if(peersList, [torrent](const BitTorrent::PeerAddress &peer)
         {
             return torrent->connectPeer(peer);
         });
@@ -404,11 +410,13 @@ void PeerListWidget::loadPeers(const BitTorrent::Torrent *torrent)
     if (!torrent)
         return;
 
-    using TorrentPtr = QPointer<const BitTorrent::Torrent>;
-    torrent->fetchPeerInfo([this, torrent = TorrentPtr(torrent)](const QList<BitTorrent::PeerInfo> &peers)
+    torrent->fetchPeerInfo().then(this, [this, torrent = QPointer(torrent)](const QList<BitTorrent::PeerInfo> &peers)
     {
-        if (torrent != m_properties->getCurrentTorrent())
+        if (const BitTorrent::Torrent *currentTorrent = m_properties->getCurrentTorrent();
+            !currentTorrent || (currentTorrent != torrent))
+        {
             return;
+        }
 
         // Remove I2P peers since they will be completely reloaded.
         for (const QStandardItem *item : asConst(m_I2PPeerItems))
@@ -436,7 +444,8 @@ void PeerListWidget::loadPeers(const BitTorrent::Torrent *torrent)
                 const bool useI2PSocket = peer.useI2PSocket();
 
                 const QString peerIPString = useI2PSocket ? peer.I2PAddress() : peerEndpoint.address.ip.toString();
-                setModelData(m_listModel, row, PeerListColumns::IP, peerIPString, peerIPString, {}, peerIPString);
+                const QVariant peerIPSortData = useI2PSocket ? QVariant(peerIPString) : QVariant::fromValue(peerEndpoint.address);
+                setModelData(m_listModel, row, PeerListColumns::IP, peerIPString, peerIPSortData, {}, peerIPString);
 
                 const QString peerIPHiddenString = useI2PSocket ? QString() : peerEndpoint.address.ip.toString();
                 setModelData(m_listModel, row, PeerListColumns::IP_HIDDEN, peerIPHiddenString, peerIPHiddenString);
@@ -514,6 +523,18 @@ void PeerListWidget::updatePeer(const int row, const BitTorrent::Torrent *torren
     setModelData(m_listModel, row, PeerListColumns::RELEVANCE, (Utils::String::fromDouble(peer.relevance() * 100, 1) + u'%')
             , peer.relevance(), intDataTextAlignment);
 
+    const qlonglong totalUpload = peer.totalUpload();
+    qreal contribution = 0;
+
+    if (totalUpload > 0)
+    {
+        const qlonglong totalSize = (torrent->totalSize() <= 0) ? totalUpload : torrent->totalSize();
+        const qreal progressBytes = peer.progress() * totalSize;
+        contribution = static_cast<qreal>(totalUpload) / ((progressBytes <= 0) ? totalSize : progressBytes);
+    }
+    setModelData(m_listModel, row, PeerListColumns::CONTRIBUTION, (Utils::String::fromDouble((contribution * 100), 1) + u'%')
+            , contribution, intDataTextAlignment);
+
     const PathList filePaths = torrent->info().filesForPiece(peer.downloadingPieceIndex());
     QStringList downloadingFiles;
     downloadingFiles.reserve(filePaths.size());
@@ -524,8 +545,13 @@ void PeerListWidget::updatePeer(const int row, const BitTorrent::Torrent *torren
     setModelData(m_listModel, row, PeerListColumns::DOWNLOADING_PIECE, downloadingFilesDisplayValue
             , downloadingFilesDisplayValue, {}, downloadingFiles.join(u'\n'));
 
-    if (!peer.useI2PSocket() && m_resolver)
-        m_resolver->resolve(peer.address().ip);
+    if (!peer.useI2PSocket() && m_resolveHostNames)
+    {
+        const QHostAddress ipAddr = peer.address().ip;
+        const QString hostName = Net::ReverseResolution::instance()->resolve(ipAddr);
+        if (!hostName.isEmpty())
+            setModelData(m_listModel, row, PeerListColumns::IP, hostName, hostName, {}, ipAddr.toString());
+    }
 
     if (m_resolveCountries)
     {

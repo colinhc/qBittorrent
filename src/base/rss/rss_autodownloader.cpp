@@ -99,7 +99,7 @@ QPointer<AutoDownloader> AutoDownloader::m_instance = nullptr;
 
 QString computeSmartFilterRegex(const QStringList &filters)
 {
-    return u"(?:_|\\b)(?:%1)(?:_|\\b)"_s.arg(filters.join(u")|(?:"));
+    return u"(?:_|\\b)(?:%1)(?:_|\\b)"_s.arg(filters.join(u"|"));
 }
 
 AutoDownloader::AutoDownloader(IApplication *app)
@@ -117,7 +117,7 @@ AutoDownloader::AutoDownloader(IApplication *app)
 
     m_fileStorage->moveToThread(m_ioThread.get());
     connect(m_ioThread.get(), &QThread::finished, m_fileStorage, &AsyncFileStorage::deleteLater);
-    connect(m_fileStorage, &AsyncFileStorage::failed, [](const Path &fileName, const QString &errorString)
+    connect(m_fileStorage, &AsyncFileStorage::failed, this, [](const Path &fileName, const QString &errorString)
     {
         LogMsg(tr("Couldn't save RSS AutoDownloader data in %1. Error: %2")
                .arg(fileName.toString(), errorString), Log::CRITICAL);
@@ -127,6 +127,8 @@ AutoDownloader::AutoDownloader(IApplication *app)
     m_ioThread->start();
 
     connect(app->addTorrentManager(), &AddTorrentManager::torrentAdded
+            , this, &AutoDownloader::handleTorrentAdded);
+    connect(app->addTorrentManager(), &AddTorrentManager::duplicateTorrentDetected
             , this, &AutoDownloader::handleTorrentAdded);
     connect(app->addTorrentManager(), &AddTorrentManager::addTorrentFailed
             , this, &AutoDownloader::handleAddTorrentFailed);
@@ -209,6 +211,24 @@ void AutoDownloader::setRule(const AutoDownloadRule &rule)
         emit ruleChanged(rule.name());
         resetProcessingQueue();
     }
+}
+
+bool AutoDownloader::cloneRule(const QString &ruleName, const QString &cloneRuleName)
+{
+    if (!hasRule(ruleName) || hasRule(cloneRuleName))
+        return false;
+
+    // Copy the existing rule and change its name to the new one
+    AutoDownloadRule clonedRule = ruleByName(ruleName);
+    clonedRule.setName(cloneRuleName);
+    // Disable the cloned rule by default to prevent accidental downloads
+    clonedRule.setEnabled(false);
+    // Clear previously matched episodes to allow matching all episodes for the new rule
+    clonedRule.setPreviouslyMatchedEpisodes({});
+    // Clear last match time to allow matching old articles for the new rule
+    clonedRule.setLastMatch({});
+    setRule(clonedRule);
+    return true;
 }
 
 bool AutoDownloader::renameRule(const QString &ruleName, const QString &newRuleName)
@@ -375,24 +395,13 @@ void AutoDownloader::handleTorrentAdded(const QString &source)
     }
 }
 
-void AutoDownloader::handleAddTorrentFailed(const QString &source, const BitTorrent::AddTorrentError &error)
+void AutoDownloader::handleAddTorrentFailed(const QString &source, [[maybe_unused]] const QString &error)
 {
     const auto job = m_waitingJobs.take(source);
     if (!job)
         return;
 
-    if (error.kind == BitTorrent::AddTorrentError::DuplicateTorrent)
-    {
-        if (Feed *feed = Session::instance()->feedByURL(job->feedURL))
-        {
-            if (Article *article = feed->articleByGUID(job->articleData.value(Article::KeyId).toString()))
-                article->markAsRead();
-        }
-    }
-    else
-    {
-        // TODO: Re-schedule job here.
-    }
+    // TODO: Re-schedule job here.
 }
 
 void AutoDownloader::handleNewArticle(const Article *article)
@@ -405,7 +414,7 @@ void AutoDownloader::handleFeedURLChanged(Feed *feed, const QString &oldURL)
 {
     for (AutoDownloadRule &rule : m_rules)
     {
-        if (const auto i = rule.feedURLs().indexOf(oldURL); i >= 0)
+        if (const qsizetype i = rule.feedURLs().indexOf(oldURL); i >= 0)
         {
             auto feedURLs = rule.feedURLs();
             feedURLs.replace(i, feed->url());
@@ -446,7 +455,7 @@ void AutoDownloader::setRule_impl(const AutoDownloadRule &rule)
 
 void AutoDownloader::sortRules()
 {
-    std::sort(m_rules.begin(), m_rules.end(), [](const AutoDownloadRule &lhs, const AutoDownloadRule &rhs)
+    std::ranges::sort(m_rules, [](const AutoDownloadRule &lhs, const AutoDownloadRule &rhs)
     {
         return (lhs.priority() < rhs.priority());
     });
@@ -490,6 +499,15 @@ void AutoDownloader::processJob(const QSharedPointer<ProcessingJob> &job)
                 .arg(job->articleData.value(Article::KeyTitle).toString(), rule.name()));
 
         const auto torrentURL = job->articleData.value(Article::KeyTorrentURL).toString();
+        if (!Article::isSupportedTorrentURL(torrentURL))
+        {
+            LogMsg(tr("Failed to add torrent from RSS article. Reason: unsupported torrent URL."
+                      " Only HTTP(S) URLs, magnet URIs and info hashes are supported."
+                      " Article: \"%1\". URL: \"%2\"")
+                    .arg(job->articleData.value(Article::KeyTitle).toString(), torrentURL), Log::WARNING);
+            return;
+        }
+
         app()->addTorrentManager()->addTorrent(torrentURL, rule.addTorrentParams());
 
         if (BitTorrent::TorrentDescriptor::parse(torrentURL))
